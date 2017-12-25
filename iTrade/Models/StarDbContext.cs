@@ -19,6 +19,7 @@ namespace iTrade.Models
         public DbSet<StudentGuardian> StudentGuardians { get; set; }
         //    public DbSet<Membership> Memberships { get; set; }
         public DbSet<Course> Courses { get; set; }
+        public DbSet<TutorRate> TutorRates { get; set; }
         public DbSet<CoursePrice> CoursePrices { get; set; }
         public DbSet<CourseBundle> CourseBundles { get; set; }
 
