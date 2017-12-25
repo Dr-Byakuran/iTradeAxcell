@@ -410,7 +410,25 @@
                         </ul>
                     </li>
 
-
+                    <li class="has-sub">
+                        <a href="javascript:;">
+                            <b class="caret pull-right"></b>
+                            <i class="fa fa-book"></i>
+                            <span>PAYROLL</span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class='@Html.IsActive("", "")'>
+                                <a href="@Url.Action("", "")">
+                                    <span>TUTOR RATES</span>
+                                </a>
+                            </li>
+                            <li class='@Html.IsActive("", "")'>
+                                <a href="@Url.Action("", "")">
+                                    <span>PAY SLIP</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
 
                     <li class="has-sub @sFinancial">
                         <a href="javascript:;">
