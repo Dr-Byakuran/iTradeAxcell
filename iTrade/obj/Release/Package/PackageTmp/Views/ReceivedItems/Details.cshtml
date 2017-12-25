@@ -1,0 +1,195 @@
+﻿@model iTrade.Models.ReceivedItem
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ReceivedItem</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.QuoID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QuoID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InvType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InvType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InvDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InvDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PoNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PoNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustName2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustName2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Addr1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Addr1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Addr2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Addr2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Addr3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Addr3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PostalCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostalCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReceivedAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReceivedAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReceivedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReceivedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReceivedTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReceivedTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remark)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remark)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PersonID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PersonName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifiedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifiedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifiedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifiedOn)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ReceivedItemID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

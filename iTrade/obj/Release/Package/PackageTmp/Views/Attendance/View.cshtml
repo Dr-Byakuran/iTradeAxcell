@@ -1,0 +1,240 @@
+﻿@using iTrade.CustomHtmlHelper;
+@model iTrade.Models.Schedule
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+
+}
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-datepicker/css/datepicker.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-combobox/css/bootstrap-combobox.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/select2/dist/css/select2.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/css/star-items-table.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/parsley/src/parsley.css")" rel="stylesheet" type="text/css" />
+
+
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin page-header -->
+<div class="page-header lead">
+    Attendance
+    <span class="email-btn-row hidden-xs pull-right">
+        @*<a href="#additemModal" data-toggle="modal" class="btn btn-primary"><i class="fa fa-plus m-r-5"></i> New schedule</a>*@
+
+    </span>
+
+</div>
+
+<!-- begin panel -->
+<div class="panel panel-inverse">
+    <div class="panel-heading">
+        Attendance Record
+    </div>
+    <div class="panel-body">
+        <p class="lead"> Class:  &nbsp; @Model.CourseName   </p>
+        <p class="lead"> Date: &nbsp; @Model.ScheduleDate.ToLongDateString() &nbsp;&nbsp; | &nbsp;&nbsp; @Model.StartTime.Value.ToShortTimeString() - @Model.EndTime.Value.ToShortTimeString() </p>
+
+        @{Html.RenderAction("_DisplayAttendees", "Attendance", new { id = Model.ScheduleID });}
+
+
+
+        <br /><br /><br /><br />
+         
+    </div>
+</div>
+
+
+
+
+        <!-- modal placeholder-->
+        <div id="additemModal" class="modal" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div id='additemModalContent'>
+                        <div class="modal-header">
+
+                            <button type="button" class="close" id="btnAddItemClose2" aria-hidden="true" data-dismiss="modal">X</button>
+                            <h3 class="modal-title lead">New Schedule  </h3>
+                        </div>
+                        <div class="modal-body">
+
+                            @{Html.RenderAction("_AddSchedule", "Schedule");}
+
+
+                            <br />
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <span id="txtLastItem" class="pull-left lead semi-bold"></span>
+
+                            <span id="progress" class="text-center" style="display: none;">
+                                <img src="~/assets/img/Wait.gif" alt="wait" />
+                                Wait..
+                            </span>
+                            <input type="hidden" id="txtUrl1" value="" />
+                            <input type="hidden" id="txtUrl2" value="" />
+                            <input type="hidden" id="btnActionType" name="btnActionType" value="0" />
+                            <input type="button" class="btn btn-primary" id="btnAddItem" value=" Save & Next " />
+                            <input type="button" class="btn btn-primary" id="btnAddItem2" value=" Save & Close " />
+                            <button id="btnAddItemClose" class="btn btn-white" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        @section Scripts{
+            <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+            <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+            <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+            <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+
+            <script src="@Url.Content("~/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")"></script>
+            <script src="@Url.Content("~/assets/plugins/bootstrap-combobox/js/bootstrap-combobox.js")"></script>
+            <script src="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.js")"></script>
+            <script src="@Url.Content("~/assets/plugins/select2/dist/js/select2.min.js")"></script>
+            <script src="@Url.Content("~/assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js")"></script>
+            <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js")"></script>
+            <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.js")"></script>
+            <script src="@Url.Content("~/assets/plugins/jquery-tag-it/js/tag-it.min.js")"></script>
+
+            <script src="@Url.Content("~/assets/js/form-plugins.star.js")"></script>
+            <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+            <script src="@Url.Content("~/Scripts/modal-order.js")"></script>
+
+
+        }
+
+
+
+        <script>
+            $(document).ready(function () {
+                // App.init();
+                TableManageDefault.init();
+                // Notification.init();
+                FormPlugins.init();
+
+            });
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                $('#fromDate').datepicker({
+                    format: 'dd/mm/yyyy',
+                    setDate: new Date(),
+                    todayHighlight: true,
+                    autoclose: true
+                });
+                $('#toDate').datepicker({
+                    format: 'dd/mm/yyyy',
+                    setDate: new Date(),
+                    todayHighlight: true,
+                    autoclose: true
+                });
+
+
+            });
+        </script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("select.coursepicker").change(function () {
+                    var courseid = $(".coursepicker option:selected").val();
+                    var coursename = $(".coursepicker option:selected").text();
+                    //  alert(courseid);
+                    $('#courseID').val(courseid);
+                });
+
+            });
+        </script>
+
+
+
+
+        <script>
+            $(document).ready(function () {
+
+                $('#data-table0').DataTable({
+                    "order": [[0, "desc"]],
+                    "dom": '<"pull-left"f><"pull-right"l>tip'
+                });
+                $('#data-table1').DataTable({
+                    "order": [[0, "asc"]],
+                    "bFilter": false,
+                    "bLengthChange": false,
+                    "dom": '<"pull-right"f><"pull-right"l>tip'
+                });
+                $('#data-table2').DataTable({
+                    "order": [[0, "desc"]],
+                    "dom": '<"pull-left"f><"pull-right"l>tip'
+                });
+                $('#data-table3').DataTable({
+                    "order": [[0, "desc"]],
+                    "dom": '<"pull-left"f><"pull-right"l>tip'
+                });
+                $('#data-table4').DataTable({
+                    "order": [[0, "desc"]],
+                    "dom": '<"pull-left"f><"pull-right"l>tip'
+                });
+                $('#data-table5').DataTable({
+                    "order": [[0, "desc"]],
+                    "dom": '<"pull-left"f><"pull-right"l>tip'
+                });
+                $('#data-table6').DataTable({
+                    "order": [[0, "desc"]],
+                    "dom": '<"pull-left"f><"pull-right"l>tip'
+                });
+
+
+
+            });
+        </script>
+
+
+        <script type="text/javascript">
+            $("#btnAddItem").click(function (e) {
+                e.preventDefault();
+                //  $(this).prop('disabled', true);
+
+                $("#btnActionType").val("SaveAndNext");
+                $("#addScheduleForm").submit();
+
+            });
+
+            $("#btnAddItem2").click(function (e) {
+                e.preventDefault();
+                //   $(this).prop('disabled', true);
+
+                $("#btnActionType").val("SaveAndClose");
+                $("#addScheduleForm").submit();
+
+            });
+
+            $("#btnAddItemClose").click(function () {
+                var url = '@Url.Action("Index", "Schedule")';
+                window.location = url;
+            });
+
+            $("#btnAddItemClose2").click(function () {
+                var url = '@Url.Action("Index", "Schedule")';
+                window.location = url;
+            });
+
+            $("#btnCloseAndReload").click(function () {
+                var url = '@Url.Action("Index", "Schedule")';
+                window.location = url;
+            });
+
+
+
+        </script>
+

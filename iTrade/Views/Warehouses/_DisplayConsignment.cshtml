@@ -1,0 +1,105 @@
+﻿@model IEnumerable<iTrade.Models.WarehouseStockView>
+
+<!-- begin row -->
+<div class="row">
+    <!-- begin col-12 -->
+    <div class="col-md-12">
+        <!-- begin panel -->
+        <div class="panel panel-inverse">
+
+            <div class="panel-body">
+
+                <div class="table-responsive">
+                    <table class="table ">
+                        <thead>
+                            <tr>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Stock.SKU)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Product.ProductName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Stock.InStock)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Stock.Allocated)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Stock.OnHand)
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Stock.OnOrder)
+                                </th>
+ 
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var group in Model.GroupBy(item => item.Stock.LocationID))
+                            {
+
+
+                                foreach (var item in group.Take(1))
+                                {
+                                    <tr>
+                                        <td colspan="7"> <h5 class="lead">  @item.Warehouse.LocationName </h5> </td>
+                                    </tr>
+
+
+                                }
+
+
+                                foreach (var item in group)
+                                {
+                                    <tr class="even gradeC">
+
+
+
+                                        <td>
+                                            @item.Stock.SKU
+                                        </td>
+                                        <td>
+                                            @item.Product.ProductName
+                                        </td>
+                                        <td>
+                                            @item.Stock.InStock
+                                        </td>
+                                        <td>
+                                            @item.Stock.Allocated
+                                        </td>
+                                        <td>
+                                            @item.Stock.OnHand
+                                        </td>
+                                        <td>
+                                            @item.Stock.OnOrder
+                                        </td>
+ 
+
+
+                                    </tr>
+                                }
+
+                            }
+
+
+
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6"> &nbsp; </td>
+                            </tr>
+                        </tfoot>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- end panel -->
+    </div>
+    <!-- end col-12 -->
+</div>
+<!-- end row -->
+

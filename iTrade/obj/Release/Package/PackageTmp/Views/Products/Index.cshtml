@@ -1,0 +1,312 @@
+﻿@model IEnumerable<iTrade.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin page-header -->
+<div class="page-header lead">Products
+    <span class="email-btn-row hidden-xs pull-right">
+        <button type="button" id="btnExport" class="btn btn-default">Export</button>
+        <a href="/Products/Create" id="btnCreate" class="btn btn-primary"><i class="fa fa-plus m-r-5"></i> New product</a>
+    </span>     
+    
+</div>
+<!-- end page-header -->
+
+@using (Html.BeginForm("Index", null, FormMethod.Get))
+{
+
+    <div class="">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#default-tab-1" data-toggle="tab"><h5 class="media-heading">All products</h5> </a></li>
+
+        </ul>
+
+    </div>
+    <div class="tab-content">
+        <div class="tab-pane fade active in" id="default-tab-1">
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="form-horizontal">
+                        @Html.Label("Search / Filter", htmlAttributes: new { @class = "control-label col-md-2 text-left" })
+                        <div class="input-group m-b-20">
+                            @Html.Editor("txtSearch", new { htmlAttributes = new { id = "txtSearch", name = "txtSearch", @class = "form-control", placeholder = "Search products by name or code..." } })
+
+                            <div class="input-group-btn">
+                                <button type="submit" id="btnSearch" class="btn btn-inverse"><i class="fa fa-search"></i> Search</button>
+                            </div>
+                        </div>
+
+                        @*<div class="form-group">
+                            @Html.Label("Search / Filter", htmlAttributes: new { @class = "control-label col-md-1 text-left" })
+                            <div class="col-md-6">
+                                @Html.Editor("txtSearch", new { htmlAttributes = new { id = "txtSearch", name = "txtSearch", @class = "form-control", placeholder = "Search products by name or code..." } })
+                            </div>
+                        </div>*@
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="table-responsive">
+                <table id="data-table1" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                No
+                            </th>
+                            <th>
+                                Image
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SKU)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ProductName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ModelNo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Dimension)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Finishes)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ProductCats)
+                            </th>
+ 
+                            <th>
+                                @Html.DisplayNameFor(model => model.RetailPrice)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.WholesalePrice)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DealerPrice)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IsActive)
+                            </th>
+ 
+
+                            <th>Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ int i = 0; }
+                        @foreach (var item in Model)
+                        {
+                            i++;
+                            <tr class="even gradeC">
+                                <td>
+                                    @i
+                                </td>
+                                <td>
+                                    @if (string.IsNullOrEmpty(item.ImageUrl))
+                                    {
+                                        <i class="fa fa-4x fa-image"></i>
+                                    }
+                                    else
+                                    {
+                                        <img alt="#" src="@(item.ImageUrl.Substring(0, item.ImageUrl.LastIndexOf('.')) + "-preview" + item.ImageUrl.Substring(item.ImageUrl.LastIndexOf('.')))" />
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SKU)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProductName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ModelNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Dimension)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Finishes)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProductCats)
+                                </td>
+ 
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RetailPrice)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.WholesalePrice)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DealerPrice)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IsActive)
+                                </td>
+ 
+                                <td>
+
+                                    <a href="@Url.Action("Edit", "Products", new { id = item.ProductID })" class="btn btn-primary">
+                                        <span class="fa fa-angle-double-right" />
+                                    </a>
+
+                                </td>
+                            </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+ 
+}
+
+
+
+                @section Scripts{
+                    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+                    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+                    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+                    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+                    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+                    <script src="@Url.Content("~/Scripts/modal-client.js")"></script>
+
+
+                }
+
+
+                <script>
+                    $(document).ready(function () {
+                        // App.init();
+                        TableManageDefault.init();
+                        // Notification.init();
+                    });
+                </script>
+
+                <script>
+                    $(document).ready(function () {
+                        $('#data-table1').DataTable({
+                            "bFilter": false,
+                            //"bInfo": false,
+                            "bLengthChange": false,
+                            "iDisplayLength": 100,
+                            "dom": '<"pull-left"f><"pull-right"l>tip'
+                        });
+                    });
+                </script>
+
+
+@*<script>
+    $(document).ready(function () {
+        localStorage['selsProductID'] = "";
+        $('#txtSearch').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("AutoComplete_Product")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        search: $("#txtSearch").val().trim()
+                    },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            if (item.CostCode != null) {
+                                localStorage['selsProductID'] += item.SKU + " |" + item.ProductID + ";";
+                                return {
+                                    //label: item.ProductID + " | " + item.SKU + " | " + item.ProductName + " | $ " + item.SellPrice + " | " + item.CostCode,
+                                    label: item.SKU + " | " + item.ProductName + " | $ " + item.SellPrice + " | " + item.CostCode,
+                                }
+                            }
+                            else {
+                                localStorage['selsProductID'] += item.SKU + " |" + item.ProductID + ";";
+                                return {
+                                    //label: item.ProductID + " | " +  item.SKU + " | " + item.ProductName + " | $ " + item.SellPrice + " | ",
+                                    label: item.SKU + " | " + item.ProductName + " | $ " + item.SellPrice + " | ",
+                                }
+                            };
+
+                        }));
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+            },
+            selectFirst: true,
+            delay: 0,
+            autoFocus: true,
+            minLength: 1
+        });
+
+        $("#txtSearch").on("autocompleteselect", function (event, ui) {
+            var str1 = ui.item.value;
+            var str2 = str1.split("|");
+            //var val = str2[0].trim();
+
+            var val1 = localStorage['selsProductID'];
+            var val2 = val1.split(";");
+            var val = "";
+            var tempval = "";
+
+            for (var i = 0; i <= val2.length - 1; i++) {
+                if (val2[i].indexOf(str2[0]) > -1) {
+                    tempval = val2[i].split("|");
+                    val = tempval[1].trim();
+                    break;
+                }
+            }
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("AutoCompleteSelected_Product")',
+                dataType: "json",
+                contentType: 'application/json, charset=utf-8',
+                data: {
+                    search: val
+                },
+                success: function (data) {
+                    $('#itemID').val(data.result.ProductID);
+                    $('#itemCode').val(data.result.SKU);
+                    $('#itemType').val(data.result.ProductType);
+                    $('#itemName').val(data.result.ProductName);
+
+                    //$('#itemSalesType').val(data.result.ModelNo);
+                    $('#itemIsBundle').val(data.result.IsBundle);
+                    $('#txtTitle').text(data.result.ProductName);
+
+                    $('#itemIsControlItem').val(data.result.IsControlItem);
+
+
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+
+            });
+
+        });
+
+    });
+
+</script>*@
+

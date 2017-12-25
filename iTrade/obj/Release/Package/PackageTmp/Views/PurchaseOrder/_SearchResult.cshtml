@@ -1,0 +1,80 @@
+﻿@model iTrade.Models.ProductSelectionView
+   
+    <div id="checkboxes">
+        <div class="table-responsive">
+            <table id="data-table1" class="table table-condensed table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" id="checkall" />
+                        </th>
+                        <th>
+                            Name
+                        </th>
+
+                        <th>
+                            ModelNo
+                        </th>
+                        <th>
+                            Unit
+                        </th>
+                        <th>
+                            Qty
+                        </th>
+                        <th>
+                            Retail Price
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @Html.EditorFor(model => model.productselects)
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#data-table1').DataTable({
+            "bFilter": false,
+            //"bInfo": false,
+            "bLengthChange": false,
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+        });
+    });
+</script>
+
+
+<script type="text/javascript">
+
+    function toggleChecked(status) {
+        $("#checkboxes input").each(function () {
+
+            // Set the checked status of each to match the
+            // checked status of the check all checkbox:
+            $(this).prop("checked", status);
+        });
+    }
+
+    $(document).ready(function () {
+
+        //Set the default value of the global checkbox to true:
+        $("#checkall").prop('checked', false);
+
+        // Attach the call to toggleChecked to the
+        // click event of the global checkbox:
+        $("#checkall").click(function () {
+            var status = $("#checkall").prop('checked');
+            toggleChecked(status);
+        });
+    });
+</script>    

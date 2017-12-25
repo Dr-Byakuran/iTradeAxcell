@@ -1,0 +1,560 @@
+﻿@model iTrade.Models.Enrolment
+@*@model IEnumerable<iTrade.Models.Student>*@
+@*@model IEnumerable<iTrade.Models.Client>*@
+@*@model IEnumerable<iTrade.Models.Course>*@
+@*@model IEnumerable<iTrade.Models.Tutor>*@
+@*@model IEnumerable<iTrade.Models.Staff>*@
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-datepicker/css/datepicker.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-combobox/css/bootstrap-combobox.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/select2/dist/css/select2.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css")" rel="stylesheet" type="text/css" />
+
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin page-header -->
+<div class="page-header lead">
+    Batch Invoicing
+    <span class="email-btn-row hidden-xs pull-right">
+ 
+
+    </span>
+
+</div>
+<!-- end page-header -->
+<!-- begin panel -->
+<div class="panel panel-inverse">
+    <div class="panel-heading">
+        Enrolment info
+    </div>
+
+    <div class="panel-body">
+
+        @using (Html.BeginForm("BatchInvoice", "CourseOrders", FormMethod.Post, new { id = "batchInvoiceForm" }))
+        {
+
+            <input type="hidden" id="txtUrl1" value="" />
+            <input type="hidden" id="txtCustNo" value="0" />
+            <input type="hidden" id="txtCourseNo" value="0" />
+            <input type="hidden" id="txtCourseLevel" value="" />
+            <input type="hidden" id="txtTeacherNo" value="0" />
+            <input type="hidden" id="txtWeekday" value="-1" />
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-md-6">
+
+                <div class="form-group">
+                    @Html.Label("Student", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-8">
+                        <select class="form-control selectpicker" data-size="10" data-live-search="true" data-style="btn-white">
+                            <option value="0" selected>Select student</option>
+                            @foreach (var item in ViewData["ClientsAll"] as IEnumerable<iTrade.Models.Client>)
+                            {
+                                <option value="@item.CustNo">@item.CustName</option>
+                                //@item.FileName  // instead .FileName use property which u used in ur model class
+                            }
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.Label("Course", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-8">
+                        <select class="form-control coursepicker" data-size="10" data-live-search="true" data-style="btn-white">
+                            <option value="0" selected>Select course</option>
+                            @foreach (var item in ViewData["CoursesAll"] as IEnumerable<iTrade.Models.Course>)
+                            {
+                                <option value="@item.CourseID"
+                                        @if (item.CourseID == ViewBag.CourseNo) { <text> selected="selected" </text>              }>
+                                    @item.CourseName
+                                </option>
+                            }
+                        </select>
+                        <input type="hidden" id="courseNo" name="courseNo" value="@ViewBag.CourseNo" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Level", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-8">
+                        <input type="text" id="courseLevel" value="" class="form-control" />
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-horizontal">
+                    <div class="form-group hidden">
+                        @Html.Label("Select Year", htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            <input type="text" id="selectYear" value="0" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Teacher", htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            <select class="form-control teacherpicker" data-size="10" data-live-search="true" data-style="btn-white">
+                                <option value="0" selected>Select tutor</option>
+                                @foreach (var item in ViewData["TutorsAll"] as IEnumerable<iTrade.Models.Tutor>)
+                                {
+                                    <option value="@item."
+                                            @if (item.TutorID == ViewBag.TutorNo) { <text> selected="selected" </text>                  }>
+                                        @item.TutorName
+                                    </option>
+                                }
+                            </select>
+                            <input type="hidden" id="tutorNo" name="tutorNo" value="@ViewBag.TutorNo" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Weekday", htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            <select class="form-control weekdaypicker" id="WeekDay" name="WeekDay" data-size="10" data-live-search="true" data-style="btn-white">
+                                <option value="-1">Select weekday</option>
+                                <option value="1">Monday</option>
+                                <option value="2">Tuesday</option>
+                                <option value="3">Wednesday</option>
+                                <option value="4">Thursday</option>
+                                <option value="5">Friday</option>
+                                <option value="6">Saturday</option>
+                                <option value="0">Sunday</option>
+                            </select>
+                            <input type="hidden" id="weekdayNo" name="weekdayNo" value="@ViewBag.WeekdayNo" />
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <br /><br />
+                        <button type="button" id="btnApply" class="btn btn-primary"> &nbsp;&nbsp; Filter &nbsp;&nbsp;</button> <br /><br />
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.Label("Billing For Months", htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        <select id="selectMonth" name="selectMonth" class="selectpicker show-tick form-control" multiple data-live-search="false">
+                            @foreach (var item in ViewData["MonthData"] as IEnumerable<iTrade.Models.MonthAll>)
+                            {
+                                <option value="@item.Time">@item.Time</option>
+                            }
+                        </select>
+                        @*<input type="text" id="selectMonth" value="" class="selectmonth form-control" />*@
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="col-md-10">
+
+                        <button type="button" id="btnBatchInvoice" class="btn btn-primary">Batch Billing</button>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <span class="f-s-12">*Please tick the enrolments for generating billing. </span>
+            </div>
+        </div>
+    </div>
+
+        }
+
+        @using (Html.BeginForm("_EnrolmentResult", "CourseOrders", FormMethod.Post, new { id = "batchBillingForm" }))
+        {
+            <input type="hidden" id="valSorID" name="valSorID" value="0" />
+            <input type="hidden" id="valMonth" name="valMonth" value="0" />
+            <div id="divItemList">
+
+            </div>
+
+        }
+
+
+
+    </div>
+</div>
+<!-- end panel -->
+
+
+        <!-- modal placeholder MultiPagesPrint Modal-->
+<div id="MultiPrintModal" class="modal fade in" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id='MultiPrintModalContent'>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                    <span class="modal-title lead">Batch Billing</span>
+                </div>
+                <div class="modal-body">
+
+                        <h3 class="lead text-center"> Your batch billing has been proceessed sucessfully. </h3>
+                        <h3 class="lead text-center">
+                            <a href="/Sales/CreditSales" id="btnGotoInvoice" class="btn btn-primary"><i class="fa fa-print m-r-5"></i> Invoice & Payment</a>  &nbsp; or &nbsp;
+                            @*<a href="#" id="btnInvoice" class="btn btn-primary"><i class="fa fa-print m-r-5"></i> Invoice & Payment</a> &nbsp; or &nbsp;*@
+                            @*<a href="#" id="btnPay" class="btn btn-primary"><i class="fa fa-print m-r-5"></i> Go to Payment</a> &nbsp; or &nbsp;*@
+                            <a href="/CourseOrders/BatchInvoice" id="btnBatchBilling" class="btn btn-primary"> New Batch Billing</a>
+                        </h3>
+
+                </div>
+
+                <div class="modal-footer">
+ 
+                        <span class="pull-right">
+                            <span id="progress4" class="text-center" style="display: none;">
+                                <img src="~/assets/img/Wait.gif" alt="wait" />
+                                Wait..
+                            </span>
+                            <button type="button" class="btn btn-white" data-dismiss="modal" aria-hidden="true">Close</button>
+                        </span>
+ 
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts{
+    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-combobox/js/bootstrap-combobox.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/select2/dist/js/select2.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery-tag-it/js/tag-it.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/js/form-plugins.star.js")"></script>
+
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/modal-order.js")"></script>
+
+
+}
+
+
+<script>
+    $(document).ready(function () {
+        // App.init();
+        TableManageDefault.init();
+        // Notification.init();
+        FormPlugins.init();
+
+    });
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#invDate').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+        $('#invDate').datepicker('setDate', new Date());
+
+        var para1 = $('#txtCustNo').val();
+        var para2 = $('#txtCourseNo').val();
+        var para3 = $('#txtCourseLevel').val();
+        var para4 = $('#txtTeacherNo').val();
+        var para5 = $('#txtWeekday').val();
+        var para6 = $('#selectYear').val();
+        var para7 = $('#selectMonth').val();
+
+        var url1 = '/CourseOrders/_EnrolmentResult?p1=' + para1 + '&p2=' + para2 + '&p3=' + para3 + '&p4=' + para4 + '&p5=' + para5 + '&p6=' + para6 + '&p7=' + para7;
+
+        $("#divItemList").load(url1);
+        $('#txtUrl1').val(url1);
+
+    });
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#selectYear').datepicker({
+            format: 'yyyy',
+            startView: "years",
+            minViewMode: "years",
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+        $('#selectYear').datepicker('setDate', new Date());
+        $('#selectMonth').datepicker({
+            format: 'MM/yyyy',
+            //startView: "months",
+            //minViewMode: "months",
+            setDate: new Date(),
+            //todayHighlight: true,
+            //autoclose: true
+        });
+        $('#selectMonth').datepicker('setDate', new Date());
+
+        var mth = $('#selectMonth').val();
+        $('#valMonth').val(mth);
+
+        $('#startDate').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+        $('#startDate').datepicker('setDate', new Date());
+        $('#endDate').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+
+        $('.timepicker').timepicker();
+    });
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("select.selectpicker").change(function () {
+            var sid = $(".selectpicker option:selected").val().trim();
+            var sname = $(".selectpicker option:selected").text().trim();
+
+            $('#txtCustNo').val(sid);
+         //   $('#txtCustName').val(sname);
+
+        });
+
+        $("select.tutorpicker").change(function () {
+            var staffid = $(".tutorpicker option:selected").val();
+            var staffname = $(".tutorpicker option:selected").text();
+
+            $('#txtTeacherNo').val(staffid);
+        //    $('#tutorName').val(staffname);
+
+        });
+
+        $("select.coursepicker").change(function () {
+            var vid = $(".coursepicker option:selected").val();
+            var vname = $(".coursepicker option:selected").text();
+
+            $('#txtCourseNo').val(vid);
+           // $('#courseName').val(vname);
+
+        });
+
+        $("select.weekdaypicker").change(function () {
+            var vid = $(".weekdaypicker option:selected").val();
+            var vname = $(".weekdaypicker option:selected").text();
+
+            $('#txtWeekday').val(vid);
+            // $('#courseName').val(vname);
+
+        });
+
+        $("#selectMonth").change(function () {
+            var mth = $("#selectMonth").val();
+            $('#valMonth').val(mth);
+         //    alert($('#valMonth').val())
+
+        });
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        $("#btnApply").click(function () {
+            var para1 = $('#txtCustNo').val();
+            var para2 = $('#txtCourseNo').val();
+            var para3 = $('#txtCourseLevel').val().trim();
+            var para4 = $('#txtTeacherNo').val();
+            var para5 = $('#txtWeekday').val();
+            var para6 = $('#selectYear').val();
+            var para7 = $('#selectMonth').val();
+            if (para7 == "null")
+            {
+                para7 = 0;
+            }
+
+            var url1 = '/CourseOrders/_EnrolmentResult?p1=' + para1 + '&p2=' + para2 + '&p3=' + para3 + '&p4=' + para4 + '&p5=' + para5 + '&p6=' + para6 + '&p7=' + para7;
+
+            @*var url1 = '@Url.Action("_EnrolmentResult", "CourseOrders", new { p1 = "_id1_", p2 = "_id2_", p3 = "_id3_", p4 = "_id4_", p5 = "_id5_", p6 = "_id6_" })'
+                            .replace('_id1_', para1)
+                            .replace('_id2_', para2)
+                            .replace('_id3_', para3)
+                            .replace('_id4_', para4)
+                            .replace('_id5_', para5)
+                            .replace('_id6_', para6);*@
+
+            $("#divItemList").load(url1);
+            $('#txtUrl1').val(url1);
+ 
+        });
+
+        $("#btnBatchInvoice").click(function (e) {
+            e.preventDefault();
+
+            var mth = $("#valMonth").val();
+            if (mth == 0) {
+                alert("Please select months for generating bill.");
+                return false;
+            }
+
+            $(this).prop('disabled', true);
+            $("#btnActionType3").val("SaveAndNext");
+            $("#batchBillingForm").submit();
+
+        });
+
+    });
+</script>
+
+
+
+
+
+
+
+@*<script>
+                $(document).ready(function () {
+                    $('#tags').autocomplete({
+                        source: function (request, response) {
+                            $.ajax({
+                                url: '@Url.Action("AutoComplete","Orders")',
+                                dataType: "json",
+                                contentType: 'application/json, charset=utf-8',
+                                data: {
+                                    search: $("#tags").val()
+                                },
+                                success: function (data) {
+
+                                    response($.map(data, function (item) {
+                                        return {
+                                            label: item.CustNo + " | " + item.CustName,
+
+                                        };
+                                    }));
+                                },
+                                error: function (xhr, status, error) {
+                                    alert(error);
+                                }
+
+                            });
+                        },
+                        selectFirst: true,
+                        delay: 0,
+                        autoFocus: true,
+                        minLength: 1
+                    });
+
+                    $("#tags").on("autocompleteselect", function (event, ui) {
+                        var str1 = ui.item.value;
+                        var str2 = str1.split("|");
+                        var val = str2[0].trim();
+
+                        //  alert(val);
+
+                        $.ajax({
+                            type: 'GET',
+                            url: '@Url.Action("AutoCompleteSelected","Orders")',
+                            dataType: "json",
+                            contentType: 'application/json, charset=utf-8',
+                            data: {
+                                search: val
+                            },
+                            success: function (data) {
+                                $('#custNo').val(data.result.CustNo);
+                                $('#custName').val(data.result.CustName);
+                                $('#addr1').val(data.result.Addr1);
+                                $('#addr2').val(data.result.Addr2);
+
+                                var country = data.result.Country;
+                                if (country == null || country.trim() == "") {
+                                    country = "";
+                                } else {
+                                    country = country.trim();
+                                }
+
+                                var postal = data.result.PostalCode;
+                                if (postal == null || postal.trim() == "") {
+                                    postal = "";
+                                } else {
+                                    postal = " " + postal;
+                                }
+
+                                var str = data.result.Addr3;
+                                if (str == null || str.trim() == "") {
+                                    str = country + postal;
+                                } else {
+                                    str = str + ", " + country + postal;
+                                }
+                                $('#addr3').val(str);
+                                $('#addr4').val("");
+                                $('#attn').val(data.result.ContactPerson);
+                                $('#phoneNo').val(data.result.PhoneNo);
+                                $('#faxNo').val(data.result.FaxNo);
+                                $('#invType').val(data.result.AccType);
+
+                            },
+                            error: function (xhr, status, error) {
+                                alert(error);
+                            }
+
+                        });
+
+                    });
+
+
+
+                });
+
+    </script>*@
+
+
+
+
+
+
+
+
+

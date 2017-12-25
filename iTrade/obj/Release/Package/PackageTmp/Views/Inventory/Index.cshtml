@@ -1,0 +1,183 @@
+﻿@model IEnumerable<iTrade.Models.StockView>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<div class="page-header lead">
+    Inventory Check
+    <span class="email-btn-row pull-right">
+        <a href="/Products/Create" id="btnCreate" class="btn btn-primary"><i class="fa fa-plus m-r-5"></i> New Product</a>
+        <a href="/Inventory/StockTransfer" id="btnStockTransfer" class="btn btn-primary"><i class="fa fa-plus m-r-5"></i> Stock Transfer</a>
+        <a href="/Inventory/StockTakeNew" id="btnStockTake" class="btn btn-primary"><i class="fa fa-plus m-r-5"></i> Stock Take</a>
+
+    </span>
+
+</div>
+<!-- end page-header -->
+
+@using (Html.BeginForm("Index", null, FormMethod.Get))
+{
+    <!-- begin row -->
+    <div class="row">
+        <!-- begin col-12 -->
+        <div class="col-md-12">
+            <!-- begin panel -->
+            <div class="panel panel-inverse">
+
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="form-horizontal">
+                                @Html.Label("Search / Filter", htmlAttributes: new { @class = "control-label col-md-2 text-left" })
+                                <div class="input-group m-b-20">
+                                    @Html.Editor("txtSearch", new { htmlAttributes = new { id = "txtSearch", name = "txtSearch", @class = "form-control", placeholder = "Search products by name or code..." } })
+
+                                    <div class="input-group-btn">
+                                        <button type="submit" id="btnSearch" class="btn btn-inverse"><i class="fa fa-search"></i> Search</button>
+                                    </div>
+                                </div>
+
+
+                                @*<div class="form-group">
+                                    @Html.Label("Search / Filter", htmlAttributes: new { @class = "control-label col-md-1 text-left" })
+                                    <div class="col-md-6">
+                                        @Html.Editor("txtSearch", new { htmlAttributes = new { id = "txtSearch", name = "txtSearch", @class = "form-control", placeholder = "Search products by name or code..." } })
+                                    </div>
+                                </div>*@
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table id="data-table1" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        No
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Stock.SKU)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Product.ProductName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Stock.InStock)
+                                    </th>
+                                    <th>
+                                        Available Qty
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Stock.Allocated)
+                                    </th>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Stock.OnKiv)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Stock.OnOrder)
+                                    </th>
+
+
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ int i = 0; }
+                                @foreach (var item in Model)
+                                {
+                                    i++;
+                                    <tr class="even gradeC">
+                                        <td>
+                                            @i
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Product.SKU)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Product.ProductName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Stock.InStock)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Stock.OnHand)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Stock.Allocated)
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Stock.OnKiv)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Stock.OnOrder)
+                                        </td>
+
+
+                                        <td>
+                                            <a href="@Url.Action("Edit", "Inventory", new { id = item.Stock.StockID })" class="btn btn-primary">
+                                                <span class="fa fa-angle-double-right" />
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- end panel -->
+        </div>
+        <!-- end col-12 -->
+    </div>
+    <!-- end row -->
+
+}
+
+
+@section Scripts{
+    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/modal-client.js")"></script>
+
+
+}
+
+
+<script>
+        $(document).ready(function () {
+           // App.init();
+            TableManageDefault.init();
+           // Notification.init();
+        });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#data-table1').DataTable({
+            "bFilter": false,
+            //"bInfo": false,
+            "bLengthChange": false,
+            "iDisplayLength": 100,
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+        });
+    });
+</script>
+
+
+

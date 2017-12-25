@@ -1,0 +1,367 @@
+﻿@using iTrade.CustomHtmlHelper;
+@model IEnumerable<iTrade.Models.INV>
+@*@model IEnumerable<iTrade.Models.Client>*@
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+
+}
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-datepicker/css/datepicker.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-combobox/css/bootstrap-combobox.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/select2/dist/css/select2.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/jquery-tag-it/css/jquery.tagit.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-datepicker/css/datepicker3.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css")" rel="stylesheet" type="text/css" />
+
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin page-header -->
+<div class="page-header lead">
+    Reports / Sales Analysis By Bill 
+    <span class="email-btn-row pull-right">
+        <a href="/Reports/Index" id="btnBack" class="btn btn-default">Back to report</a>
+    </span>
+
+</div>
+<!-- end page-header -->
+<!-- begin panel -->
+<div class="panel panel-default">
+    <div class="panel-heading"> 
+        <br />
+        @using (Html.BeginForm("SalesAnalysisByBill", null, FormMethod.Get, new { id = "salesAnalysisForm" }))
+        {
+            <div class="row">
+                <div class="col-md-12">
+
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-2 lead">Report Period</label>
+
+                            <div class="form-group">                                 
+                                <div class="col-md-3">
+                                    <select class="form-control selectpicker" data-size="10" data-live-search="true" data-style="btn-white">
+                                        <option value="0" selected>Select company</option>
+                                        @foreach (var item in ViewData["ClientsAll"] as IEnumerable<iTrade.Models.Client>)
+                                        {
+                                            <option value="@item.CustNo"
+                                                    @if (item.CustNo == ViewBag.CustomerNo)
+                                                    { <text> selected="selected" </text>          }>
+                                                @item.CustName
+                                            </option>
+
+                                            @*<option value="@item.CustNo">@item.CustName</option>*@
+                                            //@item.FileName  // instead .FileName use property which u used in ur model class
+                                        }
+                                    </select>
+                                    <input type="hidden" id="custNo" name="custNo" value="@ViewBag.CustomerNo"   />
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="input-group  col-md-12">
+                                    <span class="input-group-addon">from</span>
+                                    <input type="text" class="form-control col-md-5" id="fromDate" name="fromDate" value="@ViewBag.StartDate" placeholder="Date Start" />
+                                    <span class="input-group-addon">to</span>
+                                    <input type="text" class="form-control col-md-5" id="toDate" name="toDate" value="@ViewBag.EndDate" placeholder="Date End" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                              
+                                <label class="radio-inline">
+                                    <input type="radio" id="invType" name="invType" value="" checked="@((ViewBag.InvoiceType == "" || ViewBag.InvoiceType == null))" />
+                                    All
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" id="invType" name="invType" value="Paid" checked="@((ViewBag.InvoiceType == "Paid"))" />
+                                    Paid only
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" id="invType" name="invType" value="Unpaid" checked="@((ViewBag.InvoiceType == "Unpaid"))" />
+                                    Unpaid
+                                </label>
+                            </div>
+                            <div class="col-md-1">
+                                <input type="submit"  value=" Apply " class="btn btn-primary col-md-12" /> 
+
+                            </div>
+                            <div class="col-md-1">
+                                <a href="/Reports/SalesAnalysisByBillPrint?custNo=@ViewBag.CustomerNo&fromDate=@ViewBag.StartDate&toDate=@ViewBag.EndDate&invType=@ViewBag.InvoiceType" target="_blank" id="btnPrint" class="btn btn-primary col-md-12">Print</a>
+
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        }
+
+    </div>
+
+    <div class="panel-body">
+
+        <div class="row">
+            <div class="col-md-9">
+                <h4>&nbsp;&nbsp;  Sales analysis report for @ViewBag.StartDate  to   @ViewBag.EndDate </h4>
+                <!-- begin row -->
+                <div class="row">
+                    <!-- begin col-12 -->
+                    <div class="col-md-12">
+                        <!-- begin panel -->
+                        <div class="panel panel-inverse">
+
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table id="data-table1" class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    CUST NO.
+                                                </th>
+                                                <th>
+                                                    NAME
+                                                </th>
+                                                <th>
+                                                    TYPE
+
+                                                </th>
+                                                <th>
+                                                    REFERENCE
+                                                </th>
+
+                                                <th>
+                                                    DATE
+                                                </th>
+                                                <th>
+                                                   AMOUNT
+                                                </th>
+                                                <th>
+                                                    TERM
+                                                </th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.CustNo)
+                                                    </td>
+
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.CustName)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.InvType)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.InvNo)
+                                                    </td>
+
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.InvDate)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Nett)
+                                                    </td>
+
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.PaymentTerms)
+                                                    </td>
+
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end panel -->
+                    </div>
+                    <!-- end col-12 -->
+                </div>
+                <!-- end row -->
+            </div>
+            <div class="col-md-3 semi-bold">
+                <h4>&nbsp;  </h4>
+                <br />
+                <table class="table row-fluid">
+                    <tr>
+                        <th colspan="2"> Summary </th>
+                    </tr>
+                    <tr>
+                        <td>Total Amount:  </td>
+                        <td>$ @ViewBag.TotalAmount </td>
+                    </tr>
+                    <tr>
+                        <td>Total GST:   </td>
+                        <td>$ @ViewBag.TotalGST </td>
+                    </tr>
+                    <tr>
+                        <td> Total Nett:  </td>
+                        <td>$ @ViewBag.TotalNett </td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+
+
+        <br /><br /><br /><br />
+
+
+
+
+    </div>
+</div>
+<!-- end panel -->
+@section Scripts{
+    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-combobox/js/bootstrap-combobox.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/select2/dist/js/select2.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery-tag-it/js/tag-it.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/plugins/bootstrap-daterangepicker/moment.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-daterangepicker/daterangepicker.js")"></script>
+
+
+    <script src="@Url.Content("~/assets/js/form-plugins.star.js")"></script>
+
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/modal-order.js")"></script>
+
+}
+
+
+
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+        // App.init();
+        TableManageDefault.init();
+        // Notification.init();
+        FormPlugins.init();
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#fromDate').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#toDate').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+
+    });
+</script>
+
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+
+        $('#data-table0').DataTable({
+            "order": [[0, "desc"]],
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+        });
+        $('#data-table1').DataTable({
+            "order": [[0, "asc"]],
+            "bFilter": false,
+            "bLengthChange": false,
+            "dom": '<"pull-right"f><"pull-right"l>tip'
+        });
+        $('#data-table2').DataTable({
+            "order": [[0, "desc"]],
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+        });
+        $('#data-table3').DataTable({
+            "order": [[0, "desc"]],
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+        });
+        $('#data-table4').DataTable({
+            "order": [[0, "desc"]],
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+        });
+        $('#data-table5').DataTable({
+            "order": [[0, "desc"]],
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+        });
+        $('#data-table6').DataTable({
+            "order": [[0, "desc"]],
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+        });
+
+
+
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("select.selectpicker").change(function () {
+            var val = $(".selectpicker option:selected").val();
+            //   alert("You have selected the country - " + val);
+
+            if (val > 0) {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("AutoCompleteSelected")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        search: val
+                    },
+                    success: function (data) {
+                        $('#custNo').val(data.result.CustNo);
+ 
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+
+            }
+        });
+
+    });
+</script>
+

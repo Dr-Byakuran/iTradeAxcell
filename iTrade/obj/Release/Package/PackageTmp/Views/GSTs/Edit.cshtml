@@ -1,0 +1,67 @@
+﻿@model iTrade.Models.GST
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+@using (Html.BeginForm())
+{
+    <!-- begin page-header -->
+    <div class="page-header lead">
+        GST
+        <span class="email-btn-row hidden-xs pull-right">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </span>
+
+    </div>
+    <!-- end page-header -->
+
+    <!-- begin panel -->
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            GST Setting
+        </div>
+
+        <div class="panel-body">
+
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-horizontal">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.GstRate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.GstRate, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.GstRate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<!-- end panel -->
+@section Scripts{
+    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/modal-client.js")"></script>
+
+
+}
+
+
+<script>
+            $(document).ready(function () {
+                // App.init();
+                TableManageDefault.init();
+                // Notification.init();
+            });
+</script>

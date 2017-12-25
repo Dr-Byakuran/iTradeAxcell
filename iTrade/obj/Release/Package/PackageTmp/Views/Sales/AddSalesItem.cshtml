@@ -1,0 +1,287 @@
+﻿@model iTrade.Models.SAR_Product
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin page-header -->
+<h1 class="page-header">Sales Agreement </h1>
+<!-- end page-header -->
+<div class="email-btn-row hidden-xs">
+    @Html.ActionLink("Back to Contract", "Manage", "Sales", new { id = Model.SARID }, new { @class = "btn btn-primary" })
+
+</div>
+
+<!-- begin panel -->
+<div class="panel panel-inverse">
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.SARID)
+            @Html.HiddenFor(model => model.SARNumberA)
+            @Html.HiddenFor(model => model.SARNumberB)
+            @Html.HiddenFor(model => model.SARNumberC)
+            @Html.HiddenFor(model => model.SARNumberD)
+            @Html.HiddenFor(model => model.ProductID, new { id = "productId" })
+            @Html.HiddenFor(model => model.Unit, new { @Value = " " })
+            @Html.HiddenFor(model => model.Remark, new { @Value = " " })
+
+ 
+                    <div>
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#default-tab-1" data-toggle="tab">Product Information</a></li>
+                            <li class=""><a href="#default-tab-2" data-toggle="tab">Accessories and Parts </a></li>
+
+                        </ul>
+
+                    </div>
+                    <div class="tab-content">
+                        <br />
+                        <div class="tab-pane fade active in" id="default-tab-1">
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.Label(" ", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-6">
+                                        @Html.Editor("tags2", new { htmlAttributes = new { id = "tags2", @class = "form-control", placeholder = "Enter products by brand name or model to view available list" } })
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Product Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-6">
+                                        @Html.Editor(" ", new { htmlAttributes = new { id = "productType", @class = "form-control", @readonly = "true" } })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Product Description", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-6">
+                                        @Html.EditorFor(model => model.ItemDesc, new { htmlAttributes = new { id = "itemDesc", @class = "form-control col-md-6" } })
+                                        @Html.ValidationMessageFor(model => model.ItemDesc, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Brand", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-6">
+                                        @Html.Editor(" ", new { htmlAttributes = new { id = "brand", @class = "form-control", @readonly = "true" } })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Model", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-6">
+                                        @Html.Editor(" ", new { htmlAttributes = new { id = "productModel", @class = "form-control", @readonly = "true" } })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Serial No", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-6">
+                                        @Html.Editor(" ", new { htmlAttributes = new { id = "serialNo", @class = "form-control", @readonly = "true" } })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Engine Model", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-6">
+                                        @Html.Editor(" ", new { htmlAttributes = new { id = "engineModel", @class = "form-control", @readonly = "true" } })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Engine No", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-6">
+                                        @Html.Editor(" ", new { htmlAttributes = new { id = "engineNo", @class = "form-control", @readonly = "true" } })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Year", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-2">
+                                        @Html.Editor(" ", new { htmlAttributes = new { id = "productYear", @class = "form-control", @readonly = "true" } })
+
+                                    </div>
+                                    @Html.Label("Hour", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-2">
+                                        @Html.Editor(" ", new { htmlAttributes = new { id = "productHour", @class = "form-control", @readonly = "true" } })
+
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Status", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-6">
+                                        @Html.Editor(" ", new { htmlAttributes = new { id = "status", @class = "form-control", @readonly = "true" } })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Remark, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-6">
+                                        @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { id = "remark", @class = "form-control", @readonly = "true" } })
+                                        @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-6 pull-right">
+                                        <input type="submit" value="Add to Contract" class="btn btn-primary" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="default-tab-2">
+
+                            <div class="col-md-6">
+                                <div id="refTable">
+                                  
+                                </div>
+
+                            </div>
+                            <div class="col-md-offset-2 col-md-4">
+                                @{Html.RenderAction("_ShowCommonItems", "Products", new { id = Model.ProductID });}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    }
+
+                    <div>
+                        @Html.ActionLink("Back to List", "Index")
+                    </div>
+
+
+
+                </div>
+            </div>
+            <!-- end panel -->
+            @section Scripts{
+                <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+                <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+                <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+                <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+                <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+                <script src="@Url.Content("~/Scripts/modal-client.js")"></script>
+
+
+            }
+
+
+            <script>
+                $(document).ready(function () {
+                    // App.init();
+                    TableManageDefault.init();
+                    // Notification.init();
+                });
+            </script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#tags2').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("AutoComplete_Product")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        search: $("#tags2").val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (item) {
+                            return {
+                                label: item.ProductID + " | " + item.Brand + " | " + item.ProductModel + " | " + item.SerialNo,
+
+                            };
+                        }));
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+            },
+            selectFirst: true,
+            delay: 0,
+            autoFocus: true,
+            minLength: 1
+        });
+
+        $("#tags2").on("autocompleteselect", function (event, ui) {
+            var str1 = ui.item.value;
+            var str2 = str1.split("|");
+            var val = str2[0].trim();
+
+            //  alert(val);
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("AutoCompleteSelected_Product")',
+                dataType: "json",
+                contentType: 'application/json, charset=utf-8',
+                data: {
+                    search: val
+                },
+                success: function (data) {
+
+                    $('#productId').val(data.result.ProductID);
+                    $('#productType').val(data.result.ProductType);
+                    $('#itemDesc').val(data.result.ProductDesc);
+                    $('#brand').val(data.result.Brand);
+                    $('#productModel').val(data.result.ProductModel);
+                    $('#serialNo').val(data.result.SerialNo);
+                    $('#engineModel').val(data.result.EngineModel);
+                    $('#engineNo').val(data.result.EngineNo);
+                    $('#productYear').val(data.result.ProductYear);
+                    $('#productHour').val(data.result.ProductHour);
+                    $('#status').val(data.result.Status);
+                    $('#remark').val(data.result.Remark);
+
+
+                    var val = $('#productId').val();
+                    $.ajax({
+                        url: "/Products/_ShowProductSubItems",
+                        type: "GET",
+                        data: { id: val }
+                    })
+                    .done(function (partialViewResult) {
+                        $("#refTable").html(partialViewResult);
+                    });
+
+
+
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+
+            });
+
+        });
+
+
+
+    });
+
+</script>
+
+

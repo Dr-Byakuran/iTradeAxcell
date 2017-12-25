@@ -1,0 +1,31 @@
+﻿
+@using iTrade.CustomHtmlHelper;
+@model IEnumerable<iTrade.Models.INVDETSelection> 
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.InvNO)
+        </td>
+
+        <td>
+            @item.InvDate.ToString("dd MMM yyyy")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustName)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Qty)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Nett)
+        </td>
+    </tr>
+}
+
+ 
+ 
+

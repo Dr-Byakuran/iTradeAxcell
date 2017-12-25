@@ -1,0 +1,171 @@
+﻿@model List<iTrade.Models.Enrolment>
+
+@using (Html.BeginForm("_DisplayStudents", "Schedule", FormMethod.Post, new { id = "editAttendeesForm" }))
+{
+    var modelcount = Model.Count;
+    <table id="data-table100" class="table table-condensed">
+        <thead>
+            <tr>
+                <th>
+                    No
+                </th>
+                <th class="col-md-3">
+                    Name
+                </th>
+                <th>
+                    NRIC/Passport
+                </th>
+                <th>
+                    Start Date
+                </th>
+                <th>
+                    End Date
+                </th>
+                <th>  </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                @Html.HiddenFor(model => model[i].EnrID, new { id = "itemPriceID2" })
+                @Html.HiddenFor(model => model[i].ScheduleID, new { id = "itemScheduleID2" })
+                @Html.HiddenFor(model => model[i].CourseID, new { id = "itemCourseID2" })
+                @Html.HiddenFor(model => model[i].CourseName, new { id = "itemCourseName2" })
+                @Html.HiddenFor(model => model[i].CustNo, new { id = "itemCustNo2" })
+                @Html.HiddenFor(model => model[i].CustName, new { id = "itemCustName2" })
+                @Html.HiddenFor(model => model[i].NRIC, new { id = "itemNRIC2" })
+ 
+                @Html.HiddenFor(model => model[i].Status, new { id = "itemStatus2" })
+                @Html.HiddenFor(model => model[i].Remark, new { id = "itemRemark2" })
+                @Html.HiddenFor(model => model[i].ModifiedBy, new { id = "modifiedBy2" })
+                @Html.HiddenFor(model => model[i].ModifiedOn, new { id = "modifiedOn2" })
+
+
+
+                <tr>
+                    <td style="width:88px;">
+                        @(i + 1)
+                    </td>
+                    <td class="col-md-2">
+                        @Model[i].CustName
+                    </td>
+                    <td>
+                        @Model[i].NRIC
+                    </td>
+                    <td>
+                        @Model[i].StartDate.ToShortDateString()
+                    </td>
+                    <td>
+                        @if (Model[i].EndDate != null)
+                        {
+                            @Model[i].EndDate.Value.ToShortDateString()
+                        }
+                        
+                    </td>
+ 
+                    <td>
+ 
+                    </td>
+
+                </tr>
+
+
+            }
+
+
+        </tbody>
+        <tfoot>
+            @*<tr>
+                    <td colspan="9">
+                        <input type="button" id="btnSubmitPriceInfo" class="btn btn-small btn-primary" value="Save Items" />
+                    </td>
+                </tr>*@
+
+
+        </tfoot>
+
+    </table>
+
+}
+
+
+
+<!-- modal placeholder-->
+<div id="myModal" class="modal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#data-table1').DataTable({
+            "bLengthChange": false,
+            "iDisplayLength": 100,
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+        });
+
+    });
+</script>
+
+<script>
+
+    function delItem(ID) {
+        var newUrl1 = $('#txtUrl1').val();
+
+        $.ajax({
+            type: 'GET',
+            url: '/Attendance/_DelItem',
+            dataType: "json",
+            contentType: 'application/json, charset=utf-8',
+            data: {
+                id: ID
+            },
+            success: function (result) {
+                if (result.success) {
+                 //   alert("Item Deleted");
+                    $("#divItemList").load(newUrl1);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+
+        });
+    }
+
+    function itemMoveUp(ID)
+    {
+        var newUrl1 = $('#txtUrl1').val();
+        $.ajax({
+            type: 'GET',
+            url: '/Attendance/_ItemMoveUp',
+            dataType: "json",
+            contentType: 'application/json, charset=utf-8',
+            data: {
+                id: ID
+            },
+            success: function (result) {
+                if (result.success) {
+                    //   alert("Item Deleted");
+                    $("#divItemList").load(newUrl1);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+
+        });
+    }
+
+</script>
+
+
+ 
+
+
+
+

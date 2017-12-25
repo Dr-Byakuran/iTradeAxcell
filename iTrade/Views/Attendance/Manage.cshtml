@@ -1,0 +1,372 @@
+﻿@using iTrade.CustomHtmlHelper;
+@model iTrade.Models.ClassAttendance
+@*@model IEnumerable<iTrade.Models.Student>*@
+@*@model IEnumerable<iTrade.Models.Client>*@
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+
+}
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/datat-able.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-datepicker/css/datepicker.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-combobox/css/bootstrap-combobox.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/select2/dist/css/select2.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/css/star-items-table.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/parsley/src/parsley.css")" rel="stylesheet" type="text/css" />
+
+
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin page-header -->
+<div class="page-header lead">
+    Attendance / @Model.CourseName
+    <span class="email-btn-row hidden-xs pull-right">
+        <a href="/Attendance/Index" id="btnBack" class="btn btn-primary">  Back to list</a>
+        <a href="#MultiPrintModal" data-toggle="modal" class="btn btn-primary"><i class="fa fa-check-square-o m-r-5"></i> Confirm </a>
+        @*<a href="#additemModal" data-toggle="modal" class="btn btn-primary"><i class="fa fa-plus m-r-5"></i> Attendee </a>*@
+        <button type="button" id="btnSaveChanges" class="btn btn-primary">Save Changes</button>
+    </span>
+
+</div>
+
+<!-- begin panel -->
+<div class="panel panel-inverse">
+    <div class="panel-heading">
+        Attendance Record
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-1 lead">
+                Class:
+            </div>
+            <div class="col-md-10 lead">
+                @Model.CourseName   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Level: @Model.CourseLevel  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Duration:  @Model.CourseDuration  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tutor:  @Model.TutorName
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1 lead">
+                Date:
+            </div>
+            <div class="col-md-4 lead">
+                @Model.AttendDate.ToShortDateString(), @Model.StartTime.Value.ToShortTimeString() - @Model.EndTime.Value.ToShortTimeString()
+            </div>
+            <div class="col-md-4">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <select class="form-control selectpicker" data-size="10" data-live-search="true" data-style="btn-white">
+                                <option value="" selected>Select student</option>
+                                @foreach (var item in ViewData["ClientsAll"] as IEnumerable<iTrade.Models.Client>)
+                                {
+                                    <option value="@item.CustNo">@item.CustName</option>
+                                    //@item.FileName  // instead .FileName use property which u used in ur model class
+                                }
+                            </select>
+                        </div>
+                        <input type="button" class="btn btn-primary btn-sm col-md-2" id="btnAdd" value="Add" />
+                        <input type="hidden" id="custno" value="" />
+                        <input type="hidden" id="txtUrl1" value="" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="divOrderDetail">
+
+        </div>
+
+        <br /><br /><br /><br />
+
+    </div>
+</div>
+
+        <!-- modal placeholder MultiPagesPrint Modal-->
+<div id="MultiPrintModal" class="modal fade in" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='MultiPrintModalContent'>
+                <div class="modal-header">
+                    <button type="button" class="close" id="btnCloseAndReload" aria-hidden="true">X</button>
+                    <span class="modal-title lead">Submit Attendance </span>
+
+                </div>
+                <div class="modal-body">
+                    <div id="postMessage" class="hide">
+                        <h3 class="lead text-center"> Your attendance has been processed sucessfully. </h3>
+                        <h3 class="lead text-center">
+                            <a href="#" id="btnPrint" target="_blank" class="btn btn-primary"><i class="fa fa-print m-r-5"></i> Print </a>  &nbsp;&nbsp; or &nbsp;&nbsp;  <a href="/Attendance/Index" id="btnCreate2" class="btn btn-primary"> Back to list</a>
+                        </h3>
+
+                    </div>
+
+                    <div id="preMessage">
+                        <div class="row">
+                            <div class="col-md-2">
+
+                            </div>
+                            <div class="col-md-8">
+                                <br />
+                                <span class="lead">Are you sure to confirm attendance?</span>
+                                <br /><br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+
+                    <div id="headerBefore">
+                        <span class="pull-right">
+                            <span id="progress3" class="text-center" style="display: none;">
+                                <img src="~/assets/img/Wait.gif" alt="wait" />
+                                Wait..
+                            </span>
+
+                            &nbsp; &nbsp;
+                            <input type="button" class="btn btn-primary" id="btnConfirm" value=" Confirm " />   &nbsp;&nbsp;
+                            <button class="btn btn-white" data-dismiss="modal">Cancel</button>
+                        </span>
+                    </div>
+                    <div id="headerAfter" class="hide">
+                        <span class="pull-right">
+                            <span id="progress3" class="text-center" style="display: none;">
+                                <img src="~/assets/img/Wait.gif" alt="wait" />
+                                Wait..
+                            </span>
+
+                            <a href="/Attendance/Index" id="btnClose3" class="btn btn-white"> Close</a>
+                        </span>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+@section Scripts{
+    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-combobox/js/bootstrap-combobox.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/select2/dist/js/select2.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery-tag-it/js/tag-it.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/js/form-plugins.star.js")"></script>
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/modal-order.js")"></script>
+<script src="@Url.Content("~/Scripts/MyJs.js")"></script>
+
+}
+
+
+
+<script>
+    $(document).ready(function () {
+        // App.init();
+        TableManageDefault.init();
+        // Notification.init();
+        FormPlugins.init();
+
+
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var url1 = '@Url.Action("_DisplayClassAttendees", "Attendance", new { id = @Model.AttendID })';
+        $("#divOrderDetail").load(url1);
+        $('#txtUrl1').val(url1);
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#fromDate').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+        $('#toDate').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+
+        $("select.coursepicker").change(function () {
+            var courseid = $(".coursepicker option:selected").val();
+            var coursename = $(".coursepicker option:selected").text();
+            //  alert(courseid);
+            $('#courseID').val(courseid);
+        });
+
+        $("select.selectpicker").change(function () {
+            var val = $(".selectpicker option:selected").val().trim();
+            $('#custno').val(val);
+            //   alert("You have selected the country - " + val);
+            $('#btnAdd').prop('disabled', false);
+        });
+
+
+    });
+</script>
+
+<script type="text/javascript">
+    $("#btnSaveChanges").click(function () {
+    //   AttendeesSave();
+        $("#editAttendeesForm").submit(function (e) {
+            e.preventDefault();
+            var newUrl1 = $('#txtUrl1').val();
+            //  alert('Form is submitting');
+            $.ajax({
+                url: this.action,
+                type: this.method,
+                data: $(this).serializeArray(),
+                success: function (result) {
+                    if (result.success) {
+                        $("#divOrderDetail").load(newUrl1);
+                        alert("Items Saved.");
+
+                    } else {
+                        alert("Items Not Saved.");
+                    }
+                }
+            });
+            return true;
+        });
+        $("#editAttendeesForm").submit(); //invoke form submission
+
+    });
+
+
+    $("#btnSubmitAttendeeInfo").click(function () {
+        $("#editAttendeesForm").submit();
+    });
+
+
+    $('#btnConfirm').click(function (e) {
+        e.preventDefault();
+        $(this).prop('disabled', true);
+
+       // $("#editAttendeesForm").submit();
+
+        var bChecked = true;
+
+        if (bChecked) {
+            $.ajax({
+                type: 'GET',
+                url: '/Attendance/_ConfirmAttendance',
+                dataType: "json",
+                contentType: 'application/json, charset=utf-8',
+                data: {
+                    id: '@Model.AttendID',
+
+                },
+                success: function (json) {
+                    if (json.success != null && !json.success) {
+                        alert(json.responseText);
+                    }
+                    if (json.isRedirect) {
+                        $('#headerBefore').removeClass();
+                        $('#headerBefore').addClass("hide");
+                        $('#headerAfter').removeClass();
+                        $('#headerAfter').addClass("show");
+                        $('#preMessage').removeClass();
+                        $('#preMessage').addClass("hide");
+                        $('#postMessage').removeClass();
+                        $('#postMessage').addClass("Show");
+                        $("#btnPrint").attr("href", json.printUrl);
+                        $('#btnPrint').trigger('click');
+
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+
+            });
+
+        }
+        else {
+            alert("Please contact administrator.");
+        };
+    });
+
+    $('#btnAdd').click(function (e) {
+        e.preventDefault();
+        $(this).prop('disabled', true);
+        var newUrl1 = $('#txtUrl1').val();
+        var custid = $('#custno').val().trim();
+        var bChecked = true;
+        var aType = "ADHOC";
+
+        if (custid ==  "0" || custid == "") {
+            bChecked = false;
+            $(this).prop('disabled', false);
+            return false;
+        }
+
+        if (bChecked) {
+            $.ajax({
+                type: 'GET',
+                url: '/Attendance/_AddAttendee',
+                dataType: "json",
+                contentType: 'application/json, charset=utf-8',
+                data: {
+                    id: '@Model.AttendID',
+                    custno: custid,
+                    attdetid: 0,
+                    atype: aType
+                },
+                success: function (json) {
+                    if (json.success != null && !json.success) {
+                        $(this).prop('disabled', false);
+                        alert(json.responseText);
+                    } else {
+                        $("#divOrderDetail").load(newUrl1);
+                        $(this).prop('disabled', false);
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+
+            });
+
+        }
+        else {
+            alert("Please contact administrator.");
+        };
+    });
+
+
+</script>
+
+

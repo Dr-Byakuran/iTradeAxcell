@@ -1,0 +1,514 @@
+﻿@model List<iTrade.Models.ClassAttendeeView>
+
+@using (Html.BeginForm("_DisplayClassAbsents", "Attendance", FormMethod.Post, new { id = "editAttendeesForm" }))
+{
+    var modelcount = Model.Count;
+    
+            <table id="data-table@{ @Html.ViewBag.TableNo }" class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>
+                            No
+                        </th>
+                        <th class="col-md-2">
+                            Name
+                        </th>
+                        <th>Type</th>
+                        <th class="col-md-2">Class </th>
+                        <th>Date</th>
+
+                        @*<th>
+                        <input type="checkbox" name="chkAll" class="chkLeft" />
+                        Is Present?
+                    </th>*@
+                        <th>
+                            Absent Type
+                        </th>
+                        <th>
+                            Note
+                        </th>
+                        @*<th>Allow Makeup?</th>*@
+                        <th> Action </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        @Html.HiddenFor(model => model[i].ClassAttendee.DetID, new { id = "itemDetID2" })
+                        @Html.HiddenFor(model => model[i].ClassAttendee.AttendID, new { id = "itemAttendID2" })
+                        @Html.HiddenFor(model => model[i].ClassAttendee.AttendDate, new { id = "itemAttendDate2" })
+                        @Html.HiddenFor(model => model[i].ClassAttendee.ScheduleID, new { id = "itemScheduleID2" })
+                        @Html.HiddenFor(model => model[i].ClassAttendee.CustNo, new { id = "itemCustNo2" })
+                        @Html.HiddenFor(model => model[i].ClassAttendee.CustName, new { id = "itemCustName2" })
+                        @Html.HiddenFor(model => model[i].ClassAttendee.NRIC, new { id = "itemNRIC2" })
+
+                        @*@Html.HiddenFor(model => model[i].ClassAttendee.IsPresent, new { id = "itemIsPresent2" })*@
+                        @*@Html.HiddenFor(model => model[i].ClassAttendee.AbsentType, new { id = "itemAbsentType2" })*@
+                        @*@Html.HiddenFor(model => model[i].ClassAttendee.IsMakeup, new { id = "itemIsMakeup2" })*@
+                        @Html.HiddenFor(model => model[i].ClassAttendee.Status, new { id = "itemStatus2" })
+
+                        @Html.HiddenFor(model => model[i].ClassAttendee.ClockTimeIN, new { id = "itemClockIn2" })
+                        @Html.HiddenFor(model => model[i].ClassAttendee.ClockTimeOUT, new { id = "itemClockOut2" })
+                        @Html.HiddenFor(model => model[i].ClassAttendee.ClockLocation, new { id = "itemClockLocation2" })
+                        @Html.HiddenFor(model => model[i].ClassAttendee.Remark, new { id = "itemRemark2" })
+                        @Html.HiddenFor(model => model[i].ClassAttendee.ModifiedBy, new { id = "modifiedBy2" })
+                        @Html.HiddenFor(model => model[i].ClassAttendee.ModifiedOn, new { id = "modifiedOn2" })
+
+
+
+                        <tr>
+                            <td style="width:88px;">
+                                @(i + 1)
+                            </td>
+                            <td class="col-md-2">
+                                @Model[i].ClassAttendee.CustName &nbsp;&nbsp; <br /> @Model[i].ClassAttendee.NRIC
+                            </td>
+                            <td>
+                                @Model[i].ClassAttendee.AttendType
+                            </td>
+                            <td>
+                                @Model[i].ClassAttendance.CourseName <br />
+                                @Html.DisplayFor(modelItem => @Model[i].ClassAttendance.TutorName)
+                            </td>
+
+                            @*<td>
+                                @Model[i].ClassAttendee.AttendDate.ToShortDateString()  
+                            </td>
+                            <td>
+                                @Enum.GetName(typeof(DayOfWeek), @Model[i].ClassAttendance.Weekday) 
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => @Model[i].ClassAttendance.StartTimeValue) - @Html.DisplayFor(modelItem => @Model[i].ClassAttendance.EndTimeValue)
+                            </td>*@
+
+                            <td>@Model[i].ClassAttendee.AttendDate.ToShortDateString(), @Enum.GetName(typeof(DayOfWeek), @Model[i].ClassAttendance.Weekday) <br />
+                                @Html.DisplayFor(modelItem => @Model[i].ClassAttendance.StartTimeValue) - @Html.DisplayFor(modelItem => @Model[i].ClassAttendance.EndTimeValue)
+                            </td>
+ 
+
+                            @*<td>
+                            @Html.CheckBoxFor(model => model[i].ClassAttendee.IsPresent, new { htmlAttributes = new { id = "itemIsPresent2", @class = "form-control chkLeft" } })
+                        </td>*@
+                            <td>
+                                @if (Model[i].ClassAttendee.AbsentType == "SA")
+                                { <span>Student Absent </span> }
+                                @if (Model[i].ClassAttendee.AbsentType == "TA")
+                                { <span>Teacher Absent </span> }
+                                @if (Model[i].ClassAttendee.AbsentType == "MC")
+                                { <span>MC </span> }
+                                @if (Model[i].ClassAttendee.AbsentType == "OS")
+                                { <span>Oversea </span> }
+                                @if (Model[i].ClassAttendee.AbsentType == "ABS")
+                                { <span>Absent </span> }
+                                @if (Model[i].ClassAttendee.AbsentType == "OT")
+                                { <span>Other </span> }
+                                @if (string.IsNullOrEmpty(Model[i].ClassAttendee.AbsentType))
+                                { <span> </span> }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => model[i].ClassAttendee.Notes, new { htmlAttributes = new { id = "itemTeacherLevel2", @class = "form-control notes" } })
+                            </td>
+                            @*<td>
+                            @Html.CheckBoxFor(model => model[i].ClassAttendee.IsMakeup, new { htmlAttributes = new { id = "itemIsMakeup2", @class = "form-control isMakeup" } })
+                        </td>*@
+                            <td>
+                                @if (Model[i].ClassAttendee.ActionStatus != "Completed")
+                                {
+                                    if (Model[i].ClassAttendee.AttendType == "ADHOC")
+                                    {
+                                        <div class="btn-group m-r-5 m-b-5">
+                                            <a href="javascript:;" id="btnCharge" onclick="chargeItem(@Model[i].ClassAttendee.DetID)" class="btn btn-primary">Charge</a>
+                                            <a href="javascript:;" data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
+                                                <span class="caret"></span>
+                                            </a>
+                                            <ul class="dropdown-menu pull-right"> 
+                                                    <li><a href="javascript:;" id="btnMarkComplete" onclick="markCompleteItem(@Model[i].ClassAttendee.DetID)" class="btn btn-primary">Mark as Complete</a></li>                                        
+                                            </ul>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="btn-group m-r-5 m-b-5">
+                                            @*<a href="#getScheduleModal" data-toggle="modal" class="btn btn-primary">Makeup</a>*@
+                                            @*<button type="button" id="btnMakeup" onclick="arrangeItem(@Model[i].ClassAttendee.DetID)" class="btn btn-sm btn-primary">Makeup</button>*@
+                                            <a href="javascript:;" id="btnMakeup" onclick="makeupItem(@Model[i].ClassAttendee.DetID)" class="btn btn-primary">Makeup</a>
+                                            <a href="javascript:;" data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
+                                                <span class="caret"></span>
+                                            </a>
+                                            <ul class="dropdown-menu pull-right">
+                                                @if (Model[i].ClassAttendee.AttendType == "REGULAR")
+                                                {
+                                                    <li><a href="javascript:;" id="btnRefund" onclick="refundItem(@Model[i].ClassAttendee.DetID)" class="btn btn-primary">Refund</a></li>
+                                                    <li><a href="javascript:;" id="btnMarkComplete" onclick="markCompleteItem(@Model[i].ClassAttendee.DetID)" class="btn btn-primary">Mark as Complete</a></li>
+                                                }
+
+                                            </ul>
+                                        </div>
+                                    }
+                                }
+
+
+
+                            </td>
+
+                        </tr>
+
+
+                    }
+
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="8">  </td>
+
+                    </tr>
+
+
+                </tfoot>
+
+
+
+            </table>
+
+}
+
+        <!-- modal placeholder-->
+<div id="getScheduleModal" class="modal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id='getScheduleModalContent'>
+                <div class="modal-header">
+
+                    <button type="button" class="close" id="btnAddItemClose2003a" aria-hidden="true" data-dismiss="modal">X</button>
+                    <h3 class="modal-title lead"> Makeup Class</h3>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="priceID" value="0" />
+                    <div id='getScheduleModalData'></div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button id="btnAddItemClose002aa" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <!-- modal placeholder-->
+<div id="refundModal" class="modal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id='refundModalContent'>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+        <!-- modal placeholder-->
+<div id="chargeModal" class="modal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id='chargeModalContent'>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#txtDate').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+        //var table = $('#data-table10').DataTable({
+        //    'columnDefs': [
+        //       {
+        //           'targets': 0,
+        //           'checkboxes': {
+        //               'selectRow': true
+        //           }
+        //       }
+        //    ],
+        //    'select': {
+        //        'style': 'multi'
+        //    },
+        //    'order': [[1, 'asc']]
+        //});
+
+
+        //$('#data-table1').DataTable({
+        //    "bLengthChange": false,
+        //    "iDisplayLength": 100,
+        //    "dom": '<"pull-left"f><"pull-right"l>tip'
+        //});
+
+    });
+</script>
+
+
+<script>
+    function makeupItem(ID) {
+        $('#detID').val(ID);
+        var detId = ID;
+
+        var flag = true;
+        if (flag) {
+            var url = '@Url.Action("_DisplayUpcomingClasses", "Attendance")';
+            url += '/?id=' + detId;
+            $("#getScheduleModalData").load(url);
+            $('#getScheduleModal').modal({
+                keyboard: true
+            }, 'show');
+
+        }
+    }
+
+    function refundItem(ID) {
+        $('#detID').val(ID);
+        var detId = ID;
+        var url = '@Url.Action("_DisplayRefund", "Attendance")';
+        url += '/?id=' + detId;
+
+        $('#refundModalContent').load(url, function () {
+            $('#refundModal').modal({
+                keyboard: true
+            }, 'show');
+            bindForm2(this);
+        });
+        return false;
+    }
+
+    function chargeItem(ID) {
+        $('#detID').val(ID);
+        var detId = ID;
+        var url = '@Url.Action("_DisplayCharge", "Attendance")';
+        url += '/?id=' + detId;
+
+        $('#chargeModalContent').load(url, function () {
+            $('#chargeModal').modal({
+                keyboard: true
+            }, 'show');
+            bindForm3(this);
+        });
+        return false;
+    }
+
+    function bindForm2(dialog) {
+        $('form', dialog).submit(function () {
+            var newUrl1 = $('#txtUrl1').val();
+            $.ajax({
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize(),
+                success: function (result) {
+                    if (result.success) {
+                        $('#refundModal').modal('hide');
+
+                      //  $("#divOrderDetail").load(newUrl1);
+
+                        location.reload();
+
+
+                    } else {
+                        $('#refundModalContent').html(result);
+                        bindForm2();
+                    }
+                }
+            });
+            return false;
+        });
+    }
+
+    function bindForm3(dialog) {
+        $('form', dialog).submit(function () {
+            var newUrl1 = $('#txtUrl1').val();
+            $.ajax({
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize(),  
+                success: function (result) {
+                    if (result.success) {
+                        $('#chargeModal').modal('hide');
+
+                        $("#divOrderDetail").load(newUrl1);
+
+                        //location.reload();
+
+                    } else {
+                        $('#chargeModalContent').html(result);
+                        bindForm3();
+                    }
+                }
+            });
+            return false;
+        });
+    }
+
+    function markCompleteItem(ID) {
+        // alert("hi..");
+        var newUrl1 = $('#txtUrl1').val();
+
+        $.ajax({
+            type: 'GET',
+            url: '/Attendance/_MarkAsComplete',
+            dataType: "json",
+            contentType: 'application/json, charset=utf-8',
+            data: {
+                id: ID
+            },
+            success: function (result) {
+                if (result.success) {
+                    //   alert("Item Deleted");
+                    // $("#divOrderDetail").load(newUrl1);
+                    location.reload();
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+
+        });
+    }
+
+    function delItem(ID) {
+       // alert("hi..");
+        var newUrl1 = $('#txtUrl1').val();
+
+        $.ajax({
+            type: 'GET',
+            url: '/Attendance/_DelItem',
+            dataType: "json",
+            contentType: 'application/json, charset=utf-8',
+            data: {
+                id: ID
+            },
+            success: function (result) {
+                if (result.success) {
+                    //   alert("Item Deleted");
+                    $("#divOrderDetail").load(newUrl1);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+
+        });
+    }
+
+    function itemMoveUp(ID) {
+        var newUrl1 = $('#txtUrl1').val();
+        $.ajax({
+            type: 'GET',
+            url: '/Attendance/_ItemMoveUp',
+            dataType: "json",
+            contentType: 'application/json, charset=utf-8',
+            data: {
+                id: ID
+            },
+            success: function (result) {
+                if (result.success) {
+                    //   alert("Item Deleted");
+                    $("#divOrderDetail").load(newUrl1);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+
+        });
+    }
+
+</script>
+
+<script type="text/javascript">
+    $("#btnSubmitAttendeeInfo").click(function () {
+        $("#editAttendeesForm").submit(function (e) {
+            e.preventDefault();
+            var newUrl1 = $('#txtUrl1').val();
+            //  alert('Form is submitting');
+            $.ajax({
+                url: this.action,
+                type: this.method,
+                data: $(this).serializeArray(),
+                success: function (result) {
+                    if (result.success) {
+                        $("#divOrderDetail").load(newUrl1);
+                        alert("Items Saved.");
+
+                    } else {
+                        alert("Items Not Saved.");
+                    }
+                }
+            });
+            return true;
+        });
+        $("#editAttendeesForm").submit(); //invoke form submission
+
+    });
+
+
+    //$("#btnAddItem2").click(function () {
+    //    $(this).prop('disabled', true);
+    //    $("#editRefundForm").submit(); //invoke form submission
+
+    //});
+
+
+    $("#btnAddItem2").click(function (e) {
+        e.preventDefault();
+        $(this).prop('disabled', true);
+
+        $("#editRefundForm").submit();
+
+    });
+
+
+</script>
+
+
+
+
+<style>
+    .chkLeft {
+        position: absolute;
+        left: -5px;
+        display: inline-block;
+    }
+</style>
+
+<script>
+    $(function () {
+        $(".chkLeft").parent().css("position", "relative");
+        $("input[type='checkbox'][name='chkAll']").change(function () {
+            if ($(this).prop("checked") == true)
+                $("tbody tr").find("td:eq(3)>input[type='checkbox']").prop('checked', true);
+            else
+                $("tbody tr").find("td:eq(3)>input[type='checkbox']").prop('checked', false);
+        });
+
+        $("#submissionToexcel").click(function (e) {
+            e.preventDefault();
+            var params = ShowChk();
+            if (params == "")
+                return;
+            var url = "/Attendance/SubmissionToExcel?DetIdStr=" + params;
+            window.open(url);
+            //alert(ShowChk());
+        })
+    })
+    function ShowChk() {
+        return $("tbody tr").find("td:eq(3)>input[type='checkbox']:checked").map(function () {
+            return $(this).attr("value");
+        }).get().join(",");
+    }
+</script>
+
+

@@ -1,0 +1,42 @@
+﻿@model iTrade.Models.InvdetBundle
+
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+
+<h5>Model and quantity for this package: </h5>
+
+@using (Html.BeginForm("_AddBundleProductSave", "Orders", FormMethod.Post, new { id = "addBundelProductForm" }))
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.InvDetOn.DetID)
+    @Html.HiddenFor(model => model.InvDetOn.SorID, new { id = "itemSorID3" })
+    @Html.HiddenFor(model => model.InvDetOn.InvID, new { id = "itemInvID3", @Value= "0" })
+    @Html.HiddenFor(model => model.InvDetOn.ItemID, new { id = "itemID3" })
+    @Html.HiddenFor(model => model.InvDetOn.ItemType, new { id = "itemType3" })
+    @Html.HiddenFor(model => model.InvDetOn.ItemName, new { id = "itemName3" })
+    @Html.HiddenFor(model => model.InvDetOn.ItemCode, new { id = "itemCode3" })
+
+    @Html.HiddenFor(model => model.InvDetOn.Gst, new { id = "itemGst3" })
+    @Html.HiddenFor(model => model.InvDetOn.Nett, new { id = "itemNett3" })
+
+    @Html.HiddenFor(model => model.InvDetOn.IsBundle, new { id = "itemIsBundle3" })
+    @Html.HiddenFor(model => model.InvDetOn.RefItemID, new { id = "itemRefItemID3" })
+    @Html.HiddenFor(model => model.InvDetOn.IsControlItem, new { id = "itemIsControl3" })
+    @Html.HiddenFor(model => model.InvDetOn.SalesType, new { id = "itemSalesType3" })
+
+    <input type="hidden" id="itemGstRate3" value="@ViewData["seGSTRate"]" />
+    <input type="hidden" id="itemStockQty3" />
+    <input type="hidden" id="itemCostPrice3" />
+
+
+
+    @Html.EditorFor(x => x.ProductOn.Productbundles)
+    
+    
+    
+
+}
+
+

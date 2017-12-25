@@ -1,0 +1,100 @@
+﻿@model iTrade.Models.Pricebook
+@*@model IEnumerable<iTrade.Models.Course>*@
+
+@using (Html.BeginForm("_AddItem", "Courses", FormMethod.Post, new { id = "addPricebookForm2" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    
+    @Html.HiddenFor(model => model.PriceID)
+    @Html.HiddenFor(model => model.CourseID, new { id = "courseID" })
+    @Html.HiddenFor(model => model.CourseName, new { id = "courseName" })
+    @Html.HiddenFor(model => model.CourseCode, new { id = "courseCode" })
+    @Html.HiddenFor(model => model.CourseType, new { id = "courseCode" })
+    @Html.HiddenFor(model => model.ModifiedBy, new { id = "modifiedBy" })
+    @Html.HiddenFor(model => model.ModifiedOn, new { id = "modifiedOn" })
+    @Html.HiddenFor(model => model.CostPrice)
+    @Html.HiddenFor(model => model.CostCode)
+    @Html.HiddenFor(model => model.IsDefault)
+    @Html.HiddenFor(model => model.Remark)
+    <tr>
+        <td style="width:88px;"></td>
+        <td class="col-md-2">               
+            <select class="form-control coursepicker" data-size="10" data-live-search="true" data-style="btn-white">
+                <option value="0" selected>Select course</option>
+                @foreach (var item in ViewData["CoursesAll"] as IEnumerable<iTrade.Models.Course>)
+                {
+                    <option value="@item.CourseID">@item.CourseName</option>
+                }
+            </select>     
+        </td>
+        <td>
+            @Html.EditorFor(model => model.CourseLevel, new { htmlAttributes = new { id = "itemCourseLevel2", @class = "form-control" } })
+        </td>
+        <td>
+            @Html.EditorFor(model => model.CourseDuration, new { htmlAttributes = new { id = "itemCourseDuration2", @class = "form-control" } })
+        </td>
+        <td>
+            @Html.EditorFor(model => model.TeacherLevel, new { htmlAttributes = new { id = "itemTeacherLevel2", @class = "form-control" } })
+        </td>
+        <td>  
+            @Html.EditorFor(model => model.OptionName, new { htmlAttributes = new { id = "itemQty2", @class = "form-control Qty" } })
+ 
+        </td>
+        <td class="">
+            @Html.EditorFor(model => model.RegisterFee, new { htmlAttributes = new { id = "itemRegisterFee2", @class = "form-control Registerfee2" } })
+        </td>
+        <td class="">
+            @Html.EditorFor(model => model.StudentPrice, new { htmlAttributes = new { id = "itemStudentPrice2", @class = "form-control Studentprice" } })
+        </td>
+        <td class="">
+            @Html.EditorFor(model => model.PublicPrice, new { htmlAttributes = new { id = "itemPublicPrice2", @class = "form-control Publicprice" } })
+
+        </td>
+        <td>
+            @*<button type="button" id="btnPricebookSave"  class="btn btn-xs btn-primary"><span class="fa fa-plus" aria-hidden="true"></span></button>*@
+
+            @*<input type="button" id="btnPricebookSave" class="btn btn-small btn-primary" value="Save" />*@
+
+        </td>
+
+    </tr>
+
+}
+
+<tr>
+    <td colspan="8">
+        @*<button type="button" id="btnPricebookSave"  class="btn btn-xs btn-primary"><span class="fa fa-plus" aria-hidden="true"></span></button>*@
+
+        <input type="button" id="btnPricebookSave" class="btn btn-small btn-primary" value="Save" />
+
+    </td>
+</tr>
+
+
+<script>
+    $(document).ready(function () {
+
+        $("#btnPricebookSave").click(function () {
+
+            $("#addPricebookForm").submit();
+
+        });
+    });
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("select.coursepicker").change(function () {
+            var valID = $(".coursepicker option:selected").val();
+            var valName = $(".coursepicker option:selected").text();
+
+            $('#courseID').val(valID);
+            $('#courseName').val(valName);
+
+
+        });
+
+    });
+</script>

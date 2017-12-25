@@ -1,0 +1,188 @@
+﻿@model iTrade.Models.KivInvoiceViewModel
+@using System.Text;
+@{
+    Layout = null;
+    string strPrintedBy = ViewBag.PrintedBy;
+    string strDateDisp = String.Format("{0:dd MMM yyyy}", DateTime.Now);
+    string strTimeDisp = String.Format("{0:h:mm tt}", DateTime.Now);
+    string strFooter = string.Format("This document is printed by {0} on {1} at {2}", strPrintedBy, strDateDisp, strTimeDisp);
+    string strAmount = "0.00";
+    string strYear = Model.Invoice.CreatedOn.Year.ToString();
+    string strDateDel = String.Format("{0:dd/MM/yyyy}", Model.Invoice.DeliveryDate);
+    int i = 0;
+    decimal subtotal = 0;
+    decimal gst = 0;
+    decimal total = 0;
+    int invCount = ViewBag.INVCount;
+    //int kivCount = ViewBag.KIVCount;
+    int x = 0;
+    int y = 0;
+    string pageHeight = string.Empty;
+    int invHeight = 0, kivHeight = 0, totalHeight = 0, initialHeight = 0;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Invoice</title>
+
+</head>
+<body>
+
+    <!-- begin #content -->
+    <img src="@ViewBag.HeaderURL\..\..\..\assets\img\AmascoHeader.jpg" />
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td colspan="4">&nbsp;</td>
+        </tr>
+        <tr style="height:15px">
+            <td width="20%" style="vertical-align:text-bottom;font-size:small">BILL TO</td>
+            <td width="35%" style="vertical-align:text-bottom;font-size:small"><b>@Model.Invoice.CustName</b></td>
+            <td width="20%" style="vertical-align:text-bottom;font-size:small">NUMBER</td>
+            <td width="25%" style="vertical-align:text-bottom;font-size:small">@string.Format("KIV-{0}{1:0000}", strYear, @Model.Invoice.KorID)</td>
+        </tr>
+        <tr style="height:15px">
+            <td style="vertical-align:text-bottom;font-size:small"></td>
+            <td style="vertical-align:text-bottom;font-size:small">@Model.Client.Addr1</td>
+            <td style="vertical-align:text-bottom;font-size:small">DATE</td>
+            <td style="vertical-align:text-bottom;font-size:small">@strDateDel</td>
+        </tr>
+        <tr style="height:15px">
+            <td style="vertical-align:text-bottom;font-size:small"></td>
+            <td style="vertical-align:text-bottom;font-size:small">@Model.Client.Addr2</td>
+            <td style="vertical-align:text-bottom;font-size:small">P/O</td>
+            <td style="vertical-align:text-bottom;font-size:small">@Model.Invoice.PoNo</td>
+        </tr>
+        <tr style="height:15px">
+            <td style="vertical-align:text-bottom;font-size:small"></td>
+            <td style="vertical-align:text-bottom;font-size:small">@Model.Client.Addr3</td>
+            <td style="vertical-align:text-bottom;font-size:small">TERMS</td>
+            <td style="vertical-align:text-bottom;font-size:small">@Model.Invoice.PaymentTerms</td>
+        </tr>
+        <tr style="height:15px">
+            <td style="vertical-align:text-bottom;font-size:small">TEL</td>
+            <td style="vertical-align:text-bottom;font-size:small">@Model.Client.PhoneNo</td>
+            <td style="vertical-align:text-bottom;font-size:small">SALESMAN CODE</td>
+            <td style="vertical-align:text-bottom;font-size:small">@Model.Invoice.PersonName</td>
+        </tr>
+        <tr style="height:15px">
+            <td style="vertical-align:text-bottom;font-size:small">FAX</td>
+            <td style="vertical-align:text-bottom;font-size:small">@Model.Client.FaxNo</td>
+            <td style="vertical-align:text-bottom;font-size:small">DELIVERY DATE</td>
+            <td style="vertical-align:text-bottom;font-size:small">@strDateDel</td>
+        </tr>
+        <tr style="height:15px">
+            <td style="vertical-align:text-bottom;font-size:small">DELIVERY TO</td>
+            <td style="vertical-align:text-bottom;font-size:small">@Model.Invoice.DeliveryAddress</td>
+            <td style="vertical-align:text-bottom;font-size:small">DELIVERY DATE</td>
+            <td style="vertical-align:text-bottom;font-size:small">@Model.Invoice.DeliveryTime</td>
+        </tr>
+        <tr style="height:15px">
+            <td style="vertical-align:text-bottom;font-size:small">&nbsp;</td>
+            <td style="vertical-align:text-bottom;font-size:small"></td>
+            <td style="vertical-align:text-bottom;font-size:small"></td>
+            <td style="vertical-align:text-bottom;font-size:x-small" align="right">Page 1</td>
+        </tr>
+
+    </table>
+
+    @{
+
+
+        if (invCount == 0 || invCount == 3 || invCount == 4 || invCount == 5 || invCount == 6 || invCount == 9 || (invCount >= 10 && invCount <= 16))
+        { initialHeight = 460; }
+        else if (invCount == 8) { initialHeight = 210; }
+        else if (invCount == 7) { initialHeight = 260; }
+        else if (invCount == 2) { initialHeight = 180; }
+        else if (invCount == 1) { initialHeight = 300; }
+        else { initialHeight = 50; }
+    }
+
+    <table style="height:@(invCount > 6 ? "100%" : "70%")">
+        <tr>
+            <td valign="top">
+                <table width="100%">
+                    <tr>
+                        <td width="5%" align="center" style="border-top:1px;border-bottom:1px;vertical-align:text-bottom;font-size:small">NO.</td>
+                        <td width="48%" align="center" style="border-top:1px;border-bottom:1px;vertical-align:text-bottom;font-size:small">DESCRIPTION</td>
+                        <td width="12%" align="center" style="border-top:1px;border-bottom:1px;vertical-align:text-bottom;font-size:small">Order <br />Qty</td>
+                        <td width="12%" align="center" style="border-top:1px;border-bottom:1px;vertical-align:text-bottom;font-size:small" >Balance<br />Qty</td>
+                        <td width="12%" align="center" style="border-top:1px;border-bottom:1px;vertical-align:text-bottom;font-size:small" >Delivery <br />Qty</td>
+                        <td width="12%" align="center" style="border-top:1px;border-bottom:1px;vertical-align:text-bottom;font-size:small" >KIV <br />Balance</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+
+
+
+                        </td>
+
+                    </tr>
+
+
+
+                    @foreach (var item in Model.INVDETs)
+                    {
+                        i++;
+                        <tr style="vertical-align:middle;height:15px">
+                            <td style="vertical-align:text-top; font-size: 9pt; letter-spacing: 0pt; font-weight:700;" valign="top">@i</td>
+                            <td style="vertical-align:text-top; font-size: 9pt; letter-spacing: 0pt; font-weight:700;" valign="top">@item.ItemName.ToUpper() 
+                                @if (item.SalesType == "FOCItem")
+                                {
+                                    <span class="label label-warning">FOC</span>
+                                } &nbsp; (INV-@item.InvID)
+                            </td>
+                            <td style="vertical-align:text-top; font-size: 9pt; letter-spacing: 0pt; font-weight:700;" valign="top" align="center">@item.OrderQty</td>
+                            <td style="vertical-align:text-top; font-size: 9pt; letter-spacing: 0pt; font-weight:700;" valign="top" align="center">@item.BalanceQty</td>
+                            <td style="vertical-align:text-top; font-size: 11pt; letter-spacing: 0pt; font-weight:800;" valign="top" align="center"><b>@item.DeliverQty</b></td>
+                            <td style="vertical-align:text-top; font-size: 9pt; letter-spacing: 0pt; font-weight:700;" valign="top" align="center">@item.KivBalanceQty</td>
+ 
+                        </tr>
+                    }
+            </table>
+                </td>
+            </tr>
+        <tr>
+            <td valign="bottom">
+                <table width="100%">
+                    <tr>
+                        <td height="@pageHeight">&nbsp;</td>
+                    </tr>
+                </table>
+                <table width="100%">
+
+                    <tr style="vertical-align:top">
+                        <td width="45%" style="font-size:x-small" valign="bottom">GOODS RCEIVED, EXAMINED AND CONFIRMED<br />ARE OF SATISFACTORY QUALITY, APPEARANCE<br />AND FINISH, FREE FROM OBSERVABLE DEFECTS</td>
+                        <td width="10%" style="font-size:small"></td>
+                        <td width="45%" style="font-size:x-small" valign="middle"><span>CHEQUE PAYMENT SHOULD BE CROSSED AND <br />MADE PAYABLE TO <b>AMASCO INDUSTRIES PTE LTD</b></span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">&nbsp;</td>
+                    </tr>
+                    <tr style="vertical-align:top">
+                        <td style="border-top:1px;font-size:small"></td>
+                        <td style="font-size:small"></td>
+                        <td style="border-top:1px;font-size:small"></td>
+                    </tr>
+                    <tr style="vertical-align:top">
+                        <td style="border-top:1px;font-size:small" align="center">Client's Signature and Chop</td>
+                        <td style="font-size:small"></td>
+                        <td style="border-top:1px;font-size:small" align="center"><b>AMASCO INDUSTRIES PTE LTD</b></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" align="right">
+                            <span style="font-size: 7pt; letter-spacing: 0pt; font-weight:700; margin-top:0px;margin-bottom:0px;">@strFooter</span>
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -1,0 +1,531 @@
+﻿@model iTrade.Models.SalesOrder
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+
+    <link href="@Url.Content("http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700")" rel="stylesheet" type="text/css" />
+
+
+    @Styles.Render("~/css/css")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <link href="@Url.Content("~/assets/css/inv-print.css")" rel="stylesheet" type="text/css" />
+
+
+
+</head>
+<body>
+    @{
+        var dGST = (decimal)ViewData["seGSTRate"] * 100;
+    }
+    <div id="page1">
+        <!-- begin #content -->
+        <div id="content" class="content">
+            <!-- begin invoice -->
+            <div class="invoice">
+                <div class="inv-header">
+                    <div class="invoice-company">
+                        <span class="pull-right hidden-print" style="margin-top:20px;">
+                            <a href="#" class="btn btn-sm btn-success m-b-10"><i class="fa fa-reply m-r-5"></i> Submit</a>
+                            <a href="javascript:;" onclick="window.print()" class="btn btn-sm btn-success m-b-10"><i class="fa fa-print m-r-5"></i> Print</a>
+                        </span>
+
+                        <div style="float:left;">
+                            <img src="~/assets/img/logo.png" />
+
+                        </div>
+                        <div style="float:left; margin-left: 20px; ">
+
+                            <p style="font-size: 16pt; letter-spacing: 1pt; text-align:left; margin-top:0px;margin-bottom:0px;">AMASCO INDUSTRIES PTE LTD </p>
+                            <p style="font-size: 8pt; letter-spacing: 0pt; text-align:left; margin-top:0px;margin-bottom:0px;">135 Joo Seng Road, #02-01 PM Industrial Building, Singapore 368363</p>
+                            <p style="font-size: 8pt; letter-spacing: 0pt; text-align:left; margin-top:0px;margin-bottom:0px;">+65 6289 6947 (Service Hotline)  &nbsp;&nbsp; Fax: +65 6289 7696 </p>
+                            <p style="font-size: 8pt; letter-spacing: 0pt; text-align:left; margin-top:0px;margin-bottom:0px;">Business Reg. No.: 123456789B  &nbsp;&nbsp; GST Reg. No.: 123456789G</p>
+
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="inv-content">
+                    <div class="content-header">
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="width:60%;" valign="top">
+                                    <div style="float:left;  font-size: 10pt; letter-spacing: 0pt; font-weight:600; line-height:20px; margin-top:0px;margin-bottom:0px;">
+                                        <span style="font-size: 12pt; letter-spacing: 0pt; line-height:2.8em; font-weight:700; margin-top:0px;margin-bottom:30px;"> SOLD TO </span> <br />
+                                        <span id="txtCustName" style="font-size: 11.5pt; letter-spacing: 0pt; font-weight:700; margin-top:20px;margin-bottom:0px;">@Model.CustName </span> <br />
+
+                                        @if (@Model.Addr1 != null)
+                                        {
+                                            <span id="txtAddr1">@Model.Addr1 </span> <br />
+                                        }
+                                        @if (@Model.Addr2 != null)
+                                        {
+                                            <span id="txtAddr2">@Model.Addr2 </span> <br />
+                                        }
+                                        @if (@Model.Addr3 != null)
+                                        {
+                                            <span id="txtAddr3">@Model.Addr3 </span> <br />
+                                        }
+
+                                        @if (!string.IsNullOrEmpty(Model.DeliveryAddress))
+                                        {
+                                            <h5>*Deliver to: <span> @Model.DeliveryAddress </span></h5>
+
+                                        }
+
+
+                                    </div>
+
+
+                                </td>
+
+                                <td style="width:350px; text-align:center;">
+                                    <table  style="width:100%; border:0px solid #000;">
+                                        <tr>
+                                            <td colspan="2" style="padding-top: 0px; padding-bottom: 15px;"> <span style="font-size: 14pt; letter-spacing: 2pt; text-align:center; font-weight:700; margin-top:0px;margin-bottom:30px;"> Sales Order </span></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" style="width:40%; padding-top: 6px; padding-bottom: 6px;"> <span style="font-size: 10pt; letter-spacing: 0pt; font-weight:600; margin-top:0px;margin-bottom:0px;">Order No.:</span></td>
+                                            <td align="left"  style="padding-left:25px; padding-top: 6px; padding-bottom: 6px;"> <span id="txtInvID" style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">DO# @Model.SorID </span></td>
+                                        </tr>
+ 
+                                        <tr>
+                                            <td align="left" style="padding-top: 6px; padding-bottom: 6px;"> <span style="font-size: 10pt; letter-spacing: 0pt; font-weight:600; margin-top:0px;margin-bottom:0px;">Date:</span></td>
+                                            <td align="left"  style="padding-left:25px; padding-top: 6px; padding-bottom: 6px;"> <span id="txtInvDate" style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">@Model.InvDate.ToShortDateString()</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left"  style="padding-top: 6px; padding-bottom: 6px;"> <span style="font-size: 10pt; letter-spacing: 0pt; font-weight:600; margin-top:0px;margin-bottom:0px;">Terms:</span></td>
+                                            <td align="left"  style="padding-left:25px; padding-top: 6px; padding-bottom: 6px;"> <span id="txtTerms" style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">@Model.PaymentTerms</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right" colspan="2" style="padding-top: 10px; padding-bottom: 10px;"> <span style="font-size: 9pt; letter-spacing: 0pt; text-align:center; margin-top:15px;margin-bottom:15px;">
+                                                        @if (ViewBag.ItemCount > 12)
+                                                        {
+                                                            <span> Page 1 of 2</span>
+
+                                                        }                       
+                                                
+                                                </span></td>
+                                        </tr>
+
+                                    </table>
+
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table class="table table-bordered row-fluid">
+                            <tr>
+                                <td class="col-md-5 text-center" style="padding-top: 2px; padding-bottom: 2px;"><span style="font-size: 10pt; letter-spacing: 0pt; font-weight:700; margin-top:0px;margin-bottom:0px;">Sales Person</span></td>
+                                <td class="col-md-7 text-center" style="padding-top: 2px; padding-bottom: 2px;"><span style="font-size: 10pt; letter-spacing: 0pt; font-weight:700; margin-top:0px;margin-bottom:0px;">Purchasing Order</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" style="padding-top: 2px; padding-bottom: 2px;"><span id="txtSalesPerson" style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">@Model.PersonName</span>  </td>
+                                <td class="text-center" style="padding-top: 2px; padding-bottom: 2px;"><span id="txtPONO" style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">@Model.PoNo</span> </td>
+                            </tr>
+
+                        </table>
+
+
+                    </div>
+                    <div class="content-items">
+                        <div style="width:100%; text-align:left; font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">
+
+                            <table id="page1Table" class="table table-bordered row-fluid">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            No.
+                                        </th>
+                                        <th>
+                                            Goods Description
+                                        </th>
+
+                                        <th class="text-center">
+                                            Qty
+                                        </th>
+                                        <th class="text-center">
+                                            Unit
+                                        </th>
+                                        <th class="col-md-2">
+                                            <span class="pull-right"> List Price </span>
+
+                                        </th>
+                                        <th class="col-md-2">
+                                            <span class="pull-right"> Total ($)</span>
+
+                                        </th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @{Html.RenderAction("_DisplaySalesItems", "Orders", new { id = @Model.SorID, pageid = 1 });}
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td></td>
+                                        <td colspan="5">  </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6"> <b> KIV Info </b>  
+                                            <table class="table table-striped" style="width:100%;">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="col-md-6">Description</th>
+                                                        <th>Order <br />Qty</th>
+                                                        <th>Balance <br />Qty</th>
+                                                        <th>Deliver <br />Qty</th>
+                                                        <th>KIV <br />Balance</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    @{Html.RenderAction("_DisplayKivDetsPrint", "Orders", new { id = Model.SorID });}
+
+
+                                                </tbody>
+                                            </table>
+
+
+                                        </td>
+                                    </tr>
+
+                                </tfoot>
+
+                            </table>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="inv-totalamount">
+
+                    <div style="float: right; width:38%;">
+                        <table class="table table-bordered">
+                            <tbody>
+
+                                @if (Model.Discount != 0)
+                                {
+                                    <tr>
+
+                                        <td style="height: 20px; border: 1px solid #000 !important;" align="left" valign="middle"><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">Sub-Total </span></td>
+                                        <td class="col-md-5 text-right" style="border-collapse: collapse !important; border: 1px solid #000 !important;"><span class="pull-left" style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">$</span><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">@Model.PreDiscAmount.ToString("#,##0.00") </span></td>
+
+                                    </tr>
+                                    <tr>
+
+                                        <td style="height: 20px; border: 1px solid #000 !important;" align="left" valign="middle"><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">Discount </span></td>
+                                        <td class="col-md-5 text-right" style="border-collapse: collapse !important; border: 1px solid #000 !important;"><span class="pull-left" style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">$</span><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">@Model.Discount.ToString("#,##0.00") </span></td>
+
+                                    </tr>
+
+                                }
+                                else
+                                {
+                                    <tr>
+
+                                        <td style="height: 20px; border: 1px solid #000 !important;" align="left" valign="middle"><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">Sub-Total </span></td>
+                                        <td class="col-md-5 text-right" style="border-collapse: collapse !important; border: 1px solid #000 !important;"><span class="pull-left" style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">$</span><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">@Model.Amount.ToString("#,##0.00") </span></td>
+
+                                    </tr>
+                                }
+                                <tr>
+
+                                    <td style="height: 20px; border: 1px solid #000 !important;" align="left" valign="middle"><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">GST @dGST% </span></td>
+                                    <td class="col-md-5 text-right" style="border-top: 1px solid #000; border: 1px solid #000 !important;"><span class="pull-left" style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">$</span><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">@Model.Gst.ToString("#,##0.00") </span></td>
+
+                                </tr>
+                                <tr>
+
+                                    <td style="height: 20px; border: 1px solid #000 !important;" align="left" valign="middle"><span style="font-size: 10pt; letter-spacing: 0pt; font-weight:700; margin-top:0px;margin-bottom:0px;">Grand Total</span></td>
+                                    <td class="col-md-5 text-right" style="border: 1px solid #000 !important;"><span class="pull-left" style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">$</span><span style="font-size: 10pt; letter-spacing: 0pt; font-weight:700; margin-top:0px;margin-bottom:0px;">@Model.Nett.ToString("#,##0.00")</span></td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+                <div class="inv-signature">
+                    <div style="float: left; width:50%;">CUSTOMER'S COMPANY STAMP/SIGNATURRE   <br /><br /><br /></div>
+                    <div style="float: right; width:40%;">AMASCO INDUSTRIES PTE LTD  <br /><br /><br /></div>
+
+
+                </div>
+
+                <div class="inv-footer">
+                    &nbsp;
+                </div>
+
+            </div>
+            <!-- end invoice -->
+
+        </div>
+
+    </div>
+
+
+
+    <p style="page-break-after:always;"></p>
+
+    <div id="page2">
+        <!-- begin #content -->
+        <div id="content" class="content">
+            <!-- begin invoice -->
+            <div class="invoice">
+                <div class="page2-header">
+                    <div class="invoice-company">
+                        <span class="pull-right hidden-print" style="margin-top:20px;">
+                            <a href="javascript:;" onclick="window.print()" class="btn btn-sm btn-success m-b-10"><i class="fa fa-print m-r-5"></i> Print</a>
+                        </span>
+
+
+                    </div>
+                </div>
+                <div class="page2-content">
+                    <div class="content-header">
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="width:60%;" valign="top">
+                                    <div style="float:left;  font-size: 10pt; letter-spacing: 0pt; font-weight:600; line-height:20px; margin-top:0px;margin-bottom:0px;">
+                                        <span style="font-size: 12pt; letter-spacing: 0pt; line-height:2.8em; font-weight:700; margin-top:0px;margin-bottom:30px;"> SOLD TO </span> <br />
+                                        <span id="txtCustName" style="font-size: 11.5pt; letter-spacing: 0pt; font-weight:700; margin-top:20px;margin-bottom:0px;">@Model.CustName </span> <br />
+
+                                        @if (@Model.Addr1 != null)
+                                        {
+                                            <span id="txtAddr1">@Model.Addr1 </span> <br />
+                                        }
+                                        @if (@Model.Addr2 != null)
+                                        {
+                                            <span id="txtAddr2">@Model.Addr2 </span> <br />
+                                        }
+                                        @if (@Model.Addr3 != null)
+                                        {
+                                            <span id="txtAddr3">@Model.Addr3 </span> <br />
+                                        }
+
+                                        @if (!string.IsNullOrEmpty(Model.DeliveryAddress))
+                                        {
+                                            <h5>*Deliver to: <span> @Model.DeliveryAddress </span></h5>
+
+                                        }
+
+
+                                    </div>
+
+
+                                </td>
+
+                                <td style="width:350px; text-align:center;">
+                                    <table style="width:100%; border:0px solid #000;">
+                                        <tr>
+                                            <td colspan="2" style="padding-top: 0px; padding-bottom: 15px;"> <span style="font-size: 12pt; letter-spacing: 2pt; text-align:center; font-weight:700; margin-top:0px;margin-bottom:30px;"> Delivery Order </span></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" style="width:40%; padding-top: 6px; padding-bottom: 6px;"> <span style="font-size: 10pt; letter-spacing: 0pt; font-weight:600; margin-top:0px;margin-bottom:0px;">Order No.:</span></td>
+                                            <td align="left" style="padding-left:25px; padding-top: 6px; padding-bottom: 6px;"> <span id="txtInvID" style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">DO# @Model.SorID </span></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td align="left" style="padding-top: 6px; padding-bottom: 6px;"> <span style="font-size: 10pt; letter-spacing: 0pt; font-weight:600; margin-top:0px;margin-bottom:0px;">Date:</span></td>
+                                            <td align="left" style="padding-left:25px; padding-top: 6px; padding-bottom: 6px;"> <span id="txtInvDate" style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">@Model.InvDate.ToShortDateString()</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" style="padding-top: 6px; padding-bottom: 6px;"> <span style="font-size: 10pt; letter-spacing: 0pt; font-weight:600; margin-top:0px;margin-bottom:0px;">Terms:</span></td>
+                                            <td align="left" style="padding-left:25px; padding-top: 6px; padding-bottom: 6px;"> <span id="txtTerms" style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">@Model.PaymentTerms</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right" colspan="2" style="padding-top: 10px; padding-bottom: 10px;">
+                                                <span style="font-size: 9pt; letter-spacing: 0pt; text-align:center; margin-top:15px;margin-bottom:15px;">
+                                                    @if (ViewBag.ItemCount > 12)
+                                                    {
+                                                        <span> Page 2 of 2</span>
+
+                                                    }
+
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+
+                                </td>
+
+                            </tr>
+                        </table>
+
+                        <table class="table table-bordered row-fluid">
+                            <tr>
+                                <td class="col-md-5 text-center" style="padding-top: 2px; padding-bottom: 2px;"><span style="font-size: 10pt; letter-spacing: 0pt; font-weight:700; margin-top:0px;margin-bottom:0px;">Sales Person</span></td>
+                                <td class="col-md-7 text-center" style="padding-top: 2px; padding-bottom: 2px;"><span style="font-size: 10pt; letter-spacing: 0pt; font-weight:700; margin-top:0px;margin-bottom:0px;">Purchasing Order</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" style="padding-top: 2px; padding-bottom: 2px;"><span id="txtSalesPerson" style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">@Model.PersonName</span>  </td>
+                                <td class="text-center" style="padding-top: 2px; padding-bottom: 2px;"><span id="txtPONO" style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">@Model.PoNo</span> </td>
+                            </tr>
+
+                        </table>
+
+
+                    </div>
+                    <div class="content-items">
+                        <div style="width:100%; text-align:left; font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">
+
+                            <table class="table table-bordered row-fluid">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            No.
+                                        </th>
+                                        <th>
+                                            Goods Description
+                                        </th>
+
+                                        <th class="text-center">
+                                            Qty
+                                        </th>
+                                        <th class="text-center">
+                                            Unit
+                                        </th>
+                                        <th class="col-md-2">
+                                            <span class="pull-right"> List Price </span>
+
+                                        </th>
+                                        <th class="col-md-2">
+                                            <span class="pull-right"> Total ($)</span>
+
+                                        </th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @{Html.RenderAction("_DisplaySalesItems", "Orders", new { id = @Model.SorID, pageid = 2 });}
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="page2-totalamount">
+                    <div style="float: right; width:38%;">
+                        <table class="table table-bordered">
+                            <tbody>
+
+                                @if (Model.Discount != 0)
+                                {
+                                    <tr>
+
+                                        <td style="height: 20px; border: 1px solid #000 !important;" align="left" valign="middle"><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">Sub-Total </span></td>
+                                        <td class="col-md-5 text-right" style="border-collapse: collapse !important; border: 1px solid #000 !important;"><span class="pull-left" style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">$</span><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">@Model.PreDiscAmount.ToString("#,##0.00") </span></td>
+
+                                    </tr>
+                                    <tr>
+
+                                        <td style="height: 20px; border: 1px solid #000 !important;" align="left" valign="middle"><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">Discount </span></td>
+                                        <td class="col-md-5 text-right" style="border-collapse: collapse !important; border: 1px solid #000 !important;"><span class="pull-left" style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">$</span><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">@Model.Discount.ToString("#,##0.00") </span></td>
+
+                                    </tr>
+
+                                }
+                                else
+                                {
+                                    <tr>
+
+                                        <td style="height: 20px; border: 1px solid #000 !important;" align="left" valign="middle"><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">Sub-Total </span></td>
+                                        <td class="col-md-5 text-right" style="border-collapse: collapse !important; border: 1px solid #000 !important;"><span class="pull-left" style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">$</span><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">@Model.Amount.ToString("#,##0.00") </span></td>
+
+                                    </tr>
+                                }
+                                <tr>
+
+                                    <td style="height: 20px; border: 1px solid #000 !important;" align="left" valign="middle"><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">GST 7% </span></td>
+                                    <td class="col-md-5 text-right" style="border-top: 1px solid #000; border: 1px solid #000 !important;"><span class="pull-left" style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">$</span><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">@Model.Gst.ToString("#,##0.00") </span></td>
+
+                                </tr>
+                                <tr>
+
+                                    <td style="height: 20px; border: 1px solid #000 !important;" align="left" valign="middle"><span style="font-size: 10pt; letter-spacing: 0pt; font-weight:700; margin-top:0px;margin-bottom:0px;">Grand Total</span></td>
+                                    <td class="col-md-5 text-right" style="border: 1px solid #000 !important;"><span class="pull-left" style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">$</span><span style="font-size: 10pt; letter-spacing: 0pt; font-weight:700; margin-top:0px;margin-bottom:0px;">@Model.Nett.ToString("#,##0.00")</span></td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <div class="page2-signature">
+                    <div style="float: left; width:50%;">CUSTOMER'S COMPANY STAMP/SIGNATURRE   <br /><br /><br /></div>
+                    <div style="float: right; width:40%;">AMASCO INDUSTRIES PTE LTD <br /><br /><br /></div>
+
+
+                </div>
+
+                <div class="page2-footer">
+                    &nbsp;
+                </div>
+
+            </div>
+            <!-- end invoice -->
+
+        </div>
+
+    </div>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var count = @ViewBag.ItemCount;
+          //  alert(count);
+            if (count <= 12) {
+                $('#page1 .inv-totalamount').show();
+                $('#page1 .inv-signature').show();
+                $('#page2 .page2-totalamount').hide();
+                $('#page2').hide();
+
+            } else {
+     
+                $('#page1 .inv-totalamount').hide();
+                $('#page1 .inv-signature').hide();
+                $('#page2 .page2-totalamount').show();
+                $('#page2').show();               
+
+            };
+
+
+
+        });
+
+    </script>
+
+
+</body>
+</html>

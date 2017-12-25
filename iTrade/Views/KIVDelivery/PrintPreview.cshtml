@@ -1,0 +1,174 @@
+﻿@model iTrade.Models.KIVDeliveryPrintPreview
+@using System.Text;
+@{
+    Layout = null;
+    string strPrintedBy = ViewBag.PrintedBy;
+    string strDateDisp = String.Format("{0:dd MMM yyyy}", DateTime.Now);
+    string strTimeDisp = String.Format("{0:h:mm tt}", DateTime.Now);
+    string strFooter = string.Format("This document is printed by {0} on {1} at {2}", strPrintedBy, strDateDisp, strTimeDisp);
+    string strDateDel = String.Format("{0:dd/MM/yyyy}", Model.KIVDelivery.DeliveryDate);
+    string strKIVYear = Model.KIVDelivery.CreatedOn.Year.ToString();
+    int kivCount = ViewBag.KIVCount;
+    int i = 0;
+    string pageHeight = string.Empty;
+    iTrade.Models.StarDbContext db = new iTrade.Models.StarDbContext();
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>KIV Delivery Order</title>
+
+</head>
+<body>
+
+    <!-- begin #content -->
+    <img src="@ViewBag.HeaderURL\..\..\..\assets\img\AmascoHeader.jpg" />
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td colspan="4">&nbsp;</td>
+        </tr>
+        <tr style="height:15px">
+            <td width="15%" style="vertical-align:text-bottom;font-size:small">BILL TO</td>
+            <td width="45%" style="vertical-align:text-bottom;font-size:small"><b>@Model.Client.CustName</b></td>
+            <td width="20%" style="vertical-align:text-bottom;font-size:small">KIV Delivery</td>
+            <td width="20%" style="vertical-align:text-bottom;font-size:small">@string.Format("KIV-{0}{1:000000}", strKIVYear, Model.KIVDelivery.KIVDelID)</td>
+        </tr>
+        <tr style="height:15px">
+            <td style="vertical-align:text-bottom;font-size:small"></td>
+            <td style="vertical-align:text-bottom;font-size:small">@Model.Client.Addr1</td>
+            <td style="vertical-align:text-bottom;font-size:small">DATE</td>
+            <td style="vertical-align:text-bottom;font-size:small">@strDateDel</td>
+        </tr>
+        <tr style="height:15px">
+            <td style="vertical-align:text-bottom;font-size:small"></td>
+            <td style="vertical-align:text-bottom;font-size:small">@Model.Client.Addr2</td>
+            <td style="vertical-align:text-bottom;font-size:small">P/O</td>
+            <td style="vertical-align:text-bottom;font-size:small">N/A</td>
+        </tr>
+        <tr style="height:15px">
+            <td style="vertical-align:text-bottom;font-size:small"></td>
+            <td style="vertical-align:text-bottom;font-size:small">@Model.Client.Addr3</td>
+            <td style="vertical-align:text-bottom;font-size:small">TERMS</td>
+            <td style="vertical-align:text-bottom;font-size:small">N/A</td>
+        </tr>
+        <tr style="height:15px">
+            <td style="vertical-align:text-bottom;font-size:small">TEL</td>
+            <td style="vertical-align:text-bottom;font-size:small">@Model.Client.PhoneNo</td>
+            <td style="vertical-align:text-bottom;font-size:small">SALESMAN CODE</td>
+            <td style="vertical-align:text-bottom;font-size:small">N/A</td>
+        </tr>
+        <tr style="height:15px">
+            <td style="vertical-align:text-bottom;font-size:small">FAX</td>
+            <td style="vertical-align:text-bottom;font-size:small">@Model.Client.FaxNo</td>
+            <td style="vertical-align:text-bottom;font-size:small">DELIVERY DATE</td>
+            <td style="vertical-align:text-bottom;font-size:small">@strDateDel</td>
+        </tr>
+        <tr style="height:15px">
+            <td style="vertical-align:text-bottom;font-size:small">DELIVERY TO</td>
+            <td style="vertical-align:text-bottom;font-size:small">@Model.KIVDelivery.DeliveryAddress</td>
+            <td style="vertical-align:text-bottom;font-size:small">DELIVERY TIME</td>
+            <td style="vertical-align:text-bottom;font-size:small">@Model.KIVDelivery.DeliveryTime</td>
+        </tr>
+        <tr style="height:15px">
+            <td style="vertical-align:text-bottom;font-size:small">&nbsp;</td>
+            <td style="vertical-align:text-bottom;font-size:small"></td>
+            <td style="vertical-align:text-bottom;font-size:small"></td>
+            <td style="vertical-align:text-bottom;font-size:x-small" align="right"></td>
+        </tr>
+
+    </table>
+
+    <table height="100%">
+        <tr>
+            <td valign="top">
+                <table width="100%">
+                    <tr>
+                        <td width="5%" style="border-top:1px;border-bottom:1px;vertical-align:text-bottom;font-size:small">NO.</td>
+                        <td width="45%" style="border-top:1px;border-bottom:1px;vertical-align:text-bottom;font-size:small">DESCRIPTION</td>
+                        <td width="10%" style="border-top:1px;border-bottom:1px;vertical-align:text-bottom;font-size:small">QTY / PCS</td>
+                        <td width="20%" style="border-top:1px;border-bottom:1px;vertical-align:text-bottom;font-size:small" align="right">UNIT PRICE (SGD)</td>
+                        <td width="20%" style="border-top:1px;border-bottom:1px;vertical-align:text-bottom;font-size:small" align="right">AMOUNT (SGD)</td>
+                    </tr>
+                    <tr style="height:15px">
+                        <td colspan="5">&nbsp;</td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td></td>
+                        <td colspan="6" style="vertical-align:text-top; font-size: 12pt; color:red"><u><b>KIV INFO</b></u></td>
+                    </tr>
+                    <tr>
+                        <td width="7%" style="vertical-align:text-bottom;font-size:small">&nbsp;</td>
+                        <td width="45%" style="border-bottom:1px;vertical-align:text-bottom;font-size: 10pt">Description</td>
+                        <td width="8%" style="border-bottom:1px;vertical-align:text-bottom;font-size: 10pt" align="center">Order Qty</td>
+                        <td width="10%" style="border-bottom:1px;vertical-align:text-bottom;font-size: 10pt" align="center">Balance Qty</td>
+                        @*<td width="10%" style="border-bottom:1px;vertical-align:text-bottom;font-size: 10pt" align="center">Total Delivery</td>*@
+                        <td width="10%" style="border-bottom:1px;vertical-align:text-bottom;font-size: 10pt" align="center"><b>Delivery Qty</b></td>
+                        <td width="10%" style="border-bottom:1px;vertical-align:text-bottom;font-size: 10pt" align="center">KIV Balance</td>
+                    </tr>
+                    @for (int j = 0; j < kivCount; j++)
+                    {
+                        iTrade.Models.INV inv = db.INVs.Find(Model.KIVDeliveryDetail[j].InvID);
+                         string strYear = inv.CreatedOn.Year.ToString();
+                        string strInvoice = string.Format("INV-{0}{1:000000}", strYear, Model.KIVDeliveryDetail[j].InvID);
+                        string itemName = string.Format("[{0}] {1}", strInvoice, Model.KIVDeliveryDetail[j].ItemName.ToUpper());
+                        i++;
+                        <tr style="vertical-align:middle;height:15px">
+                            <td style="vertical-align:text-top; font-size: 9pt; letter-spacing: 0pt; font-weight:700;">@i</td>
+                            <td style="vertical-align:text-top; font-size: 9pt; letter-spacing: 0pt; font-weight:700;" valign="top">@itemName</td>
+                            <td style="vertical-align:text-top; font-size: 9pt; letter-spacing: 0pt; font-weight:700;" valign="top" align="center">@Model.KIVDeliveryDetail[j].OrderQty</td>
+                            <td style="vertical-align:text-top; font-size: 9pt; letter-spacing: 0pt; font-weight:700;" valign="top" align="center">@Model.KIVDeliveryDetail[j].BalanceQty</td>
+                            @*<td style="vertical-align:text-top; font-size: 9pt; letter-spacing: 0pt; font-weight:700;" valign="top" align="center">@Model.KIVDeliveryDetail[j].TotalDelivery</td>*@
+                            <td style="vertical-align:text-top; font-size: 9pt; letter-spacing: 0pt; font-weight:700;" valign="top" align="center"><b>@Model.KIVDeliveryDetail[j].DeliveryQty</b></td>
+                            <td style="vertical-align:text-top; font-size: 9pt; letter-spacing: 0pt; font-weight:700;" valign="top" align="center">@Model.KIVDeliveryDetail[j].KivBalanceQty</td>
+                        </tr>
+                    }
+
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td valign="bottom">
+                <table width="100%">
+                    <tr>
+                        <td height="@pageHeight">&nbsp;</td>
+                    </tr>              
+                </table>
+                <table width="100%">                    
+                    <tr style="vertical-align:top">
+                        <td width="45%" style="font-size:x-small" valign="bottom">GOODS RCEIVED, EXAMINED AND CONFIRMED<br />ARE OF SATISFACTORY QUALITY, APPEARANCE<br />AND FINISH, FREE FROM OBSERVABLE DEFECTS</td>
+                        <td width="10%" style="font-size:small"></td>
+                        <td width="45%" style="font-size:x-small" valign="middle"><span>CHEQUE PAYMENT SHOULD BE CROSSED AND <br />MADE PAYABLE TO <b>AMASCO INDUSTRIES PTE LTD</b></span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">&nbsp;</td>
+                    </tr>
+                    <tr style="vertical-align:top">
+                        <td style="border-top:1px;font-size:small"></td>
+                        <td style="font-size:small"></td>
+                        <td style="border-top:1px;font-size:small"></td>
+                    </tr>
+                    <tr style="vertical-align:top">
+                        <td style="border-top:1px;font-size:small" align="center">Client's Signature and Chop</td>
+                        <td style="font-size:small"></td>
+                        <td style="border-top:1px;font-size:small" align="center"><b>AMASCO INDUSTRIES PTE LTD</b></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" align="right">
+                            <span style="font-size: 7pt; letter-spacing: 0pt; font-weight:700; margin-top:0px;margin-bottom:0px;">@strFooter</span>
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

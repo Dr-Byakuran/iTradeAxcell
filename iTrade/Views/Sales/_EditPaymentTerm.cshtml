@@ -1,0 +1,96 @@
+﻿@model iTrade.Models.SAR
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.SARID)
+        @Html.HiddenFor(model => model.SARNumberA)
+        @Html.HiddenFor(model => model.SARNumberB)
+        @Html.HiddenFor(model => model.SARNumberC)
+        @Html.HiddenFor(model => model.SARNumberD)
+        @Html.HiddenFor(model => model.CustNO)
+        @Html.HiddenFor(model => model.CustName)
+        @Html.HiddenFor(model => model.Addr1)
+        @Html.HiddenFor(model => model.Addr2)
+        @Html.HiddenFor(model => model.Addr3)
+        @Html.HiddenFor(model => model.Addr4)
+        @Html.HiddenFor(model => model.DateAgreement)
+        @Html.HiddenFor(model => model.TotalAmount)
+        @Html.HiddenFor(model => model.AmountPaid)
+        @Html.HiddenFor(model => model.AmountBalance)
+        @Html.HiddenFor(model => model.PersonID)
+        @Html.HiddenFor(model => model.PersonName)
+        @Html.HiddenFor(model => model.Status)
+        @Html.HiddenFor(model => model.DateCreated)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PaymentTerm, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.PaymentTerm, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PaymentTerm, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PaymentText1, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.PaymentText1, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PaymentText1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PaymentText2, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.PaymentText2, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PaymentText2, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PaymentText3, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.PaymentText3, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PaymentText3, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PaymentText4, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.PaymentText4, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PaymentText4, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PaymentText5, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.PaymentText5, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PaymentText5, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PaymentText6, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.PaymentText6, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PaymentText6, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+ 
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-6 pull-right">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+

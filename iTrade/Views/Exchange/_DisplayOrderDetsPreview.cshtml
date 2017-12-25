@@ -1,0 +1,45 @@
+﻿@model List<iTrade.Models.INVDET>
+
+@for (int i = 0; i < Model.Count; i++)
+{
+    <tr>
+
+        <td>@string.Format("{0}", i + 1) </td>
+
+        <td class="col-md-4">
+            @Html.HiddenFor(model => model[i].DetID)
+            @Html.HiddenFor(model => model[i].EorID, new { id = "InvID" })
+            @Html.HiddenFor(model => model[i].Unit)
+            @Html.HiddenFor(model => model[i].IsControlItem, new { id = "isControlItem" })
+
+            @Html.DisplayFor(model => model[i].ItemName, new { htmlAttributes = new { @class = "form-control col-md-6" } })
+            @if (!string.IsNullOrEmpty(Model[i].Remark))
+            {
+                <span>&nbsp; @Model[i].Remark</span>
+            }
+
+        </td>
+        <td>
+            @Html.DisplayFor(model => model[i].SellType, new { htmlAttributes = new { id = "itemSellType2", @class = "form-control" } })
+
+        </td>
+        <td class="col-md-2 semi-bold">
+            @Html.DisplayFor(model => model[i].Qty, new { htmlAttributes = new { @class = "form-control" } })
+            &nbsp;&nbsp;
+            @Html.DisplayFor(model => model[i].Unit, new { htmlAttributes = new { @class = "form-control" } })
+        
+        </td>
+
+        <td>@Html.DisplayFor(model => model[i].InvRef, new { htmlAttributes = new { @class = "form-control" } })</td>
+
+    </tr>
+
+
+
+
+}
+
+
+
+
+

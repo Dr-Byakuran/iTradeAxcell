@@ -1,0 +1,185 @@
+﻿@model List<iTrade.Models.Pricebook>
+
+
+<div class="panel">
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table id="data-table2" class="datatable2 table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            No
+                        </th>
+                        <th class="col-md-3">
+                            Name
+                        </th>
+                        <th>
+                            Code
+                        </th>
+                        <th>
+                            Level
+                        </th>
+                        <th>
+                            Duration
+                        </th>
+                        <th>
+                            Teacher Level
+                        </th>
+                        <th>
+                            Student Price
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <tr>
+                            <td> @Model[i].PriceID </td>
+                            <td class="col-md-3">@Model[i].CourseName </td>
+                            <td>@Model[i].CourseCode</td>
+                            <td> @Model[i].CourseLevel </td>
+                            <td>@Model[i].CourseDuration </td>
+                            <td>@Model[i].TeacherLevel </td>
+                            <td>@Model[i].StudentPrice </td>
+                            <td>
+                                <a href="#" class="btn-details btn btn-primary" data-id="@Model[i].PriceID"> Select </a>
+                                @*<span class="pull-right">
+                                    <button id="btnSelectedInvNo" class="selectedInvNo btn btn-xs btn-primary" data-id="@Model[i].PriceID">Select</button>
+                                </span>*@
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="8">
+                            &nbsp;
+
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var table = $('#data-table2').DataTable({
+                "order": [[0, "asc"]],
+                "bLengthChange": false,
+                //  "scrollY": "500px",
+                "scrollCollapse": true,
+                "paging": false,
+                "dom": '<"pull-left"f><"pull-right"l>tip'
+
+        });
+
+        $('.datatable2').on('click', '.btn-details', function () {
+            var data = table.row($(this).parents('tr')).data();
+           // alert(data[0]);
+
+            var myInvNo = data[0].trim();
+          //  alert(myInvNo);
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/CourseOrders/_GetPricebookByPriceID',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        itemid: myInvNo
+                    },
+                    success: function (data) {
+                        if (data.success) {
+                            $("#addMultiitemModal").modal('hide');
+
+                       //     alert("hi.." + data.result.CourseName);
+                            $('#priceID').val(data.result.PriceID);
+                            $('#courseID').val(data.result.CourseID);
+                            $('#courseName').val(data.result.CourseName);
+                            $('#courseLevel').val(data.result.CourseLevel);
+                            $('#courseDuration').val(data.result.CourseDuration);
+                            $('#teacherLevel').val(data.result.TeacherLevel);
+                            $('#registerFee').val(data.result.RegisterFee);
+                            $('#itemUnitPrice').val(data.result.StudentPrice);
+                            $('#itemDiscountedPrice').val(data.result.StudentPrice);
+
+                            var PriceId = data.result.PriceID;
+                            var flag = true;
+                            if (flag) {
+                                var url = '@Url.Action("_DisplaySchedules", "CourseOrders")';
+                                url += '/?id=' + PriceId;
+                                $("#getScheduleModalData").load(url);
+                                $('#getScheduleModal').modal({
+                                    keyboard: true
+                                }, 'show');
+
+                            }  
+
+
+                        } else {
+                            alert(result.responseText);
+                        }
+
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+
+        });
+
+
+      //  $('.datatable2').on("click", ".btn-details", function (e) {
+         //   e.preventDefault();
+        //    var myInvNo = $(this).data('id').trim();
+        //    alert(myInvNo);
+        //    $.ajax({
+        //        type: 'GET',
+        //        url: '/CourseOrders/_GetPricebookByPriceID',
+        //        dataType: "json",
+        //        contentType: 'application/json, charset=utf-8',
+        //        data: {
+        //            itemid: myInvNo
+        //        },
+        //        success: function (result) {
+        //            if (result.success) {
+        //                $("#addMultiitemModal").modal('hide');
+
+        //                $('#courseID').val(data.result.CourseID);
+        //                $('#courseName').val(data.result.CourseName);
+        //                $('#courseLevel').val(data.result.CourseLevel);
+        //                $('#courseDuration').val(data.result.CourseDuration);
+        //                $('#teacherLevel').val(data.result.TeacherLevel);
+        //                $('#registerFee').val(data.result.RegisterFee);
+        //                $('#courseFee').val(data.result.StudentPrice);
+                        
+        //            } else {
+        //                alert(result.responseText);
+        //            }
+
+
+        //        },
+        //        error: function (xhr, status, error) {
+        //            alert(error);
+        //        }
+
+        //    });
+
+        //});
+
+    });
+</script>

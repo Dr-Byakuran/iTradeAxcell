@@ -1,0 +1,298 @@
+﻿@model iTrade.Models.INVDET
+@*@model IEnumerable<iTrade.Models.Product>*@
+
+@using (Html.BeginForm("_AddInvDet", "Sales", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.DetID)
+    @Html.HiddenFor(model => model.InvID)
+    @Html.HiddenFor(model => model.ItemID, new { id = "itemID" })
+    @Html.HiddenFor(model => model.ItemType, new { id = "itemType" })
+    @Html.HiddenFor(model => model.ItemName, new { id = "itemName" })
+
+
+    @Html.HiddenFor(model => model.Gst, new { @Value = "0" })
+    @Html.HiddenFor(model => model.Nett, new { @Value = "0" })
+
+
+    <tr>
+
+        <td>
+            <button type="submit" class="btn btn-small btn-primary">
+                <i class="fa fa-plus"></i> 
+            </button>
+
+        </td>
+
+        <td>
+            <div  class="checkbox">
+                <label>
+                    <input type="checkbox" id="itemChecked" /> Special
+                </label>
+            </div>
+
+        </td>
+
+        <td class="col-md-3">
+
+            <div id="itemGeneral">
+                <select class="form-control selectpicker" data-size="10" data-live-search="true" data-style="btn-white">
+                    <option value="" selected>Select product</option>
+                    @foreach (var item in ViewData["ProductData"] as IEnumerable<iTrade.Models.Product>)
+                    {
+                        <option value="@item.ProductID">@item.ProductName</option>
+                        //@item.FileName  // instead .FileName use property which u used in ur model class
+                    }
+                </select>
+            </div>
+            <div id="itemSpecial" hidden>
+ 
+            </div>
+
+        </td>
+        <td class="col-md-3">
+            @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { id = "itemRemark", @class = "form-control Unitprice" } })
+
+        </td>
+
+        <td class="col-md-1">
+            @Html.EditorFor(model => model.Qty, new { htmlAttributes = new { id = "itemQty", @Value = "0", @class = "form-control Qty" } })
+
+        </td>
+        <td class="col-md-2">
+            @Html.EditorFor(model => model.UnitPrice, new { htmlAttributes = new { id = "itemUnitPrice", @class = "form-control Unitprice" } })
+
+        </td>
+        <td class="col-md-1">
+            @Html.EditorFor(model => model.Unit, new { htmlAttributes = new { id = "itemUnit", @class = "form-control Unitprice", @readonly = true } })
+
+        </td>
+        <td class="col-md-2 text-right">
+            @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { id = "itemAmount", @class = "form-control text-right Amount", @readonly = true } })
+
+
+        </td>
+        <td class="col-md-2 text-right">
+            @Html.EditorFor(model => model.Gst, new { htmlAttributes = new { id = "itemGst", @class = "form-control text-right Gst", @readonly = true } })
+
+
+        </td>
+        <td class="col-md-2 text-right">
+            @Html.EditorFor(model => model.Nett, new { htmlAttributes = new { id = "itemNett", @class = "form-control text-right Nett", @readonly = true } })
+
+
+        </td>
+        <td class="col-md-1"></td>
+
+    </tr>
+
+
+
+
+}
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#itemChecked").change(function () {
+            if (this.checked) {
+                $("#itemGeneral").hide();
+                $("#itemSpecial").show();
+            } else
+            {
+                $("#itemGeneral").show();
+                $("#itemSpecial").hide();
+            }
+        });
+
+    });
+
+ </script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#item-session #itemGeneral select.selectpicker").change(function () {
+                var val = $("#item-session #itemGeneral .selectpicker option:selected").val();
+                //   alert("You have selected the item - " + val);
+
+                if (val > 0) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '@Url.Action("AutoCompleteSelected_Product")',
+                        dataType: "json",
+                        contentType: 'application/json, charset=utf-8',
+                        data: {
+                            search: val
+                        },
+                        success: function (data) {
+                            $('#itemID').val(data.result.ProductID);
+                            $('#itemType').val(data.result.ProductType);
+                            $('#itemName').val(data.result.ProductName);
+                            $('#itemUnit').val(data.result.Unit);
+                            $('#itemUnitPrice').val(data.result.UnitPrice);
+
+                            var qty = $('#itemQty').val();
+
+                            $('#itemAmount').val(data.result.UnitPrice * qty);
+
+
+                        },
+                        error: function (xhr, status, error) {
+                            alert(error);
+                        }
+
+                    });
+
+                }
+            });
+        });
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#default-tab-2 #itemSpecial select.selectpicker").change(function () {
+            var val = $("#default-tab-2 #itemSpecial .selectpicker option:selected").val();
+            //   alert("You have selected the item - " + val);
+
+            if (val > 0) {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("AutoCompleteSelected_Product")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        search: val
+                    },
+                    success: function (data) {
+                        $('#itemID').val(data.result.ItemID);
+                        $('#itemType').val(data.result.ItemType);
+                        $('#itemCode').val(data.result.ItemCode);
+                        $('#itemName').val(data.result.ItemName);
+                        $('#itemUnit').val(data.result.Unit);
+                        $('#itemUnitPrice').val(data.result.UnitPrice);
+
+                        var qty = $('#itemQty').val();
+
+                        $('#itemAmount').val(data.result.UnitPrice * qty);
+
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+
+            }
+        });
+    });
+</script>
+
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#itemQty').on("change", function () {
+            // alert('Changed!');
+
+            reCalculateAmount();
+        });
+
+        $('#itemUnitPrice').on("change", function () {
+            // alert('Changed!');
+
+            reCalculateAmount();
+        });
+
+    });
+
+    function reCalculateAmount() {
+
+        var itemcode = $('#itemCode').val();
+        var qty = $('#itemQty').val();
+        var unitpirce = $('#itemUnitPrice').val();
+        var amount = $('#itemAmount').val();
+
+        var amountNew = 0;
+        var unitpriceNew = 0;
+
+        var amountTmp = 0;
+
+        // handling Delivery Charges
+
+        if (itemcode == "ADLC") {
+            if (qty > 1000) {
+                amountNew = (qty * unitpirce).toFixed(2);
+                $('#itemAmount').val(amountNew);
+            }
+            else
+            {
+                if ((qty > 0) && (qty <= 50)) {
+                    amountTmp = 19.70;
+                };
+                if ((qty > 50) && (qty <= 100)) {
+                    amountTmp = 30.66;
+                };
+                if ((qty > 100) && (qty <= 200)) {
+                    amountTmp = 34.31;
+                };
+                if ((qty > 200) && (qty <= 300)) {
+                    amountTmp = 37.96;
+                };
+                if ((qty > 300) && (qty <= 400)) {
+                    amountTmp = 41.61;
+                };
+                if ((qty > 400) && (qty <= 500)) {
+                    amountTmp = 45.26;
+                };
+                if ((qty > 500) && (qty <= 600)) {
+                    amountTmp = 52.55;
+                };
+                if ((qty > 600) && (qty <= 700)) {
+                    amountTmp = 59.85;
+                };
+                if ((qty > 700) && (qty <= 800)) {
+                    amountTmp = 67.15;
+                };
+                if ((qty > 800) && (qty <= 900)) {
+                    amountTmp = 74.45;
+                };
+                if ((qty > 900) && (qty <= 1000)) {
+                    amountTmp = 81.85;
+                };
+
+                $('#itemAmount').val(amountTmp);
+
+                unitpriceNew = (amountTmp / qty).toFixed(2);
+
+                $('#itemUnitPrice').val(unitpriceNew);
+
+
+            };
+
+        }
+        else {
+            // handling Other Charges
+
+            amountNew = (qty * unitpirce).toFixed(2);
+            if ((itemcode == "AITS") && (amountNew < 18.25)) {
+                amountNew = 18.25;
+                unitpriceNew = (amountNew / qty).toFixed(2);
+                $('#itemUnitPrice').val(unitpriceNew);
+
+            };
+            $('#itemAmount').val(amountNew);
+
+        };
+
+
+    };
+
+</script>

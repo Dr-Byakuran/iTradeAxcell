@@ -1,0 +1,76 @@
+﻿@model iTrade.Models.EnrolmentSelectEditor
+
+<tr class="even gradeC">
+    <td>
+        @Html.CheckBoxFor(model => model.Selected, new { id = "check", name = "check" })
+        @Html.HiddenFor(model => model.EnrID)
+        @Html.HiddenFor(model => model.EnrNo)
+        @Html.HiddenFor(model => model.EnrType, new { id = "invType"})
+        @Html.HiddenFor(model => model.CustNo, new { id = "custNo" })
+        @Html.HiddenFor(model => model.CustName, new { id = "custName" })
+        @Html.HiddenFor(model => model.CustNo, new { id = "custNo" })
+        @Html.HiddenFor(model => model.CustName, new {  id = "custName" })
+        @Html.HiddenFor(model => model.CourseID, new {  id = "courseID" })
+        @Html.HiddenFor(model => model.CourseName, new { id = "courseName" })
+        @Html.HiddenFor(model => model.TutorID, new { id = "tutorID" })
+        @Html.HiddenFor(model => model.TutorName, new { id = "tutorName" })
+        @Html.HiddenFor(model => model.TermID, new { id = "termID" })
+        @Html.HiddenFor(model => model.TermName, new {  id = "termName" })
+
+        @Html.HiddenFor(model => model.RegisterFee, new {  id = "registerFee" })
+        @Html.HiddenFor(model => model.CourseFee, new {  id = "courseFee" })
+        @Html.HiddenFor(model => model.Deposit, new {  id = "deposit" })
+        @Html.HiddenFor(model => model.SalesType, new {  id = "salesType" })
+        @Html.HiddenFor(model => model.IsBillable)
+        @Html.HiddenFor(model => model.BillRemark)
+        @Html.HiddenFor(model => model.IsValid)
+
+        @Html.HiddenFor(model => model.PersonID, new { id = "personID" })
+        @Html.HiddenFor(model => model.PersonName, new { id = "personName" })
+
+        @Html.HiddenFor(model => model.Status)
+
+        @Html.HiddenFor(model => model.CreatedBy)
+        @Html.HiddenFor(model => model.CreatedOn)
+
+        @Html.HiddenFor(model => model.Remark)
+
+    </td>
+
+    <td>
+        @Model.EnrNo
+
+    </td>
+    <td>@Model.EnrDate.ToShortDateString()</td>
+    <td>
+        @Model.CustName
+    </td>
+    <td>
+        @Model.NRIC
+    </td>
+
+    <td>
+        @Model.CourseName
+    </td>
+    <td>
+        @Model.CourseLevel
+    </td>
+    <td>
+        @Model.TutorName
+    </td>
+    <td>
+        @Enum.GetName(typeof(DayOfWeek), Model.Weekday)
+    </td>
+
+    <td>
+        @Model.StartDate.ToShortDateString()
+    </td>
+    <td>
+        @Model.EndDate
+    </td>
+    <td>
+        @Model.Status
+    </td>
+    <td>@Model.Remark  </td>
+</tr>
+

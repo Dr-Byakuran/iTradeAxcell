@@ -1,0 +1,131 @@
+﻿@model List<iTrade.Models.SAR_Product>
+
+
+@using (@Html.BeginForm("_SalesItems", "Sales", FormMethod.Post))
+{
+
+    for (int i = 0; i < Model.Count; i++)
+    {
+
+        <tr>
+            <td style="width:20px;">
+                @Html.HiddenFor(model => model[i].SARProductID, new { id = "itemSARProductID" })
+                @Html.HiddenFor(model => model[i].SARID, new { id = "itemSARID" })
+                @Html.HiddenFor(model => model[i].SARNumberA)
+                @Html.HiddenFor(model => model[i].SARNumberB)
+                @Html.HiddenFor(model => model[i].SARNumberC)
+                @Html.HiddenFor(model => model[i].SARNumberD)
+                @Html.HiddenFor(model => model[i].ProductID)
+
+                @Html.HiddenFor(model => model[i].Unit)
+                @Html.HiddenFor(model => model[i].Remark)
+
+                <a data-modal="" href="/Sales/_DelSalesItem/@Model[i].SARProductID" id="btnDel"><i class="fa fa-remove m-r-5"></i></a>
+
+            </td>
+
+            <td style="width:20px;">
+                @string.Format("{0}", i + 1)            
+
+            </td>
+
+            <td class="col-md-6">
+                @Html.EditorFor(model => model[i].ItemDesc, new { htmlAttributes = new { id = "itemDesc", @class = "form-control col-md-6" } }) <br /><br />
+
+                @{Html.RenderAction("_SalesItemsDet", "Sales", new { id = @Model[i].SARProductID });}
+                <br />
+
+                <a href="#"> + Add on item</a>
+
+            </td>
+
+            <td class="col-md-1">
+                @Html.EditorFor(model => model[i].Qty, new { htmlAttributes = new { id = "itemQty", @class = "form-control Qty" } })
+
+            </td>
+            <td class="col-md-2">
+                @Html.EditorFor(model => model[i].UnitPrice, new { htmlAttributes = new { id = "itemUnitPrice", @class = "form-control Unitprice" } })
+
+            </td>
+            <td class="col-md-2">
+                @Html.EditorFor(model => model[i].Amount, new { htmlAttributes = new { id = "itemAmount", @class = "form-control Amount" } })
+
+            </td>
+
+
+
+        </tr>
+
+
+
+
+    }
+
+    <tr>
+        <td colspan="2">&nbsp;</td>
+        <td colspan="4"> <br />
+        @{ if (Model.Count > 0)
+         {
+
+            <input type="submit" id="btnUpdate" value="Save" class="btn btn-primary" />
+         }
+
+        }
+            <span id="TotalAmount"></span>
+        </td>
+    </tr>
+
+
+}
+
+
+
+
+<!-- modal placeholder-->
+
+<div id="myModal" class="modal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+        $("#default-tab-2 .form-control .Qty").on("focusout", function () {
+            var qty = $("#default-tab-2 .form-control .Qty").val();
+            var unitprice = $("#default-tab-2 .form-control .Unitprice").val();
+            var amount = $("#default-tab-2 .form-control .Amount").val();
+
+            var totalamount = qty * unitprice;
+
+            alert(unitprice);
+
+            $('#default-tab-2 .form-control.Amount').val(totalamount);
+
+            RecalculateItems();
+        });
+        $("#default-tab-2 .form-control .Unitprice").on("focusout", function () {
+            RecalculateItems();
+        });
+        $("#default-tab-2 .form-control .Amount").on("focusout", function () {
+            RecalculateItems();
+        });
+
+
+    })
+</script>
+
+<script>
+    function RecalculateItems() {
+        var totalAmount = 0;
+        $("#default-tab-2 .form-control .Amount").each(function () {
+            //same as above, except with items with Amount class
+            totalAmount += parseInt($(this).val());
+        });
+        //set inner html of each span identified above with the correct values
+        $("#TotalAmount").html(totalAmount);
+    }
+</script>

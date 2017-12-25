@@ -1,0 +1,45 @@
+﻿@model IEnumerable<iTrade.Models.CommonItem>
+
+
+@using (Html.BeginForm("index", null, FormMethod.Get))
+{
+    <input type="hidden" id="productId" name="productId" value="@ViewBag.ProductNo" />
+            <!-- begin panel -->
+    <div class="panel panel-inverse">
+
+        <div class="panel-body">
+            <h3>Available List  &nbsp;&nbsp; <span style="font-size:medium;"><a href="#">+ Add Item</a></span></h3>
+
+            <div class="table-responsive">
+
+                <table  class="table">
+
+                    <tbody>
+                        @{int i = 0;}
+                        @foreach (var item in Model)
+                        {
+                            i++;
+                            <tr>
+                                <td>
+                                    @Html.ActionLink("   ", "_AddSubItem", "Products", new { itemId = item.ID, itemTitle = item.Title, productId = ViewBag.ProductNo }, new { @class = "fa fa-lg fa-plus-circle" })   &nbsp;&nbsp;
+
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                    @Html.Hidden("itemId", item.ID, new { id = "itemId" })
+                                    @Html.Hidden("itemTitle", item.Title, new { id = "itemTitle" })
+
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+            <!-- end panel -->
+
+}
+
+
+
+

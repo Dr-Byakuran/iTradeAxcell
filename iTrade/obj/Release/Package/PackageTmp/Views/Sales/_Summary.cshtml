@@ -1,0 +1,253 @@
+﻿@model iTrade.Models.InvView
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+                            <!-- begin panel -->
+    <div class="panel panel-inverse">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.Label("Invoice NO", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.DisplayFor(model => model.InvOn.InvID, new { htmlAttributes = new { id = "invNumber", @class = "form-control", placeholder = "Auto generated once click save button", @readonly = true } })
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.InvOn.CustName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.DisplayFor(model => model.InvOn.CustName, new { htmlAttributes = new { id = "custName", @class = "form-control", @readonly = true } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.InvOn.Addr1, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.DisplayFor(model => model.InvOn.Addr1, new { htmlAttributes = new { id = "addr1", @class = "form-control", @readonly = true } })
+ 
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.InvOn.Addr2, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.DisplayFor(model => model.InvOn.Addr2, new { htmlAttributes = new { id = "addr2", @class = "form-control", @readonly = true } })
+ 
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.InvOn.Addr3, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.DisplayFor(model => model.InvOn.Addr3, new { htmlAttributes = new { id = "addr3", @class = "form-control", @readonly = true } })
+ 
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.InvOn.DeliveryAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.DisplayFor(model => model.InvOn.DeliveryAddress, new { htmlAttributes = new { @class = "form-control", placeholder = "Delivery address if different from the above" } })
+ 
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="col-md-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.InvOn.InvDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.DisplayFor(model => model.InvOn.InvDate, new { htmlAttributes = new { id = "invDate", @class = "form-control" } })
+ 
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.InvOn.PoNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.DisplayFor(model => model.InvOn.PoNo, new { htmlAttributes = new { @class = "form-control" } })
+   
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.InvOn.PersonName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.DisplayFor(model => model.InvOn.PersonName, new { htmlAttributes = new { @class = "form-control" } })
+ 
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.InvOn.PaymentTerms, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.DisplayFor(model => model.InvOn.PaymentTerms, new { htmlAttributes = new { @class = "form-control" } })
+ 
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+
+
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                  
+                                    <th>
+                                        NO
+                                    </th>
+                                    <th>
+                                        Item Description
+                                    </th>
+                                    <th>
+                                        Qty
+                                    </th>
+                                    <th>
+                                        Unit
+                                    </th>
+                                    <th>
+                                        Unit Price
+                                    </th>
+                                    <th>
+                                        Discount
+                                    </th>
+                                    <th>
+                                        Discounted Price
+                                    </th>
+
+                                    <th>
+                                        <span class="pull-right">Amount </span>
+
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{int i = 0;}
+                                @foreach (var item in Model.InvDetOn)
+                                {
+                                    i++;
+                                    <tr>
+                                        <td style="width:20px;">
+                                            @i
+
+                                    </td>
+
+                                        <td class="col-md-4">
+                                            @Html.DisplayFor(model => item.ItemName, new { htmlAttributes = new { id = "itemName2", @class = "form-control col-md-6", @readonly = true } }) <br /><br />
+                                            @Html.DisplayFor(model => item.Remark, new { htmlAttributes = new { id = "itemRemark2", @class = "form-control col-md-3" } })
+
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(model => item.Qty, new { htmlAttributes = new { id = "itemQty2", @class = "form-control col-md-1 Qty" } })
+
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => item.Unit, new { htmlAttributes = new { id = "itemUnit2", @class = "form-control Unitprice", @readonly = true } })
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => item.UnitPrice, new { htmlAttributes = new { id = "itemUnitPrice2", @class = "form-control Unitprice" } })
+
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => item.Discount, new { htmlAttributes = new { id = "itemDiscount2", @class = "form-control Unitprice" } })
+
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => item.DiscountedPrice, new { htmlAttributes = new { id = "itemDiscountedPrice2", @class = "form-control Unitprice" } })
+
+                                        </td>
+
+                                        <td class="text-right">
+                                            @Html.DisplayFor(model => item.Amount, new { htmlAttributes = new { id = "itemAmount2", @class = "form-control text-right Amount", @readonly = true } })
+
+                                        </td>
+
+                                </tr>
+                                }
+
+                            </tbody>
+
+                            <tfoot>
+                                <tr>
+                                    <td colspan="7" align="right" valign="middle"><h4><span class="bold">Total</span></h4></td>
+                                    <td><h4><span class="pull-left bold">$ </span> <span class="pull-right bold">@Model.InvOn.Amount.ToString("N") </span></h4></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="7" align="right" valign="middle"><h4><span class="bold">Discount</span></h4></td>
+                                    <td><h4><span class="pull-left bold">$ </span> <span class="pull-right bold">@Model.InvOn.Discount.ToString("N") </span></h4></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="7" align="right" valign="middle"><h4><span class="semi-bold">GST 7% </span></h4></td>
+                                    <td><h4><span class="pull-left semi-bold">$ </span> <span class="pull-right semi-bold">@Model.InvOn.Gst.ToString("N") </span></h4></td>
+                                    <td></td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="7" align="right" valign="middle"><h4><span class="semi-bold">Grand Total</span></h4></td>
+                                    <td><h4><span class="pull-left semi-bold">$ </span> <span class="pull-right semi-bold">@Model.InvOn.Nett.ToString("N") </span></h4></td>
+                                    <td></td>
+
+                                </tr>
+                                <tr>
+                                    <td colspan="8"> &nbsp; </td>
+                                </tr>
+
+                            </tfoot>
+
+
+                        </table>
+                    </div>
+
+
+
+
+
+
+
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+
+        </div>
+    </div>
+    <!-- end panel -->
+
+
+
+
+
+
+
+
+}
+
+
+

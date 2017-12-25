@@ -1,0 +1,206 @@
+﻿@model iTrade.Models.KIVDeliveryCreateViewModel
+@*@model IEnumerable<iTrade.Models.Client>*@
+@*@model IEnumerable<iTrade.Models.Staff>*@
+@*@model IEnumerable<iTrade.Models.Warehouse>*@
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    string strYear = Model.Invoice.CreatedOn.Year.ToString();
+    string strInvoice = string.Format("INV-{0}{1:000000}", strYear, Model.Invoice.InvID);
+    string strDeliveryDate = string.Format("{0:dd/MM/yyyy}", Model.KIVDelivery.DeliveryDate);
+    int i = 0;
+}
+
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-datepicker/css/datepicker.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-combobox/css/bootstrap-combobox.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/select2/dist/css/select2.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/jquery-tag-it/css/jquery.tagit.css")" rel="stylesheet" type="text/css" />
+
+
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin page-header -->
+<h1 class="page-header lead">EDIT KIV DELIVERY</h1>
+<!-- end page-header -->
+<div class="email-btn-row hidden-xs">
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
+
+</div>
+
+<!-- begin panel -->
+<div class="panel panel-inverse">
+    <div class="panel-heading">
+        <label id="lblHeader" style="color:white"></label>
+    </div>
+
+    <div class="panel-body">
+
+        <form id="frmEditKIVDelivery" action="@Url.Action("Edit", "KIVDelivery")" method="post">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.Hidden("tags", new { htmlAttributes = new { id = "tags", @class = "form-control", placeholder = "Please enter customer name to view available list" } })
+            @Html.HiddenFor(modelItem => Model.KIVDelivery.KIVDelID)
+            @Html.HiddenFor(modelItem => Model.KIVDelivery.CreatedOn)
+            @Html.HiddenFor(modelItem => Model.KIVDelivery.CreatedBy)
+            @Html.HiddenFor(modelItem => Model.KIVDelivery.CustNo)
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Invoice.CustName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.KIVDelivery.Clients.FirstOrDefault().CustName, new { htmlAttributes = new { id = "addr1", @class = "form-control", @readonly = true } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Invoice.Addr1, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.KIVDelivery.Clients.FirstOrDefault().Addr1, new { htmlAttributes = new { id = "addr1", @class = "form-control", @readonly = true } })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Invoice.Addr2, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.KIVDelivery.Clients.FirstOrDefault().Addr2, new { htmlAttributes = new { id = "addr2", @class = "form-control", @readonly = true } })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Invoice.Addr3, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.KIVDelivery.Clients.FirstOrDefault().Addr3, new { htmlAttributes = new { id = "addr3", @class = "form-control", @readonly = true } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.KIVDelivery.DeliveryAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.KIVDelivery.DeliveryAddress, new { htmlAttributes = new { @class = "form-control", placeholder = "Delivery address if different from the above" } })
+                                @Html.ValidationMessageFor(model => model.KIVDelivery.DeliveryAddress, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="col-md-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.KIVDelivery.DeliveryDate, htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.KIVDelivery.DeliveryDate, new { htmlAttributes = new { @class = "form-control", @Value = @strDeliveryDate } })
+                                @Html.ValidationMessageFor(model => model.KIVDelivery.DeliveryDate, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.KIVDelivery.DeliveryTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.KIVDelivery.DeliveryTime, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.KIVDelivery.DeliveryTime, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+
+
+                        @*<div class="form-group">
+                            @Html.Label("Stock From", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                <select class="form-control warehousepicker" id="strLocation" name="strLocation">
+
+                                    @foreach (var item in ViewData["WarehouseAll"] as IEnumerable<iTrade.Models.Warehouse>)
+                                    {
+                                        <option value="@item.LocationID">@item.LocationName</option>
+                                        //@item.FileName  // instead .FileName use property which u used in ur model class
+                                    }
+                                </select>
+
+                            </div>
+                        </div>*@
+
+                        <div class="form-group">
+                            <div class="col-md-offset-7 col-md-4 pull-left">
+                                <input type="submit" value=" Submit " class="btn btn-primary col-md-12" />
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div>
+                @{Html.RenderAction("_KIVDETs", new { Model.KIVDelivery.CustNo, Model.KIVDelivery.KIVDelID });}
+            </div>
+        </form>
+            <div>
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+
+
+
+</div>
+</div>
+<!-- end panel -->
+@section Scripts{
+    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-combobox/js/bootstrap-combobox.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/select2/dist/js/select2.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery-tag-it/js/tag-it.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/js/form-plugins.star.js")"></script>
+
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/modal-open.js")"></script>
+
+
+}
+
+
+<script>
+    $(document).ready(function () {
+        // App.init();
+        TableManageDefault.init();
+        // Notification.init();
+        FormPlugins.init();
+
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('input:checkbox[id=DetID]:checked').each(function () {
+            var strID = 'TxtID' + $(this).val();
+            var cbID = 'DetID' + $(this).val();
+
+            var cb = document.getElementById(cbID);
+            var tb = document.getElementById(strID);
+
+            if (cb.checked == true) {
+                $(tb).removeAttr('disabled');
+                $(tb).val(val);
+            }
+            else {
+                $(tb).attr('disabled', 'disabled');
+                $(tb).val('0');
+            }
+
+            alert($(this).val());
+        });
+    });
+</script>
+

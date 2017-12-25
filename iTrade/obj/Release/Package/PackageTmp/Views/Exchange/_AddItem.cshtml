@@ -1,0 +1,861 @@
+﻿@model iTrade.Models.INVDET
+@*@model IEnumerable<iTrade.Models.PriceOption>*@
+
+<div class="modal-body">
+    <p class="semi-bold">Please select product to be exchanged:</p>
+
+    @using (Html.BeginForm("_AddItem", "Exchange", FormMethod.Post, new { id = "addItemForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.DetID)
+        @Html.HiddenFor(model => model.QuoNo)
+        @Html.HiddenFor(model => model.SorID, new { id = "itemSorID" })
+        @Html.HiddenFor(model => model.SorNo, new { id = "itemSorNo" })
+        @Html.HiddenFor(model => model.InvID, new { id = "itemInvID" })
+        @Html.HiddenFor(model => model.InvNo, new { id = "itemInvNo" })
+        @Html.HiddenFor(model => model.EorID, new { id = "itemEorID" })
+        @Html.HiddenFor(model => model.EorNo, new { id = "itemEorNo" })
+        @Html.HiddenFor(model => model.CnID, new { id = "itemCnID" })
+        @Html.HiddenFor(model => model.CnNo, new { id = "itemCnNo" })
+        
+        @Html.HiddenFor(model => model.InvType, new { id = "itemInvType", @Value = "CS" })
+        @Html.HiddenFor(model => model.ItemID, new { id = "itemID" })
+
+        @Html.HiddenFor(model => model.Unit, new { id = "itemUnit" })
+
+        @Html.HiddenFor(model => model.Gst, new { id = "itemGst" })
+        @Html.HiddenFor(model => model.Nett, new { id = "itemNett" })
+
+        @Html.HiddenFor(model => model.IsBundle, new { id = "itemIsBundle" })
+        @Html.HiddenFor(model => model.RefItemID, new { id = "itemRefItemID" })
+        @Html.HiddenFor(model => model.IsControlItem, new { id = "itemIsControl" })
+        @Html.HiddenFor(model => model.LocationID, new { id = "warehouseID", @Value = "0" })
+        @Html.HiddenFor(model => model.LocationName, new { id = "warehouseName", @Value = "" })
+
+        @Html.HiddenFor(model => model.SalesType, new { id = "itemSalesType", @Value = "DefaultItem" })
+        @Html.HiddenFor(model => model.Position, new { id = "itemPosition", @Value = "0" })
+
+        <input type="hidden" id="itemGstRate" value="@ViewData["seGSTRate"]" />
+        <input type="hidden" id="itemStockQty" />
+        <input type="hidden" id="itemCostPrice" />
+        <input type="hidden" id="itemStockUnit" />
+
+        <div class="panel panel-inverse">
+            <div class="panel-body">
+
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                @Html.Label(" ", htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.Editor("txtSearch", new { htmlAttributes = new { id = "txtSearch", @class = "form-control", placeholder = "Search products by name or code" } })
+
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ItemName, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.ItemName, new { htmlAttributes = new { id = "itemName", @class = "form-control", @readonly = true } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ItemCode, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.ItemCode, new { htmlAttributes = new { id = "itemCode", @class = "form-control", @readonly = true } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ItemType, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.ItemType, new { htmlAttributes = new { id = "itemType", @class = "form-control", @readonly = true } })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Location", htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    <select class="form-control warehousepicker">
+                                        <option value="0" selected> </option>
+                                        @foreach (var item in ViewData["WarehouseAll"] as IEnumerable<iTrade.Models.Warehouse>)
+                                        {
+                                            <option value="@item.LocationID">@item.LocationName</option>
+                                            //@item.FileName  // instead .FileName use property which u used in ur model class
+                                        }
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.InvRef, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.InvRef, new { htmlAttributes = new { id = "itemInvRef", @class = "form-control" } })
+                                </div>
+                            </div>
+
+                            @*<div class="form-group">
+                                @Html.LabelFor(model => model.SellType, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    <label class="radio-inline">@Html.RadioButtonFor(x => x.SellType, "CS", new { id = "radioSellType", @class = "rSellType" }) CS - Sell </label> &nbsp;&nbsp;
+                                    <label class="radio-inline">@Html.RadioButtonFor(x => x.SellType, "RT", new { id = "radioSellType", @class = "rSellType", @checked = "checked" }) RT - Return</label>
+                                </div>
+                            </div>*@
+
+                            <div class="form-group">
+                                @Html.Label(" ", htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    &nbsp;
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Qty, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.Qty, new { htmlAttributes = new { id = "itemQty", @class = "form-control" } })
+                                </div>
+                            </div>
+
+                            @*<div class="form-group">
+                                @Html.LabelFor(model => model.DiscountedPrice, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.DiscountedPrice, new { htmlAttributes = new { id = "itemDiscountedPrice", @Value = "0.00", @class = "form-control", @readonly = true } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { id = "itemAmount", @Value = "0.00", @class = "form-control", @readonly = true } })
+                                </div>
+                            </div>*@
+
+                            <div class="form-group">
+                                @Html.Label("Remark", htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { id = "itemRemark", @Value = "[EXCHANGE]", @class = "form-control" } })
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-horizontal">
+
+                            <div class="form-group">
+                                @Html.Label("On Hand", htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    <span id="txtOnHand" class="lead semi-bold"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Unit, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    <select id="selectUnits" name="selectUnits" class="form-control unitpicker">
+                                        <option value="" selected>Select unit</option>
+                                        @*@foreach (var item in ViewData["PriceOptionsAll"] as IEnumerable<iTrade.Models.PriceOption>)
+                                            {
+                                                <option value="@item.Unit"
+                                                        @if (item.Unit == Model.Unit) { <text> selected="selected" </text>    }>
+                                                    @item.Unit @item.Unit
+                                                </option>
+                                                //@item.FileName  // instead .FileName use property which u used in ur model class
+                                            }*@
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            @*<div class="form-group">
+                                    @Html.LabelFor(model => model.Unit, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Unit, new { htmlAttributes = new { id = "itemUnit", @class = "form-control" } })
+                                    </div>
+                                </div>*@
+                            <div class="form-group">
+                                @Html.Label("Cost Code", htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.Editor(" ", new { htmlAttributes = new { id = "itemCostCode", @class = "form-control", @readonly = true } })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.UnitPrice, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.UnitPrice, new { htmlAttributes = new { id = "itemUnitPrice", @class = "form-control", @readonly = true } })
+                                </div>
+                            </div>
+                            @*<div class="form-group">
+                                @Html.LabelFor(model => model.Discount, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { id = "itemDiscount", @class = "form-control", @readonly = true } })
+                                </div>
+                            </div>*@
+
+                            <div class="form-group">
+                                @Html.Label(" ", htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    &nbsp;
+                                </div>
+                            </div>
+
+
+                            @*<div class="form-group">
+                                <div class="col-md-10 pull-right">
+                                    <p class="text-right semi-bold"> Price Breaks</p>
+
+                                    <div id="optionPricebreak"> </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-10 pull-right">
+                                    <p class="text-right semi-bold"> Last 3 prices </p>
+
+                                    <div id="divLast3Prices"> </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-10 pull-right">
+                                    <p class="text-right semi-bold"> Last 3 prices others </p>
+
+                                    <div id="divLast3PricesOthers"> </div>
+                                </div>
+                            </div>*@
+
+
+                            @*<div class="form-group">
+                                    <div class="col-md-10 pull-right">
+                                        <p class="text-right semi-bold"> Last 3 prices others </p>
+                                        <table class="table small table-bordered">
+                                            <tr>
+                                                <td>  <span id="HPrice0"></span> </td>
+                                                <td> <span id="HPrice1"></span> </td>
+                                                <td> <span id="HPrice2"></span> </td>
+                                            </tr>
+                                            <tr>
+                                                <td>  <span id="HPriceA0"></span> </td>
+                                                <td> <span id="HPriceA1"></span> </td>
+                                                <td> <span id="HPriceA2"></span> </td>
+                                            </tr>
+                                            <tr>
+                                                <td>  </td>
+                                                <td> </td>
+                                                <td> </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                </div>*@
+
+
+                        </div>
+                        <br />
+
+                        <span class="pull-right">
+                            <input type="hidden" id="selectedProductID" />
+                        </span>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    }
+    
+    <br />
+
+</div>
+
+<div class="modal-footer">
+    <span id="txtLastItem" class="pull-left lead semi-bold"></span>
+
+    <span id="progress" class="text-center" style="display: none;">
+        <img src="~/assets/img/Wait.gif" alt="wait" />
+        Wait..
+    </span>
+    <input type="hidden" id="txtUrl1" value="" />
+    <input type="hidden" id="txtUrl2" value="" />
+    <input type="button" class="btn btn-primary" id="btnAddItem" value=" Next " />
+    <button id="btnAddItemClose001" class="btn btn-white" data-dismiss="modal">Close</button>
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#txtSearch').focus();
+        $('#txtSearch').select();
+
+        $('#txtSearch').on("focus", function () {
+            // alert('Changed!');
+            $(this).select();
+        });
+        $('#itemQty').on("focus", function () {
+            // alert('Changed!');
+            $(this).select();
+        });
+        $('#itemUnitPrice').on("focus", function () {
+            // alert('Changed!');
+            $(this).select();
+        });
+        $('#itemDiscountedPrice').on("focus", function () {
+            // alert('Changed!');
+            $(this).select();
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("select.unitpicker").change(function () {
+            var unitname = $(".unitpicker option:selected").val().trim();
+            var val = $('#itemID').val().trim();
+
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetPriceOptionByUnit","Orders")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        itemid: val,
+                        itemunit: unitname
+                    },
+                    success: function (data) {
+                        if (data.result != null) {
+                            $('#itemCostCode').val(data.result.CostCode);
+                            $('#itemUnitPrice').val(data.result.RetailPrice.toFixed(2));
+                            $('#itemDiscountedPrice').val(data.result.RetailPrice.toFixed(2));
+
+                        } else {
+                            $('#itemCostCode').val("");
+                            $('#itemUnitPrice').val(0.00);
+                            $('#itemDiscountedPrice').val(0.00);
+
+                        }
+
+                        reCalculateAmount();
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+                });
+            });
+
+    });
+
+
+    $("select.warehousepicker").change(function () {
+        var warehouseid = $(".warehousepicker option:selected").val();
+        var warehousename = $(".warehousepicker option:selected").text().trim();
+
+        $('#warehouseID').val(warehouseid);
+        $('#warehouseName').val(warehousename);
+
+    });
+
+</script>
+
+
+
+<script type="text/javascript">
+                $(document).ready(function () {
+                    //$('#txtSearch').on("change", function () {
+                    //    // alert('Changed!');
+                    //    $('#selectedProductID').val(0);
+                    //});
+
+                    $('.rSellType').on("change", function () {
+                        //  alert('Changed!');
+                        reCalculateAmount();
+                    });
+
+                    $('#itemQty').on("change", function () {
+                        // alert('Changed!');
+
+                        reCalculateAmount();
+                    });
+                    $('#itemRemark').on("focus", function () {
+                        // alert('Changed!');
+                        $(this).select();
+                    });
+
+                    $('#itemUnitPrice').on("change", function () {
+                        // alert('Changed!');
+
+                        reCalculateAmount();
+                    });
+                    $('#itemDiscountedPrice').on("change", function () {
+                        // alert('Changed!');
+
+                        reCalculateAmount();
+                    });
+
+
+                });
+
+                function reCalculateAmount() {
+
+                    var unitprice = $('#itemUnitPrice').val();
+                    var qty = $('#itemQty').val();
+                    var sellprice = $('#itemDiscountedPrice').val();
+                    var gstrate = $('#itemGstRate').val();
+
+                    var discount = (+sellprice - +unitprice);
+                    discount = discount.toFixed(2);
+                    $('#itemDiscount').val(discount);
+
+                    var totalamount = Math.round(qty * sellprice * 100) / 100;
+                    totalamount = totalamount.toFixed(2);
+
+                    var totalgst = Math.round(totalamount * gstrate * 100) / 100;
+                    totalgst = totalgst.toFixed(2);
+
+                    var totalnett = Math.round((+totalamount + +totalgst) * 100) / 100;
+                    totalnett = totalnett.toFixed(2);
+
+                    $('#itemAmount').val(totalamount);
+                    $('#itemGst').val(totalgst);
+                    $('#itemNett').val(totalnett);
+
+                    //var rVal = $('#radioSellType').val();
+                    var rVal = $('.rSellType').filter(':checked').val();
+                    if (rVal == "CS") {
+                        $('#itemAmount').val(totalamount);
+                        $('#itemGst').val(totalgst);
+                        $('#itemNett').val(totalnett);
+                    };
+                    if (rVal == "RT") {
+                        $('#itemAmount').val(0 - totalamount);
+                        $('#itemGst').val(0 - totalgst);
+                        $('#itemNett').val(0 - totalnett);
+                    };
+
+                };
+
+</script>
+
+
+<script>
+                $(document).ready(function () {
+                    localStorage['selsProductID'] = "";
+                    $('#txtSearch').autocomplete({
+                        source: function (request, response) {
+                            $.ajax({
+                                type: "GET",
+                                url: '@Url.Action("AutoComplete_Product","Orders")',
+                                dataType: "json",
+                                contentType: 'application/json, charset=utf-8',
+                                data: {
+                                    search: $("#txtSearch").val().trim()
+                                },
+                                success: function (data) {
+                                    response($.map(data, function (item) {
+                                        if (item.CostCode != null) {
+                                            localStorage['selsProductID'] += item.SKU + " |" + item.ProductID + ";";
+                                            return {
+                                                //label: item.ProductID + " | " + item.SKU + " | " + item.ProductName + " | $ " + item.SellPrice + " | " + item.CostCode,
+                                                label: item.SKU + " | " + item.ProductName + " | $ " + item.SellPrice + " | " + item.CostCode,
+                                            }
+                                        }
+                                        else {
+                                            localStorage['selsProductID'] += item.SKU + " |" + item.ProductID + ";";
+                                            return {
+                                                //label: item.ProductID + " | " +  item.SKU + " | " + item.ProductName + " | $ " + item.SellPrice + " | ",
+                                                label: item.SKU + " | " + item.ProductName + " | $ " + item.SellPrice + " | ",
+                                            }
+                                        };
+
+                                    }));
+                                },
+                                error: function (xhr, status, error) {
+                                    alert(error);
+                                }
+
+                            });
+                        },
+                        selectFirst: true,
+                        delay: 0,
+                        autoFocus: true,
+                        minLength: 1
+                    });
+
+                    $("#txtSearch").on("autocompleteselect", function (event, ui) {
+                        var str1 = ui.item.value;
+                        var str2 = str1.split("|");
+                        //var val = str2[0].trim();
+
+                        var val1 = localStorage['selsProductID'];
+                        var val2 = val1.split(";");
+                        var val = "";
+                        var tempval = "";
+
+                        for (var i = 0; i <= val2.length - 1; i++) {
+                            if (val2[i].indexOf(str2[0]) > -1) {
+                                tempval = val2[i].split("|");
+                                val = tempval[1].trim();
+                                break;
+                            }
+                        }
+
+                        $('#optionPricebreak').empty();
+
+
+                        $.ajax({
+                            type: 'GET',
+                            url: '@Url.Action("AutoCompleteSelected_Product","Orders")',
+                            dataType: "json",
+                            contentType: 'application/json, charset=utf-8',
+                            data: {
+                                search: val
+                            },
+                            success: function (data) {
+                                $('#itemID').val(data.result.ProductID);
+                                $('#itemCode').val(data.result.SKU);
+                                $('#itemType').val(data.result.ProductType);
+                                $('#itemName').val(data.result.ProductName);
+
+                                //$('#itemSalesType').val(data.result.ModelNo);
+                                $('#itemIsBundle').val(data.result.IsBundle);
+                                $('#txtTitle').text(data.result.ProductName);
+
+                                $('#itemIsControlItem').val(data.result.IsControlItem);
+
+
+                            },
+                            error: function (xhr, status, error) {
+                                alert(error);
+                            }
+
+                        });
+
+                        $.ajax({
+                            type: 'GET',
+                            url: '@Url.Action("GetPriceOptions","Orders")',
+                            dataType: "json",
+                            contentType: 'application/json, charset=utf-8',
+                            data: {
+                                itemid: val
+                            },
+                            success: function (data) {
+                                var productArray = data.result;
+
+                                $("#selectUnits").empty();
+                                //var emp = "<option value = ''>Unknow</option>";
+                                //$('select[name="selectUnits"]').append(emp);
+
+                                var optionsAsString = "";
+                                for (var i = 0; i < productArray.length; i++) {
+                                    //alert(i + " " +  productArray.length + "" + productArray[i].IsDefault);
+
+                                    var chk = " ";
+                                    if (productArray[i].IsDefault == true) {
+                                        chk = " selected = 'selected' ";
+                                        $('#itemUnit').val(productArray[i].Unit);
+                                        $('#itemCostCode').val(productArray[i].CostCode);
+                                        $('#itemUnitPrice').val(productArray[i].RetailPrice.toFixed(2));
+                                        //$('#itemDiscountedPrice').val(productArray[i].RetailPrice.toFixed(2));
+
+                                        var disc = (0.00).toFixed(2);
+                                        $('#itemDiscount').val(disc);
+                                        $('#itemStockQty').val(0);
+
+                                        $('#itemStockUnit').val(productArray[i].Unit);
+
+                                        $('#itemQty').val(1);
+
+                                        var unitprice = productArray[i].RetailPrice.toFixed(2);
+                                        var invtype = $('#itemInvType').val();
+                                        var qty = $('#itemQty').val();
+
+                                        var amount = Math.round(qty * unitprice * 100) / 100;
+                                        amount = amount.toFixed(2);
+
+                                        //$('#itemAmount').val(amount);
+
+                                        $('#itemQty').focus();
+                                        $('#itemQty').select();
+
+
+                                    }
+
+                                    optionsAsString += "<option " + chk + " value='" + productArray[i].Unit.trim() + "'>" + productArray[i].Unit.trim() + "</option>";
+                                }
+                                $('select[name="selectUnits"]').append(optionsAsString);
+
+                            },
+                            error: function (xhr, status, error) {
+                                //alert(error);
+                            }
+                        });
+
+                        @*$.ajax({
+                            type: 'GET',
+                            url: '@Url.Action("GetPricebreaks","Orders")',
+                            dataType: "json",
+                            contentType: 'application/json, charset=utf-8',
+                            data: {
+                                custno: $("#custNo").val(),
+                                itemid: val
+                            },
+                            success: function (data) {
+                                var item = data.result;
+
+                                var str = new Array();
+
+                                for (var i = 0; i < item.length; i++) {
+                                    var foc = item[i].FocQty;
+                                    if (foc == null) {
+                                        foc = "";
+                                    }
+                                    else {
+                                        foc = " FOC: x  " + foc;
+                                    };
+
+                                    str[i] = "x " + item[i].BreakQty + " &nbsp;&nbsp;&nbsp; $ " + item[i].DealerPrice.toFixed(2) + foc;
+                                };
+
+                                $('#optionPricebreak').empty();
+                                var container = $('#optionPricebreak');
+                                container.append("<ul class='todolist'>");
+
+                                for (var i = 0; i < item.length; i++) {
+                                    //    container.append('<input type="radio" name="radio_group" value="' + item[i].BreakQty + '">');
+                                    container.append('<li>&nbsp;&nbsp; ' + str[i] + '&nbsp;&nbsp; </li>');
+                                }
+                                container.append("</ul>");
+
+
+                            },
+                            error: function (xhr, status, error) {
+                                //alert(error);
+                            }
+                        });*@
+
+
+                        $.ajax({
+                            type: 'GET',
+                            url: '@Url.Action("GetInventory","Orders")',
+                            dataType: "json",
+                            contentType: 'application/json, charset=utf-8',
+                            data: {
+                                itemid: val
+                            },
+                            success: function (data) {
+                                var item = data.result;
+
+                                if (item == null) {
+                                    $('#txtOnHand').text("N/A");
+                                } else {
+
+                                    var str = item.InStock;
+                                    $('#txtOnHand').text(str)
+                                }
+
+                            },
+                            error: function (xhr, status, error) {
+                                //alert(error);
+                            }
+                        });
+
+
+                        @*$.ajax({
+                            type: 'GET',
+                            url: '@Url.Action("GetHistPricesByCust","Orders")',
+                            dataType: "json",
+                            contentType: 'application/json, charset=utf-8',
+                            data: {
+                                custno: $("#custNo").val(),
+                                itemid: val
+                            },
+                            success: function (data) {
+                                var item = data.result;
+
+                                var str = new Array();
+
+                                for (var i = 0; i < item.length; i++) {
+                                    var invdate = new Date(parseInt(item[i].InvDate.substr(6)));
+                                    var strdate = invdate.getDate() + "/" + invdate.getMonth() + 1 + "/" + invdate.getFullYear();
+
+                                    str[i] = strdate  + " &nbsp;&nbsp;" + item[i].Qty + " &nbsp; " + item[i].Unit + " &nbsp;&nbsp;&nbsp; $ " + item[i].Price.toFixed(2);
+                                };
+
+                                $('#divLast3Prices').empty();
+                                var container = $('#divLast3Prices');
+                                container.append("<ul class='todolist'>");
+
+                                for (var i = 0; i < item.length; i++) {
+                                    //    container.append('<input type="radio" name="radio_group" value="' + item[i].BreakQty + '">');
+                                    container.append('<li>&nbsp;&nbsp; ' + str[i] + '&nbsp;&nbsp; </li>');
+                                }
+                                container.append("</ul>");
+
+
+                            },
+                            error: function (xhr, status, error) {
+                                //alert(error);
+                            }
+                        });
+
+                        $.ajax({
+                            type: 'GET',
+                            url: '@Url.Action("GetHistPricesByCustOther","Orders")',
+                            dataType: "json",
+                            contentType: 'application/json, charset=utf-8',
+                            data: {
+                                custno: $("#custNo").val(),
+                                itemid: val
+                            },
+                            success: function (data) {
+                                var item = data.result;
+
+                                var str = new Array();
+
+                                for (var i = 0; i < item.length; i++) {
+                                    for (var i = 0; i < item.length; i++) {
+                                        var invdate = new Date(parseInt(item[i].InvDate.substr(6)));
+                                        var strdate = invdate.getDate() + "/" + invdate.getMonth() + 1 + "/" + invdate.getFullYear();
+
+                                        str[i] = strdate + " &nbsp;&nbsp;" + item[i].Qty + " &nbsp; " + item[i].Unit + " &nbsp;&nbsp;&nbsp; $ " + item[i].Price.toFixed(2);
+                                    };
+                                };
+
+                                $('#divLast3PricesOthers').empty();
+                                var container = $('#divLast3PricesOthers');
+                                container.append("<ul class='todolist'>");
+
+                                for (var i = 0; i < item.length; i++) {
+                                    //    container.append('<input type="radio" name="radio_group" value="' + item[i].BreakQty + '">');
+                                    container.append('<li>&nbsp;&nbsp; ' + str[i] + '&nbsp;&nbsp; </li>');
+                                }
+                                container.append("</ul>");
+
+
+                            },
+                            error: function (xhr, status, error) {
+                                //alert(error);
+                            }
+                        });*@
+
+                    });
+
+                });
+
+</script>
+
+
+<script type="text/javascript">
+    $("#btnAddItem").click(function () {
+
+        //   $("#btnAddDet").prop('disabled', true);
+        var pid = $('#itemID').val().trim();
+        var qty = $('#itemQty').val().trim();
+        //var unitprice = $('#itemUnitPrice').val().trim();
+        //var discprice = $('#itemDiscountedPrice').val().trim();
+        //var selltype = $('.rSellType').filter(':checked').val().trim();
+        var remark = $('#itemRemark').val().trim();
+        var invref = $('#itemInvRef').val().trim();
+        var locationid = $('#warehouseID').val().trim();
+        var locationname = $('#warehouseName').val().trim();
+        locationname = escape(locationname);
+
+        if (locationid == null || locationid == "") {
+            locationid = 0;
+        };
+
+        var unitprice = 0;
+        var discprice = 0;
+        var selltype = "RT";
+        var SorNo = $('#itemEorID').val().trim();
+
+        $('#txtTitleQty').text(qty);
+          
+        var flag = $('#itemIsBundle').val().trim();
+
+        //$('#additemModal').modal('hide');
+
+        if (pid > 0) {
+            var url = '@Url.Action("_AddDetBundle", "Exchange")';
+            url += '/?id=' + pid + '&qty=' + qty + '&unitprice=' + unitprice + '&discprice=' + discprice + '&SorID=' + SorNo + '&selltype=' + selltype + '&remark=' + remark + '&invref=' + invref + '&locid=' + locationid + '&locname=' + locationname.toString();
+
+         //   alert(url);
+
+            $("#exchangeOrderModalContent").load(url);
+        } else {
+
+            alert("Please provide a product.");
+            $('#txtSearch').focus();
+            $('#txtSearch').select();
+        }
+
+    });
+
+
+
+    $("#btnAddItemClose").click(function () {
+        var url = '@Url.Action("Edit", "Exchange", new { id = Model.EorID })';
+        window.location = url;
+    });
+
+    $("#btnAddItemClose2").click(function () {
+        var url = '@Url.Action("Edit", "Exchange", new { id = Model.EorID })';
+        window.location = url;
+    });
+
+    $("#btnCloseAndReload").click(function () {
+        var url = '@Url.Action("Edit", "Exchange", new { id = Model.EorID })';
+        window.location = url;
+    });
+
+
+    $('#txtSearch').keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            if ($('#txtSearch').val() != "" || $('#itemName').val() != "") {
+                $('#itemQty').focus();
+                $('#itemQty').select();
+            } else {
+                $('#txtSearch').focus();
+                $('#txtSearch').select();
+                alert("Please input product.");
+            }
+
+
+        }
+        event.stopPropagation();
+    });
+    //$('#itemQty').keypress(function (event) {
+    //    var keycode = (event.keyCode ? event.keyCode : event.which);
+    //    if (keycode == '13') {
+    //        $('#itemDiscountedPrice').focus();
+    //        $('#itemDiscountedPrice').select();
+    //    }
+    //    event.stopPropagation();
+    //});
+    $('#itemQty').keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $('#itemRemark').focus();
+            $('#itemRemark').select();
+        }
+        event.stopPropagation();
+    });
+    $('#itemRemark').keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $('#btnAddItem').focus();
+            $('#btnAddItem').select();
+        }
+        event.stopPropagation();
+    });
+
+
+</script>
+

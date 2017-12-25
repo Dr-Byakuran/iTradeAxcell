@@ -1,0 +1,59 @@
+﻿
+@model List<iTrade.Models.KivOrderDet>
+
+
+@for (int i = 0; i < Model.Count; i++)
+{
+    <tr>
+
+        <td>@string.Format("{0}", i + 1) </td>
+
+        <td class="col-md-4">
+            @Html.HiddenFor(model => model[i].DetID)
+            @Html.HiddenFor(model => model[i].KivID)
+            @Html.HiddenFor(model => model[i].InvDetID)
+            @Html.HiddenFor(model => model[i].KorID)
+            @Html.HiddenFor(model => model[i].InvID)
+            @Html.HiddenFor(model => model[i].ItemID)
+            @Html.HiddenFor(model => model[i].ItemCode)
+            @Html.HiddenFor(model => model[i].ItemName)
+
+            @Html.HiddenFor(model => model[i].SalesType)
+            @Html.HiddenFor(model => model[i].Position)
+            @Html.HiddenFor(model => model[i].Remark)
+
+            @Html.DisplayFor(model => model[i].ItemName, new { htmlAttributes = new { @class = "form-control col-md-6" } })
+            @if (Model[i].SalesType == "ChangedItem")
+            {
+                <span class="label label-warning">[Exhanged]</span>
+            }
+
+            <br />
+
+        </td>
+        @*<td>INV-@Model[i].InvID</td>
+            <td>@Html.DisplayFor(model => model[i].OrderQty, new { htmlAttributes = new { @class = "form-control" } })</td>
+            <td>@Html.DisplayFor(model => model[i].BalanceQty, new { htmlAttributes = new { @class = "form-control" } })</td>*@
+        <td class="col-md-2 semi-bold">
+            @if (ViewBag.InOut == "IN")
+            {
+                @Html.DisplayFor(model => model[i].DeliverOrderQty, new { htmlAttributes = new { @class = "form-control" } })
+            }
+            @if (ViewBag.InOut == "OUT")
+            {
+                @Html.DisplayFor(model => model[i].DeliverQty, new { htmlAttributes = new { @class = "form-control" } })
+            }        
+        
+        </td>
+
+        <td> </td>
+
+    </tr>
+
+
+
+
+}
+
+
+

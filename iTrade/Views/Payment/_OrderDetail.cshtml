@@ -1,0 +1,192 @@
+﻿@model List<iTrade.Models.INV>
+
+@using (Html.BeginForm("_OrderDetail", "Payment", FormMethod.Post, new { id = "editPaymentForm" }))
+{
+    <div id="divInvoices">
+
+        <table class="table table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Invoice#</th>
+                    <th>Invoice Date</th>
+                    <th class="col-md-4">Company</th>
+                    <th>Type</th>
+                    <th>Total</th>
+                    <th>Paid</th>
+                    <th>Outstanding</th>
+                    <th>To Pay Now</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => model[i].InvNo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model[i].InvID)
+                        @Html.HiddenFor(model => model[i].InvNo)
+                    </td>
+                    <td>@Html.DisplayFor(model => model[i].InvDate, new { htmlAttributes = new { @class = "form-control" } })</td>
+                    <td>
+                        @Html.DisplayFor(model => model[i].CustName, new { htmlAttributes = new { @class = "form-control" } })
+                        @if (!string.IsNullOrEmpty(Model[i].CustName2))
+                        {
+                            <span>&nbsp; (@Html.DisplayFor(model => model[i].CustName2))</span>
+                        }
+                    </td>
+                    <td>@Html.DisplayFor(model => model[i].InvType, new { htmlAttributes = new { @class = "form-control" } })</td>
+                    <td>@Html.DisplayFor(model => model[i].Nett, new { htmlAttributes = new { @class = "form-control" } })</td>
+                    <td>@Html.DisplayFor(model => model[i].PaidAmount, new { htmlAttributes = new { @class = "form-control" } })</td>
+                    <td class="semi-bold">@(Model[i].Nett - @Model[i].PaidAmount)
+                        <input type="hidden" id="payInvID" value="@Model[i].InvID" class="payInvID">
+                    </td>
+                    <td>
+                        @Html.Editor("txtPay", new { htmlAttributes = new { id = "txtPay", name = "txtPay", @Value = "0.00", @class = "payInput form-control", placeholder = "0.00" } })
+                        <input type="hidden" id="valInvID" value="@(Model[i].Nett - @Model[i].PaidAmount)" class="valOutstanding">
+                    </td>
+                <td><button type="button" id="btnPayFull" class="btnPayFull btn btn-default">Pay Full</button> </td>
+
+            </tr>
+
+                }
+
+
+            </tbody>
+            <tfoot>
+
+                @if (Model.Count > 0)
+                {
+                    <tr>
+                        <td colspan="7">
+                            <br />
+                            <div class="text-right lead">
+                                To Pay Total $ <span id="lblPayAmount" class="semi-bold"></span>
+                               
+                                @*<input type="text" id="txtPayAmount" value="0.00"  class="txtPayTotal form-control" />*@
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>
+
+                        </td>
+                        <td>
+                            <br />
+                            @*<button id="btnSubmitInfo" class="btn btn-small btn-primary col-md-12">
+                                Take Payment
+                            </button>*@
+                            <a href="#TakePaymentModal" data-toggle="modal" class="btn btn-primary"><i class="fa fa-check-square-o m-r-5"></i> Take Payment</a>
+                        </td>
+                        <td></td>
+                    </tr>
+
+                }
+
+
+            </tfoot>
+        </table>
+
+        <input type="hidden" id="invNett" value='0.00' />
+        <input type="hidden" id="invOutstanding" value='0.00' />
+        <input type="hidden" id="invNettDet" value="" />
+
+    </div>
+
+}
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#lblPayAmount").text("0.00");
+
+            //$('#divInvoices input[id*=txtPay]').focus().on("change", function () {
+            //    $prices = $('.payInput');
+            //    $prices.blur(function () {
+            //        var sum = 0;
+            //        $prices.each(function () {
+            //            sum += Number($(this).val());
+
+            //            var invid = $(this).closest('tr').find('.payInvID').val();
+            //            if ($(this).val() != 0) {
+            //                str2 = str2 + "|" + invid + "$" + $(this).val();
+            //            }
+
+            //        });
+
+            //        sum = sum.toFixed(2);
+            //        $("#lblPayAmount").text(sum);
+            //        $("#invNett").val(sum);
+            //        $("#invNettDet").val(str2);
+            //    //    $("#txtPayAmount").val(sum);
+
+            //    });
+                
+            //});
+
+
+            $('.btnPayFull').on('click', function () {
+                // alert( $(this).closest('tr').find('.payInput').val());
+
+                var num = $(this).closest('tr').find('.valOutstanding').val();
+                $(this).closest('tr').find('.payInput').val(num);
+                //  recalculate();
+
+                var sum2 = 0;
+                var str2 = "";
+                $("#divInvoices .payInput").each(function () {
+                    sum2 += +$(this).val();
+
+                    var invid = $(this).closest('tr').find('.payInvID').val();
+                    if ($(this).val() != 0) {
+                        if (str2 == "") {
+                            str2 = invid + "$" + $(this).val();
+                        } else {
+                            str2 = str2 + "|" + invid + "$" + $(this).val();
+                        }
+                    }
+
+                });
+                //     alert(sum2);
+                $("#lblPayAmount").text(sum2);
+                $("#invNett").val(sum2);
+                $("#invOutstanding").val(sum2);
+                $("#invNettDet").val(str2.trim());
+                //    $(".txtPayTotal").val(sum2);
+
+            });
+
+
+            $('.payInput').on('change', function () {
+                // alert( $(this).closest('tr').find('.payInput').val());
+
+                var num = $(this).closest('tr').find('.valOutstanding').val();
+             //   $(this).closest('tr').find('.payInput').val(num);
+                //  recalculate();
+
+                var sum2 = 0;
+                var str2 = "";
+                $("#divInvoices .payInput").each(function () {
+                    sum2 += +$(this).val();
+
+                    var invid = $(this).closest('tr').find('.payInvID').val();
+                    if ($(this).val() != 0) {
+                        if (str2 == "") {
+                            str2 = invid + "$" + $(this).val();
+                        } else {
+                            str2 = str2 + "|" + invid + "$" + $(this).val();
+                        }
+                    }
+
+                });
+                //     alert(sum2);
+                $("#lblPayAmount").text(sum2);
+                $("#invNett").val(sum2);
+                $("#invOutstanding").val(sum2);
+                $("#invNettDet").val(str2);
+                //    $(".txtPayTotal").val(sum2);
+ 
+            })
+
+
+        })
+
+</script>

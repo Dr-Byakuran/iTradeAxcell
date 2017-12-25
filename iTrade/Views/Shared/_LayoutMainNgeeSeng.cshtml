@@ -1,0 +1,246 @@
+﻿@using iTrade.CustomHtmlHelper;
+
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+
+    <link href="@Url.Content("http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700")" rel="stylesheet" type="text/css" />
+
+
+    @Styles.Render("~/css/css")
+
+ 
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/slimscroll")
+    @Scripts.Render("~/bundles/jquery-cookie")
+
+
+
+</head>
+<body>
+    <!-- begin #page-loader -->
+    <div id="page-loader" class="fade in"><span class="spinner"></span></div>
+    <!-- end #page-loader -->
+    <!-- begin #page-container -->
+    <div id="page-container" class="fade page-sidebar-fixed page-header-fixed">
+        <!-- begin #header -->
+        <div id="header" class="header navbar navbar-default navbar-fixed-top">
+            <!-- begin container-fluid -->
+            <div class="container-fluid">
+                <!-- begin mobile sidebar expand / collapse button -->
+                <div class="navbar-header">
+                    <a href="~/Dashboard/Index" class="navbar-brand"><span class="navbar-logo"><img src="~/assets/img/star3erp.png" alt="" height="24" width="115" /></span></a>
+                    <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <!-- end mobile sidebar expand / collapse button -->
+                <!-- begin header navigation right -->
+
+                @Html.Partial("_LoginPartial")
+
+                <!-- end header navigation right -->
+            </div>
+            <!-- end container-fluid -->
+        </div>
+        <!-- end #header -->
+        <!-- begin #sidebar -->
+        <div id="sidebar" class="sidebar">
+            <!-- begin sidebar scrollbar -->
+            <div data-scrollbar="true" data-height="100%">
+                <!-- begin sidebar user -->
+                <ul class="nav">
+                    <li class="nav-profile"> <div class="img-rounded text-center"> <img src="~/assets/img/logo.png" class="img-rounded" alt="Logo" /></div>  
+ 
+                        <div class="info">
+ 
+                        </div>
+                    </li>
+                </ul>
+                <!-- end sidebar user -->
+                <!-- begin sidebar nav -->
+                <ul class="nav">
+                    <li class='@Html.IsActive("Dashboard", "Index")'>
+                        <a href="@Url.Action("Index", "Dashboard")">
+                            <i class="fa fa-dashboard"></i><span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class='@Html.IsActive("Clients", "Index")'>
+                        <a href="@Url.Action("Index", "Clients")">
+                            <i class="fa fa-user"></i><span>Customer</span>
+                        </a>
+                    </li>
+                    <li class='@Html.IsActive("Products", "Index")'>
+                        <a href="@Url.Action("Index", "Products")">
+                            <i class="fa fa-cubes"></i><span>Product</span>
+                        </a>
+                    </li>
+                    <li class='@Html.IsActive("Orders", "Index")'>
+                        <a href="@Url.Action("Index", "Orders")">
+                            <i class="fa fa-shopping-cart"></i><span>Sales Order</span>
+                        </a>
+                    </li>
+                    <li class='@Html.IsActive("Sales", "Index")'>
+                        <a href="@Url.Action("Index", "Sales")">
+                            <i class="fa fa-briefcase"></i><span>Invoices</span>
+                        </a>
+                    </li>
+                    <li class='@Html.IsActive("Inventory", "Index")'>
+                        <a href="@Url.Action("Index", "Inventory")">
+                            <i class="fa fa-database"></i><span>Inventory</span>
+                        </a>
+                    </li>
+                    <li class="has-sub">
+                        <a href="javascript:;">
+                            <b class="caret pull-right"></b>
+                            <i class="fa fa-cube"></i>
+                            <span>Warehouse</span>
+                        </a>
+                        <ul class="sub-menu">
+
+                            <li class='@Html.IsActive("Warehouses", "Index")'>
+                                <a href="@Url.Action("Index", "Warehouses")">
+                                    <span>Locations</span>
+                                </a>
+                            </li>
+                            <li class='@Html.IsActive("Warehouses", "Consignment")'>
+                                <a href="@Url.Action("Consignment", "Warehouses")">
+                                    <span>Consignment Summary</span>
+                                </a>
+                            </li>
+
+                            <li class='@Html.IsActive("Accounts", "DeliveryOrders")'>
+                                <a href="#">
+                                    <span>Scheduled Picking List </span>
+                                </a>
+                            </li>
+                            <li class='@Html.IsActive("Accounts", "Invoices")'>
+                                <a href="#">
+                                    <span>Loan Management</span>
+                                </a>
+                            </li>
+                            <li class='@Html.IsActive("Accounts", "CreditNotes")'>
+                                <a href="#">
+                                    <span>Loan Reminder </span>
+                                </a>
+                            </li>
+                            <li class='@Html.IsActive("Inventory", "StockTransfer")'>
+                                <a href="@Url.Action("StockTransfer", "Inventory")">
+                                    <span>Stock Transfer</span>
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+
+
+                    <li class='@Html.IsActive("Suppliers", "Index")'>
+                        <a href="@Url.Action("Index", "Suppliers")">
+                            <i class="fa fa-share-alt-square"></i><span>Supplier</span>
+                        </a>
+                    </li>
+
+                    <li class='@Html.IsActive("Reports", "Index")'>
+                        <a href="@Url.Action("Index", "Reports")">
+                            <i class="fa fa-line-chart"></i><span>Reports</span>
+                        </a>
+                    </li>
+
+
+
+
+                    <li class="has-sub">
+                        <a href="javascript:;">
+                            <b class="caret pull-right"></b>
+                            <i class="fa fa-cog"></i>
+                            <span>Setting</span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class='@Html.IsActive("Staffs", "Index")'>
+                                <a href="@Url.Action("Index", "Staffs")">
+                                    <span>Sales Members</span>
+                                </a>
+                            </li>
+
+                            <li class='@Html.IsActive("UsersAdmin", "Index")'>
+                                <a href="@Url.Action("Index", "UsersAdmin")">
+                                    <span>Users</span>
+                                </a>
+                            </li>
+                            <li class='@Html.IsActive("RolesAdmin", "Index")'>
+                                <a href="@Url.Action("Index", "RolesAdmin")">
+                                    <span>Roles</span>
+                                </a>
+                            </li>
+                        </ul>
+
+                    </li>                    
+ 
+
+ 
+ 
+                    <!-- begin sidebar minify button -->
+                    <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
+                    <!-- end sidebar minify button -->
+                </ul>
+                <!-- end sidebar nav -->
+            </div>
+            <!-- end sidebar scrollbar -->
+        </div>
+        <div class="sidebar-bg"></div>
+        <!-- end #sidebar -->
+        <!-- begin #content -->
+        <div id="content" class="content">
+            @RenderBody()
+
+
+
+        </div>
+        <!-- end #content -->
+
+        <!-- begin scroll to top btn -->
+        <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
+        <!-- end scroll to top btn -->
+    </div>
+    <!-- end page container -->
+
+
+
+    @RenderSection("Scripts", required: false)
+
+    <script>
+        $(document).ready(function () {
+            App.init();          
+
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var url = window.location;
+            // Will only work if string in href matches with location
+            $('ul.nav a[href="' + url + '"]').parent().addClass('active');
+
+            // Will also work for relative and absolute hrefs
+            $('ul.nav a').filter(function () {
+                return this.href == url;
+            }).parent().addClass('active').parent().parent().addClass('active');
+        });
+    </script>
+
+
+
+</body>
+</html>

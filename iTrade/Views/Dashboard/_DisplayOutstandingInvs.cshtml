@@ -1,0 +1,26 @@
+﻿
+@using iTrade.CustomHtmlHelper;
+@model IEnumerable<iTrade.Models.INV> 
+
+@foreach (var item in Model)
+{
+    decimal dOutstandingAmount = (decimal)item.Nett - (decimal)item.PaidAmount;
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.InvNo)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.CustName)
+        </td>
+        <td>
+           $ &nbsp;  @dOutstandingAmount
+        </td>
+                                        
+ 
+    </tr>
+}
+
+ 
+ 
+

@@ -1,0 +1,103 @@
+﻿@model IEnumerable<iTrade.Models.WarehouseStock>
+
+<!-- begin row -->
+<div class="row">
+    <!-- begin col-12 -->
+    <div class="col-md-12">
+        <!-- begin panel -->
+        <div class="panel panel-inverse">
+
+            <div class="panel-body">
+
+                <br />
+
+                <div class="table-responsive">
+                    <table  class="table">
+                        <thead>
+                            <tr>
+ 
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SKU)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.InStock)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Allocated)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.OnHand)
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.OnOrder)
+                                </th>
+ 
+                            </tr>
+                        </thead>
+                        <tbody>
+@foreach (var group in Model.GroupBy(item => item.LocationID))
+{
+
+
+    foreach (var item in group.Take(1))
+    {
+        <tr>
+            <td colspan="6"> <h5 class="lead"> Warehouse:  @item.LocationID </h5> </td>
+        </tr>
+      
+
+    }
+
+
+    foreach (var item in group)
+    {
+        <tr class="even gradeC">
+
+ 
+
+            <td>
+                @item.SKU
+            </td>
+            <td>
+                @item.InStock
+            </td>
+            <td>
+                @item.Allocated
+            </td>
+            <td>
+                @item.OnHand
+            </td>
+            <td>
+                @item.OnOrder
+            </td>
+ 
+
+
+        </tr>
+    }
+
+}
+
+
+
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                        </tfoot>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- end panel -->
+    </div>
+    <!-- end col-12 -->
+</div>
+<!-- end row -->
+

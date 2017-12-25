@@ -1,0 +1,55 @@
+﻿
+@model List<iTrade.Models.LoanManagementDetail>
+
+@using (@Html.BeginForm())
+{
+    for (int i = 0; i < Model.Count; i++)
+    {
+        <tr>
+            <td style="width:20px;">
+                <span style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">
+                    @Model[i].Position
+                </span>
+            </td>
+
+            <td class="col-md-4">
+                <span style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">
+                    @Html.DisplayFor(model => model[i].ItemName, new { htmlAttributes = new { id = "itemName2", @class = "form-control col-md-6", @readonly = true } }) &nbsp;&nbsp;
+                    @Html.DisplayFor(model => model[i].Remark, new { htmlAttributes = new { id = "itemRemark2", @class = "form-control col-md-3" } })
+                </span>
+            </td>
+
+            <td class="text-center">
+                <span style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">
+                    @Html.DisplayFor(model => model[i].Qty, new { htmlAttributes = new { id = "itemQty2", @class = "form-control col-md-1 Qty" } })
+                </span>
+            </td>
+            <td class="text-center">
+                <span style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">
+                    @Html.DisplayFor(model => model[i].StartDate, new { htmlAttributes = new { id = "itemStartDate2", @class = "form-control Unitprice", @readonly = true } })
+                </span>
+
+            </td>
+            <td class="text-right">
+                <span style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">
+                    <span class="pull-left">$</span>
+                    @Html.DisplayFor(model => model[i].EndDate, new { htmlAttributes = new { id = "itemEndDate2", @class = "form-control Unitprice" } })
+                </span>
+            </td>
+
+
+        </tr>
+    }
+
+}
+
+
+<!-- modal placeholder-->
+
+<div id="myModal" class="modal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>

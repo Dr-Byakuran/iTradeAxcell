@@ -1,0 +1,56 @@
+﻿@model List<iTrade.Models.Productbundle>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+
+    <h5>Model and quantity for this package:</h5>
+
+    @using (Html.BeginForm("_AddBundleItem", "PurchaseOrder", FormMethod.Post, new { id = "addBundelItemForm" }))
+    {
+
+    for (int i = 0; i < Model.Count; i++)
+    {
+
+            @Html.HiddenFor(model => model[i].BunleID)
+            @Html.HiddenFor(model => model[i].IncProductID, new { id = "txtProductID" })
+            @Html.HiddenFor(model => model[i].IncProductType, new { id = "txtProductType" })
+            @Html.HiddenFor(model => model[i].IsControlItem, new { id = "txtIsControlItem" })
+            @Html.HiddenFor(model => model[i].IncRemark, new { id = "txtRemark" })
+            @Html.HiddenFor(model => model[i].IncModelNo, new { id = "txtModelNo" })
+
+            <div class="row">
+                <div class="infoBundle">
+
+
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.EditorFor(model => model[i].IncSKU, new { htmlAttributes = new { id = "txtSKU", @class = "form-control", @readonly = true } })
+                            @Html.ValidationMessageFor(model => model[i].IncSKU, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model[i].IncProductName, new { htmlAttributes = new { id = "txtProductName", @class = "form-control", @readonly = true } })
+                            @Html.ValidationMessageFor(model => model[i].IncProductName, "", new { @class = "text-danger" })
+
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.EditorFor(model => model[i].IncQty, new { htmlAttributes = new { id = "txtQty", @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model[i].IncQty, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        }
+
+    }
+
+
+
+
+

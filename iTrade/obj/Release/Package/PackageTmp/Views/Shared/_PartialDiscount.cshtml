@@ -1,0 +1,234 @@
+﻿
+
+<!-- modal placeholder-->
+<div id="discountModal" class="modal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='discountModalContent'>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 class="modal-title"><span class="lead">Overall Discount</span></h3>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span class="lead">Process Type</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <br />
+                            <div class="form-horizontal">
+                                <div class="form-group">
+
+                                    <div class="col-md-12">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="processType" value="1" checked />
+                                            By Amount
+                                        </label> &nbsp;&nbsp;
+                                        <label class="radio-inline">
+                                            <input type="radio" name="processType" value="2" />
+                                            By Percentage %
+                                        </label> &nbsp;&nbsp;
+                                        <label class="radio-inline">
+                                            <input type="radio" name="processType" value="3" />
+                                            Offer Final Amount at
+                                        </label>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <br />
+                        <div class="col-md-8 col-md-offset-2">
+
+                            <div class="form-group m-r-10">
+                                <input type="text" class="txtInputValue form-control col-md-6" id="txtInputValue" value="" placeholder="Numbers only" />
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <br />
+                        <div class="col-md-8 col-md-offset-2">
+                            <div class="form-group m-r-10 pull-right">
+                                <table>
+                                    <tr><td colspan="2">Overall Summary</td></tr>
+                                    <tr>
+                                        <td>Sub-Total: </td>
+                                        <td> <input type="text" id="txtPreDiscAmount" value="@Model.PreDiscAmount" readonly /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Discount: </td>
+                                        <td> <input type="text" id="txtDiscount" value="@Model.Discount" readonly /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Final Amount: </td>
+                                        <td> <input type="text" id="txtAmount" value="@Model.Amount" readonly /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Gst: </td>
+                                        <td> <input type="text" id="txtGst" value="@Model.Gst" readonly /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nett: </td>
+                                        <td> <input type="text" id="txtNett" value="@Model.Nett" readonly /></td>
+                                    </tr>
+
+                                </table>
+
+                                <input type="hidden" id="txtInvno" value="@Model.QuoID" />
+                                <input type="hidden" id="txtGstRate" value="0.07" />
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <br />
+
+                </div>
+
+                <div class="modal-footer">
+                    <span id="progress" class="text-center" style="display: none;">
+                        <img src="~/assets/img/Wait.gif" alt="wait" />
+                        Wait..
+                    </span>
+
+                    <input type="button" class="btn btn-primary" id="btnDiscount" value=" Save " />
+                    <button class="btn btn-white" data-dismiss="modal">Cancel</button>
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- modal placeholder-->
+<div id="commModal" class="modal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='commModalContent'>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 class="modal-title"><span class="lead">Commision</span></h3>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <br />
+                        <div class="col-md-12">
+                            <div class="form-group m-r-10 lead">
+                                <table class="table row-fluid" style="border-top: 0px; border-bottom: 0px;">
+                                    <tr>
+                                        <td>Sales Amount: </td>
+                                        <td class="lead"> <input type="text" id="txtSalesAmount" value="@Model.Amount" readonly /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Commision Rate (%): </td>
+                                        <td> <input type="text" id="txtCommRate" value="5.00" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Commision Total: </td>
+                                        <td> <input type="text" id="txtCommTotal" value="0.00" /></td>
+                                    </tr>
+
+                                </table>
+
+                                <input type="hidden" id="txtCommInvno" value="@Model.QuoID" />
+                                <input type="hidden" id="txtCommRateValue" value="0.00" />
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <br />
+
+                </div>
+
+                <div class="modal-footer">
+                    <span id="progress" class="text-center" style="display: none;">
+                        <img src="~/assets/img/Wait.gif" alt="wait" />
+                        Wait..
+                    </span>
+
+                    <input type="button" class="btn btn-primary" id="btnDiscount" value=" Save " />
+                    <button class="btn btn-white" data-dismiss="modal">Cancel</button>
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<!-- modal placeholder-->
+<div id="gstModal" class="modal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='gstModalContent'>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 class="modal-title lead">Zero-Rated GST</h3>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <br />
+                        <div class="col-md-8 col-md-offset-2">
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">GST Set To: </label>
+                                <div class="col-md-9">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" id="chkZeroRated" name="radioZeroRated" value="Yes" checked />
+                                            Zero-Rated
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" id="chkNonZeroRated" name="radioZeroRated" value="No" />
+                                            Non Zero-Rated
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input type="hidden" id="gstSorNo" value="@Model.QuoID" />
+                            <input type="hidden" id="txtUrl3" value="/Orders/_AddOverallDiscount" />
+                            <br />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <span id="progress3" class="text-center" style="display: none;">
+                        <img src="~/assets/img/Wait.gif" alt="wait" />
+                        Wait..
+                    </span>
+
+                    <input type="button" class="btn btn-primary" id="btnZeroRated" value=" Confirm " />
+                    <button class="btn btn-white" data-dismiss="modal">Cancel</button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+

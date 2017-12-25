@@ -1,0 +1,512 @@
+﻿
+
+@media screen {
+    body,
+    .content {
+        width: 210mm;
+        height: 297mm;
+        min-height: 297mm;
+        margin: 0;
+    }
+    .content {
+              background-color: #fff;
+    }
+
+    .table {
+        border: none;
+    }
+    .table td,
+    .table th {
+        background-color: #fff !important; }
+    .table th {
+
+        font-weight: 700;
+    }
+    .table-bordered > thead > tr > th,
+    .table-bordered > tbody > tr > td {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border: 1px solid #000 !important; 
+
+    } 
+    .table-bordered > tfoot > tr > td {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border: 0px solid #000; 
+
+    } 
+
+
+#page1 {
+
+}
+
+
+.invoice {
+    margin: 0;
+    background-color: #fff;
+}
+
+.inv-header {
+	position: absolute;
+    margin: 0 !important;
+    padding: 0 !important;
+	top: 0mm;
+    width: 192mm;
+    height: 43mm;
+}
+
+.inv-header .invoice-company {
+        border-bottom: 0px solid #e2e7eb !important;
+        margin-bottom: 20px !important;
+        text-align: center;
+    }
+
+.inv-content {
+	position: absolute;
+    margin: 0 !important;
+    padding: 0 !important;
+	top: 45mm;
+    height: 225mm;
+
+}
+
+.content-header {
+ 	margin: 20px 0 0 2mm;
+	width: 192mm;
+
+}
+
+
+.content-header .invoice-from, 
+.content-header .invoice-to {
+    float: left !important;
+    display: inline !important;
+    width: 25% !important;
+    margin: 0 !important;
+}
+
+.content-header .invoice-date {
+    float: right !important;
+    margin: 0 !important;
+    width: 25% !important;
+    display: inline !important;
+    text-align: right !important;
+}
+
+
+
+
+.content-items {
+ 	margin: 20px 0 0 2mm;
+	width: 192mm;
+
+}
+
+
+.inv-totalamount {
+	position: absolute;
+ 	margin: 20px 0 0 2mm;
+	width: 192mm;
+	top: 230mm;
+    height: 28mm;
+ 
+}
+
+.inv-signature {
+	position: absolute;
+ 	margin: 20px 0 0 2mm;
+	width: 192mm;
+	top: 262mm;
+    height: 28mm;
+	border-bottom: 1px solid #000;
+}
+
+.inv-signature .inv-receivedby {	
+    float:left;
+	color: #000;
+	margin: 0;
+	padding: 2px, 0 0 0;
+	width: 48%;
+
+}
+
+.inv-signature .inv-preparedby {
+    float:right;
+	color: #000;
+	margin: 0;
+	padding: 2px 0 0 0;
+	position: absolute;
+	width: 48%;
+
+}
+
+
+.inv-footer {
+	position: absolute;
+    margin: 0 !important;
+    padding: 0 !important;
+	top: 284mm;
+
+}
+
+
+
+#page2 {
+
+}
+
+
+.page2-header {
+	position: absolute;
+    margin: 0 !important;
+    padding: 0 !important;
+	top: 298mm;
+    width: 192mm;
+    height: 43mm;
+}
+
+.page2-header .invoice-company {
+        border-bottom: 0px solid #e2e7eb !important;
+        margin-bottom: 20px !important;
+        text-align: center;
+    }
+
+.page2-content {
+	position: absolute;
+    margin: 0 !important;
+    padding: 0 !important;
+	top: 343mm;
+    height: 225mm;
+
+}
+
+.content-header {
+ 	margin: 20px 0 0 2mm;
+	width: 192mm;
+
+}
+
+
+.content-header .invoice-from, 
+.content-header .invoice-to {
+    float: left !important;
+    display: inline !important;
+    width: 25% !important;
+    margin: 0 !important;
+}
+
+.content-header .invoice-date {
+    float: right !important;
+    margin: 0 !important;
+    width: 25% !important;
+    display: inline !important;
+    text-align: right !important;
+}
+
+
+
+
+.content-items {
+ 	margin: 20px 0 0 2mm;
+	width: 192mm;
+
+}
+
+
+.page2-totalamount {
+	position: absolute;
+ 	margin: 20px 0 0 2mm;
+	width: 192mm;
+	top: 528mm;
+    height: 28mm;
+
+}
+
+
+.page2-signature {
+	position: absolute;
+ 	margin: 20px 0 0 2mm;
+	width: 192mm;
+	top: 562mm;
+    height: 28mm;
+	border-bottom: 1px solid #000;
+}
+
+
+
+.page2-footer {
+	position: absolute;
+    margin: 0 !important;
+    padding: 0 !important;
+	top: 582mm;
+
+}
+
+
+
+
+
+}
+
+
+
+
+@media print {
+    body,
+    .content,
+    .page-header-fixed {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    body,
+    .content {
+        width: 210mm;
+        height: 297mm;
+        min-height: 297mm;
+        margin: 0;
+        background-color: #fff;
+    }
+
+    .table {
+        border: none;
+    }
+    .table td,
+    .table th {
+        background-color: #fff !important; }
+    .table th {
+        font-size: 9pt;
+        font-weight: 700;
+    }
+
+    .table-bordered th,
+    .table-bordered td {
+      border: 1px solid #fff !important;
+    }
+
+    .table-bordered > thead > tr > th,
+    .table-bordered > tbody > tr > td {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border: 1px solid #000 !important; 
+
+    } 
+    .table-bordered > tfoot > tr > td {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border: 0px solid #000; 
+
+    } 
+
+.invoice {
+    margin: 0;
+    background-color: #fff;
+}
+
+.invoice table tfoot {
+    border: 0px solid #ffffff;
+}
+
+.inv-header {
+	position: absolute;
+    margin: 0 !important;
+    padding: 0 !important;
+	top: 0mm;
+    height: 43mm;
+}
+
+.inv-header .content-company {
+    border-bottom: 0px solid #e2e7eb !important;
+    margin-bottom: 20px !important;
+    text-align: center;
+
+    display: none;
+
+    }
+
+
+.inv-content {
+	position: absolute;
+    margin: 0 !important;
+    padding: 0 !important;
+	top: 45mm;
+    height: 225mm;
+}
+
+.content-header {
+ 	margin: 20px 0 0 2mm;
+	width: 192mm;
+
+}
+
+
+
+.content-header .invoice-from, 
+.content-header .invoice-to {
+    float: left !important;
+    display: inline !important;
+    width: 25% !important;
+    margin: 0 !important;
+}
+
+.content-header .invoice-date {
+    float: right !important;
+    margin: 0 !important;
+    width: 25% !important;
+    display: inline !important;
+    text-align: right !important;
+}
+
+
+
+.content-items {
+ 	margin: 20px 0 0 2mm;
+	width: 192mm;
+
+}
+
+.inv-totalamount {
+	position: absolute;
+ 	margin: 20px 0 0 2mm;
+	width: 192mm;
+	top: 220mm;
+    height: 28mm;
+ 
+}
+
+
+.inv-signature {
+	position: absolute;
+ 	margin: 20px 0 0 2mm;
+	width: 192mm;
+	top: 254mm;
+    height: 23mm;
+	border-bottom: 1px solid #000;
+}
+
+.inv-signature .inv-receivedby {	
+    float:left;
+	color: #000;
+	margin: 0;
+	padding: 2px, 0 0 0;
+	width: 48%;
+
+}
+
+.inv-signature .inv-preparedby {
+    float:right;
+	color: #000;
+	margin: 0;
+	padding: 2px 0 0 0;
+	position: absolute;
+	width: 48%;
+
+}
+
+
+.inv-footer {
+	position: absolute;
+    margin: 0 !important;
+    padding: 0 !important;
+	top: 284mm;
+
+    page-break-after: always;
+
+}
+
+
+#page2 {
+
+}
+
+
+.page2-header {
+	position: absolute;
+    margin: 0 !important;
+    padding: 0 !important;
+	top: 298mm;
+    width: 192mm;
+    height: 43mm;
+}
+
+.page2-header .invoice-company {
+        border-bottom: 0px solid #e2e7eb !important;
+        margin-bottom: 20px !important;
+        text-align: center;
+    }
+
+.page2-content {
+	position: absolute;
+    margin: 0 !important;
+    padding: 0 !important;
+	top: 343mm;
+    height: 225mm;
+
+}
+
+.content-header {
+ 	margin: 20px 0 0 2mm;
+	width: 192mm;
+
+}
+
+
+.content-header .invoice-from, 
+.content-header .invoice-to {
+    float: left !important;
+    display: inline !important;
+    width: 25% !important;
+    margin: 0 !important;
+}
+
+.content-header .invoice-date {
+    float: right !important;
+    margin: 0 !important;
+    width: 25% !important;
+    display: inline !important;
+    text-align: right !important;
+}
+
+
+
+
+.content-items {
+ 	margin: 20px 0 0 2mm;
+	width: 192mm;
+
+}
+
+
+.page2-totalamount {
+	position: absolute;
+ 	margin: 20px 0 0 2mm;
+	width: 192mm;
+	top: 528mm;
+    height: 28mm;
+}
+
+.page2-signature {
+	position: absolute;
+ 	margin: 20px 0 0 2mm;
+	width: 192mm;
+	top: 562mm;
+    height: 23mm;
+	border-bottom: 1px solid #000;
+}
+
+
+
+.page2-footer {
+	position: absolute;
+    margin: 0 !important;
+    padding: 0 !important;
+	top: 582mm;
+
+}
+
+
+
+
+
+}

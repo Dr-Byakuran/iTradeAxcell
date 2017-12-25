@@ -1,0 +1,107 @@
+﻿@model List<iTrade.Models.PoKIV>
+
+<!-- begin row -->
+<div class="row">
+    <!-- begin col-12 -->
+    <div class="col-md-12">
+        <!-- begin panel -->
+        <div class="panel panel-inverse">
+
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table id="data-table1" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                     
+                                @*<th class="col-md-3">
+                                    Company
+                                </th>*@
+                                <th>
+                                    Invoice#
+                                </th>
+                                <th>Date </th>
+
+                                <th class="col-md-3">
+                                    Product Name
+                                </th>
+                                <th>SKU</th>
+                                <th>
+                                    Order Qty
+                                </th>
+                                <th>Balance Qty</th>
+                                <th>Remark</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+                                if (Model[i].BalanceQty != 0)
+                                {
+                                    <tr>
+                                         
+                                        @*<td class="col-md-3">@Model[i].CustName </td>*@
+                                        <td><a href="#" class="selectInvNo" data-id="@Model[i].InvNo"> @Model[i].InvNo </a>
+                                            <span class="pull-right">
+                                                <button id="btnSelectInvNo" class="selectInvNo btn btn-xs btn-primary" data-id="@Model[i].InvNo"><span class="fa fa-send" aria-hidden="true"></span></button>
+                                            </span>
+                            
+                                           
+                                            
+                                        </td>
+                                        <td>@Model[i].InvDate.ToShortDateString()</td>
+
+                                        <td class="col-md-3">
+                                            @Model[i].ProductName
+                                            @if (Model[i].SalesType == "FOCItem")
+                                            {
+                                                <span class="label label-warning">FOC</span>
+                                            }
+                                        </td>
+                                        <td>@Model[i].SKU </td>
+
+                                        <td>@Html.DisplayFor(model => model[i].OrderQty, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                        <td style="font-size: 16px; font-weight:bold;">@Html.DisplayFor(model => model[i].BalanceQty, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                        <td>@Model[i].Remark  </td>
+                                    </tr>
+                                }
+
+
+                            }
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- end panel -->
+    </div>
+    <!-- end col-12 -->
+</div>
+<!-- end row -->
+
+
+<script>
+    $(document).ready(function () {
+        $('#data-table1').DataTable({
+            "iDisplayLength": 100,
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on("click", ".selectInvNo", function () {
+            var myInvNo = $(this).data('id');
+         //   alert(myInvNo);
+
+            $("#invRef").val(myInvNo);
+            $("#addKivOrderForm").submit();
+ 
+        });
+    });
+</script>
+

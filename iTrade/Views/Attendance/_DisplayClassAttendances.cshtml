@@ -1,0 +1,239 @@
+﻿@model IEnumerable<iTrade.Models.ClassAttendance>
+
+@using (Html.BeginForm("_DisplayClassAttendance", "Attendance", FormMethod.Post, new { id = "editAttendanceForm" }))
+{
+    <table id="data-table0" class="table table-condensed">
+        <thead>
+            <tr>
+                <th>
+                    No
+                </th>
+                <th class="col-md-3">
+                    Class Name
+                </th>
+                <th>Type</th>
+                <th>Date</th>
+                <th>
+                    Weekday
+                </th>
+                <th>
+                    Start/End Time
+                </th>
+
+                <th>Tutor</th>
+                <th>Status</th>
+                <th> Action </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int i = 0; }
+            @foreach (var item in Model)
+            {
+                i++;
+                <tr class="even gradeC">
+                    <td>
+                        @i
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CourseName) <br />
+                        <span class="small">@Html.DisplayFor(modelItem => item.CourseLevel) - @Html.DisplayFor(modelItem => item.CourseDuration) - @Html.DisplayFor(modelItem => item.TeacherLevel) </span>
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OptionName)
+                    </td>
+                    <td>
+                        @item.AttendDate.ToShortDateString()   
+                    </td>
+                    <td>
+                        @Enum.GetName(typeof(DayOfWeek), item.Weekday)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTimeValue) - @Html.DisplayFor(modelItem => item.EndTimeValue)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TutorName)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Manage", "Attendance", new { id = item.AttendID, thedate = DateTime.Now.ToShortDateString() })" class="btn btn-primary">
+                            <span class="fa fa-angle-double-right" />
+                        </a>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="8"> </td>
+            </tr>
+
+        </tfoot>
+
+
+
+    </table>
+
+}
+
+
+
+<!-- modal placeholder-->
+<div id="myModal" class="modal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        //var table = $('#data-table10').DataTable({
+        //    'columnDefs': [
+        //       {
+        //           'targets': 0,
+        //           'checkboxes': {
+        //               'selectRow': true
+        //           }
+        //       }
+        //    ],
+        //    'select': {
+        //        'style': 'multi'
+        //    },
+        //    'order': [[1, 'asc']]
+        //});
+
+
+        //$('#data-table1').DataTable({
+        //    "bLengthChange": false,
+        //    "iDisplayLength": 100,
+        //    "dom": '<"pull-left"f><"pull-right"l>tip'
+        //});
+
+    });
+</script>
+
+<script>
+
+    function delItem(ID) {
+
+        var newUrl1 = $('#txtUrl1').val();
+
+        $.ajax({
+            type: 'GET',
+            url: '/Attendance/_DelItem',
+            dataType: "json",
+            contentType: 'application/json, charset=utf-8',
+            data: {
+                id: ID
+            },
+            success: function (result) {
+                if (result.success) {
+                 //   alert("Item Deleted");
+                    $("#divOrderDetail").load(newUrl1);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+
+        });
+    }
+
+    function itemMoveUp(ID)
+    {
+        var newUrl1 = $('#txtUrl1').val();
+        $.ajax({
+            type: 'GET',
+            url: '/Attendance/_ItemMoveUp',
+            dataType: "json",
+            contentType: 'application/json, charset=utf-8',
+            data: {
+                id: ID
+            },
+            success: function (result) {
+                if (result.success) {
+                    //   alert("Item Deleted");
+                    $("#divOrderDetail").load(newUrl1);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+
+        });
+    }
+
+</script>
+
+<script type="text/javascript">
+    $("#btnSubmitAttendeeInfo").click(function () {
+        $("#editAttendeesForm").submit(function (e) {
+            e.preventDefault();
+            var newUrl1 = $('#txtUrl1').val();
+            //  alert('Form is submitting');
+            $.ajax({
+                url: this.action,
+                type: this.method,
+                data: $(this).serializeArray(),
+                success: function (result) {
+                    if (result.success) {
+                        $("#divOrderDetail").load(newUrl1);
+                        alert("Items Saved.");
+
+                    } else {
+                        alert("Items Not Saved.");
+                    }
+                }
+            });
+            return true;
+        });
+        $("#editAttendeesForm").submit(); //invoke form submission
+
+    });
+
+</script>
+
+
+
+
+<style>
+    .chkLeft {
+        position: absolute;
+        left: -5px;
+        display: inline-block;
+    }
+</style>
+
+<script>
+    $(function () {
+        $(".chkLeft").parent().css("position", "relative");
+        $("input[type='checkbox'][name='chkAll']").change(function () {
+            if ($(this).prop("checked") == true)
+                $("tbody tr").find("td:eq(3)>input[type='checkbox']").prop('checked', true);
+            else
+                $("tbody tr").find("td:eq(3)>input[type='checkbox']").prop('checked', false);
+        });
+
+        $("#submissionToexcel").click(function (e) {
+            e.preventDefault();
+            var params = ShowChk();
+            if (params == "")
+                return;
+            var url = "/Attendance/SubmissionToExcel?DetIdStr=" + params;
+            window.open(url);
+            //alert(ShowChk());
+        })
+    })
+    function ShowChk() {
+        return $("tbody tr").find("td:eq(3)>input[type='checkbox']:checked").map(function () {
+            return $(this).attr("value");
+        }).get().join(",");
+    }
+</script>

@@ -1,0 +1,103 @@
+﻿@model iTrade.Models.KivExchangeOrder
+
+<!-- begin panel -->
+<div class="panel panel-inverse">
+    <div class="panel-body">
+        <div id="item-session">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="width:120px;">&nbsp; </th>
+                        <th>
+                            NO
+                        </th>
+                        <th class="col-md-4">
+                            Item Description
+                        </th>
+                        <th>
+                            Exchange Order Qty
+                        </th>
+                        <th>
+                            Exchange Qty
+                        </th>
+                        <th>
+                            Qty Changed
+                        </th>
+                        <th>
+
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @{Html.RenderAction("_DisplayInvDetsViewEor", "KivOrders", new { id = Model.KivEorID, act = ViewBag.Act });}
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="7"> &nbsp; </td>
+                    </tr>
+
+                    @*@if (Model.Status != "Invoiced")
+                        {
+                            {Html.RenderAction("_AddDet", "Orders", new { id = Model.SorNo });}
+                        }*@
+
+                </tfoot>
+
+            </table>
+
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+
+                            @if (ViewBag.Act != "1")
+                            {
+                                @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { id = "inputRemark", @class = "form-control", placeholder = "Remarks" } })
+
+                            }
+                            else
+                            {
+                                if (!string.IsNullOrEmpty(Model.Remark))
+                                {
+                                    <span>
+                                        Remark: <br /> @Html.DisplayFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control" } })
+                                    </span>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="row">
+                        <div class="col-md-11  col-md-offset-1">
+                            <span class="lead"><u>KIV Info </u></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-11  col-md-offset-1">
+                            <div id="divKivDets">
+                                @{Html.RenderAction("_DisplayKivDetsEor", "KivOrders", new { id = Model.KivEorID, act = 1 });}
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div class="col-md-4">
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+<!-- end panel -->
+

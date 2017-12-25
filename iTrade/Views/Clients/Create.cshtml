@@ -1,0 +1,547 @@
+﻿@using iTrade.CustomHtmlHelper;
+@using iTrade.Models;
+@model iTrade.Models.ClientViewModel
+@*@model IEnumerable<iTrade.Models.Staff>*@
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+@using (Html.BeginForm())
+{
+    <!-- begin page-header -->
+    <div class="page-header lead">
+        Students / New
+        <span class="email-btn-row pull-right">
+            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-default" })
+            <button type="button" id="btnSaveAndAdd" class="btn btn-default">Save & Add Another</button>
+            <button type="submit" id="btnSaveChanges" class="btn btn-primary">Save Changes</button>
+        </span>
+    </div>
+    <!-- end page-header -->
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Client.SalesPersonID, new { id = "personID", @Value = "0" })
+    @Html.HiddenFor(model => model.Client.SalesPersonName, new { id = "personName", @Value = "" })
+    @Html.HiddenFor(model => model.Client.AssignedTo, new { @Value = "" })
+    @Html.HiddenFor(model => model.Client.CreatedBy)
+    @Html.HiddenFor(model => model.Client.CreatedOn)
+
+
+    <div class="">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#default-tab-1" data-toggle="tab"><h5 class="media-heading">General Info</h5> </a></li>
+            <li class=""><a href="#default-tab-2" data-toggle="tab"><h5 class="media-heading">Address / Contacts </h5> </a></li>
+            <li class=""><a href="#default-tab-3" data-toggle="tab"><h5 class="media-heading">Parents / Guardiant</h5> </a></li>
+            <li class="hidden"><a href="#default-tab-4" data-toggle="tab"><h5 class="media-heading">Financial</h5> </a></li>
+            <li class=""><a href="#default-tab-5" data-toggle="tab"><h5 class="media-heading">Sales History</h5> </a></li>
+        </ul>
+
+    </div>
+    <div class="tab-content">
+        <div class="tab-pane fade active in" id="default-tab-1">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Client.CustName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Client.CustName, new { htmlAttributes = new { @class = "form-control", placeholder = "Student name" } })
+                        @Html.ValidationMessageFor(model => model.Client.CustName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Client.AccType, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @*<label class="radio-inline">@Html.RadioButtonFor(x => x.Client.AccType, "CS") CASH</label> &nbsp;&nbsp;*@
+                        <label class="radio-inline">@Html.RadioButtonFor(x => x.Client.AccType, "CR", new { @checked = "checked" }) STANDARD </label>
+                    </div>
+                    @Html.LabelFor(model => model.Client.DiscountPercent, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.Client.DiscountPercent, new { htmlAttributes = new { @Value = "0.00", @class = "form-control", placeholder = "0.00" } })
+                        @Html.ValidationMessageFor(model => model.Client.DiscountPercent, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Client.AccNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.Client.AccNo, new { htmlAttributes = new { @class = "form-control", @readonly = true, placeholder = "Auto number" } })
+                        @Html.ValidationMessageFor(model => model.Client.AccNo, "", new { @class = "text-danger" })
+                    </div>
+                    @Html.LabelFor(model => model.Client.Terms, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.Client.Terms, new { htmlAttributes = new { @class = "form-control", placeholder = "Terms" } })
+                        @Html.ValidationMessageFor(model => model.Client.Terms, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Client.NRIC, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.Client.NRIC, new { htmlAttributes = new { @class = "form-control", placeholder = "BC/NRIC or Passport number" } })
+                        @Html.ValidationMessageFor(model => model.Client.NRIC, "", new { @class = "text-danger" })
+                    </div>
+                    @Html.LabelFor(model => model.Client.SalesPersonName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        <select class="form-control staffpicker">
+                            <option value="0" selected>Assign sales person</option>
+                            @foreach (var item in ViewData["StaffsAll"] as IEnumerable<iTrade.Models.Staff>)
+                            {
+                                <option value="@item.StaffID">@item.FirstName  @item.LastName</option>
+                                //@item.FileName  // instead .FileName use property which u used in ur model class
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Client.Nationality, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.Client.Nationality, new { htmlAttributes = new { @class = "form-control", placeholder = "Nationality" } })
+                        @Html.ValidationMessageFor(model => model.Client.Nationality, "", new { @class = "text-danger" })
+                    </div>
+                    @Html.LabelFor(model => model.Client.LeadChannel, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.Client.LeadChannel, new { htmlAttributes = new { @class = "form-control", placeholder = "Lead source" } })
+                        @Html.ValidationMessageFor(model => model.Client.LeadChannel, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Client.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.DropDownListFor(model => model.Client.Gender, new List<SelectListItem> {
+                                                                                        new SelectListItem { Value = "Unknown", Text = "Select Gender", Selected = true },
+                                                                                        new SelectListItem { Value = "Male", Text = "Male" },
+                                                                                        new SelectListItem { Value = "Female", Text = "Female" }
+                                                                                      }, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Client.Gender, "", new { @class = "text-danger" })
+
+                    </div>
+                    @Html.LabelFor(model => model.Client.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.DropDownListFor(model => model.Client.Status, new List<SelectListItem> {
+                                                                                        new SelectListItem { Value = "Normal", Text = "Normal", Selected = true },
+                                                                                        new SelectListItem { Value = "Blacklist", Text = "Blacklist" }
+                                                                                      }, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Client.Status, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Client.DateOfBirth, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.Client.DateOfBirth, new { htmlAttributes = new { id = "birthDate", @class = "form-control", placeholder = "dd/mm/yyyy" } })
+                        @Html.ValidationMessageFor(model => model.Client.DateOfBirth, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Client.CurrentSchool, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Client.CurrentSchool, new { htmlAttributes = new { @class = "form-control", placeholder = "Current school" } })
+                        @Html.ValidationMessageFor(model => model.Client.CurrentSchool, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Client.CurrentLevel, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Client.CurrentLevel, new { htmlAttributes = new { @class = "form-control", placeholder = "Current level" } })
+                        @Html.ValidationMessageFor(model => model.Client.CurrentLevel, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Client.EnableMarketing, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            <label class="radio-inline">@Html.RadioButtonFor(x => x.Client.EnableMarketing, "Yes") Yes</label> &nbsp;&nbsp;
+                            <label class="radio-inline">@Html.RadioButtonFor(x => x.Client.EnableMarketing, "No", new { @checked = "checked" }) No</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Client.MedicalCondition, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.Client.MedicalCondition, new { htmlAttributes = new { @class = "form-control", placeholder = "Medical Condition / Allergies" } })
+                            @Html.ValidationMessageFor(model => model.Client.MedicalCondition, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Client.CCANote, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.Client.CCANote, new { htmlAttributes = new { @class = "form-control", placeholder = "CCA in School & Frequency" } })
+                            @Html.ValidationMessageFor(model => model.Client.CCANote, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Client.IsAttendOthers, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            <label class="radio-inline">@Html.RadioButtonFor(x => x.Client.IsAttendOthers, "Yes") Yes</label> &nbsp;&nbsp;
+                            <label class="radio-inline">@Html.RadioButtonFor(x => x.Client.IsAttendOthers, "No", new { @checked = "checked" }) No</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Client.VenueNote, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.Client.VenueNote, new { htmlAttributes = new { @class = "form-control", placeholder = "Venue & Frequency" } })
+                            @Html.ValidationMessageFor(model => model.Client.VenueNote, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Client.Group, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.Client.Group, new { htmlAttributes = new { @class = "form-control", placeholder = "Customer group" } })
+                        @Html.ValidationMessageFor(model => model.Client.Group, "", new { @class = "text-danger" })
+                    </div>
+                    @Html.LabelFor(model => model.Client.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.DropDownListFor(model => model.Client.IsActive, Html.OptionsForBoolean(model => model.Client.IsActive), htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Client.IsActive, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Client.Remark, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Client.Remark, new { htmlAttributes = new { @class = "form-control", placeholder = "Remarks" } })
+                        @Html.ValidationMessageFor(model => model.Client.Remark, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                @*<div class="form-group">
+                    @Html.LabelFor(model => model.Client.AssignedTo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.Client.AssignedTo, new { htmlAttributes = new { @class = "form-control", placeholder = "Assign To" } })
+                        @Html.ValidationMessageFor(model => model.Client.AssignedTo, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+                <br />
+            </div>
+
+        <br />
+    </div>
+    <div class="tab-pane fade" id="default-tab-2">
+        <br />
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Client.Addr1, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Client.Addr1, new { htmlAttributes = new { @class = "form-control", placeholder = "Address line 1" } })
+                    @Html.ValidationMessageFor(model => model.Client.Addr1, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Client.Addr2, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Client.Addr2, new { htmlAttributes = new { @class = "form-control", placeholder = "Address line 2" } })
+                    @Html.ValidationMessageFor(model => model.Client.Addr2, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Client.Addr3, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Client.Addr3, new { htmlAttributes = new { @class = "form-control", placeholder = "Address line 3" } })
+                    @Html.ValidationMessageFor(model => model.Client.Addr3, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Client.Addr4, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Client.Addr4, new { htmlAttributes = new { @class = "form-control", placeholder = "Address line 4" } })
+                    @Html.ValidationMessageFor(model => model.Client.Addr4, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Client.Country, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.Client.Country, new { htmlAttributes = new { @Value = "Singapore", @class = "form-control", placeholder = "Country" } })
+                    @Html.ValidationMessageFor(model => model.Client.Country, "", new { @class = "text-danger" })
+                </div>
+                @Html.LabelFor(model => model.Client.PostalCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.Client.PostalCode, new { htmlAttributes = new { @class = "form-control", placeholder = "Postal Code" } })
+                    @Html.ValidationMessageFor(model => model.Client.PostalCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Client.ContactPerson, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.Client.ContactPerson, new { htmlAttributes = new { @class = "form-control", placeholder = "Contact person" } })
+                    @Html.ValidationMessageFor(model => model.Client.ContactPerson, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Client.PhoneNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.Client.PhoneNo, new { htmlAttributes = new { @class = "form-control", placeholder = "Main phone number" } })
+                    @Html.ValidationMessageFor(model => model.Client.PhoneNo, "", new { @class = "text-danger" })
+                </div>
+                @Html.LabelFor(model => model.Client.FaxNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.Client.FaxNo, new { htmlAttributes = new { @class = "form-control", placeholder = "Fax number" } })
+                    @Html.ValidationMessageFor(model => model.Client.FaxNo, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Client.PhoneNo2, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.Client.PhoneNo2, new { htmlAttributes = new { @class = "form-control", placeholder = "Other phone number" } })
+                    @Html.ValidationMessageFor(model => model.Client.PhoneNo2, "", new { @class = "text-danger" })
+                </div>
+                @Html.LabelFor(model => model.Client.MobileNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.Client.MobileNo, new { htmlAttributes = new { @class = "form-control", placeholder = "Mobile number" } })
+                    @Html.ValidationMessageFor(model => model.Client.MobileNo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Client.PrimaryEmail, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Client.PrimaryEmail, new { htmlAttributes = new { @class = "form-control", placeholder = "Email address" } })
+                    @Html.ValidationMessageFor(model => model.Client.PrimaryEmail, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Client.Website, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Client.Website, new { htmlAttributes = new { @class = "form-control", placeholder = "Company website" } })
+                    @Html.ValidationMessageFor(model => model.Client.Website, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+
+            <br /><br /><br />
+        </div>
+
+    <div class="tab-pane fade" id="default-tab-3">
+        <p class="lead">Parents and Guardiant</p>
+        <div class="row">
+            <div class="col-md-1">
+                <h5>Type</h5>
+            </div>
+            <div class="col-md-2">
+                <h5>Name</h5>
+            </div>
+            <div class="col-md-2">
+                <h5>NRIC</h5>
+            </div>
+            <div class="col-md-2">
+                <h5>Phone</h5>
+            </div>
+            <div class="col-md-2">
+                <h5>Mobile</h5>
+            </div>
+            <div class="col-md-2">
+                <h5>Email</h5>
+            </div>
+            <div class="col-md-1">
+
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div id="divContactPersons">
+                    @Html.EditorFor(x => x.Client.ClientContacts)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+
+                    @Html.AddLink("Add Contact", "#divContactPersons", ".infoContactPerson", "ContactPersons", typeof(iTrade.Models.ClientContact))
+
+                </div>
+            </div>
+        </div>
+
+        <br /><br /><br />
+    </div>
+
+    <div class="tab-pane fade hidden" id="default-tab-4">
+        <p class="lead">Credit Limit Settings</p>
+        <br />
+        <div class="form-horizontal">
+ 
+            <div class="form-group">
+                @Html.LabelFor(model => model.ClientCreditSetting.IsCreditAllowed, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.DropDownListFor(model => model.ClientCreditSetting.IsCreditAllowed, Html.OptionsForBoolean(model => model.ClientCreditSetting.IsCreditAllowed), htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ClientCreditSetting.IsCreditAllowed, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ClientCreditSetting.CreditLimit, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.ClientCreditSetting.CreditLimit, new { htmlAttributes = new { @class = "form-control", @placeholder = "$0.00", @data_parsley_type = "number", @onkeypress = "return isDecimal(event)" } })
+                    @Html.ValidationMessageFor(model => model.ClientCreditSetting.CreditLimit, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ClientCreditSetting.OverdueLimit, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.ClientCreditSetting.OverdueLimit, new { htmlAttributes = new { @class = "form-control", @placeholder = "$0.00", @data_parsley_type = "number", @onkeypress = "return isDecimal(event)" } })
+                    @Html.ValidationMessageFor(model => model.ClientCreditSetting.OverdueLimit, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ClientCreditSetting.PaymentTerms, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.ClientCreditSetting.PaymentTerms, new { htmlAttributes = new { @class = "form-control", @placeholder = "0", @data_parsley_type = "number", @onkeypress = "return isNumber(event)" } })
+                    @Html.ValidationMessageFor(model => model.ClientCreditSetting.PaymentTerms, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            </div>
+
+        </div>
+    <div class="tab-pane fade" id="default-tab-5">
+        <p class="lead">Sales history</p>
+        <br /><br /><br />
+    </div>
+
+
+
+    </div>
+
+
+}
+
+
+
+@section Scripts{
+    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/modal-client.js")"></script>
+
+
+}
+
+<script type="text/javascript">
+    function isDecimal(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode == 8 || charCode == 46)
+        { return true; }
+        else if (charCode > 31 && (charCode < 46 || charCode > 57)) {
+            return false;
+        }
+        else if (charCode == 47)
+        { return false; }
+        else
+        { return true; }
+    }
+
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode == 8 || charCode == 46)
+        { return true; }
+        else if ((charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        else { return true; }
+    }
+
+    $(document).ready(function () {
+        var isCreditAllowedVal = $('#ClientCreditSetting_IsCreditAllowed').val();
+        if (isCreditAllowedVal == 'True') {
+            $("#ClientCreditSetting_CreditLimit").removeAttr('disabled');
+            $("#ClientCreditSetting_PaymentTerms").removeAttr('disabled');
+            $("#ClientCreditSetting_OverdueLimit").removeAttr('disabled');
+        }
+        else if (isCreditAllowedVal == 'False') {
+            $("#ClientCreditSetting_CreditLimit").attr('disabled', 'disabled');
+            $("#ClientCreditSetting_PaymentTerms").attr('disabled', 'disabled');
+            $("#ClientCreditSetting_OverdueLimit").attr('disabled', 'disabled');
+            $("#ClientCreditSetting_CreditLimit").val('');
+            $("#ClientCreditSetting_PaymentTerms").val('');
+            $("#ClientCreditSetting_OverdueLimit").val('');
+        }
+    });
+
+    $(function () {
+        $('#ClientCreditSetting_IsCreditAllowed').change(function () {
+            var isCreditAllowedVal = $('#ClientCreditSetting_IsCreditAllowed').val();
+            if (isCreditAllowedVal == 'True') {
+                $("#ClientCreditSetting_CreditLimit").removeAttr('disabled');
+                $("#ClientCreditSetting_PaymentTerms").removeAttr('disabled');
+                $("#ClientCreditSetting_OverdueLimit").removeAttr('disabled');
+            }
+            else if (isCreditAllowedVal == 'False') {
+                $("#ClientCreditSetting_CreditLimit").attr('disabled', 'disabled');
+                $("#ClientCreditSetting_PaymentTerms").attr('disabled', 'disabled');
+                $("#ClientCreditSetting_OverdueLimit").attr('disabled', 'disabled');
+                $("#ClientCreditSetting_CreditLimit").val('');
+                $("#ClientCreditSetting_PaymentTerms").val('');
+                $("#ClientCreditSetting_OverdueLimit").val('');
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        // App.init();
+        TableManageDefault.init();
+        // Notification.init();
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("select.staffpicker").change(function () {
+            var staffid = $(".staffpicker option:selected").val();
+            var staffname = $(".staffpicker option:selected").text().trim();
+
+            $('#personID').val(staffid);
+            $('#personName').val(staffname);
+
+            //   alert($('#personID').val() + "-" + $('#personName').val());
+
+        });
+    });
+
+</script>
+
+
+<script type="text/javascript">
+    function removeNestedForm(element, container, deleteElement) {
+        $container = $(element).parents(container);
+        $container.find(deleteElement).val('True');
+        $container.hide();
+    }
+
+    function addNestedForm(container, counter, ticks, content) {
+        var nextIndex = $(counter).length;
+        var pattern = new RegExp(ticks, "gi");
+        content = content.replace(pattern, nextIndex);
+        $(container).append(content);
+
+    }
+
+
+</script>

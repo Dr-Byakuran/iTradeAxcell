@@ -1,0 +1,742 @@
+﻿@model iTrade.Models.INV
+@*@model IEnumerable<iTrade.Models.INV>*@
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-datepicker/css/datepicker.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-combobox/css/bootstrap-combobox.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/select2/dist/css/select2.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/parsley/src/parsley.css")" rel="stylesheet" type="text/css" />
+
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin page-header -->
+<h1 class="page-header lead">Sales Invoices</h1>
+<!-- end page-header -->
+<div class="row email-btn-row hidden-xs">
+    <div class="col-md-2">
+        <a href="@Url.Action("Index")"><span class="btn btn-primary"><i class="fa fa-chevron-left m-r-5"></i>  Back To List</span></a>
+    </div>
+
+
+    <span class="pull-right hidden-print">
+        <a href="/Sales/InvPrint/@Model.InvID" target="_blank" class="btn btn-sm btn-success m-b-10"><i class="fa fa-print m-r-5"></i> Print</a>
+        <a href="javascript:;" class="btn btn-sm btn-success m-b-10"><i class="fa fa-download m-r-5"></i> Export as PDF</a>
+
+    </span>
+
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="form-horizontal">
+            @using (Html.BeginForm(new { id = "form1" }))
+            {
+                @Html.Label("Invoice #", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <select name="InvID" class="form-control selectpicker col-md-3" data-size="10" data-live-search="true" data-style="btn-white">
+                        <option value="" selected>Select invoice number</option>
+                        @foreach (var item in ViewData["InvoicesAll"] as IEnumerable<iTrade.Models.INV>)
+                        {
+                            <option value="@item.InvID"
+                                    @if (item.InvID == Model.InvID) { <text> selected="selected" </text>           }>
+                                @item.InvID | @item.CustName | @item.Nett | @item.IsPaid
+                            </option>
+                            //@item.FileName  // instead .FileName use property which u used in ur model class
+                        }
+                    </select>
+
+                </div>
+
+            }
+
+            </div>
+
+        </div>
+
+    <div class="col-md-7">
+        <div class="form-horizontal">
+            @using (Html.BeginForm())
+            {
+                <input type="hidden" id="txtInvNumber" value="@Model.InvID" />
+                
+                if (Model.IsPaid == true)
+                {
+                    <div class="form-group">
+                        <div class="btn btn-danger col-md-4 text-left"><i class="fa fa-check m-r-5"></i> Status: <b> Paid </b> &nbsp; (Paid on @string.Format("{0:dd/MM/yyyy}", Model.PaidDate))</div>
+
+                        <div class="col-md-6">
+                           &nbsp;&nbsp; To change
+                            <button type="button" id="btnUnpaid" class="btn btn-primary"><i class="col-md-1 fa fa-check-square-o m-r-5"></i>Unpaid</button>                    
+                        </div>
+
+                    </div>
+
+ 
+
+                }
+                else
+                {
+                    <div class="form-group">
+                        <div class="btn btn-danger col-md-2 text-left"><i class="fa fa-warning m-r-5"></i> Status: <b> Unpaid </b> </div>
+                        @Html.Label("Paid on", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            <input type="text" class="form-control col-md-2" id="selectDate" placeholder="Select Date" />
+                        </div>
+                        <button type="button" id="btnPaid" class="btn btn-primary"><i class="col-md-1 fa fa-check-square-o m-r-5"></i> Paid</button>
+                    </div>
+
+                }
+            }
+
+        </div>
+    </div>
+
+
+</div>
+
+<!-- begin panel -->
+<div class="panel panel-inverse">
+    <div class="panel-heading">
+        Paid / Unpaid setting
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @Html.HiddenFor(model => model.InvType, new { id = "invType" })
+
+            @Html.HiddenFor(model => model.Attn, new { id = "attn" })
+            @Html.HiddenFor(model => model.PersonID, new { id = "personID" })
+            @Html.HiddenFor(model => model.PersonName, new { id = "personName" })
+            @Html.HiddenFor(model => model.CustNo, new { id = "custNo" })
+            @Html.HiddenFor(model => model.PreDiscAmount)
+            @Html.HiddenFor(model => model.Discount)
+            @Html.HiddenFor(model => model.Amount)
+            @Html.HiddenFor(model => model.Gst)
+            @Html.HiddenFor(model => model.Nett)
+            @Html.HiddenFor(model => model.Status)
+            @Html.HiddenFor(model => model.IsPaid)
+            @Html.HiddenFor(model => model.PaidDate)
+            @Html.HiddenFor(model => model.CreatedBy)
+            @Html.HiddenFor(model => model.CreatedOn)
+            @Html.HiddenFor(model => model.ModifiedBy)
+            @Html.HiddenFor(model => model.ModifiedOn)
+
+            @Html.HiddenFor(model => model.Remark)
+            @Html.Hidden("tags", new { htmlAttributes = new { id = "tags", @class = "form-control", placeholder = "Please enter customer name to view available list" } })
+
+
+
+
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="form-horizontal">
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.InvID, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.InvID, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                                @Html.ValidationMessageFor(model => model.InvID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CustName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.CustName, new { htmlAttributes = new { id = "custName", @class = "form-control", @readonly = true } })
+                                @Html.ValidationMessageFor(model => model.CustName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Addr1, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.Addr1, new { htmlAttributes = new { id = "addr1", @class = "form-control", @readonly = true } })
+                                @Html.ValidationMessageFor(model => model.Addr1, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Addr2, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.Addr2, new { htmlAttributes = new { id = "addr2", @class = "form-control", @readonly = true } })
+                                @Html.ValidationMessageFor(model => model.Addr2, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Addr3, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.Addr3, new { htmlAttributes = new { id = "addr3", @class = "form-control", @readonly = true } })
+                                @Html.ValidationMessageFor(model => model.Addr3, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="col-md-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.InvDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.InvDate, new { htmlAttributes = new { id = "invDate", @class = "form-control", @readonly = true } })
+                                @Html.ValidationMessageFor(model => model.InvDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PoNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.PoNo, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                                @Html.ValidationMessageFor(model => model.PoNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PersonName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.PersonName, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                                @Html.ValidationMessageFor(model => model.PersonName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PaymentTerms, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.PaymentTerms, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                                @Html.ValidationMessageFor(model => model.PaymentTerms, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        }
+
+
+
+        <!-- begin panel -->
+        <div class="panel panel-inverse">
+            <div class="panel-body">
+                <div id="item-session">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>&nbsp; </th>
+                                <th>
+                                    NO
+                                </th>
+                                <th>
+                                    Item Description
+                                </th>
+                                <th>
+                                    Qty
+                                </th>
+                                <th>
+                                    Unit
+                                </th>
+                                <th>
+                                    Unit Price
+                                </th>
+                                <th>
+                                    Discount
+                                </th>
+                                <th>
+                                    Sell Price
+                                </th>
+
+                                <th>
+                                    <span class="pull-right">Amount </span>
+
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @{Html.RenderAction("_DisplayInvDets", "Sales", new { id = Model.InvID });}
+
+
+                        <tfoot>
+                            <tr>
+                                <td colspan="9" style="border:0px;"> &nbsp; </td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td colspan="8" style="border:0px;" align="right" valign="middle"><h4><span class="">Sub-Total</span></h4></td>
+                                <td style="border:0px;"><h4><span class="pull-left">$ </span> <span class="pull-right">@Model.PreDiscAmount.ToString("N") </span></h4></td>
+
+                            </tr>
+                            <tr>
+                                <td colspan="8" style="border:0px;" align="right" valign="middle"></td>
+                                <td style="border:0px;">
+                                    <h4>
+                                        <span class="pull-left">$ </span> <span class="pull-right">
+
+                                            @Model.Discount.ToString("N")
+
+                                        </span>
+                                    </h4>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td colspan="8" style="border:0px;" align="right" valign="middle"><h4><span class="">Final Amount</span></h4></td>
+                                <td style="border:0px;"><h4><span class="pull-left">$ </span> <span class="pull-right">@Model.Amount.ToString("N") </span></h4></td>
+
+                            </tr>
+
+                            <tr>
+                                <td colspan="8" style="border:0px;" align="right" valign="middle"><h4><span class="">GST 7% </span></h4></td>
+                                <td style="border:0px;"><h4><span class="pull-left">$ </span> <span class="pull-right">@Model.Gst.ToString("N") </span></h4></td>
+
+                            </tr>
+
+                            <tr>
+                                <td colspan="8" style="border:0px;" align="right" valign="middle"><h4><span class="semi-bold">
+                                                @if (Model.IsPaid == true)
+                                                {
+                                                  <span style="color:blue;font-size:28px;"> Paid </span>
+                                                }
+                                                else
+                                                {
+                                                    <span style="color:red;font-size:28px;"> Unpaid </span>
+                                                }                              
+                                     
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    
+                                    Grand Total</span></h4></td>
+                                <td style="border:0px;"><h4><span class="pull-left semi-bold">$ </span> <span class="pull-right semi-bold">@Model.Nett.ToString("N") </span></h4></td>
+
+
+                            </tr>
+                            <tr>
+                                <td colspan="9" style="border:0px;"> &nbsp; </td>
+                            </tr>
+
+
+
+                        </tfoot>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- end panel -->
+        <!-- modal placeholder-->
+
+        <div id="discountModal" class="modal" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div id='discountModalContent'>
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3 class="modal-title">Overall Discount</h3>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <span class="lead">Process Type</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <br />
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+
+                                            <div class="col-md-12">
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="processType" value="1" checked />
+                                                    By Amount
+                                                </label> &nbsp;&nbsp;
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="processType" value="2" />
+                                                    By Percentage %
+                                                </label> &nbsp;&nbsp;
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="processType" value="3" />
+                                                    Offer Final Amount at
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                            <div class="row">
+                                <br />
+                                <div class="col-md-8 col-md-offset-2">
+
+                                    <div class="form-group m-r-10">
+                                        <input type="text" class="form-control col-md-6" id="txtInputValue" value="" placeholder="Numbers only" />
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <br />
+                                <div class="col-md-8 col-md-offset-2">
+                                    <div class="form-group m-r-10 pull-right">
+                                        <table>
+                                            <tr><td colspan="2">Overall Summary</td></tr>
+                                            <tr>
+                                                <td>Sub-Total: </td>
+                                                <td> <input type="text" id="txtPreDiscAmount" value="@Model.PreDiscAmount" readonly /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Discount: </td>
+                                                <td> <input type="text" id="txtDiscount" value="@Model.Discount" readonly /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Final Amount: </td>
+                                                <td> <input type="text" id="txtAmount" value="@Model.Amount" readonly /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Gst: </td>
+                                                <td> <input type="text" id="txtGst" value="@Model.Gst" readonly /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Nett: </td>
+                                                <td> <input type="text" id="txtNett" value="@Model.Nett" readonly /></td>
+                                            </tr>
+
+                                        </table>
+
+                                        <input type="hidden" id="txtInvID" value="@Model.InvID" />
+                                        <input type="hidden" id="txtGstRate" value="0.07" />
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <br />
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <span id="progress" class="text-center" style="display: none;">
+                                <img src="~/assets/img/Wait.gif" alt="wait" />
+                                Wait..
+                            </span>
+
+                            <input type="button" class="btn btn-primary" id="btnDiscount" value=" Save " />
+                            <button class="btn btn-white" data-dismiss="modal">Close</button>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+
+
+
+    </div>
+
+</div>
+<!-- end panel -->
+@section Scripts{
+    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-combobox/js/bootstrap-combobox.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/select2/dist/js/select2.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/parsley/dist/parsley.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery-tag-it/js/tag-it.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/js/form-plugins.star.js")"></script>
+
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/modal-open.js")"></script>
+
+
+}
+
+<script>
+    $(document).ready(function () {
+        // App.init();
+        TableManageDefault.init();
+        // Notification.init();
+        FormPlugins.init();
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        $('#selectDate').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+        $('#selectDate').datepicker('setDate', new Date());
+    });
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("select.selectpicker").change(function () {
+            var val = $(".selectpicker option:selected").val();
+            //   alert("You have selected the country - " + val);
+
+            if (val > 0) {
+                var url = '/Sales/PaidUnpaid/' + val;
+                $(location).attr('href',url);
+
+            }
+        });
+
+        $("select.staffpicker").change(function () {
+            var staffid = $(".staffpicker option:selected").val();
+            var staffname = $(".staffpicker option:selected").text().trim();
+
+            $('#personID').val(staffid);
+            $('#personName').val(staffname);
+
+            //   alert($('#personID').val() + "-" + $('#personName').val());
+
+        });
+
+    });
+
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#btnPaid').click(function () {         
+            if ($("#selectDate").val().length > 0) {
+                var InvID = $('#txtInvNumber').val();
+                var paidDate = $('#selectDate').val();
+                var processType = "Paid";
+                // alert(InvID);
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/Sales/_PaidUnpaid',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        valInvID: InvID, valDate: paidDate, valType: processType
+                    },
+                    success: function (result) {
+
+                        if (result.success) {
+
+                            //  alert("hello 1");
+                            location.reload();
+                        } else {
+
+                            //   alert("hello 2");
+                        }
+
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+
+            }
+            else {
+                alert("Not valid date.");
+            };
+
+
+        });
+
+        $('#btnUnpaid').click(function () {   
+            var InvID = $('#txtInvNumber').val();    
+            if (InvID > 0) {
+                alert(InvID);
+                var paidDate = "";
+                var processType = "Unpaid";
+                // alert(InvID);
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/Sales/_PaidUnpaid',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        valInvID: InvID, valDate: paidDate, valType: processType
+                    },
+                    success: function (result) {
+
+                        if (result.success) {
+
+                            //  alert("hello 1");
+                            location.reload();
+                        } else {
+
+                            //   alert("hello 2");
+                        }
+
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+
+            }
+            else {
+                alert("Not valid date.");
+            };
+
+
+        });
+
+
+
+    });
+</script>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#txtInputValue").forceNumeric();
+
+        $('#txtInputValue').on("change", function () {
+            //   alert('Changed!');
+
+            reCalculateAmount();
+
+        });
+
+        $('input[type=radio][name=processType]').change(function() {
+
+            reCalculateAmount();
+
+        });
+
+        function reCalculateAmount() {
+
+
+            var prediscAmount = @Model.PreDiscAmount;
+            var discount = @Model.Discount;
+            var amount = @Model.Amount;
+            var gst = @Model.Gst;
+            var nett = @Model.Nett;
+
+            var gstrate = $('#txtGstRate').val();
+
+            var txtinput = $('#txtInputValue').val();
+            txtinput = Number(txtinput).toFixed(2);
+
+            var discountType = $('input[type=radio][name=processType]:checked').val();
+
+            switch(discountType) {
+                case '1' :
+                    // by amount
+                    var newdiscount = 0 - txtinput;
+                    var newamount = +prediscAmount - +txtinput;
+                    var newgst = Math.round(newamount * gstrate * 100) / 100;
+                    newgst = newgst.toFixed(2);
+                    var newnett = +newamount + +newgst;
+                    newnett = newnett.toFixed(2);
+
+                    $('#txtPreDiscAmount').val(prediscAmount);
+                    $('#txtDiscount').val(newdiscount);
+                    $('#txtAmount').val(newamount);
+                    $('#txtGst').val(newgst);
+                    $('#txtNett').val(newnett);
+
+                    break;
+                case '2' :
+                    // by percentage
+                    var newdiscount = Math.round(prediscAmount * (txtinput / 100) * 100) / 100;
+                    newdiscount = newdiscount.toFixed(2);
+                    var newamount = prediscAmount - newdiscount;
+                    var newgst = Math.round(newamount * gstrate * 100) / 100;
+                    newgst = newgst.toFixed(2);
+                    var newnett = +newamount + +newgst;
+
+                    $('#txtPreDiscAmount').val(prediscAmount);
+                    $('#txtDiscount').val(0 - newdiscount);
+                    $('#txtAmount').val(newamount);
+                    $('#txtGst').val(newgst);
+                    $('#txtNett').val(newnett);
+
+                    break;
+                case '3' :
+                    // offer a final amount
+                    var newdiscount = txtinput - prediscAmount;
+                    newdiscount = newdiscount.toFixed(2);
+                    var newamount = txtinput;
+                    var newgst = Math.round(newamount * gstrate * 100) / 100;
+                    newgst = newgst.toFixed(2);
+                    var newnett = +newamount + +newgst;
+
+                    $('#txtPreDiscAmount').val(prediscAmount);
+                    $('#txtDiscount').val(newdiscount);
+                    $('#txtAmount').val(newamount);
+                    $('#txtGst').val(newgst);
+                    $('#txtNett').val(newnett);
+
+                    break;
+            }
+
+
+
+        };
+
+
+
+    });
+</script>

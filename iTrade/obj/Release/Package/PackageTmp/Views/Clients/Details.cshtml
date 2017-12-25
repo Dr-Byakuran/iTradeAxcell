@@ -1,0 +1,115 @@
+﻿@model iTrade.Models.Client
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Client</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CustName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Addr1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Addr1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Addr2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Addr2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Addr3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Addr3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Addr4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Addr4)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FaxNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FaxNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactPerson)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactPerson)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Group)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Group)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateCreated)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CustNO }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,173 @@
+﻿@model List<iTrade.Models.KivOrderDet>
+
+<div class="panel">
+    <div class="panel-body">
+        @using (Html.BeginForm("_EditDet1", "KivOrders", FormMethod.Post, new { id = "EditDet1Form", @class = "form-horizontal" }))
+        {
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 class="modal-title"><span class="lead">@Model[0].ItemName &nbsp;&nbsp; <small> @Model[0].ItemCode</small>  </span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="lead">Deliver Order Qty: @Html.DisplayFor(model => model[0].DeliverOrderQty, new { htmlAttributes = new { @class = "form-control" } }) </span>  <span id="txtTitle"></span> </h3>
+
+            </div>
+            <div class="modal-body">
+                @Html.HiddenFor(model => model[0].DetID)
+                @Html.HiddenFor(model => model[0].KorID)
+                @Html.HiddenFor(model => model[0].KivID)
+                @Html.HiddenFor(model => model[0].InvID)
+                @Html.HiddenFor(model => model[0].InvNo)
+                @Html.HiddenFor(model => model[0].InvDetID)
+                @Html.HiddenFor(model => model[0].ItemID)
+                @Html.HiddenFor(model => model[0].ItemCode)
+                @Html.HiddenFor(model => model[0].ItemName)
+                @Html.HiddenFor(model => model[0].SellType)
+                @Html.HiddenFor(model => model[0].Unit)
+
+                @Html.HiddenFor(model => model[0].DeliverOrderQty, new { id = "orderQty" })
+                @Html.HiddenFor(model => model[0].ChangedQty)
+
+                @Html.HiddenFor(model => model[0].SalesType)
+                @Html.HiddenFor(model => model[0].RefItemID)
+                @Html.HiddenFor(model => model[0].Position)
+                @Html.HiddenFor(model => model[0].Remark)
+
+                <input type="hidden" id="txtKorID3" name="txtKorID3" value="@Model[0].KorID" />
+
+                <div id="divChangeQty" class="form-horizontal">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-5 semi-bold">
+                                Item Description
+                            </div>
+                            <div class="col-md-4 semi-bold">
+                                Deliver Order Qty
+                            </div>
+
+                            <div class="col-md-3 semi-bold">
+                                Actual Deliver Qty
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-5 semi-bold">
+                                @Html.DisplayFor(model => model[0].ItemName, new { htmlAttributes = new { @class = "form-control col-md-6" } })
+                                @if (Model[0].SalesType == "FOCItem")
+                                {
+                                    <span class="label label-warning">FOC</span>
+                                }
+                            </div>
+                            <div class="col-md-4 semi-bold">
+                                @Html.DisplayFor(model => model[0].DeliverOrderQty, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+
+                            <div class="col-md-3 semi-bold">
+                                @Html.EditorFor(model => model[0].DeliverQty, new { htmlAttributes = new { Value = "0", @class = "form-control deliverQty" } })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-5 semi-bold">
+                                <u>Other Delivery Options </u>
+                            </div>
+                            <div class="col-md-4">
+
+                            </div>
+
+                            <div class="col-md-3 semi-bold">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    @for (int i = 1; i < Model.Count; i++)
+                    {
+                        @Html.HiddenFor(model => model[i].DetID)
+                        @Html.HiddenFor(model => model[i].KorID)
+                        @Html.HiddenFor(model => model[i].KivID)
+                        @Html.HiddenFor(model => model[i].InvID)
+                        @Html.HiddenFor(model => model[i].InvNo)
+                        @Html.HiddenFor(model => model[i].InvDetID)
+                        @Html.HiddenFor(model => model[i].ItemID)
+                        @Html.HiddenFor(model => model[i].ItemCode)
+                        @Html.HiddenFor(model => model[i].ItemName)
+                        @Html.HiddenFor(model => model[i].SellType)
+                        @Html.HiddenFor(model => model[i].Unit)
+
+                        @Html.HiddenFor(model => model[i].DeliverOrderQty)
+                        @Html.HiddenFor(model => model[i].ChangedQty)
+
+                        @Html.HiddenFor(model => model[i].SalesType)
+                        @Html.HiddenFor(model => model[i].RefItemID)
+                        @Html.HiddenFor(model => model[i].Position)
+                        @Html.HiddenFor(model => model[i].Remark)
+
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-5">
+                                    @Html.DisplayFor(model => model[i].ItemName, new { htmlAttributes = new { @class = "form-control col-md-6" } })
+                                    @if (Model[i].SalesType == "FOCItem")
+                                    {
+                                        <span class="label label-warning">FOC</span>
+                                    }
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.DisplayFor(model => model[i].DeliverOrderQty, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                <div class="col-md-3 semi-bold">
+                                    @Html.EditorFor(model => model[i].DeliverQty, new { htmlAttributes = new { @class = "form-control deliverQty" } })
+                                </div>
+                            </div>
+
+                        </div>
+
+                    }
+                </div>
+
+
+
+            </div>
+
+            <div class="modal-footer">                
+
+                <input class="btn btn-primary" id="btnEditDet1Save1" type="button" value=" Save " />
+                <button class="btn btn-white" data-dismiss="modal">Cancel</button>
+            </div>
+
+        }
+
+
+
+
+    </div>
+</div>
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+
+        $("#btnEditDet1Save1").click(function () {
+
+            var orderQty = $("#orderQty").val();
+            var finalQty = 0;
+            $(".deliverQty").each(function () {
+                //same as above, except with items with Amount class
+                finalQty += parseInt($(this).val());
+            });           
+
+            if (orderQty == finalQty) {
+                $("#EditDet1Form").submit();
+            } else {
+                alert("Quantity different. The total actual delivery qty (" + finalQty + ") must be same as deliver order qty (" + orderQty + "), please check again.");
+            };
+
+
+        });
+
+    });
+</script>

@@ -1,0 +1,143 @@
+﻿@model iTrade.Models.BillItem
+@*@model IEnumerable<iTrade.Models.Student>*@
+@*@model IEnumerable<iTrade.Models.Client>*@
+@*@model IEnumerable<iTrade.Models.Course>*@
+@*@model IEnumerable<iTrade.Models.Tutor>*@
+@*@model IEnumerable<iTrade.Models.Staff>*@
+
+
+@using (Html.BeginForm("_DisplayRefund", "CourseOrders", FormMethod.Post, new { id = "editRefundForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.DetID)
+    @Html.HiddenFor(model => model.DetNum)
+    @Html.HiddenFor(model => model.DetType)
+    @Html.HiddenFor(model => model.EnrID)
+    @Html.HiddenFor(model => model.EnrNo)
+    @Html.HiddenFor(model => model.CustNo)
+    @Html.HiddenFor(model => model.CustName)
+    @Html.HiddenFor(model => model.CustName2)
+    @Html.HiddenFor(model => model.NRIC)
+    @Html.HiddenFor(model => model.BillForMonth)
+    @Html.HiddenFor(model => model.ClassDates)
+    @Html.HiddenFor(model => model.SorID)
+    @Html.HiddenFor(model => model.SorNo)
+    @Html.HiddenFor(model => model.InvID)
+    @Html.HiddenFor(model => model.InvNo)
+    @Html.HiddenFor(model => model.InvType)
+    @Html.HiddenFor(model => model.ItemID)
+    @Html.HiddenFor(model => model.ItemCode)
+    @Html.HiddenFor(model => model.ItemType)
+    @Html.HiddenFor(model => model.ItemName)
+
+    @Html.HiddenFor(model => model.SellType)
+
+    @Html.HiddenFor(model => model.Unit)
+
+    @Html.HiddenFor(model => model.UnitCostPrice)
+    @Html.HiddenFor(model => model.PreDiscAmount)
+
+    @Html.HiddenFor(model => model.Gst)
+    @Html.HiddenFor(model => model.Nett)
+    @Html.HiddenFor(model => model.IsBundle)
+    @Html.HiddenFor(model => model.IsBilled)
+    @Html.HiddenFor(model => model.IsPaid)
+    @Html.HiddenFor(model => model.IsLocked)
+    @Html.HiddenFor(model => model.SalesType)
+    @Html.HiddenFor(model => model.RefItemID)
+    @Html.HiddenFor(model => model.InvRef)
+    @Html.HiddenFor(model => model.IsControlItem)
+    @Html.HiddenFor(model => model.LocationID)
+    @Html.HiddenFor(model => model.LocationID)
+    @Html.HiddenFor(model => model.Position)
+
+    @Html.HiddenFor(model => model.ImageUrl)
+    @Html.HiddenFor(model => model.CreatedBy)
+    @Html.HiddenFor(model => model.CreatedOn)
+    @Html.HiddenFor(model => model.ModifiedBy)
+    @Html.HiddenFor(model => model.ModifiedOn)
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ClassDates, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.ClassDates, new { htmlAttributes = new { id = "classDates", @class = "form-control", placeholder = "Class date" } })
+                        @Html.ValidationMessageFor(model => model.ClassDates, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ItemDesc, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.ItemDesc, new { htmlAttributes = new { id = "itemDesc", @class = "form-control", placeholder = "Item description" } })
+                        @Html.ValidationMessageFor(model => model.ItemDesc, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Remark, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { id = "itemRemark", @class = "form-control", placeholder = "Remark" } })
+                        @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Qty, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.Qty, new { htmlAttributes = new { id = "itemQty", @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.UnitPrice, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.UnitPrice, new { htmlAttributes = new { id = "itemUnitPrice", @class = "form-control", @readonly = true } })
+                    </div>
+                </div>
+
+                <div class="form-group hidden">
+                    @Html.LabelFor(model => model.Discount, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { id = "itemDiscountValue", @class = "form-control", @readonly = true } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Pre-Disc Total", htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.Editor(" ", new { htmlAttributes = new { id = "itemPreDiscTotal", @Value = "0.00", @class = "form-control", @readonly = true } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Discount %", htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-5">
+                        @Html.Editor(" ", new { htmlAttributes = new { id = "itemDiscountPercentage", @Value = "0.00", @class = "form-control" } })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.Editor(" ", new { htmlAttributes = new { id = "itemDiscountTotal", @class = "form-control", @readonly = true } })
+                    </div>
+                </div>
+
+
+
+                <div class="form-group hidden">
+                    @Html.LabelFor(model => model.DiscountedPrice, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.DiscountedPrice, new { htmlAttributes = new { id = "itemDiscountedPrice", @class = "form-control", @readonly = true } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { id = "itemAmount", @class = "form-control", @readonly = true } })
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+
+}
+

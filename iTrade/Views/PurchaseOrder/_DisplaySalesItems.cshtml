@@ -1,0 +1,131 @@
+﻿@model List<iTrade.Models.PoINVDET>
+
+
+@using (@Html.BeginForm())
+{
+    int itemstart=0;
+    int itemend=Model.Count;
+
+    if (ViewBag.PageID == 1)
+    {
+        itemstart = 0;
+
+        if (Model.Count <= 18)
+        {
+            itemend = Model.Count;
+        }
+        else  {
+
+            itemend = 18;
+
+        };
+
+    }
+    else if (ViewBag.PageID == 2)
+    {
+        itemstart = 18;
+
+        itemend = Model.Count;
+
+    };
+
+    if (itemstart <= itemend)
+    {
+        for (int i = itemstart; i < itemend; i++)
+        {
+
+        <tr>
+             <td style="width:20px;"><span style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">
+                                        @Model[i].Position
+                 </span>
+            </td>
+
+            <td class="col-md-4"><span style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">
+                                     @Html.DisplayFor(model => model[i].ItemName, new { htmlAttributes = new { id = "itemName2", @class = "form-control col-md-6", @readonly = true } }) &nbsp;&nbsp;
+                                     @Html.DisplayFor(model => model[i].Remark, new { htmlAttributes = new { id = "itemRemark2", @class = "form-control col-md-3" } })
+                </span>
+            </td>
+
+            <td class="text-center"><span style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">
+                    @Html.DisplayFor(model => model[i].Qty, new { htmlAttributes = new { id = "itemQty2", @class = "form-control col-md-1 Qty" } })
+                </span>
+            </td>
+            <td class="text-center">
+                <span style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">
+                    @Html.DisplayFor(model => model[i].Unit, new { htmlAttributes = new { id = "itemUnit2", @class = "form-control Unitprice", @readonly = true } })
+                </span>
+
+            </td>
+            <td class="text-right"><span style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">
+                                       <span class="pull-left">$</span>
+                                       @Html.DisplayFor(model => model[i].DiscountedPrice, new { htmlAttributes = new { id = "itemDiscountedPrice2", @class = "form-control Unitprice" } })
+                    </span>
+            </td>
+
+            <td class="text-right"><span style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">
+                                       <span class="pull-left">$</span>
+                                       @Html.DisplayFor(model => model[i].Amount, new { htmlAttributes = new { id = "itemAmount2", @class = "form-control text-right Amount", @readonly = true } })
+                </span>
+               
+            </td>
+
+
+        </tr>
+
+        }
+
+    }
+
+}
+
+
+
+<!-- modal placeholder-->
+
+<div id="myModal" class="modal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+        $(function () {
+            $("#item-session .form-control .Qty").on("focusout", function () {
+                var qty = $("#item-session .form-control .Qty").val();
+                var unitprice = $("#item-session .form-control .Unitprice").val();
+                var amount = $("#item-session .form-control .Amount").val();
+
+                var totalamount = qty * unitprice;
+
+                alert(unitprice);
+
+                $('#item-session .form-control.Amount').val(totalamount);
+
+                RecalculateItems();
+            });
+            $("#item-session .form-control .Unitprice").on("focusout", function () {
+                RecalculateItems();
+            });
+            $("#item-session .form-control .Amount").on("focusout", function () {
+                RecalculateItems();
+            });
+
+
+        })
+</script>
+
+<script>
+        function RecalculateItems() {
+            var totalAmount = 0;
+            $("#item-session .form-control .Amount").each(function () {
+                //same as above, except with items with Amount class
+                totalAmount += parseInt($(this).val());
+            });
+            //set inner html of each span identified above with the correct values
+            $("#TotalAmount").html(totalAmount);
+        }
+</script>
+

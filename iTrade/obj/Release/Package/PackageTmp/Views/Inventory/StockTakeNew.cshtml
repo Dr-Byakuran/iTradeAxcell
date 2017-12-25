@@ -1,0 +1,173 @@
+﻿@model iTrade.Models.StockTake
+@*@model IEnumerable<iTrade.Models.Warehouse>*@
+
+@{
+    ViewBag.Title = "StockTakeNew";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-datepicker/css/datepicker.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-combobox/css/bootstrap-combobox.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/select2/dist/css/select2.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/parsley/src/parsley.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/jquery-tag-it/css/jquery.tagit.css")" rel="stylesheet" type="text/css" />
+
+
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin page-header -->
+<h1 class="page-header lead">Inventory</h1>
+<!-- end page-header -->
+<div class="email-btn-row hidden-xs">
+    @Html.ActionLink("Back to List", "StockTake", null, new { @class = "btn btn-primary" })
+
+
+</div>
+
+<!-- begin panel -->
+<div class="panel panel-inverse">
+    <div class="panel-heading">
+        Stock Take
+    </div>
+    <div class="panel-body">
+        <h1 class="lead">Stock Take</h1> <br />
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.SttID)
+            @Html.HiddenFor(model => model.ItemCount, new { @Value = 0 })
+            @Html.HiddenFor(model => model.LocationID, new { id = "locationID", @Value = 0 })
+            @Html.HiddenFor(model => model.LocationName, new { id = "locationName", @Value = "" })
+            @Html.HiddenFor(model => model.Status, new { @Value = "Draft" })
+            @Html.HiddenFor(model => model.CreatedBy)
+            @Html.HiddenFor(model => model.CreatedOn)
+
+            <div class="form-horizontal">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SttDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.SttDate, new { htmlAttributes = new { id = "sttDate", @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.SttDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SttName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.SttName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.SttName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Select Location", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        <select class="form-control warehousepicker">
+                            <option value="" selected>Select warehouse</option>
+                            @foreach (var item in ViewData["WarehouseAll"] as IEnumerable<iTrade.Models.Warehouse>)
+                            {
+                                <option value="@item.LocationID">@item.LocationName</option>
+                                //@item.FileName  // instead .FileName use property which u used in ur model class
+                            }
+                        </select>
+
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Remark, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-6">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+
+
+    </div>
+
+</div>
+<!-- end panel -->
+@section Scripts{
+    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-combobox/js/bootstrap-combobox.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/select2/dist/js/select2.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/parsley/dist/parsley.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery-tag-it/js/tag-it.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/js/form-plugins.star.js")"></script>
+
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/modal-order.js")"></script>
+
+
+}
+
+<script>
+    $(document).ready(function () {
+        // App.init();
+        TableManageDefault.init();
+        // Notification.init();
+        FormPlugins.init();
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#sttDate').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+        $('#sttDate').datepicker('setDate', new Date());
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("select.warehousepicker").change(function () {
+            var warehouseid1 = $(".warehousepicker option:selected").val();
+            var warehousename1 = $(".warehousepicker option:selected").text().trim();
+            $('#locationID').val(warehouseid1);
+            $('#locationName').val(warehousename1);
+
+            //        alert(warehouseid1);
+        });
+
+    });
+
+</script>
+
+

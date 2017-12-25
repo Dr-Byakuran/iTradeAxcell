@@ -1,0 +1,231 @@
+﻿@model iTrade.Models.PoKivOrderDet
+@*@model IEnumerable<iTrade.Models.ProductSelection>*@
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title"><span class="lead">@Model.ItemName &nbsp;&nbsp; <small> @Model.ItemCode</small>  </span> &nbsp;&nbsp;&nbsp;&nbsp;  <span id="txtTitle"></span> </h3>
+</div>
+
+
+@using (Html.BeginForm("_EditDet", "PoKivOrders", FormMethod.Post, new { id = "EditDetForm", @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.DetID)
+    @Html.HiddenFor(model => model.KivID)
+    @Html.HiddenFor(model => model.InvDetID)
+    @Html.HiddenFor(model => model.KorID)
+    @Html.HiddenFor(model => model.InvID)
+    @Html.HiddenFor(model => model.ItemID, new { id = "itemID2" })
+    @Html.HiddenFor(model => model.ItemCode, new { id = "itemCode2" })
+    @*@Html.HiddenFor(model => model.ItemType, new { id = "itemType2" })*@
+    @Html.HiddenFor(model => model.ItemName, new { id = "itemName2" })
+    @*@Html.HiddenFor(model => model.PreDiscAmount, new { id = "itemPreDiscAmount2" })
+    @Html.HiddenFor(model => model.Gst, new { id = "itemGst2" })
+    @Html.HiddenFor(model => model.Nett, new { id = "itemNett2" })
+
+    @Html.HiddenFor(model => model.IsControlItem, new { id = "itemIsControl2" })*@
+
+    @*<input type="hidden" id="itemGstRate2" value="0.07" />
+    <input type="hidden" id="itemStockQty2" />
+    <input type="hidden" id="itemCostPrice2" />*@
+
+
+    <div class="modal-body">
+        <div class="form-horizontal">
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ItemName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    <select class="form-control productselectpicker" data-size="10" data-live-search="true" data-style="btn-white">
+                        <option value="" selected>Select product</option>
+                        @foreach (var item in ViewData["ProductChangeList"] as IEnumerable<iTrade.Models.ProductSelection>)
+                        {
+                            <option value="@item.ProductID"
+                                    @if (item.ProductID == Model.ItemID) { <text> selected="selected" </text>        }>
+                                @item.ProductName
+                            </option>
+                            //@item.FileName  // instead .FileName use property which u used in ur model class
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.OrderQty, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.OrderQty, new { htmlAttributes = new { @id = "itemOrderQty2", @class = "form-control", @readonly = true } })
+                    @Html.ValidationMessageFor(model => model.OrderQty, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.BalanceQty, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.BalanceQty, new { htmlAttributes = new { @id = "itemBalanceQty2", @class = "form-control", @readonly = true } })
+                    @Html.ValidationMessageFor(model => model.BalanceQty, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.DeliverQty, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.DeliverQty, new { htmlAttributes = new { @id = "itemDeliverQty2", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DeliverQty, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.KivBalanceQty, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.KivBalanceQty, new { htmlAttributes = new { @id = "itemKivBalanceQty2", @class = "form-control", @readonly = true } })
+                    @Html.ValidationMessageFor(model => model.KivBalanceQty, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Remark, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { id = "itemRemark2", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Position, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.Position, new { htmlAttributes = new { id = "itemPosition2", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Position, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+    </div>
+
+    <div class="modal-footer">
+
+        <input class="btn btn-primary" id="btnEditSave" type="submit" value="Save Changes" />
+        <button class="btn btn-white" data-dismiss="modal">Cancel</button>
+    </div>
+}
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#myModalContent #itemDeliverQty2').on("change", function () {
+            // alert('Changed!');
+
+            var qty1 = $('#myModalContent #itemBalanceQty2').val();
+            var qty2 = $('#myModalContent #itemDeliverQty2').val();
+            var qty3 = $('#myModalContent #itemKivBalanceQty2').val();
+
+            $('#myModalContent #itemKivBalanceQty2').val(qty1 - qty2);
+
+        });
+
+
+
+    });
+
+    function reCalculateAmount2() {
+
+     //   var unitprice = $('#myModalContent #itemUnitPrice2').val();
+        var qty = $('#myModalContent #itemQty2').val();
+     //   var sellprice = $('#myModalContent #itemDiscountedPrice2').val();
+     //   var gstrate = $('#myModalContent #itemGstRate2').val();
+
+     //   var discount = (+sellprice - +unitprice);
+     //   discount = discount.toFixed(2);
+     //   $('#myModalContent #itemDiscount2').val(discount);
+
+     //   var totalamount = Math.round(qty * sellprice * 100) / 100;
+     //   totalamount = totalamount.toFixed(2);
+
+     //   var totalgst = Math.round(totalamount * gstrate * 100) / 100;
+     //   totalgst = totalgst.toFixed(2);
+
+     //   var totalnett = Math.round((+totalamount + +totalgst) * 100) / 100;
+     //   totalnett = totalnett.toFixed(2);
+
+     //   $('#myModalContent #itemAmount2').val(totalamount);
+     //   $('#myModalContent #itemGst2').val(totalgst);
+     //   $('#myModalContent #itemNett2').val(totalnett);
+
+     ////   alert(totalgst + " ** " + totalnett);
+
+
+
+    };
+
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("select.productselectpicker").change(function () {
+            var val = $(".productselectpicker option:selected").val();
+            //   alert("You have selected the country - " + val);
+
+            if (val > 0) {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("AutoCompleteSelected_Product")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        search: val
+                    },
+                    success: function (data) {
+                        $('#itemID2').val(data.result.ProductID);
+                        $('#itemCode2').val(data.result.SKU);
+                        $('#itemType2').val(data.result.ProductType);
+                        $('#itemName2').val(data.result.ProductName);
+                        $('#itemUnit2').val(data.result.Unit);
+                        var unitprice = data.result.SellPrice.toFixed(2);
+                        $('#itemUnitPrice2').val(unitprice);
+                        $('#itemStockQty2').val(0);
+
+                        $('#itemCostPrice2').val(data.result.CostPrice);
+                        var disc = (0.00).toFixed(2);
+                        $('#itemDiscount2').val(disc);
+                        $('#itemDiscountedPrice2').val(unitprice);
+
+                        var qty = $('#itemQty2').val();
+
+                        var amount = Math.round(qty * unitprice * 100) / 100;
+                        amount = amount.toFixed(2);
+
+                        $('#itemAmount2').val(amount);
+
+                        $('#itemQty2').focus();
+                        $('#itemQty2').select();
+
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+
+            }
+        });
+
+    });
+
+
+
+</script>
+
+
+
+
+
+

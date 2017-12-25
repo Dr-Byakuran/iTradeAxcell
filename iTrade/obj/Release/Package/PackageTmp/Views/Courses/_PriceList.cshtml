@@ -1,0 +1,213 @@
+﻿@model List<iTrade.Models.Pricebook>
+
+@using (Html.BeginForm("_PriceList", "Courses", FormMethod.Post, new { id = "EditPriceListForm" }))
+{
+    var modelcount = Model.Count;
+    <table id="data-table100" class="table table-condensed">
+        <thead>
+            <tr>
+                <th>
+                    No
+                </th>
+                <th class="col-md-3">
+                    Course Name
+                </th>
+                <th>
+                    Course Level
+                </th>
+                <th>
+                    Duration
+                </th>
+                <th>Teacher Level</th>
+                <th>
+                    Register Fee
+                </th>
+                <th>
+                    Student Price
+                </th>
+
+                <th>Action</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+            @Html.HiddenFor(model => model[i].PriceID, new { id = "itemPriceID2" })
+            @Html.HiddenFor(model => model[i].CourseID, new { id = "itemCourseID2" })
+            @*@Html.HiddenFor(model => model[i].CourseName, new { id = "itemCourseName" })*@
+
+            @Html.HiddenFor(model => model[i].CourseCode, new { id = "itemCourseCode2" })
+            @Html.HiddenFor(model => model[i].CourseType, new { id = "itemCourseType2" })
+                
+            @Html.HiddenFor(model => model[i].CostPrice, new { id = "itemCostPrice2" })
+            @Html.HiddenFor(model => model[i].CostCode, new { id = "itemCostCode2" })
+            @Html.HiddenFor(model => model[i].OptionName, new { id = "itemOptionName2" })
+            @Html.HiddenFor(model => model[i].PublicPrice, new { id = "itemPublicPrice2" })
+
+            @Html.HiddenFor(model => model[i].IsDefault, new { id = "itemIsDefault2" })
+            @Html.HiddenFor(model => model[i].IsValid, new { id = "itemIsValid2" })
+            @Html.HiddenFor(model => model[i].Remark, new { id = "itemRemark2" })
+            @Html.HiddenFor(model => model[i].Position, new { id = "itemPosition2" })
+            @Html.HiddenFor(model => model[i].ModifiedBy, new { id = "modifiedBy2" })
+            @Html.HiddenFor(model => model[i].ModifiedOn, new { id = "modifiedOn2" })
+
+
+
+            <tr>
+                <td style="width:88px;">
+                    @(i + 1)
+                </td>
+                <td>
+                    @Html.EditorFor(model => model[i].CourseName, new { htmlAttributes = new { id = "itemCourseName2", @class = "form-control col-md-12" } })
+                </td>
+                <td>
+                    @Html.EditorFor(model => model[i].CourseLevel, new { htmlAttributes = new { id = "itemCourseLevel2", @class = "form-control" } })
+                </td>
+                <td>
+                    @Html.EditorFor(model => model[i].CourseDuration, new { htmlAttributes = new { id = "itemCourseDuration2", @class = "form-control" } })
+                </td>
+                <td>
+                    @Html.EditorFor(model => model[i].TeacherLevel, new { htmlAttributes = new { id = "itemTeacherLevel2", @class = "form-control" } })
+                </td>
+                <td class="">
+                    @Html.EditorFor(model => model[i].RegisterFee, new { htmlAttributes = new { id = "itemRegisterFee2", @class = "form-control Registerfee2" } })
+                </td>
+                <td class="">
+                    @Html.EditorFor(model => model[i].StudentPrice, new { htmlAttributes = new { id = "itemStudentPrice2", @class = "form-control Studentprice2" } })
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit", "Courses", new { id = @Model[i].CourseID })" class="btn btn-primary">
+                        <span class="fa fa-angle-double-right" />
+                    </a>
+                    @*<button type="button" id="btnDel" onclick="delItem(@Model[i].PriceID)" class="btn btn-sm btn-primary"><span class="fa fa-remove" aria-hidden="true"></span></button>*@
+                </td>
+
+            </tr>
+
+
+            }
+           
+
+        </tbody>
+        <tfoot>
+            @*<tr>
+                <td colspan="9">
+                    <input type="button" id="btnSubmitPriceInfo" class="btn btn-small btn-primary" value="Save Items" />
+                </td>
+            </tr>*@
+
+
+        </tfoot>
+
+    </table>
+    
+}
+
+
+
+<!-- modal placeholder-->
+<div id="myModal" class="modal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#data-table1').DataTable({
+            "bLengthChange": false,
+            "iDisplayLength": 100,
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+        });
+
+    });
+</script>
+
+<script>
+
+    function delItem(ID) {
+        var newUrl1 = $('#txtUrl1').val();
+
+        $.ajax({
+            type: 'GET',
+            url: '/Courses/_DelItem',
+            dataType: "json",
+            contentType: 'application/json, charset=utf-8',
+            data: {
+                id: ID
+            },
+            success: function (result) {
+                if (result.success) {
+                 //   alert("Item Deleted");
+                    $("#divItemList").load(newUrl1);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+
+        });
+    }
+
+    function itemMoveUp(ID)
+    {
+        var newUrl1 = $('#txtUrl1').val();
+        $.ajax({
+            type: 'GET',
+            url: '/Courses/_ItemMoveUp',
+            dataType: "json",
+            contentType: 'application/json, charset=utf-8',
+            data: {
+                id: ID
+            },
+            success: function (result) {
+                if (result.success) {
+                    //   alert("Item Deleted");
+                    $("#divItemList").load(newUrl1);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+
+        });
+    }
+
+</script>
+
+
+
+@*<script type="text/javascript">
+    $("#btnSubmitPriceInfo").click(function () {
+        $("#EditPriceListForm2").submit(function (e) {
+            //console.log($(this).serializeArray());
+            e.preventDefault();
+            var newUrl1 = $('#txtUrl1').val();
+             alert('Form is submitting');
+            $.ajax({
+                url: this.action,
+                type: this.method,
+                data: $(this).serializeArray(),
+                success: function (result) {
+                    if (result.success) {
+                        $("#divItemList").load(newUrl1);
+                        alert("Items Saved.");
+
+                    } else {
+                        alert("Items Not Saved.");
+                    }
+                }
+            });
+            return true;
+        });
+        $("#EditPriceListForm2").submit(); //invoke form submission
+
+    });
+
+</script>*@
+
+

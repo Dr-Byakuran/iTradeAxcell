@@ -1,0 +1,654 @@
+﻿@model iTrade.Models.PoKivOrder
+@*@model IEnumerable<iTrade.Models.Vendor>*@
+@*@model IEnumerable<iTrade.Models.Staff>*@
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-datepicker/css/datepicker.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-combobox/css/bootstrap-combobox.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/select2/dist/css/select2.min.css")" rel="stylesheet" type="text/css" />
+
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+@using (Html.BeginForm("Create", "PoKivOrders", FormMethod.Post, new { id = "addKivOrderForm" }))
+{
+
+    <!-- begin page-header -->
+    <div class="page-header lead">
+        Goods Receive Note / New
+        <span class="email-btn-row hidden-xs pull-right">
+            <a href="@Url.Action("Index")"><span class="btn btn-default">Cancel </span></a>
+            <button type="submit" id="btnSaveChanges" class="btn btn-primary">Next</button>
+        </span>
+
+    </div>
+    <!-- end page-header -->
+
+
+    <!-- begin panel -->
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            Order info
+        </div>
+
+        <div class="panel-body">
+
+
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.KorID)
+            @Html.HiddenFor(model => model.KorNo, new { @Value = "" })        
+            @Html.HiddenFor(model => model.InvType, new { id = "invType", @Value = "" })
+            @Html.HiddenFor(model => model.PoNo, new { @Value = "" })
+
+            @Html.HiddenFor(model => model.Addr4, new { id = "addr4" })
+            @Html.HiddenFor(model => model.PhoneNo, new { id = "phoneNo" })
+            @Html.HiddenFor(model => model.FaxNo, new { id = "faxNo" })
+
+            @Html.HiddenFor(model => model.PersonID, new { id = "personID", @Value = "0" })
+            @Html.HiddenFor(model => model.PersonName, new { id = "personName", @Value = "" })
+            @Html.HiddenFor(model => model.CustNo, new { id = "custNo" })
+            @Html.HiddenFor(model => model.CustName, new { id = "custName" })
+            @Html.HiddenFor(model => model.InvRef, new { id = "invRef" })
+
+            @Html.HiddenFor(model => model.Status, new { @Value = "Draft" })
+
+            @Html.HiddenFor(model => model.CreatedBy)
+            @Html.HiddenFor(model => model.CreatedOn)
+            @Html.HiddenFor(model => model.ModifiedBy)
+            @Html.HiddenFor(model => model.ModifiedOn)
+
+            @Html.HiddenFor(model => model.Remark, new { @Value = "" })
+            @Html.Hidden("tags", new { htmlAttributes = new { id = "tags", @class = "form-control", placeholder = "Please enter customer name to view available list" } })
+
+
+
+
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="form-horizontal">
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CustName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                <select class="form-control selectpicker" data-size="10" data-live-search="true" data-style="btn-white">
+                                    <option value="" selected>Select company</option>
+                                    @foreach (var item in ViewData["ClientsAll"] as IEnumerable<iTrade.Models.Vendor>)
+                                    {
+                                        <option value="@item.CustNo">@item.CustName</option>
+                                        //@item.FileName  // instead .FileName use property which u used in ur model class
+                                    }
+                                </select>
+                                @Html.ValidationMessageFor(model => model.CustName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-1">
+                                <span id="accType"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label(" ", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.CustName2, new { htmlAttributes = new { id = "custName2", @class = "form-control", placeholder = "Additional name info if provided" } })
+                                @Html.ValidationMessageFor(model => model.CustName2, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Addr1, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.Addr1, new { htmlAttributes = new { id = "addr1", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Addr1, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Addr2, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.Addr2, new { htmlAttributes = new { id = "addr2", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Addr2, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Addr3, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.Addr3, new { htmlAttributes = new { id = "addr3", @class = "form-control", placeholder = "Address line 3" } })
+                                @Html.ValidationMessageFor(model => model.Addr3, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.Attn, new { htmlAttributes = new { id = "attn", @class = "form-control", placeholder = "Atten to" } })
+                                @Html.ValidationMessageFor(model => model.Attn, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DeliveryAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.DeliveryAddress, new { htmlAttributes = new { @class = "form-control", placeholder = "Delivery address if different from the above" } })
+                                @Html.ValidationMessageFor(model => model.DeliveryAddress, "", new { @class = "text-danger" })
+                                <span class="pull-right"> <a href="#modal-dialog" data-toggle="modal">Select another customer's address</a> </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="col-md-5">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.InvDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.InvDate, new { htmlAttributes = new { id = "invDate", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.InvDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        @*<div class="form-group">
+                            @Html.LabelFor(model => model.InvRef, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.InvRef, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.InvRef, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.InvRef, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                <select id="selectInvRef" name="selectInvRef" class="form-control invrefpicker">
+                                    <option value="0" selected>Select Invoice</option>
+
+                                </select>
+
+                            </div>
+                        </div>   
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PersonName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                <select class="form-control staffpicker">
+                                    <option value="0" selected>Select sales person</option>
+                                    @foreach (var item in ViewData["StaffsAll"] as IEnumerable<iTrade.Models.Staff>)
+                                    {
+                                        <option value="@item.StaffID"
+                                                @if (item.Email == User.Identity.Name) { <text> selected="selected" </text>          }>
+                                            @item.FirstName @item.LastName
+                                        </option>
+
+                                        @*<option value="@item.StaffID">@item.FirstName  @item.LastName</option>*@
+                                        //@item.FileName  // instead .FileName use property which u used in ur model class
+                                    }
+                                </select>
+
+                            </div>
+                        </div>
+
+                        @*<div class="form-group">
+                            @Html.LabelFor(model => model.PersonName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                <select class="form-control staffpicker">
+                                    <option value="" selected>Select sales person</option>
+                                    @foreach (var item in ViewData["StaffsAll"] as IEnumerable<iTrade.Models.Staff>)
+                                    {
+                                        <option value="@item.StaffID">@item.FirstName  @item.LastName</option>
+                                        //@item.FileName  // instead .FileName use property which u used in ur model class
+                                    }
+                                </select>
+
+                            </div>
+                        </div>*@
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PaymentTerms, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.PaymentTerms, new { htmlAttributes = new { id = "paymentTerms", @Value = "C.O.D", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.PaymentTerms, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DeliveryDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.DeliveryDate, new { htmlAttributes = new { id = "deliveryDate", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.DeliveryDate, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.DeliveryTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.DeliveryTime, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.DeliveryTime, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div id="divOrderDetail">
+
+            </div>
+
+            @*<!-- begin panel -->
+            <div class="panel panel-inverse">
+                <div class="panel-body">
+                    <div class="">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>&nbsp; </th>
+                                    <th>
+                                        NO
+                                    </th>
+                                    <th>
+                                        Item Description
+                                    </th>
+                                    <th>
+                                        Qty
+                                    </th>
+                                    <th>
+                                        Unit Price
+                                    </th>
+                                    <th>
+                                        Unit
+                                    </th>
+                                    <th>
+                                        <span class="pull-right">Amount </span>
+
+                                    </th>
+                                    <th>
+
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td colspan="7">
+                                        <br /> Please click Next button to start.
+                                        <br /><br />
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                            <tfoot>
+ 
+                                <tr>
+                                    <td colspan="8"> &nbsp; </td>
+                                </tr>
+
+
+
+                            </tfoot>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- end panel -->*@
+            <!--Start Wallace Add-On -->
+            <div class="modal fade" id="modal-dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Please Select Customer Address</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <select class="form-control selectpicker2 col-md-10" data-size="10" data-live-search="true" data-style="btn-white">
+                                        <option value="" selected>Select company</option>
+                                        @foreach (var item in ViewData["ClientsAll"] as IEnumerable<iTrade.Models.Vendor>)
+                                        {
+                                            <option value="@item.CustNo">@item.CustName</option>
+                                            //@item.FileName  // instead .FileName use property which u used in ur model class
+                                        }
+                                    </select>
+
+                                </div>
+                                <div class="form-group">
+
+                                    <input type="text" id="DeliveryAddress2" class="form-control col-md-10" placeholder="Delivery Address" />
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="javascript:;" class="btn btn-sm btn-white" data-dismiss="modal">Cancel</a>
+                            <a href="javascript:;" class="btn btn-sm btn-primary" data-dismiss="modal"> &nbsp;&nbsp; Ok &nbsp;&nbsp;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--End Wallace Add-On -->
+
+
+
+
+
+        </div>
+    </div>
+    <!-- end panel -->
+
+}
+
+
+@section Scripts{
+    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-combobox/js/bootstrap-combobox.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/select2/dist/js/select2.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery-tag-it/js/tag-it.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/js/form-plugins.star.js")"></script>
+
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/modal-open.js")"></script>
+
+
+}
+
+
+<script>
+    $(document).ready(function () {
+        // App.init();
+        TableManageDefault.init();
+        // Notification.init();
+        FormPlugins.init();
+
+    });
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#invDate').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+        $('#invDate').datepicker('setDate', new Date());
+
+
+        var str = $('#custNo').val();
+        var url1 = '@Url.Action("_DisplayKivsByCust", "PoKivOrders", new { id = "_id_" })'
+                        .replace('_id_', str);
+        $("#divOrderDetail").load(url1);
+
+    });
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#deliveryDate').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+     //   $('#deliveryDate').datepicker('setDate', new Date());
+    });
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("select.selectpicker").change(function () {
+            var val = $(".selectpicker option:selected").val();
+            //   alert("You have selected the country - " + val);
+
+            if (val > 0) {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("AutoCompleteSelectedVendor")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        search: val
+                    },
+                    success: function (data) {
+                        $('#item1').val(data.result.CustNo);
+                        $('#item2').val(data.result.CustName);
+                        $('#custNo').val(data.result.CustNo);
+                        $('#custName').val(data.result.CustName);
+                        $('#addr1').val(data.result.Addr1);
+                        $('#addr2').val(data.result.Addr2);
+                        $('#addr3').val(data.result.Addr3);
+                        $('#postalCode').val(data.result.PostalCode)
+                        $('#invType').val(data.result.AccType);
+                        $('#accType').text(data.result.AccType);
+                        $('#paymentTerms').val(data.result.Terms);
+
+                        var str = $('#custNo').val();
+                        var url1 = '@Url.Action("_DisplayKivsByCust", "PoKivOrders", new { id = "_id_" })'
+                                        .replace('_id_', str);
+                        $("#divOrderDetail").load(url1);
+
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("_GetInvoiceNos")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        custno: val
+                    },
+                    success: function (data) {
+                        var productArray = data.result;
+
+                        $("#selectInvRef").empty();
+                        var optionsAsString = "";
+                        for (var i = 0; i < productArray.length; i++) {
+                            //alert(i + " " +  productArray.length + "" + productArray[i].IsDefault);
+
+                            var chk = " ";
+                            if (i == 0) {
+                                chk = " selected = 'selected' ";
+                                $('#invRef').val(productArray[i]);
+
+                            }
+
+                            optionsAsString += "<option " + chk + " value='" + productArray[i].trim() + "'>" + productArray[i].trim() + "</option>";
+                        }
+                        $('select[name="selectInvRef"]').append(optionsAsString);
+
+                    },
+                    error: function (xhr, status, error) {
+                        //alert(error);
+                    }
+                });
+
+
+
+            }
+        });
+
+
+        $("select.staffpicker").change(function () {
+            var staffid = $(".staffpicker option:selected").val();
+            var staffname = $(".staffpicker option:selected").text();
+
+            $('#personID').val(staffid);
+            $('#personName').val(staffname);
+
+        });
+
+        $("select.invrefpicker").change(function () {
+            var invref = $(".invrefpicker option:selected").val();
+            $('#invRef').val(invref);
+        });
+
+    });
+</script>
+
+
+
+@*<script>
+            $(document).ready(function () {
+                $('#tags').autocomplete({
+                    source: function (request, response) {
+                        $.ajax({
+                            url: '@Url.Action("AutoComplete","Orders")',
+                            dataType: "json",
+                            contentType: 'application/json, charset=utf-8',
+                            data: {
+                                search: $("#tags").val()
+                            },
+                            success: function (data) {
+
+                                response($.map(data, function (item) {
+                                    return {
+                                        label: item.CustNo + " | " + item.CustName,
+
+                                    };
+                                }));
+                            },
+                            error: function (xhr, status, error) {
+                                alert(error);
+                            }
+
+                        });
+                    },
+                    selectFirst: true,
+                    delay: 0,
+                    autoFocus: true,
+                    minLength: 1
+                });
+
+                $("#tags").on("autocompleteselect", function (event, ui) {
+                    var str1 = ui.item.value;
+                    var str2 = str1.split("|");
+                    var val = str2[0].trim();
+
+                    //  alert(val);
+
+                    $.ajax({
+                        type: 'GET',
+                        url: '@Url.Action("AutoCompleteSelected","Orders")',
+                        dataType: "json",
+                        contentType: 'application/json, charset=utf-8',
+                        data: {
+                            search: val
+                        },
+                        success: function (data) {
+                            $('#custNo').val(data.result.CustNo);
+                            $('#custName').val(data.result.CustName);
+                            $('#addr1').val(data.result.Addr1);
+                            $('#addr2').val(data.result.Addr2);
+
+                            var country = data.result.Country;
+                            if (country == null || country.trim() == "") {
+                                country = "";
+                            } else {
+                                country = country.trim();
+                            }
+
+                            var postal = data.result.PostalCode;
+                            if (postal == null || postal.trim() == "") {
+                                postal = "";
+                            } else {
+                                postal = " " + postal;
+                            }
+
+                            var str = data.result.Addr3;
+                            if (str == null || str.trim() == "") {
+                                str = country + postal;
+                            } else {
+                                str = str + ", " + country + postal;
+                            }
+                            $('#addr3').val(str);
+                            $('#addr4').val("");
+                            $('#attn').val(data.result.ContactPerson);
+                            $('#phoneNo').val(data.result.PhoneNo);
+                            $('#faxNo').val(data.result.FaxNo);
+                            $('#invType').val(data.result.AccType);
+
+                        },
+                        error: function (xhr, status, error) {
+                            alert(error);
+                        }
+
+                    });
+
+                });
+
+
+
+            });
+
+</script>*@
+
+
+@* Start Wallace Add-On *@
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("select.selectpicker2").change(function () {
+            var val = $(".selectpicker2 option:selected").val();
+            //   alert("You have selected the country - " + val);
+
+            if (val > 0) {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("AutoCompleteSelected2","Orders")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        search: val
+                    },
+                    success: function (data) {
+                        $('#DeliveryAddress2').val(data.result.DeliveryAddress);
+                        $('#DeliveryAddress').val(data.result.DeliveryAddress);
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+
+            }
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#DeliveryTime1").keyup(function () {
+            var x = $('#DeliveryTime1').val();
+            var y = $('#DeliveryTime2').val();
+            var z = x + " " + y;
+            $('#DeliveryTime').val(z);
+        });
+    });
+</script>
+@* End Wallace Add-On *@
+
+
+
+

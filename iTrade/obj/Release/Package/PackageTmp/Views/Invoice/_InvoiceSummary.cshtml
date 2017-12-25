@@ -1,0 +1,67 @@
+﻿@model iTrade.Models.InvoiceIndexViewModel
+@{
+    int i = 0, x = 0;
+}
+<br />
+<br />
+@if (@ViewBag.CompanyName != null)
+{
+    <div class="invoice-company">
+        Invoice Summary - @ViewBag.CompanyName
+    </div>
+    <div><h5>Invoice Period From <strong>@ViewBag.StartDate</strong> to <strong>@ViewBag.EndDate</strong></h5></div>}
+<br />
+<br />
+@if (Model.InvoicesList.Count > 0)
+{
+    <h4>Invoices List</h4>
+    <div class="table-responsive">
+        <table class="table table-email table-bordered">
+            <thead>
+                <tr>
+                    <th width="5%">S/O</th>
+                    <th width="10%">Invoice No</th>
+                    <th width="20%">Customer Name</th>
+                    <th width="10%">Total Price</th>
+                    <th width="30%">Delivery Date/Time</th>
+                    <th width="10%">Date Created</th>
+                    <th width="15%">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.InvoicesList)
+                {
+                    x++;
+                    string dateDisp = String.Format("{0:dd/MM/yyyy}", @item.CreatedOn);
+
+                    <tr>
+                        <td>@x</td>
+                        <td>@string.Format("{0:0000000}", item.InvID)</td>
+                        <td>@item.CustName</td>
+                        <td>
+                            @string.Format("{0:C}", item.Nett)
+                        </td>
+                        <td>
+                            @String.Format("{0:dd/MM/yyyy}", @item.DeliveryDate) &nbsp; @String.Format("{0:h:mm tt}", @item.DeliveryTime)
+                        </td>
+                        <td>@dateDisp</td>
+                        <td>
+                            <a href="@Url.Action("PrintPreview", "Invoice", new { Id = @item.InvID })" data-toggle="tooltip" data-placement="top" title="Print Preview" id="btnPrintPreview" class="btn btn-sm btn-info"><i class="fa fa-print m-r-5"></i></a>
+                            <a href="@Url.Action("AmascoInvoice", "Invoice", new { Id = @item.InvID })" data-toggle="tooltip" data-placement="top" title="Amasco Invoice Print Preview" id="btnAmascoInvoice" class="btn btn-sm btn-info"><i class="fa fa-book m-r-5"></i></a>
+                            <a href="@Url.Action("DOPrintPreview", "Invoice", new { Id = @item.SorID, InvID = @item.InvID })" data-toggle="tooltip" data-placement="top" title="Delivery Order" id="btnDOPrintPreview" class="btn btn-sm btn-info"><i class="fa fa-truck m-r-5"></i></a>
+                            <a href="@Url.Action("CSPrintPreview", "Invoice", new { Id = @item.InvID })" data-toggle="tooltip" data-placement="top" title="Tax Cash Bill" id="btnTaxCashBill" class="btn btn-sm btn-info"><i class="fa fa-money m-r-5"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+        $('#Print').click(function () {
+            window.open("../Reports/Summary");
+        });
+    });
+</script>

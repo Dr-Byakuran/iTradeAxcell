@@ -1,0 +1,182 @@
+﻿@model iTrade.Models.InvoiceViewModel
+@using System.Text;
+@using CLK.AspNet.Identity;
+@{
+    Layout = null;
+    string loginName = User.Identity.Name;
+    string strDateDisp = String.Format("{0:dd MMM yyyy}", DateTime.Now);
+    string strTimeDisp = String.Format("{0:h:mm tt}", DateTime.Now);
+    string strFooter = string.Format("Printed by {0} on {1} at {2}", loginName, strDateDisp, strTimeDisp);
+
+    string strYear = Model.Invoice.CreatedOn.Year.ToString();
+    string strDateDel = String.Format("{0:dd/MM/yyyy}", Model.Invoice.CreatedOn);
+    int i = 0;
+
+    iTrade.Models.StarDbContext db = new iTrade.Models.StarDbContext();
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>TAX CASH BILL</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+
+    @Styles.Render("~/css/css")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <link href="@Url.Content("~/assets/css/sar-print.css")" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+    <!-- begin #content -->
+    <img src="@ViewBag.HeaderURL\..\..\..\assets\img\ACHHeader.jpg" />
+    <table height="100%">
+        <tr>
+            <td valign="top">
+                <table>
+                    <tr>
+                        <td width="20%" style="vertical-align:text-bottom;font-size:small"></td>
+                        <td width="45%" style="vertical-align:text-bottom;font-size:small"></td>
+                        <td width="15%" style="vertical-align:text-bottom;font-size:small"></td>
+                        <td width="20%" style="vertical-align:text-bottom;font-size:small"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="vertical-align:text-bottom"><b>TO: CASH</b></td>
+                        <td colspan="2" style="vertical-align:text-bottom"><b>TAX CASH BILL</b></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="vertical-align:text-bottom;font-size:small"></td>
+                        <td style="vertical-align:text-bottom;font-size:small">NO.</td>
+                        <td  style="vertical-align:text-bottom;font-size:small; font-weight:lighter">@string.Format("CS{0:0000}", @Model.Invoice.InvID)</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="vertical-align:text-bottom;font-size:small; font-weight:lighter"></td>
+                        <td style="vertical-align:text-bottom;font-size:small">DATE</td>
+                        <td style="vertical-align:text-bottom;font-size:small">@strDateDel</td>
+                    </tr>
+                    <tr>
+                        <td width="10%" style="vertical-align:text-bottom;font-size:small"></td>
+                        <td width="55%" style="vertical-align:text-bottom;font-size:small"></td>
+                        <td width="15%" style="vertical-align:text-bottom;font-size:small">SALES CODE</td>
+                        <td width="20%" style="vertical-align:text-bottom;font-size:small">@Model.Invoice.PersonName</td>
+                    </tr>
+                    <tr>
+                        <td width="10%" style="vertical-align:text-bottom;font-size:small"></td>
+                        <td width="55%" style="vertical-align:text-bottom;font-size:small"></td>
+                        <td width="15%" style="vertical-align:text-bottom;font-size:small">ISSUE BY</td>
+                        <td width="20%" style="vertical-align:text-bottom;font-size:small">@Model.Invoice.PersonName</td>
+                    </tr>
+                    <tr>
+                        <td width="10%" style="vertical-align:text-bottom;font-size:small">A/C NO.</td>
+                        <td width="55%" style="vertical-align:text-bottom;font-size:small">@Model.Client.AccNo</td>
+                        <td width="15%" style="vertical-align:text-bottom;font-size:small"></td>
+                        <td width="20%" style="vertical-align:text-bottom;font-size:small"></td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="25%" style="border-top:1px;border-bottom:1px;vertical-align:text-bottom;font-size:small">ITEM NO.</td>
+                        <td width="35%" style="border-top:1px;border-bottom:1px;vertical-align:text-bottom;font-size:small">DESCRIPTION</td>
+                        <td width="16%" style="border-top:1px;border-bottom:1px;vertical-align:text-bottom;font-size:small">LOCATION</td>
+                        <td width="12%" align="center" style="border-top:1px;border-bottom:1px;vertical-align:text-bottom;font-size:small">QTY</td>
+                        <td width="12%" style="border-top:1px;border-bottom:1px;vertical-align:text-bottom;font-size:small">U. PRICE</td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:text-bottom;font-size:small"></td>
+                        <td colspan="4" style="vertical-align:text-bottom;font-size:small;font-weight:bold">@string.Format("S.O. No.: SO-{0:0000}", Model.Invoice.SorID)</td>
+                    </tr>
+                    @foreach (var item in Model.INVDETs)
+                    {
+                        i++;
+                        <tr style="vertical-align:middle;height:auto">
+                            <td style="vertical-align:text-top; font-size:small">
+                                <table cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td width="18%" style=" vertical-align:text-top; font-size:small">@i</td>
+                                        <td width="82%" style=" vertical-align:text-top; font-size:small">@item.ItemCode</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            
+                            <td style="vertical-align:text-top; font-size:small">@item.ItemName</td>
+                            <td style="vertical-align:text-top; font-size:small"></td>
+                            <td align="center" style="vertical-align:text-top; font-size:small">@item.Qty</td>
+                            <td style="vertical-align:text-top; font-size:small">@item.DiscountedPrice</td>
+                        </tr>
+                    }
+                </table>
+
+            </td>
+        </tr>
+        <tr>
+            <td valign="bottom">
+                <table width="100%">
+                    <tr style="vertical-align:top">
+                        <td width="33%" style="border-top:1px;font-size:small">Goods sold out are not returnable.<br />Goods received in good condition.</td>
+                        <td width="33%" style="border-top:1px;font-size:small">AIK CHIN HIN MACHINERY CO.</td>
+                        <td width="33%" style="border-top:1px;border-left:1px;border-right:1px">
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <tr style="vertical-align:middle;height:30px">
+                                    <td style="vertical-align:text-bottom; font-size:small">AMOUNT</td>
+                                    <td style="vertical-align:text-bottom; font-size:small">S$</td>
+                                    <td style="vertical-align:text-bottom; font-size:small">@string.Format("{0:#,##0.#0}", @Model.Invoice.Amount)</td>
+                                </tr>
+                                <tr style="vertical-align:bottom;height:30px">
+                                    <td style="border-top:1px;vertical-align:text-bottom; font-size:small">GST 7%</td>
+                                    <td style="border-top:1px;vertical-align:text-bottom; font-size:small">S$</td>
+                                    <td style="border-top:1px;vertical-align:text-bottom; font-size:small">@string.Format("{0:#,##0.#0}", @Model.Invoice.Gst)</td>
+                                </tr>
+                                <tr style="vertical-align:bottom;height:30px">
+                                    <td style="border-top:1px;border-bottom:1px;vertical-align:text-bottom; font-size:small">TOTAL</td>
+                                    <td style="border-top:1px;border-bottom:1px;vertical-align:text-bottom; font-size:small">S$</td>
+                                    <td style="border-top:1px;border-bottom:1px;vertical-align:text-bottom; font-size:small">@string.Format("{0:#,##0.#0}", @Model.Invoice.Nett)</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <tr style="vertical-align:top">
+                                    <td width="90" style="font-size:small"></td>
+                                    <td width="10" style="font-size:small"></td>
+                                    <td width="90" style="border-top:1px;font-size:small"></td>
+                                </tr>
+                                <tr style="vertical-align:top">
+                                    <td width="90" align="center"></td>
+                                    <td width="10" style="font-size:small"></td>
+                                    <td width="90" style="border-top:1px;font-size:small" align="center">Authorised Signature</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" align="left">
+                            <span style="font-size: 7pt; font-weight:lighter;">@strFooter</span>
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

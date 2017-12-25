@@ -1,0 +1,145 @@
+﻿@model iTrade.Models.RawStock
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>RawStock</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Material)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Material)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Length)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Length)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LengthUnit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LengthUnit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartQty)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartQty)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StockIn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StockIn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StockOut)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StockOut)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StockAdjusted)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StockAdjusted)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StockBalance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StockBalance)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Unit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Unit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remark)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remark)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartedOn)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

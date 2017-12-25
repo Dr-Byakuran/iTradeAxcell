@@ -1,0 +1,42 @@
+﻿@model IEnumerable<iTrade.Models.ProductSubItem>
+
+
+@using (Html.BeginForm("index", null, FormMethod.Get))
+{
+
+            <!-- begin panel -->
+    <div class="panel panel-inverse">
+
+        <div class="panel-body">
+            <p>Accessories & parts includes: </p> 
+
+            <div class="table-responsive">
+
+                <table class="table">
+ 
+                    <tbody>
+                        @{int i = 0;}
+                        @foreach (var item in Model)
+                        {
+                            i++;
+                            <tr>
+
+                                <td>@i ) &nbsp;&nbsp;
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                <td>
+                                    <a data-modal="" href="#" id="btnDel" class=""><i class="fa fa-lg fa-minus-circle"></i></a>
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+            <!-- end panel -->
+
+}
+
+

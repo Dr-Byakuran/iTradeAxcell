@@ -1,0 +1,34 @@
+﻿@model iTrade.Models.DrOrderDet
+
+<tr>
+    <td>
+    @Html.HiddenFor(model=>model.DetID)
+        @Html.HiddenFor(model=>model.ItemID)
+        @Html.HiddenFor(model=>model.DorID)
+    </td>
+    <td>
+        @Model.Position
+    </td>
+    <td class="input-wrapper">
+        @*@Html.DisplayFor(model => model.ItemCode, new { htmlAttributes = new { @class = "form-control col-md-12" } })*@
+        @Html.EditorFor(model => model.ItemCode, new { htmlAttributes = new { @class = "form-control col-md-12", @readonly = "readonly" } })
+    </td>
+    <td class="input-wrapper">
+        @Html.EditorFor(model => model.ItemName, new { htmlAttributes = new { @class = "form-control col-md-12", @readonly = "readonly" } })
+    </td>
+    <td >
+        @Html.EditorFor(model => model.DeliverQty, new { htmlAttributes = new { @class = "form-control col-md-12", @readonly = "readonly" } })
+    </td>
+    <td class="input-wrapper">
+        @Html.EditorFor(model => model.UnitPrice, new { htmlAttributes = new { @class = "form-control col-md-12", @readonly = "readonly" } })
+    </td>
+    <td class="input-wrapper">
+        @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control col-md-12", @readonly = "readonly" } })
+    </td>
+    <td class="input-wrapper">
+        @Html.EditorFor(model => model.DiscountedPrice, new { htmlAttributes = new { @class = "form-control col-md-12", @readonly = "readonly" } })
+    </td>
+    <td class="input-wrapper">
+        @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control col-md-12", @readonly = "readonly" } })
+    </td>
+</tr>

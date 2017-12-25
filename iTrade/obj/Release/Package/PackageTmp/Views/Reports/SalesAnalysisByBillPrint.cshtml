@@ -1,0 +1,129 @@
+﻿@using iTrade.CustomHtmlHelper;
+@model IEnumerable<iTrade.Models.INV>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <link href="@Url.Content("~/assets/plugins/bootstrap/css/bootstrap.min.css")" rel="stylesheet" type="text/css" media="all" />
+    <link href="@Url.Content("~/assets/css/style.min.css")" rel="stylesheet" type="text/css" media="all" />
+    <link href="@Url.Content("~/assets/css/theme/blue.css")" rel="stylesheet" type="text/css" media="all" />
+</head>
+<body style="font-size: small;" onload="window.print();">
+    <div>
+ 
+            <center><h4>SALES ANALYSIS BY BILL </h4> </center>
+ 
+                <div class="row">
+                    <div class="col-md-12">
+                        <table width="98%">
+                            <tr>
+                                <td><h5> AIK CHIN HIN SUPPLY PTE LTD  </h5>   
+                                    <h5> DATE FROM @ViewBag.StartDate  TO   @ViewBag.EndDate</h5>
+                                </td>
+                                <td> </td>
+                                <td align="right"><h5> @System.DateTime.Now </h5>   </td>
+                            </tr>
+                        </table>
+                        
+                    </div>
+                </div>
+                      
+                        
+                <!-- begin row -->
+                <div class="row">
+                    <!-- begin col-12 -->
+                    <div class="col-md-12"> 
+ 
+                                    <table class="table noborder">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    CUST NO.
+                                                </th>
+                                                <th class="col-md-4">
+                                                    NAME
+                                                </th>
+                                                <th>
+                                                    TYPE
+
+                                                </th>
+                                                <th>
+                                                    REFERENCE
+                                                </th>
+
+                                                <th>
+                                                    DATE
+                                                </th>
+                                                <th class="col-md-2">
+                                                    AMOUNT
+                                                </th>
+                                                <th class="col-md-2">
+                                                    TERM
+                                                </th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.CustNo)
+                                                    </td>
+
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.CustName)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.InvType)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.InvNo)
+                                                    </td>
+
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.InvDate)
+                                                    </td>
+                                                    <td align="right">
+                                                        @Html.DisplayFor(modelItem => item.Nett)
+                                                    </td>
+
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.PaymentTerms)
+                                                    </td>
+
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                
+                                                <th colspan="5" align="right"><h5 class="text-right">TOTAL AMOUNT ($): </h5>  </th>
+                                                <th align="right"> <h4 class="text-right"> @ViewBag.TotalNett </h4> </th>
+                                                <th></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+ 
+ 
+                    </div>
+                    <!-- end col-12 -->
+                </div>
+                <!-- end row -->
+  
+
+
+
+
+    </div>
+</body>
+</html>

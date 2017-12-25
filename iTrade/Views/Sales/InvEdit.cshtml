@@ -1,0 +1,1591 @@
+﻿@model iTrade.Models.INV
+@*@model IEnumerable<iTrade.Models.Client>*@
+@*@model IEnumerable<iTrade.Models.Staff>*@
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-datepicker/css/datepicker.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-combobox/css/bootstrap-combobox.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/select2/dist/css/select2.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/css/star-items-table.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/parsley/src/parsley.css")" rel="stylesheet" type="text/css" />
+
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin page-header -->
+<div class="page-header lead">
+    Sales / @Model.InvNo  &nbsp;&nbsp; (@Model.PaymentStatus)   
+
+    <span class="email-btn-row pull-right">
+        <a href="@Url.Action("CreditSales")"><span class="btn btn-default">Cancel </span></a>
+        <a href="@Url.Action("PrintPreview", "Invoice", new { id = ViewBag.InvoiceNo })" target="_blank" class="btn btn-primary"><i class="fa fa-print m-r-5"></i> Print Invoice</a>
+        <button type="button" id="btnSaveChanges" class="btn btn-primary">Save Changes</button>
+
+    </span>
+
+</div>
+<!-- end page-header -->
+<!-- begin panel -->
+<div class="panel panel-inverse">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-6">
+                @Model.CustName &nbsp;&nbsp;&nbsp;&nbsp;  @if (Model.InvType == "CS")
+                {
+                    <span> (Cash Sales) </span>
+                }
+                else
+                {
+                    <span> (Credit Customer) </span>
+                }
+            </div>
+            <div class="col-md-6">
+                @foreach (var item in ViewData["ClientsAll"] as IEnumerable<iTrade.Models.Client>)
+                {
+                    if ((item.CustNo != null) && (item.CustNo == Model.CustNo))
+                    {
+                        if (item.AccType == "CR")
+                        {
+                            if (item.ClientCreditSettings.FirstOrDefault() != null && item.ClientCreditSettings.FirstOrDefault().IsCreditAllowed)
+                            {
+                                <input type="hidden" id="valIsCreditControl" value="@item.ClientCreditSettings.FirstOrDefault().IsCreditAllowed" />
+                                <input type="hidden" id="valCreditLimit" value="@item.ClientCreditSettings.FirstOrDefault().CreditLimit" />
+                                <input type="hidden" id="valOverdueLimit" value="@item.ClientCreditSettings.FirstOrDefault().OverdueLimit" />
+                                <input type="hidden" id="valOutstanding" value="@item.ClientCreditSettings.FirstOrDefault().AccountBalance" />
+
+                                <span>Credit Limit: $ &nbsp; @item.ClientCreditSettings.FirstOrDefault().CreditLimit &nbsp;&nbsp;&nbsp;&nbsp; Overdue Limit: $ &nbsp; @item.ClientCreditSettings.FirstOrDefault().OverdueLimit &nbsp;&nbsp;&nbsp;&nbsp; Outstanding Amount: $ &nbsp; @item.ClientCreditSettings.FirstOrDefault().AccountBalance</span>
+                            }
+                            else
+                            {
+                                <span>No Credit Control</span>
+                            }
+
+                        }
+                    }
+                }
+            </div>
+        </div>
+
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm("InvEdit", "Sales", FormMethod.Post, new { id = "orderForm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.InvID, new { id = "sorNumber" })
+            @Html.HiddenFor(model => model.InvNo)
+            @Html.HiddenFor(model => model.SorID, new { id = "sorID" })
+            @Html.HiddenFor(model => model.SorNo, new { id = "sorNo" })
+            @Html.HiddenFor(model => model.QuoNo)
+            @Html.HiddenFor(model => model.DorNo)
+            
+            @Html.HiddenFor(model => model.InvRef)
+            @Html.HiddenFor(model => model.InvType, new { id = "invType" })
+
+            @Html.HiddenFor(model => model.PersonID, new { id = "personID" })
+            @Html.HiddenFor(model => model.PersonName, new { id = "personName" })
+            @Html.HiddenFor(model => model.CustNo, new { id = "custNo" })
+            @Html.HiddenFor(model => model.CustName, new { id = "custName" })
+
+            @Html.HiddenFor(model => model.Addr4, new { id = "addr4" })
+            @Html.HiddenFor(model => model.PhoneNo, new { id = "phoneNo" })
+            @Html.HiddenFor(model => model.FaxNo, new { id = "faxNo" })
+
+            @Html.HiddenFor(model => model.PreDiscAmount, new { id = "crPreDiscAmount" })
+            @Html.HiddenFor(model => model.Discount, new { id = "crDiscount" })
+            @Html.HiddenFor(model => model.Amount, new { id = "crAmount" })
+            @Html.HiddenFor(model => model.Gst, new { id = "crGst" })
+            @Html.HiddenFor(model => model.Nett, new { id = "crNett" })
+            @Html.HiddenFor(model => model.PaidAmount, new { id = "crPaidAmount" })
+
+            @Html.HiddenFor(model => model.Status)
+            @Html.HiddenFor(model => model.PaymentStatus)
+            @Html.HiddenFor(model => model.IsPaid)
+            @Html.HiddenFor(model => model.PaidDate)
+            @Html.HiddenFor(model => model.CreatedBy)
+            @Html.HiddenFor(model => model.CreatedOn)
+            @Html.HiddenFor(model => model.ModifiedBy)
+            @Html.HiddenFor(model => model.ModifiedOn)
+
+            @Html.HiddenFor(model => model.Remark, new { id = "invRemark" })
+
+
+            <input type="hidden" id="custGroup" value="" />
+            <input type="hidden" id="actionType" name="actionType" value="0" />
+
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CustName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                <select class="form-control selectpicker" data-size="10" data-live-search="true" data-style="btn-white">
+                                    <option value="0" selected>Select student</option>
+                                    @foreach (var item in ViewData["ClientsAll"] as IEnumerable<iTrade.Models.Client>)
+                                    {
+                                        if ((item.SalesPersonID == ViewBag.StaffID) || (User.IsInRole("Admin")))
+                                        {
+                                            <option value="@item.CustNo"
+                                                    @if (item.CustNo == Model.CustNo) { <text> selected="selected" </text>          }>
+                                                @item.CustName
+                                            </option>
+
+                                        }
+
+                                        //@item.FileName  // instead .FileName use property which u used in ur model class
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-1">
+                                <span id="accType" class="hide">@Model.InvType</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label(" ", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.CustName2, new { htmlAttributes = new { id = "custName2", @class = "form-control", placeholder = "Additional name info if provided" } })
+                                @Html.ValidationMessageFor(model => model.CustName2, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Addr1, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.Addr1, new { htmlAttributes = new { id = "addr1", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Addr1, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Addr2, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.Addr2, new { htmlAttributes = new { id = "addr2", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Addr2, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Addr3, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.Addr3, new { htmlAttributes = new { id = "addr3", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Addr3, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.Attn, new { htmlAttributes = new { id = "attn", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Attn, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group hidden">
+                            @Html.LabelFor(model => model.DeliveryAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.DeliveryAddress, new { htmlAttributes = new { @class = "form-control", placeholder = "Delivery address if different from the above" } })
+                                @Html.ValidationMessageFor(model => model.DeliveryAddress, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="col-md-5">
+                    <div class="form-horizontal">
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.InvDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.InvDate, new { htmlAttributes = new { id = "invDate", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.InvDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PoNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.PoNo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.PoNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PersonName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                <select class="form-control staffpicker">
+                                    <option value="0" selected>Select sales person</option>
+                                    @foreach (var item in ViewData["StaffsAll"] as IEnumerable<iTrade.Models.Staff>)
+                                    {
+                                        <option value="@item.StaffID"
+                                                @if (item.StaffID == Model.PersonID) { <text> selected="selected" </text>          }>
+                                            @item.FirstName @item.LastName
+                                        </option>
+                                        //@item.FileName  // instead .FileName use property which u used in ur model class
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PaymentTerms, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.PaymentTerms, new { htmlAttributes = new { id = "paymentTerms", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.PaymentTerms, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group hidden">
+                            @Html.LabelFor(model => model.DeliveryDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.DeliveryDate, new { htmlAttributes = new { id = "deliveryDate", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.DeliveryDate, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.DeliveryTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.DeliveryTime, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.DeliveryTime, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+
+                        <div class="form-group hidden">
+                            @Html.Label(" ", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="chkDisplaySet" value="" @if (Model.InvType == "CS") { <text> checked </text>   } />
+                                        DISPLAY SET SALES
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+
+        }
+
+        <div id="divOrderDetail">
+
+        </div>
+
+
+
+        <!-- modal placeholder-->
+        <div id="additemModal" class="modal" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div id='additemModalContent'>
+                        <div class="modal-header">
+
+                            <button type="button" class="close" id="btnAddItemClose2002" aria-hidden="true" data-dismiss="modal">X</button>
+                            <h3 class="modal-title lead">@Model.CustName &nbsp;&nbsp; INV#@Model.InvNo &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Total Amount $:  <span id="txtTotalAmount" class="lead"> </span></h3>
+                        </div>
+                        <div class="modal-body">
+
+                            @{Html.RenderAction("_AddItem", "Sales", new { id = Model.InvID });}
+
+
+                            <br />
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <span id="txtLastItem" class="pull-left semi-bold"></span>
+
+                            <span id="progress" class="text-center" style="display: none;">
+                                <img src="~/assets/img/Wait.gif" alt="wait" />
+                                Wait..
+                            </span>
+                            <input type="hidden" id="txtUrl1" value="" />
+                            <input type="hidden" id="txtUrl2" value="" />
+                            <input type="hidden" id="btnActionType" name="btnActionType" value="0" />
+                            <input type="button" class="btn btn-primary" id="btnAddItem" value=" Save & Next " />
+                            <input type="button" class="btn btn-primary" id="btnAddItem2" value=" Save & Close " />
+                            <button id="btnAddItemClose001" class="btn btn-white" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- modal placeholder-->
+        <div id="addMultiitemModal" class="modal" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div id='addMultiitemModalContent'>
+                        <div class="modal-header">
+
+                            <button type="button" class="close" id="btnAddItemClose2002a" aria-hidden="true" data-dismiss="modal">X</button>
+                            <h3 class="modal-title lead">@Model.CustName &nbsp;&nbsp; SO#@Model.SorNo &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Total Amount $:  <span id="txtTotalAmount" class="lead"> </span></h3>
+                        </div>
+                        <div class="modal-body">
+                            <div class="panel">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="input-group m-b-20">
+                                            <input type="text" id="txtSearchKeyword" class="form-control" placeholder="Type product name or code here..." />
+                                            <div class="input-group-btn">
+                                                <button type="button" id="btnSearchProduct" class="btn btn-inverse"><i class="fa fa-search"></i> Search</button>
+                                            </div>
+                                        </div>
+                                        <h4>Search Results</h4>
+
+                                    </div>
+
+
+                                    @*@{Html.RenderAction("_AddMultiItem", "Orders", new { id = Model.SorID });}*@
+
+                                    @using (Html.BeginForm("_SearchResult", "Orders", FormMethod.Post, new { id = "addMultiItemForm" }))
+                                    {
+                                        <input type="hidden" id="valSorID" name="valSorID" value="@Model.SorID" />
+                                        <div id="divSearchResultList">
+
+                                        </div>
+
+                                    }
+
+
+
+                                </div>
+                            </div>
+
+                            <br />
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <span id="txtLastItem2" class="pull-left lead semi-bold"></span>
+
+                            <span id="progress3" class="text-center" style="display: none;">
+                                <img src="~/assets/img/Wait.gif" alt="wait" />
+                                Wait..
+                            </span>
+                            <input type="hidden" id="txtUrlSearch" value="" />
+                            <input type="hidden" id="txtUrlSearch2" value="" />
+                            <input type="hidden" id="btnActionType3" name="btnActionType3" value="0" />
+                            <input type="button" class="btn btn-primary" id="btnAddItem3a" value=" Save & Next " />
+                            <input type="button" class="btn btn-primary" id="btnAddItem3b" value=" Save & Close " />
+                            <button id="btnAddItemClose001aa" class="btn btn-white" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- modal placeholder-->
+        <div id="bundleOrderModal" class="modal fade in" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h3 class="modal-title lead"><span id="txtTitle"> </span> &nbsp;&nbsp; &nbsp; Qty: <span id="txtTitleQty"> </span></h3>
+                    </div>
+                    <div id='bundleOrderModalContent'></div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- modal placeholder-->
+        <div id="kivPartialModal" class="modal" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div id='kivPartialModalContent'>
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3 class="modal-title"><span class="lead">Partial Delivery</span></h3>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <br />
+
+                                    <table class="table table-striped" style="width:100%;">
+                                        <thead>
+                                            <tr>
+                                                <th class="col-md-6">Description</th>
+                                                <th>Order <br />Qty</th>
+                                                <th>Balance <br />Qty</th>
+                                                <th>Deliver <br />Qty</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td> Item 1</td>
+                                                <td> 3 </td>
+                                                <td> 3 </td>
+                                                <td> <input type="text" value="0" class="form-control col-md-1" /> </td>
+
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+
+
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <br />
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <span id="progress" class="text-center" style="display: none;">
+                                <img src="~/assets/img/Wait.gif" alt="wait" />
+                                Wait..
+                            </span>
+
+                            <input type="button" class="btn btn-primary" id="btnPartialDelivery" value=" Save " />
+                            <button class="btn btn-white" data-dismiss="modal">Close</button>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- modal placeholder-->
+        <div id="convertModal" class="modal" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div id='convertModalContent'>
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3 class="modal-title">Convert to Invoice</h3>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <span class="lead">Are you sure to proceed Sales Order# @Model.SorNo ?</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <br />
+                                <div class="col-md-8 col-md-offset-2">
+
+                                    <div class="form-group m-r-10">
+                                        <input type="text" class="form-control col-md-6" id="txtSorNo2" value="@Model.SorID" />
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <br />
+                        </div>
+
+                        <div class="modal-footer">
+                            <span id="progress2" class="text-center" style="display: none;">
+                                <img src="~/assets/img/Wait.gif" alt="wait" />
+                                Wait..
+                            </span>
+
+                            <input type="button" class="btn btn-primary" id="btnProceed" value=" Convert to Invoice " />
+                            <button class="btn btn-white" data-dismiss="modal">Cancel</button>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- modal placeholder-->
+        <div id="confirmModal" class="modal fade in" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div id='confirmModalContent'>
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                            <span class="modal-title lead">Confirm Sales Order </span>
+                        </div>
+                        <div class="modal-body">
+                            <br />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <span class="lead">Are you sure to confirm this Order# @Model.SorNo ?</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <br />
+                                <div class="col-md-8 col-md-offset-2">
+
+                                    <div class="form-group m-r-10">
+                                        <input type="hidden" id="txtSorNo" value="@Model.SorID" />
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <br />
+                        </div>
+
+                        <div class="modal-footer">
+                            <span id="progress2" class="text-center" style="display: none;">
+                                <img src="~/assets/img/Wait.gif" alt="wait" />
+                                Wait..
+                            </span>
+
+                            <input type="button" class="btn btn-primary" id="btnConfirm" value=" Confirm Order " />
+                            <button class="btn btn-white" data-dismiss="modal">Cancel</button>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- modal placeholder MultiPagesPrint Modal-->
+        <div id="MultiPrintModal" class="modal fade in" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div id='MultiPrintModalContent'>
+                        <div class="modal-header">
+                            <button type="button" class="close" id="btnCloseAndReload" aria-hidden="true">X</button>
+                            <span class="modal-title lead">Submit Cash Sales  </span>
+
+                        </div>
+                        <div class="modal-body">
+
+                            <div id="paymentMessage" class="hide">
+                                <h3 class="lead text-center"> Your order has been processed sucessfully. </h3>
+                                <h3 class="lead text-center">
+                                    <a href="#" id="btnPrint" target="_blank" class="btn btn-primary"><i class="fa fa-print m-r-5"></i> Print Invoice</a>  &nbsp;&nbsp; or &nbsp;&nbsp;  <a href="/Orders/CsEdit" id="btnCreate2" class="btn btn-primary"><i class="fa fa-plus m-r-5"></i> New Cash Sales</a>
+                                </h3>
+
+                            </div>
+
+                            <div id="paymentBox">
+                                <div class="row">
+                                    <div class="col-md-4 semi-bold">
+                                        @if (Model.InvType == "CS")
+                                        {
+                                            <p class="lead">Cash Sales</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="lead">Credit Sales</p>
+                                        }
+                                        <h2> $  <span id="invAmountText"></span> @*@Model.Nett.ToString("N")*@  </h2>
+                                        <div class="hide">
+                                            <br />
+                                            <p class="semi-bold">Outstanding Amount</p>
+                                            <p class="lead"> $  <span id="invOutstandingText"></span>  </p>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-8">
+                                        <br />
+                                        <span class="lead">Are you sure to confirm this Order# @Model.SorNo ?</span>
+                                        <br />
+                                        <div class="form-horizontal">
+                                            <br />
+                                            <div class="form-group">
+                                                @*<div class="col-md-3 lead">Payment</div>*@
+                                                <div class="col-md-7"><label class="form-group col-md-12 semi-bold"><input type="checkbox" id="chkWithPayment" value="isWithPayment"> Process with payment</label></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-3">
+                                                    <label class="form-group col-md-12"><input type="checkbox" id="chkCash" value="isCash"> Cash</label>
+                                                </div>
+                                                <div class="col-md-4"><input type="text" id="chkCashAmount" class="form-control col-md-12" placeholder="0.00" /></div>
+
+                                            </div>
+
+                                            <div id="otherPaymentMode">
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                        <label class="form-group col-md-12"><input type="checkbox" id="chkNETS" value="isNets"> NETS</label>
+                                                    </div>
+                                                    <div class="col-md-4"><input type="text" id="chkNETSAmount" class="form-control col-md-2" placeholder="0.00" /></div>
+                                                    <div class="col-md-3">
+                                                        <input type="text" id="chkNETSNumber" class="form-control col-md-2" placeholder="Reference Number" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                        <label class="form-group col-md-12"><input type="checkbox" id="chkCreditCard" value="isCreditCard"> Credit Card</label>
+                                                    </div>
+                                                    <div class="col-md-4"><input type="text" id="chkCreditCardAmount" class="form-control col-md-2" placeholder="0.00" /></div>
+                                                    <div class="col-md-3">
+                                                        <input type="text" id="chkCreditCardNumber" class="form-control col-md-2" placeholder="Reference Number" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                        <label class="form-group col-md-12"><input type="checkbox" id="chkCheque" value="isCheque"> Cheque</label>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <input type="text" id="chkChequeAmount" class="form-control col-md-2" placeholder="0.00" />
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input type="text" id="chkChequeNumber" class="form-control col-md-2" placeholder="Reference Number" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                        <label class="form-group col-md-12"><input type="checkbox" id="chkCreditNote" value="isCreditNote"> Credit Note</label>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <input type="text" id="chkCreditNoteAmount" class="form-control col-md-2" placeholder="0.00" />
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input type="text" id="chkCreditNoteNumber" class="form-control col-md-2" placeholder="Reference Number" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+
+                            <div id="headerBefore">
+                                <span class="pull-right">
+                                    <span id="progress3" class="text-center" style="display: none;">
+                                        <img src="~/assets/img/Wait.gif" alt="wait" />
+                                        Wait..
+                                    </span>
+                                    @*@if (Model.InvType == "CR")
+                                        {
+                                            <input type="button" class="btn btn-primary" id="btnGetApproval" value="Request Approval" />
+                                        }*@
+                                    &nbsp; &nbsp;
+                                    <input type="button" class="btn btn-primary" id="btnSubmitOrderAndInvoice" value="Confirm Order" />   &nbsp;&nbsp;
+                                    <button class="btn btn-white" data-dismiss="modal">Cancel</button>
+                                </span>
+                            </div>
+                            <div id="headerAfter" class="hide">
+                                <span class="pull-right">
+                                    <span id="progress3" class="text-center" style="display: none;">
+                                        <img src="~/assets/img/Wait.gif" alt="wait" />
+                                        Wait..
+                                    </span>
+
+                                    <a href="/Orders/CashSales" id="btnClose3" class="btn btn-white"> Close</a>
+                                </span>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>
+<!-- end panel -->
+@section Scripts{
+    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-combobox/js/bootstrap-combobox.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/select2/dist/js/select2.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery-tag-it/js/tag-it.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/js/form-plugins.star.js")"></script>
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/modal-order.js")"></script>
+    <script src="@Url.Content("~/Scripts/MyJs.js")"></script>
+
+}
+
+
+<script>
+            $(document).ready(function () {
+                // App.init();
+                TableManageDefault.init();
+                // Notification.init();
+                FormPlugins.init();
+
+                if (@ViewBag.PageFrom == "1") {
+                    $("#additemModal").modal('show');
+                    $('#txtSearch').focus();
+                    $('#txtSearch').select();
+                }
+
+                @*if (@ViewBag.PageFrom == "1") {
+                    $("#addMultiitemModal").modal('show');
+                    var urlSearch2 = '@Url.Action("_SearchResult", "Orders", new { txtSearch = "" })';
+                    $("#divSearchResultList").load(urlSearch2);
+                    $('#txtSearchKeyword').focus();
+                    $('#txtSearchKeyword').select();
+                }*@
+
+            });
+</script>
+
+
+
+
+
+
+<script type="text/javascript">
+    $('#bundleOrderModal').on('hidden.bs.modal', function () {
+
+        $('#additemModal').modal('show');
+
+    });
+
+    $('#addMultiitemModal').on('shown.bs.modal', function () {
+        var str = $('#addMultiitemModal #txtSearchKeyword').val();
+        var urlSearch = '@Url.Action("_SearchResult", "Orders", new { txtSearch = "_q_" })'
+                        .replace('_q_', str);
+        $("#divSearchResultList").load(urlSearch);
+        $('#txtUrlSearch').val(urlSearch);
+
+        $('#txtSearchKeyword').focus();
+        $('#txtSearchKeyword').select();
+
+
+    });
+
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#invDate').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+        $('#deliveryDate').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+
+
+
+        $("#addMultiitemModal #btnSearchProduct").click(function()
+        {
+            var str = $('#addMultiitemModal #txtSearchKeyword').val();
+            var urlSearch = '@Url.Action("_SearchResult", "Orders", new { txtSearch = "_q_" })'
+                            .replace('_q_', str);
+            $("#divSearchResultList").load(urlSearch);
+            $('#txtUrlSearch').val(urlSearch);
+
+        });
+
+        //$('#addMultiitemModal #txtSearchKeyword').keypress(function (event) {
+          $('#addMultiitemModal #txtSearchKeyword').keyup(function (event) {
+            var str = $('#addMultiitemModal #txtSearchKeyword').val();
+            var urlSearch = '@Url.Action("_SearchResult", "Orders", new { txtSearch = "_q_" })'
+                            .replace('_q_', str);
+            $("#divSearchResultList").load(urlSearch);
+            $('#txtUrlSearch').val(urlSearch);
+        });
+
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        var urlSearch2 = '@Url.Action("_SearchResult", "Orders", new { txtSearch = "" })';
+        $('#txtUrl3').val(urlSearch2);
+
+        var url1 = '@Url.Action("_OrderDetail", "Sales", new { id = @Model.InvID })';
+        $("#divOrderDetail").load(url1);
+        $('#txtUrl1').val(url1);
+
+        $('.selectpicker option[value='+@Model.CustNo+']').prop('selected', true);
+        $('.selectpicker').selectpicker('refresh');
+
+        $("#btnSaveChanges").click(function()
+        {
+            var val1 = $('#divOrderDetail #invPreDiscAmount').val();
+            var val2 = $('#divOrderDetail #invDiscount').val();
+            var val3 = $('#divOrderDetail #invAmount').val();
+            var val4 = $('#divOrderDetail #invGst').val();
+            var val5 = $('#divOrderDetail #invNett').val();
+            $('#crPreDiscAmount').val(val1);
+            $('#crDiscount').val(val2);
+            $('#crAmount').val(val3);
+            $('#crGst').val(val4);
+            $('#crNett').val(val5);
+
+            var remark = document.getElementById('inputRemark').value;
+            $('#invRemark').val(remark.trim());
+           // ItemSave();////
+            $("#actionType").val("SaveAndStay");
+            $("#orderForm").submit();
+
+            //$("#EditInvDetInfoForm").submit(function (e) {
+            //    e.preventDefault();
+            //    var newUrl1 = $('#txtUrl1').val();
+            //    //  alert('Form is submitting');
+            //    $.ajax({
+            //        url: this.action,
+            //        type: this.method,
+            //        data: $(this).serializeArray(),
+            //        success: function (result) {
+            //            if (result.success) {
+            //                $("#divOrderDetail").load(newUrl1);
+            //                 alert("Items Saved.");
+
+            //            } else {
+            //                alert("Items Not Saved.");
+            //            }
+            //        }
+            //    });
+            //    return true;
+            //});
+            //$("#EditInvDetInfoForm").submit(); //invoke form submission
+
+            //$("#editKivQtyForm").submit(function (e) {
+            //    e.preventDefault();
+            //    var newUrl1 = $('#txtUrl1').val();
+            //    //  alert('Form is submitting');
+            //    $.ajax({
+            //        url: this.action,
+            //        type: this.method,
+            //        data: $(this).serializeArray(),
+            //        success: function (result) {
+            //            if (result.success) {
+            //                $("#divOrderDetail").load(newUrl1);
+            //                 alert("Kiv Saved.");
+
+            //            } else {
+            //                alert("Kiv Not Saved.");
+            //            }
+            //        }
+            //    });
+            //    return true;
+            //});
+            //$("#editKivQtyForm").submit(); //invoke form submission
+
+
+
+
+        });
+        $("#btnSaveAndAdd").click(function()
+        {
+            var val1 = $('#divOrderDetail #invPreDiscAmount').val();
+            var val2 = $('#divOrderDetail #invDiscount').val();
+            var val3 = $('#divOrderDetail #invAmount').val();
+            var val4 = $('#divOrderDetail #invGst').val();
+            var val5 = $('#divOrderDetail #invNett').val();
+            $('#crPreDiscAmount').val(val1);
+            $('#crDiscount').val(val2);
+            $('#crAmount').val(val3);
+            $('#crGst').val(val4);
+            $('#crNett').val(val5);
+
+            var remark = document.getElementById('inputRemark').value;
+            $('#invRemark').val(remark.trim());
+            ItemSave();////
+            $("#actionType").val("SaveAndAdd");
+            $("#orderForm").submit();
+            //$("#EditKivInfoForm").submit();
+        });
+
+        $("#btnSubmitInvDetInfo").click(function()
+        {
+         //   alert("hi..");
+            $("#actionType").val("SaveAndStay");
+            //$("#orderForm").submit();
+            $("#EditInvDetInfoForm").submit();
+        });
+
+        //$("#btnSubmitKivInfo").click(function () {
+        //    alert("hello..");
+        //    $("#actionType").val("SaveAndStay");
+        //    //$("#orderForm").submit();
+        //    $("#EditKivInfoForm").submit();
+
+        //});
+
+    });
+</script>
+
+
+<script type="text/javascript">
+            $(document).ready(function () {
+                $("select.selectpicker").change(function () {
+                    var val = $(".selectpicker option:selected").val();
+                    //   alert("You have selected the country - " + val);
+
+                    if (val > 0) {
+                        $.ajax({
+                            type: 'GET',
+                            url: '@Url.Action("AutoCompleteSelected")',
+                            dataType: "json",
+                            contentType: 'application/json, charset=utf-8',
+                            data: {
+                                search: val
+                            },
+                            success: function (data) {
+                                $('#item1').val(data.result.CustNo);
+                                $('#item2').val(data.result.CustName);
+                                $('#custNo').val(data.result.CustNo);
+                                $('#custName').val(data.result.CustName);
+                                $('#addr1').val(data.result.Addr1);
+                                $('#addr2').val(data.result.Addr2);
+                                $('#addr3').val(data.result.Addr3);
+                                $('#postalCode').val(data.result.PostalCode)
+                             //   $('#invType').val(data.result.AccType);
+                                $('#accType').text(data.result.AccType);
+
+                                $('#paymentTerms').val(data.result.Terms);
+
+                               // var custName = data.result.CustName;
+                               // var custNo = data.result.CustNo;
+                               // var AccNo = data.result.AccNo;
+                               // $.getJSON(
+                               //   '/Orders/GetCreditSettings?custNo=' + custNo + ' #data',
+                               //   function (data) {
+                               //          var cre = data.CreditLimit;
+                               //       //   alert(cre);
+                               //          $('#lblHeader').text(custName + " Credit Limit: $ " + cre);
+                               //    //  var CreditLimit = '$' + data.CreditLimit.toLocaleString("en-US", { style: "decimal", minimumFractionDigits: 2 });
+                               //       var OverDueLimit = '$' + data.OverdueLimit.toLocaleString("en-US", { style: "decimal", minimumFractionDigits: 2 });
+                               //       var AccountBalance = '$' + data.AccountBalance.toLocaleString("en-US", { style: "decimal", minimumFractionDigits: 2 });
+
+                               //    //   $('#lblHeader').text(custName + "\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Acc No: " + AccNo + "\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Credit Limit: " + CreditLimit + "\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0OverDue Limit : " + OverDueLimit + "\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Account Balance : " + AccountBalance);
+                               //   }
+                               //);
+
+
+                            },
+                            error: function (xhr, status, error) {
+                                alert(error);
+                            }
+
+                        });
+
+                    }
+                });
+
+                $("select.staffpicker").change(function () {
+                    var staffid = $(".staffpicker option:selected").val();
+                    var staffname = $(".staffpicker option:selected").text().trim();
+
+                    $('#personID').val(staffid);
+                    $('#personName').val(staffname);
+
+                 //   alert($('#personID').val() + "-" + $('#personName').val());
+
+                });
+
+                $('#chkDisplaySet').change(function () {
+                    var isChecked = $(this).is(':checked');
+                    if (isChecked) {
+                        $('#invType').val("CS");
+                    }
+                    else {
+                        $('#invType').val("CR");
+                    }
+                });
+
+            });
+
+
+
+</script>
+
+
+<script>
+    function SetCheckboxes(OnOff) {
+        if (OnOff = "OFF") {
+            $('#chkCash').prop('checked', false); // Unchecks it
+            $('#chkNETS').prop('checked', false); // Unchecks it
+            $('#chkCreditCard').prop('checked', false); // Unchecks it
+            $('#chkCheque').prop('checked', false); // Unchecks it
+            $('#chkCreditNote').prop('checked', false); // Unchecks it
+
+            $('#chkCash').prop('disabled', true); // Disable it
+            $('#chkNETS').prop('disabled', true);
+            $('#chkCreditCard').prop('disabled', true);
+            $('#chkCheque').prop('disabled', true);
+            $('#chkCreditNote').prop('disabled', true);
+
+            $('#chkCashAmount').val(0);
+            $('#chkNETSAmount').val(0);
+            $('#chkCreditCardAmount').val(0);
+            $('#chkChequeAmount').val(0);
+            $('#chkCreditNoteAmount').val(0);
+
+            $('#chkNETSNumber').val("");
+            $('#chkCreditCardNumber').val("");
+            $('#chkChequeNumber').val("");
+            $('#chkCreditNoteNumber').val("");
+
+            $('#chkCashAmount').prop('readonly', true);
+            $('#chkNETSAmount').prop('readonly', true);
+            $('#chkCreditCardAmount').prop('readonly', true);
+            $('#chkChequeAmount').prop('readonly', true);
+            $('#chkCreditNoteAmount').prop('readonly', true);
+
+            $('#chkNETSNumber').prop('readonly', true);
+            $('#chkCreditCardNumber').prop('readonly', true);
+            $('#chkChequeNumber').prop('readonly', true);
+            $('#chkCreditNoteNumber').prop('readonly', true);
+
+        }
+
+
+    }
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#chkWithPayment').change(function () {
+            var isChecked = $(this).is(':checked');
+            if (!isChecked) {
+                SetCheckboxes("OFF");
+            }
+            else {
+                $('#chkCash').prop('disabled', false); // Enable it
+                $('#chkNETS').prop('disabled', false);
+                $('#chkCreditCard').prop('disabled', false);
+                $('#chkCheque').prop('disabled', false);
+                $('#chkCreditNote').prop('disabled', false);
+
+                var val1 = $('#invAmountText').text().trim();
+                $("#chkCashAmount").val(val1);
+                $('#chkCash').prop('checked', true);
+                $('#chkCashAmount').prop('readonly', false);
+
+            }
+        });
+
+        $('#chkCash').change(function () {
+            var val1 = $('#invAmountText').text().trim();
+            var isChecked = $(this).is(':checked');
+            if (isChecked) {
+                $("#chkCashAmount").val(val1);
+                $('#chkCashAmount').prop('readonly', false);
+            }
+            else {
+                $("#chkCashAmount").val("");
+                $('#chkCashAmount').prop('readonly', true);
+            }
+        });
+
+        $('#chkNETS').change(function () {
+            var isChecked = $(this).is(':checked');
+            if (isChecked) {
+                $('#chkNETSAmount').prop('readonly', false);
+                $('#chkNETSNumber').prop('readonly', false);
+            }
+            else {
+                $("#chkNETSAmount").val("");
+                $('#chkNETSAmount').prop('readonly', true);
+                $('#chkNETSNumber').prop('readonly', true);
+            }
+        });
+
+        $('#chkCreditCard').change(function () {
+            var isChecked = $(this).is(':checked');
+            if (isChecked) {
+                $('#chkCreditCardAmount').prop('readonly', false);
+                $('#chkCreditCardNumber').prop('readonly', false);
+            }
+
+            else {
+                $("#chkCreditCardAmount").val("");
+                $('#chkCreditCardAmount').prop('readonly', true);
+                $('#chkCreditCardNumber').prop('readonly', true);
+            }
+        });
+
+        $('#chkCheque').change(function () {
+            var isChecked = $(this).is(':checked');
+            if (isChecked) {
+                $('#chkChequeAmount').prop('readonly', false);
+                $('#chkChequeNumber').prop('readonly', false);
+                //$("#chkChequeAmount").show();
+                //$("#chkChequeNumber").show();
+            }
+            else {
+                $("#chkChequeAmount").val("");
+                $("#chkChequeNumber").val("");
+                $('#chkChequeAmount').prop('readonly', true);
+                $('#chkChequeNumber').prop('readonly', true);
+                //$("#chkChequeAmount").hide();
+                //$("#chkChequeNumber").hide();
+            }
+        });
+
+        $('#chkCreditNote').change(function () {
+            var isChecked = $(this).is(':checked');
+            if (isChecked) {
+                $('#chkCreditNoteAmount').prop('readonly', false);
+                $('#chkCreditNoteNumber').prop('readonly', false);
+            }
+
+            else {
+                $("#chkCreditNoteAmount").val("");
+                $('#chkCreditNoteAmount').prop('readonly', true);
+                $('#chkCreditNoteNumber').prop('readonly', true);
+            }
+        });
+        @*$("#btnSubmitPreview").click(function () {
+            var l = new Array();
+            var dTotal = 0;
+            var bFullPayment = false;
+
+            if ($("#chkCash option:selected").val() > 0)
+            {
+                dTotal += parseFloat($("#txtPaymentMethodCash").val());
+                l.push(new Object({ PaymentMethod: "Cash", Amount: $("#txtPaymentMethodCash").val(), ChequeNumber: "" }));
+            }
+
+            if ($("#chkNETS option:selected").val() > 0)
+            {
+                dTotal += parseFloat($("#txtPaymentMethodNETS").val());
+                l.push(new Object({ PaymentMethod: "NETS", Amount: $("#txtPaymentMethodNETS").val(), ChequeNumber: "" }));
+            }
+
+            if ($("#chkCreditCard option:selected").val() > 0)
+            {
+                dTotal += parseFloat($("#txtPaymentMethodCreditCard").val());
+                l.push(new Object({ PaymentMethod: "Credit Card", Amount: $("#txtPaymentMethodCreditCard").val(), ChequeNumber: "" }));
+            }
+
+            if ($("#chkCheque option:selected").val() > 0)
+            {
+                dTotal += parseFloat($("#txtPaymentMethodCheque").val());
+                l.push(new Object({ PaymentMethod: "Cheque", Amount: $("#txtPaymentMethodCheque").val(), ChequeNumber: $("#txtPaymentMethodChequeNumber").val() }));
+            }
+
+            if (parseFloat(@Model.Nett) == parseFloat(dTotal))
+            {
+                bFullPayment = true;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SubmitPaymentMethod")',
+                dataType: "json",
+                contentType: 'application/json, charset=utf-8',
+                data: {
+                    SorNo : @Model.SorNo,
+                    PaymentMethodList : l,
+                    FullPayment : bFullPayment
+                },
+                success: function (data) {
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+
+            });
+        });*@
+        $('#btnSubmitOrder').click(function (e) {
+            e.preventDefault();
+            $(this).prop('disabled', true);
+
+            var val1 = $('#divOrderDetail #invPreDiscAmount').val();
+            var val2 = $('#divOrderDetail #invDiscount').val();
+            var val3 = $('#divOrderDetail #invAmount').val();
+            var val4 = $('#divOrderDetail #invGst').val();
+            var val5 = $('#divOrderDetail #invNett').val();
+            $('#crPreDiscAmount').val(val1);
+            $('#crDiscount').val(val2);
+            $('#crAmount').val(val3);
+            $('#crGst').val(val4);
+            $('#crNett').val(val5);
+
+            var remark = document.getElementById('inputRemark').value;
+            $('#invRemark').val(remark.trim());
+
+            $("#actionType").val("SaveAndSubmit");
+
+            $("#orderForm").submit();
+
+            $(this).prop('disabled', false);
+
+        });
+
+        $('#btnSubmitOrderAndInvoice').click(function (e) {
+            e.preventDefault();
+            $(this).prop('disabled', true);
+            MasterSave();
+            ItemSave();
+            if ($('#personID').val() > 0)
+            { }
+            else
+            {
+                alert("Please select Sales Person first!");
+                $(this).prop('disabled', false);
+                return;
+            }
+            var bChecked = false;
+
+            if ($('#chkWithPayment').is(':checked')) {
+                bChecked = true;
+
+                if ($('#chkCash').is(':checked')) {
+                    bChecked = true;
+                    if ($('#chkCashAmount').val() == "" || $('#chkCashAmount').val() == "0") {
+                        alert("Please enter cash amount.");
+                        return false;
+                    }
+                }
+
+                if ($('#chkNETS').is(':checked')) {
+                    bChecked = true;
+                    if ($('#chkNETSAmount').val() == "" || $('#chkNETSAmount').val() == "0") {
+                        alert("Please enter NETS amount.");
+                        return false;
+                    }
+                }
+
+                if ($('#chkCreditCard').is(':checked')) {
+                    bChecked = true;
+                    if ($('#chkCreditCardAmount').val() == "" || $('#chkCreditCardAmount').val() == "0") {
+                        alert("Please enter credit card amount.");
+                        return false;
+                    }
+                }
+
+                if ($('#chkCheque').is(':checked')) {
+                    bChecked = true;
+                    if ($('#chkChequeAmount').val() == "" || $('#chkChequeAmount').val() == "0") {
+                        alert("Please enter cheque amount.");
+                        return false;
+                    }
+
+                    if ($('#chkChequeNumber').val() == "") {
+                        alert("Please enter cheque number.");
+                        return false;
+                    }
+                }
+            }
+            else {
+                bChecked = true;
+
+                $('#chkCash').prop('checked', false); // Unchecks it
+                $('#chkNETS').prop('checked', false); // Unchecks it
+                $('#chkCreditCard').prop('checked', false); // Unchecks it
+                $('#chkCheque').prop('checked', false); // Unchecks it
+                $('#chkCreditNote').prop('checked', false); // Unchecks it
+                $('#chkCashAmount').val(0);
+                $('#chkNETSAmount').val(0);
+                $('#chkCreditCardAmount').val(0);
+                $('#chkChequeAmount').val(0);
+                $('#chkCreditNoteAmount').val(0);
+            };
+
+            if (bChecked) {
+                MasterSave();
+                ItemSave();
+                $.ajax({
+                    type: 'GET',
+                    url: '/Orders/_SubmitSalesOrderPreview',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        SorID: '@Model.SorID',
+                        CheckWithPayment: $('#chkWithPayment').is(':checked'),
+                        CheckBoxCash: $('#chkCash').is(':checked'),
+                        CheckBoxNETS: $('#chkNETS').is(':checked'),
+                        CheckBoxCreditCard: $('#chkCreditCard').is(':checked'),
+                        CheckBoxCheque: $('#chkCheque').is(':checked'),
+                        CheckBoxCreditNote: $('#chkCreditNote').is(':checked'),
+
+                        CheckBoxCashAmount: $('#chkCashAmount').val(),
+                        CheckBoxNETSAmount: $('#chkNETSAmount').val(),
+                        CheckBoxCreditCardAmount: $('#chkCreditCardAmount').val(),
+                        CheckBoxChequeAmount: $('#chkChequeAmount').val(),
+                        CheckBoxCreditNoteAmount: $('#chkCreditNoteAmount').val(),
+
+                        CheckBoxNETSNumber: $('#chkNETSNumber').val().trim(),
+                        CheckBoxCreditCardNumber: $('#chkCreditCardNumber').val().trim(),
+                        CheckBoxChequeNumber: $('#chkChequeNumber').val().trim(),
+                        CheckBoxCreditNoteNumber: $('#chkCreditNoteNumber').val().trim()
+                    },
+                    success: function (json) {
+                        if (json.success != null && !json.success) {
+                            alert(json.responseText);
+                        }
+                        if (json.isRedirect) {
+                            $('#headerBefore').removeClass();
+                            $('#headerBefore').addClass("hide");
+                            $('#headerAfter').removeClass();
+                            $('#headerAfter').addClass("show");
+                            $('#paymentBox').removeClass();
+                            $('#paymentBox').addClass("hide");
+                            $('#paymentMessage').removeClass();
+                            $('#paymentMessage').addClass("Show");
+                            $("#btnPrint").attr("href", json.printInvUrl);
+                            $("#btnPrint2").attr("href", json.printUrl);
+                            $('#btnPrint').trigger('click');
+                            //    $($get("btnPrint")).click();
+
+                            //        window.location.href = json.redirectUrl;
+                            //   window.location.href = "/Orders/Index";
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+
+            }
+            else {
+                alert("Please select payment method.");
+            };
+        });
+
+
+
+    });
+
+
+
+
+
+</script>
+
+
+
+
+<script type="text/javascript">
+    $("#btnAddItem").click(function (e) {
+        //   $("#btnAddDet").prop('disabled', true);
+        var pid = $('#itemID').val().trim();
+        var qty = $('#itemQty').val().trim();
+        var unitprice = $('#itemUnitPrice').val().trim();
+        var discprice = $('#itemDiscountedPrice').val().trim();
+        var SorNo = $('#itemSorID').val().trim();
+        var selltype = $('.rSellType').filter(':checked').val().trim();
+        var remark = $('#itemRemark').val().trim();
+        $("#btnActionType").val("SaveAndNext");
+        $('#txtTitleQty').text(qty);
+
+        var flag = $('#itemIsBundle').val().trim();
+        if (flag == "true") {
+            $('#additemModal').modal('hide');
+
+            var url = '@Url.Action("_AddDetBundle", "Orders")';
+            url += '/?id=' + pid + '&qty=' + qty + '&unitprice=' + unitprice + '&discprice=' + discprice + '&SorID=' + SorNo + '&selltype=' + selltype + '&remark=' + remark;
+
+            $("#bundleOrderModalContent").load(url);
+            $('#bundleOrderModal').modal({
+                keyboard: true
+            }, 'show');
+
+        } else {
+            e.preventDefault();
+            $(this).prop('disabled', true);
+
+            $("#addItemForm").submit();
+        }
+
+    });
+
+    $("#btnAddItem2").click(function (e) {
+        //   $("#btnAddDet").prop('disabled', true);
+        var pid = $('#itemID').val().trim();
+        var qty = $('#itemQty').val().trim();
+        var unitprice = $('#itemUnitPrice').val().trim();
+        var discprice = $('#itemDiscountedPrice').val().trim();
+        var SorNo = $('#itemSorID').val().trim();
+        var selltype = $('.rSellType').filter(':checked').val().trim();
+        var remark = $('#itemRemark').val().trim();
+        $("#btnActionType3").val("SaveAndNext");
+        $('#txtTitleQty').text(qty);
+
+        var flag = $('#itemIsBundle').val().trim();
+        if (flag == "true") {
+            $('#additemModal').modal('hide');
+
+            var url = '@Url.Action("_AddDetBundle", "Orders")';
+            url += '/?id=' + pid + '&qty=' + qty + '&unitprice=' + unitprice + '&discprice=' + discprice + '&SorID=' + SorNo + '&selltype=' + selltype + '&remark=' + remark;
+
+            $("#bundleOrderModalContent").load(url);
+            $('#bundleOrderModal').modal({
+                keyboard: true
+            }, 'show');
+
+        } else {
+            e.preventDefault();
+            $(this).prop('disabled', true);
+
+            $("#addItemForm").submit();
+        }
+
+    });
+
+
+    $("#btnAddItem3a").click(function (e) {
+        e.preventDefault();
+        $(this).prop('disabled', true);
+        $("#btnActionType3").val("SaveAndNext");
+        $("#addMultiItemForm").submit();
+
+    });
+    $("#btnAddItem3b").click(function (e) {
+        e.preventDefault();
+        $(this).prop('disabled', true);
+        $("#btnActionType3").val("SaveAndClose");
+        $("#addMultiItemForm").submit();
+
+    });
+
+
+    $("#btnAddItemClose").click(function () {
+        var url = '@Url.Action("CsEdit", "Orders", new { id = Model.SorID })';
+        window.location = url;
+    });
+
+    $("#btnAddItemClose2").click(function () {
+        var url = '@Url.Action("CsEdit", "Orders", new { id = Model.SorID })';
+        window.location = url;
+    });
+
+    $("#btnCloseAndReload").click(function () {
+        var url = '@Url.Action("CsEdit", "Orders", new { id = Model.SorID })';
+        window.location = url;
+    });
+
+
+    $('#txtSearch').keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            if ($('#txtSearch').val() != "" || $('#itemName').val() != "") {
+                $('#itemDesc').focus();
+                $('#itemDesc').select();
+            } else {
+                $('#txtSearch').focus();
+                $('#txtSearch').select();
+                alert("Please input product.");
+            }
+
+
+        }
+        event.stopPropagation();
+    });
+    $('#itemDesc').keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $('#itemRemark').focus();
+            $('#itemRemark').select();
+        }
+        event.stopPropagation();
+    });
+
+    $('#itemRemark').keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $('#itemQty').focus();
+            $('#itemQty').select();
+        }
+        event.stopPropagation();
+    });
+
+    $('#itemQty').keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $('#itemUnitPrice').focus();
+            $('#itemUnitPrice').select();
+        }
+        event.stopPropagation();
+    });
+    $('#itemUnitPrice').keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $('#itemDiscountPercentage').focus();
+            $('#itemDiscountPercentage').select();
+        }
+        event.stopPropagation();
+    });
+
+    $('#itemDiscountPercentage').keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            var discpercentage = $('#itemDiscountPercentage').val();
+            if (discpercentage < 0 || discpercentage > 15) {
+                alert("Discount percentage range between 0 to 15 only, please provide valid value.");
+                $(this).select();
+                return false;
+            };
+            $('#itemAmount').focus();
+            $('#itemAmount').select();
+        }
+        event.stopPropagation();
+    });
+
+    $('#itemAmount').keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $('#btnAddItem').focus();
+            $('#btnAddItem').select();
+        }
+        event.stopPropagation();
+    });
+
+
+</script>
+

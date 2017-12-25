@@ -1,0 +1,363 @@
+﻿@model iTrade.Models.INVDET
+
+@using (Html.BeginForm("_AddDet", "CreditNote", FormMethod.Post, new { id = "addDetForm" }))
+{
+ 
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.DetID)
+    @Html.HiddenFor(model => model.QuoNo, new { id = "" })
+    @Html.HiddenFor(model => model.SorID, new { id = "itemSorID", @Value = "0" })
+    @Html.HiddenFor(model => model.SorNo, new { id = "itemSorNo", @Value = "" })
+    @Html.HiddenFor(model => model.InvID, new { id = "itemInvID", @Value = "0" })
+    @Html.HiddenFor(model => model.InvNo, new { id = "itemInvNo", @Value = "" })
+    @Html.HiddenFor(model => model.CnID, new { id = "itemCnID", @Value = @ViewBag.CN_Number })
+    @Html.HiddenFor(model => model.CnNo, new { id = "itemCnNo"  })
+    @Html.HiddenFor(model => model.InvType, new { id = "itemInvType", @Value = "CN" })
+    @Html.HiddenFor(model => model.ItemID, new { id = "itemID", @Value = "0" })
+    @Html.HiddenFor(model => model.ItemCode, new { id = "itemCode", @Value = "" })
+    @Html.HiddenFor(model => model.ItemType, new { id = "itemType", @Value = "TEXT" })
+    @Html.HiddenFor(model => model.SellType, new { id = "itemSellType", @Value = "CN" })
+
+    @Html.HiddenFor(model => model.PreDiscAmount, new { id = "itemPreDiscAmount", @Value = "0" })
+    @Html.HiddenFor(model => model.Gst, new { id = "itemGst", @Value = "0" })
+    @Html.HiddenFor(model => model.Nett, new { id = "itemNett", @Value = "0" })
+
+    @Html.HiddenFor(model => model.IsBundle, new { id = "itemIsBundle", @Value = false })
+    @Html.HiddenFor(model => model.RefItemID, new { id = "itemRefItemID", @Value = "0" })
+    @Html.HiddenFor(model => model.InvRef, new { id = "itemInvRef", @Value = "" })
+    @Html.HiddenFor(model => model.IsControlItem, new { id = "itemIsControl", @Value = false })
+    @Html.HiddenFor(model => model.LocationID, new { id = "warehouseID", @Value = "0" })
+    @Html.HiddenFor(model => model.LocationName, new { id = "warehouseName", @Value = "" })
+
+    @Html.HiddenFor(model => model.SalesType, new { id = "itemSalesType", @Value = "CNItem" })
+    @Html.HiddenFor(model => model.Position, new { id = "itemPosition", @Value = "0" })
+
+    <input type="hidden" id="itemGstRate" value="@ViewData["seGSTRate"]" />
+    <input type="hidden" id="itemStockQty" />
+    <input type="hidden" id="itemCostPrice" />
+    <input type="hidden" id="itemStockUnit" />
+
+
+    <tr>
+        <td colspan="2"></td>
+
+
+
+        <td class="col-md-4"> <h3>@ViewBag.CN_Number</h3>
+
+            @Html.Editor("txtSearch", new { htmlAttributes = new { id = "txtSearch", @class = "form-control", placeholder = "Search products by name or code" } })
+
+        </td>
+        <td>
+            @Html.EditorFor(model => model.Qty, new { htmlAttributes = new { id = "itemQty", @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
+
+        </td>
+        <td>
+            @Html.EditorFor(model => model.Unit, new { htmlAttributes = new { id = "itemUnit", @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Unit, "", new { @class = "text-danger" })
+
+        </td>
+        <td>
+            @Html.EditorFor(model => model.UnitPrice, new { htmlAttributes = new { id = "itemUnitPrice", @Value = "0", @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
+
+        </td>
+        <td>
+            @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { id = "itemDiscount", @Value = "0", @class = "form-control", @readonly = true } })
+            @Html.ValidationMessageFor(model => model.Discount, "", new { @class = "text-danger" })
+        </td>
+
+        <td>
+            @Html.EditorFor(model => model.DiscountedPrice, new { htmlAttributes = new { id = "itemDiscountedPrice", @Value = "0", @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.DiscountedPrice, "", new { @class = "text-danger" })
+
+        </td>
+
+
+        <td class="text-right">
+            @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { id = "itemAmount", @Value = "0", @class = "form-control"  } })
+            @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+        </td>
+
+
+    </tr>
+    <tr>
+        <td colspan="2" style="border-top: none; margin-top: -10px;"></td>
+        <td style="border-top: none; margin-top: -10px;">
+            @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { id = "itemRemark", @class = "form-control", placeholder = "Remark" } })
+            @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+
+        </td>
+        <td colspan="2" style="border-top: none;margin-top: -10px;">
+            <input type="submit" id="btnAddDet" class="btn btn-small btn-primary col-md-12" value="Add to credit note" />
+ 
+          
+
+        </td>
+        <td colspan="4" style="border-top: none;margin-top: -10px;"></td>
+    </tr>
+
+
+
+
+}
+
+
+
+<!-- modal placeholder-->
+<div id="bundleOrderModal" class="modal fade in" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 class="modal-title lead"><span id="txtTitle"> </span> &nbsp;&nbsp; &nbsp; Qty: <span id="txtTitleQty"> </span></h3>
+            </div>
+            <div id='bundleOrderModalContent'></div>
+
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#txtSearch').on("focus", function () {
+            // alert('Changed!');
+            $(this).select();
+        });
+        $('#itemQty').on("focus", function () {
+            // alert('Changed!');
+            $(this).select();
+        });
+        $('#itemUnitPrice').on("focus", function () {
+            // alert('Changed!');
+            $(this).select();
+        });
+        $('#itemDiscountedPrice').on("focus", function () {
+            // alert('Changed!');
+            $(this).select();
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+                $('#itemQty').on("change", function () {
+                    // alert('Changed!');
+
+                    reCalculateAmount();
+                });
+                $('#itemRemark').on("focus", function () {
+                    // alert('Changed!');
+                    $(this).select();
+                });
+
+                $('#itemUnitPrice').on("change", function () {
+                    // alert('Changed!');
+
+                    reCalculateAmount();
+                });
+                $('#itemDiscountedPrice').on("change", function () {
+                    // alert('Changed!');
+
+                    reCalculateAmount();
+                });
+
+
+            });
+
+        function reCalculateAmount() {
+
+            var unitprice = $('#itemUnitPrice').val();
+            var qty = $('#itemQty').val();
+            var sellprice = $('#itemDiscountedPrice').val();
+            var gstrate = $('#itemGstRate').val();
+
+            var discount = (+sellprice - +unitprice);
+            discount = discount.toFixed(4);
+            $('#itemDiscount').val(discount);
+
+            var totalamount = Math.round(qty * sellprice * 100) / 100;
+            totalamount = totalamount.toFixed(2);
+
+            var totalgst = Math.round(totalamount * gstrate * 100) / 100;
+            totalgst = totalgst.toFixed(2);
+
+            var totalnett = Math.round((+totalamount + +totalgst) * 100) / 100;
+            totalnett = totalnett.toFixed(2);
+
+            $('#itemAmount').val(totalamount);
+            $('#itemGst').val(totalgst);
+            $('#itemNett').val(totalnett);
+
+
+
+        };
+
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        var flag = false;
+
+        if (flag) {
+
+        $('#txtSearch').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("AutoComplete_Product")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        search: $("#txtSearch").val().trim()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (item) {
+                            return {
+                                label: item.ProductID + " | " + item.ProductName + " | $ " + item.SellPrice,
+
+                            };
+                        }));
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+            },
+            selectFirst: true,
+            delay: 0,
+            autoFocus: true,
+            minLength: 1
+        });
+
+        $("#txtSearch").on("autocompleteselect", function (event, ui) {
+            var str1 = ui.item.value;
+            var str2 = str1.split("|");
+            var val = str2[0].trim();
+            var txtCustNo = $("#custNo").val();
+            //  alert(val);
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("AutoCompleteSelected_Product")',
+                dataType: "json",
+                contentType: 'application/json, charset=utf-8',
+                data: {
+                    search: val, valCustNo: txtCustNo
+                },
+                success: function (data) {
+                    $('#itemID').val(data.result.ProductID);
+                    $('#itemCode').val(data.result.SKU);
+                    $('#itemType').val(data.result.ProductType);
+                    $('#itemName').val(data.result.ProductName);
+
+                    $('#itemSalesType').val(data.result.ModelNo);
+                    $('#itemIsBundle').val(data.result.IsBundle);
+                    $('#txtTitle').text(data.result.ProductName);
+
+                    $('#itemIsControlItem').val(data.result.IsControlItem);
+                    $('#itemQty').val(1);
+                    $('#itemUnit').val(data.result.Unit);
+
+                    var unitprice = data.result.SellPrice.toFixed(4);
+                    var specialprice = data.AssignedPrice.toFixed(4);
+                    $('#itemUnitPrice').val(unitprice);
+
+                    $('#itemStockQty').val(0);
+
+                    $('#itemCostPrice').val(data.result.CostPrice);
+                    var disc = (0.00).toFixed(4);
+
+                    if (unitprice == specialprice) {
+                        $('#itemDiscountedPrice').val(unitprice);
+                    }
+                    else {
+                        $('#itemDiscountedPrice').val(specialprice);
+                        disc = (specialprice-unitprice).toFixed(4);
+                    };
+                    $('#itemDiscount').val(disc);
+
+                    var qty = $('#itemQty').val();
+                    var finalprice = $('#itemDiscountedPrice').val();
+
+                    var amount = Math.round(qty * finalprice * 100) / 100;
+                    amount = amount.toFixed(2);
+
+                    $('#itemAmount').val(amount);
+
+                    $('#itemQty').focus();
+                    $('#itemQty').select();
+
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+
+            });
+
+        });
+
+        }
+
+    });
+
+</script>
+
+
+<script type="text/javascript">
+
+    $("#btnAddDet").click(function () {
+        var pid = $('#itemCnID').val().trim();
+        var qty = $('#itemQty').val().trim();
+        var sorno = $('#itemSorNO').val().trim();
+        $('#txtTitleQty').text(qty);
+
+        alert(pid);
+
+    //    $("#addDetForm").submit();
+
+    });
+
+
+
+
+    $('#txtSearch').keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $('#itemQty').focus();
+            $('#itemQty').select();
+        }
+        event.stopPropagation();
+    });
+    $('#itemQty').keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $('#itemDiscountedPrice').focus();
+            $('#itemDiscountedPrice').select();
+        }
+        event.stopPropagation();
+    });
+    $('#itemDiscountedPrice').keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $('#itemRemark').focus();
+            $('#itemRemark').select();
+        }
+        event.stopPropagation();
+    });
+    $('#itemRemark').keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $('#btnAddDet').focus();
+            $('#btnAddDet').select();
+        }
+        event.stopPropagation();
+    });
+
+
+</script>

@@ -1,0 +1,208 @@
+﻿@using iTrade.CustomHtmlHelper;
+@model iTrade.Models.ClassSchedule
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+
+}
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-datepicker/css/datepicker.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-combobox/css/bootstrap-combobox.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/select2/dist/css/select2.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/css/star-items-table.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/parsley/src/parsley.css")" rel="stylesheet" type="text/css" />
+
+
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin page-header -->
+<div class="page-header lead">
+    Class Schedule
+    <span class="email-btn-row hidden-xs pull-right">
+        <a href="/Schedule/ClassSchedule" id="btnBack" class="btn btn-primary">  Back to list</a>
+
+    </span>
+
+</div>
+
+<!-- begin panel -->
+<div class="panel panel-inverse">
+    <div class="panel-heading">
+        Attendancees
+    </div>
+    <div class="panel-body">
+        <p class="lead"> Class:  &nbsp; @Model.CourseName   (@Model.CourseLevel -  @Model.CourseDuration -  @Model.TeacherLevel) </p>
+        <p class="lead"> Scheduled: &nbsp; @Enum.GetName(typeof(DayOfWeek), Model.Weekday) &nbsp;&nbsp; | &nbsp;&nbsp; @Model.StartTime.Value.ToShortTimeString() - @Model.EndTime.Value.ToShortTimeString() </p>
+
+        <div class="row">
+            <div class="col-md-10">
+                @{Html.RenderAction("_DisplayStudents", "Schedule", new { id = Model.ScheduleID });}
+            </div>
+        </div>
+
+
+
+
+
+        <br /><br /><br /><br />
+
+    </div>
+</div>
+
+
+
+
+
+@section Scripts{
+    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-combobox/js/bootstrap-combobox.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/select2/dist/js/select2.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery-tag-it/js/tag-it.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/js/form-plugins.star.js")"></script>
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/modal-order.js")"></script>
+
+
+}
+
+
+
+<script>
+            $(document).ready(function () {
+                // App.init();
+                TableManageDefault.init();
+                // Notification.init();
+                FormPlugins.init();
+
+            });
+</script>
+
+<script>
+            $(document).ready(function () {
+                $('#fromDate').datepicker({
+                    format: 'dd/mm/yyyy',
+                    setDate: new Date(),
+                    todayHighlight: true,
+                    autoclose: true
+                });
+                $('#toDate').datepicker({
+                    format: 'dd/mm/yyyy',
+                    setDate: new Date(),
+                    todayHighlight: true,
+                    autoclose: true
+                });
+
+
+            });
+</script>
+
+<script type="text/javascript">
+            $(document).ready(function () {
+                $("select.coursepicker").change(function () {
+                    var courseid = $(".coursepicker option:selected").val();
+                    var coursename = $(".coursepicker option:selected").text();
+                    //  alert(courseid);
+                    $('#courseID').val(courseid);
+                });
+
+            });
+</script>
+
+
+
+
+<script>
+            $(document).ready(function () {
+
+                $('#data-table0').DataTable({
+                    "order": [[0, "desc"]],
+                    "dom": '<"pull-left"f><"pull-right"l>tip'
+                });
+                $('#data-table1').DataTable({
+                    "order": [[0, "asc"]],
+                    "bFilter": false,
+                    "bLengthChange": false,
+                    "dom": '<"pull-right"f><"pull-right"l>tip'
+                });
+                $('#data-table2').DataTable({
+                    "order": [[0, "desc"]],
+                    "dom": '<"pull-left"f><"pull-right"l>tip'
+                });
+                $('#data-table3').DataTable({
+                    "order": [[0, "desc"]],
+                    "dom": '<"pull-left"f><"pull-right"l>tip'
+                });
+                $('#data-table4').DataTable({
+                    "order": [[0, "desc"]],
+                    "dom": '<"pull-left"f><"pull-right"l>tip'
+                });
+                $('#data-table5').DataTable({
+                    "order": [[0, "desc"]],
+                    "dom": '<"pull-left"f><"pull-right"l>tip'
+                });
+                $('#data-table6').DataTable({
+                    "order": [[0, "desc"]],
+                    "dom": '<"pull-left"f><"pull-right"l>tip'
+                });
+
+
+
+            });
+</script>
+
+
+<script type="text/javascript">
+            $("#btnAddItem").click(function (e) {
+                e.preventDefault();
+                //  $(this).prop('disabled', true);
+
+                $("#btnActionType").val("SaveAndNext");
+                $("#addScheduleForm").submit();
+
+            });
+
+            $("#btnAddItem2").click(function (e) {
+                e.preventDefault();
+                //   $(this).prop('disabled', true);
+
+                $("#btnActionType").val("SaveAndClose");
+                $("#addScheduleForm").submit();
+
+            });
+
+            $("#btnAddItemClose").click(function () {
+                var url = '@Url.Action("Index", "Schedule")';
+                window.location = url;
+            });
+
+            $("#btnAddItemClose2").click(function () {
+                var url = '@Url.Action("Index", "Schedule")';
+                window.location = url;
+            });
+
+            $("#btnCloseAndReload").click(function () {
+                var url = '@Url.Action("Index", "Schedule")';
+                window.location = url;
+            });
+
+
+
+</script>
+

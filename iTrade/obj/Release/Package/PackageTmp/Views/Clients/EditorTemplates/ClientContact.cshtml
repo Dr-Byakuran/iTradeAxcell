@@ -1,0 +1,76 @@
+﻿@model iTrade.Models.ClientContact
+@using iTrade.Models
+
+<div class="infoContactPerson row">
+
+    <div class="form-horizontal">
+        @Html.HiddenFor(model => model.PersonID)
+        @Html.HiddenFor(model => model.IsDefault, new { id = "optionType" })
+        @Html.HiddenFor(model => model.CustNo, new { id = "ContactCustNo" })
+        @Html.HiddenFor(model => model.Remark)
+        @Html.HiddenFor(model => model.ModifiedBy)
+        @Html.HiddenFor(model => model.ModifiedOn)
+
+        <div class="form-group">
+            <div class="col-md-1">
+                @Html.DropDownListFor(model => model.ContactType, new List<SelectListItem> {
+                                                                                        new SelectListItem { Value = "Parent", Text = "Parent", Selected = true },
+                                                                                        new SelectListItem { Value = "Guardian", Text = "Guardian" }
+                                                                                      }, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ContactType, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.PersonName, new { htmlAttributes = new { @class = "form-control", placeholder = "Name" } })
+                @Html.ValidationMessageFor(model => model.PersonName, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.NRIC, new { htmlAttributes = new { @class = "form-control", placeholder = "NRIC number" } })
+                @Html.ValidationMessageFor(model => model.NRIC, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.PhoneNo, new { htmlAttributes = new { @class = "form-control", placeholder = "Main phone number" } })
+                @Html.ValidationMessageFor(model => model.PhoneNo, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.MobileNo, new { htmlAttributes = new { @class = "form-control", placeholder = "Mobile number" } })
+                @Html.ValidationMessageFor(model => model.MobileNo, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.PrimaryEmail, new { htmlAttributes = new { @class = "form-control", placeholder = "Email address" } })
+                @Html.ValidationMessageFor(model => model.PrimaryEmail, "", new { @class = "text-danger" })
+            </div>
+
+            @if (!Model.IsDefault)
+            {
+                <div class="col-md-1">
+                    @Html.HiddenFor(model => model.DeleteItem, new { @class = "mark-for-delete" })
+                    @Html.RemoveLink("Remove", "div.infoContactPerson", "input.mark-for-delete")
+                </div>
+            }
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-2 col-md-offset-3">
+                @Html.EditorFor(model => model.Relationship, new { htmlAttributes = new { @class = "form-control", placeholder = "Relationship" } })
+                @Html.ValidationMessageFor(model => model.Relationship, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.Occupation, new { htmlAttributes = new { @class = "form-control", placeholder = "Occupation" } })
+                @Html.ValidationMessageFor(model => model.Occupation, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Addr1, new { htmlAttributes = new { @class = "form-control", placeholder = "Address" } })
+                @Html.ValidationMessageFor(model => model.Addr1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+

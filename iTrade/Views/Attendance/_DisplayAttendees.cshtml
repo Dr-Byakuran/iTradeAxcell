@@ -1,0 +1,218 @@
+﻿@model List<iTrade.Models.Attendance>
+
+@using (Html.BeginForm("_DisplayAttendees", "Attendance", FormMethod.Post, new { id = "editAttendeesForm" }))
+{
+    var modelcount = Model.Count;
+    <table id="data-table100" class="table table-condensed">
+        <thead>
+            <tr>
+                <th>
+                    No
+                </th>
+                <th class="col-md-3">
+                    Name
+                </th>
+                <th>
+                    NRIC/Passport
+                </th>
+                <th>
+                    Is Present?
+                </th>
+                <th>
+                    Absent Type
+                </th>
+                <th>
+                    Note
+                </th>
+                <th>For Makeup?</th>
+                <th> Action </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                @Html.HiddenFor(model => model[i].AttendanceID, new { id = "itemPriceID2" })
+                @Html.HiddenFor(model => model[i].ScheduleID, new { id = "itemScheduleID2" })
+                @Html.HiddenFor(model => model[i].CourseID, new { id = "itemCourseID2" })
+                @Html.HiddenFor(model => model[i].CourseName, new { id = "itemCourseName2" })
+                @Html.HiddenFor(model => model[i].CustNo, new { id = "itemCustNo2" })
+                @Html.HiddenFor(model => model[i].CustName, new { id = "itemCustName2" })
+                @Html.HiddenFor(model => model[i].NRIC, new { id = "itemNRIC2" })
+                @Html.HiddenFor(model => model[i].AttendanceDate, new { id = "itemAttendanceDate2" })
+                @*@Html.HiddenFor(model => model[i].IsPresent, new { id = "itemIsPresent2" })*@
+                @*@Html.HiddenFor(model => model[i].AbsentType, new { id = "itemAbsentType2" })*@
+                @*@Html.HiddenFor(model => model[i].IsMakeup, new { id = "itemIsMakeup2" })*@
+                @Html.HiddenFor(model => model[i].Status, new { id = "itemStatus2" })
+
+                @Html.HiddenFor(model => model[i].ClockTimeIN, new { id = "itemClockIn2" })
+                @Html.HiddenFor(model => model[i].ClockTimeOUT, new { id = "itemClockOut2" })
+                @Html.HiddenFor(model => model[i].ClockLocation, new { id = "itemClockLocation2" })
+                @Html.HiddenFor(model => model[i].Remark, new { id = "itemRemark2" }) 
+                @Html.HiddenFor(model => model[i].ModifiedBy, new { id = "modifiedBy2" })
+                @Html.HiddenFor(model => model[i].ModifiedOn, new { id = "modifiedOn2" })
+
+
+
+                <tr>
+                    <td style="width:88px;">
+                        @(i + 1)
+                    </td>
+                    <td class="col-md-2">
+                        @Model[i].CustName 
+                    </td>
+                    <td>
+                        @Model[i].NRIC
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(model => model[i].IsPresent, new { htmlAttributes = new { id = "itemIsPresent2", @class = "form-control" } })
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model[i].AbsentType, new List<SelectListItem> {
+                                                                                        new SelectListItem { Value = "", Text = "", Selected = true },
+                                                                                        new SelectListItem { Value = "SA", Text = "Student Absent" },
+                                                                                        new SelectListItem { Value = "TA", Text = "Teacher Absent" },
+                                                                                        new SelectListItem { Value = "MC", Text = "MC" },
+                                                                                        new SelectListItem { Value = "OS", Text = "Oversea" },  
+                                                                                        new SelectListItem { Value = "ABS", Text = "Absent" },                                                                                                                                                                                                                                                                    
+                                                                                        new SelectListItem { Value = "OT", Text = "Other" }
+
+                                                                                      }, new { id = "itemAbsentType2", name = "itemAbsentType2", @class = "form-control" })
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model[i].Notes, new { htmlAttributes = new { id = "itemTeacherLevel2", @class = "form-control" } })
+                    </td> 
+                    <td>
+                        @Html.CheckBoxFor(model => model[i].IsMakeup, new { htmlAttributes = new { id = "itemIsMakeup2", @class = "form-control" } })
+                    </td>
+                    <td>
+                        <button type="button" id="btnDel" onclick="delItem(@Model[i].AttendanceID)" class="btn btn-sm btn-primary"><span class="fa fa-remove" aria-hidden="true"></span></button>
+                    </td>
+
+                </tr>
+
+
+            }
+
+
+        </tbody>
+        <tfoot>
+            @*<tr>
+                    <td colspan="9">
+                        <input type="button" id="btnSubmitPriceInfo" class="btn btn-small btn-primary" value="Save Items" />
+                    </td>
+                </tr>*@
+
+
+        </tfoot>
+
+    </table>
+
+}
+
+
+
+<!-- modal placeholder-->
+<div id="myModal" class="modal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#data-table1').DataTable({
+            "bLengthChange": false,
+            "iDisplayLength": 100,
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+        });
+
+    });
+</script>
+
+<script>
+
+    function delItem(ID) {
+        var newUrl1 = $('#txtUrl1').val();
+
+        $.ajax({
+            type: 'GET',
+            url: '/Attendance/_DelItem',
+            dataType: "json",
+            contentType: 'application/json, charset=utf-8',
+            data: {
+                id: ID
+            },
+            success: function (result) {
+                if (result.success) {
+                 //   alert("Item Deleted");
+                    $("#divItemList").load(newUrl1);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+
+        });
+    }
+
+    function itemMoveUp(ID)
+    {
+        var newUrl1 = $('#txtUrl1').val();
+        $.ajax({
+            type: 'GET',
+            url: '/Attendance/_ItemMoveUp',
+            dataType: "json",
+            contentType: 'application/json, charset=utf-8',
+            data: {
+                id: ID
+            },
+            success: function (result) {
+                if (result.success) {
+                    //   alert("Item Deleted");
+                    $("#divItemList").load(newUrl1);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+
+        });
+    }
+
+</script>
+
+
+
+@*<script type="text/javascript">
+        $("#btnSubmitPriceInfo").click(function () {
+            $("#EditPriceListForm2").submit(function (e) {
+                //console.log($(this).serializeArray());
+                e.preventDefault();
+                var newUrl1 = $('#txtUrl1').val();
+                 alert('Form is submitting');
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serializeArray(),
+                    success: function (result) {
+                        if (result.success) {
+                            $("#divItemList").load(newUrl1);
+                            alert("Items Saved.");
+
+                        } else {
+                            alert("Items Not Saved.");
+                        }
+                    }
+                });
+                return true;
+            });
+            $("#EditPriceListForm2").submit(); //invoke form submission
+
+        });
+
+    </script>*@
+
+

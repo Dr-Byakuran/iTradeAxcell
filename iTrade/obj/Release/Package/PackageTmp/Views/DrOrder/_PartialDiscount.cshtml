@@ -1,0 +1,118 @@
+﻿@model iTrade.Models.DrOrder
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+
+                
+            </div>
+        </div>
+        <br />
+
+        
+
+
+
+    </div>
+    <div class="col-md-4">
+        <table class="table" style="width:100%;">
+            <tr>
+                <td style="width: 65%; border:0px;" align="right" valign="middle"><h4><span class="pull-right">Sub-Total </span></h4></td>
+                <td style="border:0px;"><h4><span class="pull-left"> $ </span> <span class="pull-right">@Model.PreDiscAmount.ToString("N") </span></h4></td>
+
+            </tr>
+            <tr>
+                <td style="border:0px;" align="right" valign="middle">
+                    <h4>
+                        <span class="pull-right">
+                            @if (ViewBag.Act != "1")
+                            {
+                                <span class="small">
+                                    [<a href="#discountModal" data-toggle="modal" class="btn btn-small">Set Disc</a>]
+                                </span>
+                            }
+                            &nbsp;  Discount
+                        </span>
+                    </h4>
+
+                </td>
+                <td style="border:0px;">
+                    <h4>
+                        <span class="pull-left">  $ </span> <span class="pull-right">
+
+                            @Model.Discount.ToString("N")
+
+                        </span>
+                    </h4>
+                </td>
+
+            </tr>
+            <tr>
+                <td style="border:0px;" align="right" valign="middle">
+                    <h4>
+                        <span class="pull-right">
+                            @if (ViewBag.Act != "1")
+                            {
+                                <span class="small">
+                                    [<a href="#commModal" data-toggle="modal" class="btn btn-small">Comm</a>]
+                                </span>
+                            }
+                            &nbsp;
+                            Final Amount
+                        </span>
+                    </h4>
+                </td>
+                <td style="border:0px;"><h4><span class="pull-left">  $ </span> <span class="pull-right">@Model.Amount.ToString("N") </span></h4></td>
+
+            </tr>
+
+            <tr>
+                <td style="border:0px;" align="right" valign="middle">
+
+                    <h4>
+                        <span class="pull-right">
+                            @if (ViewBag.Act != "1")
+                            {
+                                <span class="small">
+                                    [<a href="#gstModal" data-toggle="modal" class="btn btn-small">Zero-Rated</a>]
+                                </span>
+                            }
+                            &nbsp; GST 7%
+                        </span>
+                    </h4>
+
+
+                </td>
+                <td style="border:0px;"><h4><span class="pull-left"> $ </span> <span class="pull-right">@Model.Gst.ToString("N") </span></h4></td>
+
+            </tr>
+
+            <tr>
+                <td style="border:0px;" align="right" valign="middle"><h4><span class="pull-right semi-bold">Grand Total</span></h4></td>
+                <td style="border:0px;">
+                    <h4><span class="pull-left semi-bold"> $ </span> <span class="pull-right semi-bold">@Model.Nett.ToString("N") </span></h4>
+                    <input type="hidden" id="invPreDiscAmount" value='@Model.PreDiscAmount.ToString("N")' />
+                    <input type="hidden" id="invDiscount" value='@Model.Discount.ToString("N")' />
+                    <input type="hidden" id="invAmount" value='@Model.Amount.ToString("N")' />
+                    <input type="hidden" id="invGst" value='@Model.Gst.ToString("N")' />
+                    <input type="hidden" id="invNett" value='@Model.Nett.ToString("N")' />
+                    @*<input type="hidden" id="invPaidAmount" value='@Model.PaidAmount.ToString("N")' />
+                    <input type="hidden" id="invOutstanding" value='@(Model.Nett - Model.PaidAmount)' />*@
+                </td>
+            </tr>
+            @*<tr class="hidden">
+                <td style="border:0px;" align="right" valign="middle"><h4><span class="pull-right semi-bold">Paid</span></h4></td>
+                <td style="border:0px;">
+                    <h4><span class="pull-left semi-bold"> $ </span> <span class="pull-right semi-bold">@Model.PaidAmount  </span></h4>
+                </td>
+            </tr>*@
+
+
+        </table>
+
+
+
+    </div>
+</div>
+

@@ -1,0 +1,36 @@
+﻿@model iTrade.Models.CourseSelectEditor
+
+<tr class="even gradeC">
+    <td>
+        @Html.CheckBoxFor(model => model.Selected)
+        @Html.HiddenFor(model => model.CourseID)
+        @Html.HiddenFor(model => model.CourseType)
+        @Html.HiddenFor(model => model.CourseDesc)
+        @Html.HiddenFor(model => model.CourseCats)
+        @Html.HiddenFor(model => model.PreCourseID)
+        @Html.HiddenFor(model => model.PreCourseName)
+        @Html.HiddenFor(model => model.IsFocRevision)
+        @Html.HiddenFor(model => model.Qty)
+        @Html.HiddenFor(model => model.Unit)
+        @Html.HiddenFor(model => model.BaseCurrency)
+        @Html.HiddenFor(model => model.IsBundle)
+        @Html.HiddenFor(model => model.Remark)
+
+    </td>
+
+    <td>
+        @Html.DisplayFor(model => model.CourseName)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.CourseCode)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.Duration)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.StudentPrice)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.PublicPrice)
+    </td>
+</tr>

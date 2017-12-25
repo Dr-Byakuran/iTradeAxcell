@@ -1,0 +1,145 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin page-header -->
+<div class="page-header lead">
+    Reports 
+
+</div>
+<!-- end page-header -->
+
+ 
+<!-- begin panel -->
+<div class="panel panel-inverse">
+
+    <div class="panel-body">
+        <h1 class="lead">Sales Reports</h1>
+        <div class="row">
+            <div class="col-md-5">
+                <a href="/Reports/ReportByDailySales" class="btn btn-lg btn-default btn-block text-left">
+                    <i class="fa fa-bar-chart-o fa-2x pull-left"></i>
+                    <span class="lead">
+                        Daily Sales Summary<br />
+                        <small>View your daily sales</small>
+                    </span>
+                </a>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-5">
+                <a href="/Reports/SalesAnalysisByBill" class="btn btn-lg btn-default btn-block text-left">
+                    <i class="fa fa-bar-chart-o fa-2x pull-left"></i>
+                    <span class="lead">
+                        Sales Analysis By Bill<br />
+                        <small>View your sales analysis by customers</small>
+                    </span>
+                </a>
+            </div>
+        </div>
+        <br />
+
+        <div class="row">
+            <div class="col-md-5">
+                <a href="/Reports/CashSalesList" class="btn btn-lg btn-default btn-block text-left">
+                    <i class="fa fa-bar-chart-o fa-2x pull-left"></i>
+                    <span class="lead">
+                        Display-Set Sales Listing<br />
+                        <small>View your daily / monthly display-set sales list</small>
+                    </span>
+                </a>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-5">
+                <a href="/Reports/CreditSalesList" class="btn btn-lg btn-default btn-block text-left">
+                    <i class="fa fa-bar-chart-o fa-2x pull-left"></i>
+                    <span class="lead">
+                        Credit Sales Listing (Paid / UnPaid) <br />
+                        <small>View your daily / monthly credit sales list by paid or unpaid</small>
+                    </span>
+                </a>
+            </div>
+        </div>
+        <br />
+
+        <div class="row">
+            <div class="col-md-5">
+                <a href="/Reports/ReportByPeriod" class="btn btn-lg btn-default btn-block text-left">
+                    <i class="fa fa-bar-chart-o fa-2x pull-left"></i> 
+                    <span class="lead">Sales by Period <br /> 
+                        <small>View your sales for the past three months or custom period</small>                            
+                    </span>                            
+                </a>
+            </div>
+        </div>
+        <br />
+
+        <div class="row">
+            <div class="col-md-5">
+                <a href="/Reports/ViewHistory" class="btn btn-lg btn-default btn-block text-left">
+                    <i class="fa fa-search fa-2x pull-left"></i>
+                    <span class="lead">
+                        Sales History Report<br />
+                        <small>Search your sales by product, company and period</small>
+                    </span>
+                </a>
+
+            </div>
+        </div>
+
+
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+
+
+    </div>
+</div>
+<!-- end panel -->
+ 
+
+
+
+
+
+
+
+
+
+@section Scripts{
+    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+
+}
+
+
+<script>
+        $(document).ready(function () {
+           // App.init();
+            TableManageDefault.init();
+           // Notification.init();
+        });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#data-table1').DataTable({
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+        });
+    });
+</script>
+
+

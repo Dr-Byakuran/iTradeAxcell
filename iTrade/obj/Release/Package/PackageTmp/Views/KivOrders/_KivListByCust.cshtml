@@ -1,0 +1,40 @@
+﻿@model List<iTrade.Models.KivOrderDet>
+
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <tr>
+
+            <td class="col-md-4">
+                @Html.HiddenFor(model => model[i].DetID)
+                @Html.HiddenFor(model => model[i].KivID)
+                @Html.HiddenFor(model => model[i].InvDetID)
+                @Html.HiddenFor(model => model[i].KorID)
+                @Html.HiddenFor(model => model[i].InvID)
+                @Html.HiddenFor(model => model[i].ItemID)
+                @Html.HiddenFor(model => model[i].ItemCode)
+                @Html.HiddenFor(model => model[i].ItemName)
+                @Html.HiddenFor(model => model[i].OrderQty)
+                @Html.HiddenFor(model => model[i].BalanceQty)
+                @Html.HiddenFor(model => model[i].KivBalanceQty)
+                @Html.HiddenFor(model => model[i].SalesType)
+                @Html.HiddenFor(model => model[i].Position)
+                @Html.HiddenFor(model => model[i].Remark)
+
+                @Html.DisplayFor(model => model[i].ItemName, new { htmlAttributes = new { @class = "form-control col-md-6" } })
+                @if (Model[i].SalesType == "FOCItem")
+                {
+                    <span class="label label-warning">FOC</span>
+                }
+
+                &nbsp; #INV-@Model[i].InvID
+
+            </td>
+            <td>@Html.DisplayFor(model => model[i].OrderQty, new { htmlAttributes = new { @class = "form-control" } })</td>
+            <td>@Html.DisplayFor(model => model[i].BalanceQty, new { htmlAttributes = new { @class = "form-control" } })</td>
+            <td class="col-md-2 semi-bold">@Html.EditorFor(model => model[i].DeliverQty, new { htmlAttributes = new { @class = "form-control" } })</td>
+
+        </tr>
+
+    }
+
+ 

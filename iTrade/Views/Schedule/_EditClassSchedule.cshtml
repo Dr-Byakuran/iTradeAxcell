@@ -1,0 +1,264 @@
+﻿@model iTrade.Models.ClassSchedule
+@using iTrade.Models
+
+@using (Html.BeginForm("_EditClassSchedule", "Schedule", FormMethod.Post, new { id = "editScheduleForm" }))
+{
+    var MSelect = "";
+    var TuSelect = "";
+    var WSelect = "";
+    var ThSelect = "";
+    var FSelect = "";
+    var SSelect = "";
+    var Suelect = "";
+    if (Model.Weekday == 1)
+    {
+        MSelect = "selected";
+    }
+    else if (Model.Weekday == 2)
+    {
+        TuSelect = "selected";
+    }
+    else if (Model.Weekday == 3)
+    {
+        WSelect = "selected";
+    }
+    else if (Model.Weekday == 4)
+    {
+        ThSelect = "selected";
+    }
+    else if (Model.Weekday == 5)
+    {
+        FSelect = "selected";
+    }
+    else if (Model.Weekday == 6)
+    {
+        SSelect = "selected";
+    }
+    else if (Model.Weekday == 0 || Model.Weekday == 7)
+    {
+        Suelect = "selected";
+    }
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="panel panel-inverse">
+        <div class="panel-body">
+            <div class="row">
+                @Html.HiddenFor(model => model.ScheduleID)
+                @Html.HiddenFor(model => model.PriceID, new { id = "priceID3" })
+                @Html.HiddenFor(model => model.CourseTitle, new { id = "courseTitle3" })
+                @Html.HiddenFor(model => model.ScheduleTitle, new { id = "scheduleTitle3" })
+                @Html.HiddenFor(model => model.CourseID, new { id = "courseID3" })
+                @*@Html.HiddenFor(model => model.CourseCode, new { @Value = "" })*@
+                @Html.HiddenFor(model => model.CourseName, new { id = "courseName3" })
+                @Html.HiddenFor(model => model.CourseLevel, new { id = "courseLevel3" })
+                @Html.HiddenFor(model => model.CourseDuration, new { id = "courseDuration3" })
+                @Html.HiddenFor(model => model.TeacherLevel, new { id = "teacherLevel3" })
+                @Html.HiddenFor(model => model.OptionName, new { id = "optionName3" })
+                @Html.HiddenFor(model => model.TutorID, new {  id = "tutorID3" })
+                @Html.HiddenFor(model => model.TutorName, new { id = "tutorName3" })
+
+                @Html.HiddenFor(model => model.StartTime)
+                @Html.HiddenFor(model => model.EndTime)
+                @Html.HiddenFor(model => model.Status)
+                @Html.HiddenFor(model => model.CreatedBy)
+                @Html.HiddenFor(model => model.CreatedOn)
+                @Html.HiddenFor(model => model.ModifiedBy)
+                @Html.HiddenFor(model => model.ModifiedOn)
+
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CourseTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-8">
+                            <select class="form-control coursepicker3" name="" data-size="10" data-live-search="true" data-style="btn-white">
+                                @*<select id="selectCourse" class="form-control coursepicker2">*@
+                                <option value="0">Select course</option>
+                                @foreach (var item in ViewData["CoursesAll"] as IEnumerable<iTrade.Models.Pricebook>)
+                                {
+                                    <option value="@item.PriceID">
+                                        @item.CourseName - @item.CourseLevel - @item.CourseDuration - @item.TeacherLevel
+                                    </option>
+                                }
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ScheduleType, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-3">
+                            @Html.DropDownListFor(model => model.ScheduleType, new List<SelectListItem> {
+                                                                                        new SelectListItem { Value = "Regular", Text = "Regular", Selected = true },
+                                                                                        new SelectListItem { Value = "Other", Text = "Other" }
+
+                                                                                      }, new { @class = "form-control" })
+
+                            @*@Html.EditorFor(model => model.ScheduleType, new { htmlAttributes = new { id = "scheduleType", @class = "form-control", placeholder = "Type" } })*@
+                            @Html.ValidationMessageFor(model => model.ScheduleType, "", new { @class = "text-danger" })
+                        </div>
+
+
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Weekday, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-3">
+                            @Html.DropDownListFor(model => model.Weekday, new List<SelectListItem> {
+                                                                                        new SelectListItem { Value = "1", Text = "Monday", Selected = true },
+                                                                                        new SelectListItem { Value = "2", Text = "Tuesday" },
+                                                                                        new SelectListItem { Value = "3", Text = "Wednesday" },
+                                                                                        new SelectListItem { Value = "4", Text = "Thursday" },
+                                                                                        new SelectListItem { Value = "5", Text = "Friday" },
+                                                                                        new SelectListItem { Value = "6", Text = "Saturday" },
+                                                                                        new SelectListItem { Value = "0", Text = "Sunday" }
+
+                                                                                      }, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Weekday, "", new { @class = "text-danger" })
+
+
+                            @*@Html.DropDownListFor(model => model.Weekday, new List<SelectListItem> {
+                                                                                        new SelectListItem { Value = "1", Text = "Monday", Selected = true },
+                                                                                        new SelectListItem { Value = "2", Text = "Tuesday" },
+                                                                                        new SelectListItem { Value = "3", Text = "Wednesday" },
+                                                                                        new SelectListItem { Value = "4", Text = "Thursday" },
+                                                                                        new SelectListItem { Value = "5", Text = "Friday" },
+                                                                                        new SelectListItem { Value = "6", Text = "Saturday" },
+                                                                                        new SelectListItem { Value = "7", Text = "Sunday" }
+
+                                                                                      }, new { @class = "form-control" })*@
+                            @*<select class="form-control selectpicker2" id="WeekDay" name="WeekDay" data-size="10" data-live-search="true" data-style="btn-white">
+                                <option value="1" @MSelect>Monday</option>
+                                <option value="2" @TuSelect>Tuesday</option>
+                                <option value="3" @WSelect>Wednesday</option>
+                                <option value="4" @ThSelect>Thursday</option>
+                                <option value="5" @FSelect>Friday</option>
+                                <option value="6" @SSelect>Saturday</option>
+                                <option value="0" @Suelect>Sunday</option>
+                            </select>
+                            @Html.ValidationMessageFor(model => model.Weekday, "", new { @class = "text-danger" })*@
+                        </div>
+                        @Html.Label("Tutor", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-3">
+                            <select class="form-control tutorpicker3" data-size="10" data-live-search="true" data-style="btn-white">
+                                <option value="0" selected>Select tutor</option>
+                                @foreach (var item in ViewData["TutorsAll"] as IEnumerable<iTrade.Models.Tutor>)
+                                {
+                                    <option value="@item.TutorID">@item.TutorName</option>
+                                    //@item.FileName  // instead .FileName use property which u used in ur model class
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Start Time", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-3">
+                            <div class="input-group bootstrap-timepicker">
+                                @Html.EditorFor(model => model.StartTimeValue, new { htmlAttributes = new { id = "startTime3", @class = "timepicker form-control" } })
+                                <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                @Html.ValidationMessageFor(model => model.StartTimeValue, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        @Html.Label("End Time", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-3">
+                            <div class="input-group bootstrap-timepicker">
+                                @Html.EditorFor(model => model.EndTimeValue, new { htmlAttributes = new { id = "endTime3", @class = "timepicker form-control" } })
+                                <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                @Html.ValidationMessageFor(model => model.EndTimeValue, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FromDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-3">
+                            @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { id = "fromDate3", @class = "fromDate form-control", placeholder = "DD/MM/YYYY" } })
+                            @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
+                        </div>
+                        @Html.LabelFor(model => model.ToDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-3">
+                            @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { id = "toDate3", @class = "toDate form-control", placeholder = "DD/MM/YYYY" } })
+                            @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Remark, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { id = "remark3", @class = "form-control", placeholder = "Remark" } })
+                            @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+}
+
+<script>
+    $(document).ready(function () {
+        $('#fromDate3').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+        $('#fromDate3').datepicker('setDate', new Date());
+        $('#toDate3').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+    //    $('#toDate').datepicker('setDate', new Date());
+        $('.timepicker').timepicker();
+
+
+
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.coursepicker3 option[value='+@Model.PriceID+']').prop('selected', true);
+        $('.coursepicker3').selectpicker('refresh');
+
+        $('.tutorpicker3 option[value=' +@Model.TutorID +']').prop('selected', true);
+        $('.tutorpicker3').selectpicker('refresh');
+
+        $("select.coursepicker3").change(function () {
+            var priceid = $(".coursepicker3 option:selected").val().trim();
+            var coursetitle = $(".coursepicker3 option:selected").text().trim();
+
+            $('#priceID3').val(priceid);
+            $('#courseTitle3').val(coursetitle);
+
+        });
+        $("select.tutorpicker3").change(function () {
+            var staffid = $(".tutorpicker3 option:selected").val();
+            var staffname = $(".tutorpicker3 option:selected").text().trim();
+
+            $('#tutorID3').val(staffid);
+            $('#tutorName3').val(staffname);
+
+        });
+        $("select.staffpicker3").change(function () {
+            var staffid = $(".staffpicker3 option:selected").val();
+            var staffname = $(".staffpicker3 option:selected").text().trim();
+
+            $('#personID3').val(staffid);
+            $('#personName3').val(staffname);
+
+        });
+
+    });
+</script>
+
+
+
+
+

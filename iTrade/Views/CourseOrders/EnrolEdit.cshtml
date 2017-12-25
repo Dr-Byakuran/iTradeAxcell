@@ -1,0 +1,1012 @@
+﻿@model iTrade.Models.Enrolment
+@*@model IEnumerable<iTrade.Models.Student>*@
+@*@model IEnumerable<iTrade.Models.Client>*@
+@*@model IEnumerable<iTrade.Models.Course>*@
+@*@model IEnumerable<iTrade.Models.Tutor>*@
+@*@model IEnumerable<iTrade.Models.Staff>*@
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-datepicker/css/datepicker.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-combobox/css/bootstrap-combobox.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/select2/dist/css/select2.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/css/star-items-table.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/parsley/src/parsley.css")" rel="stylesheet" type="text/css" />
+
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin page-header -->
+<div class="page-header lead">
+    Enrolment
+    <span class="email-btn-row hidden-xs pull-right">
+        <a href="@Url.Action("Enrolments")" id="OpenEsc"><span class="btn btn-default">Cancel </span></a>
+        <button type="button" id="btnVoid" class="btn btn-primary">Void</button>
+        <button type="button" id="btnSaveChanges" class="btn btn-primary">Save Changes</button>
+    </span>
+
+</div>
+<!-- end page-header -->
+<!-- begin panel -->
+<div class="panel panel-inverse">
+    <div class="panel-heading">
+        Enrolment info
+    </div>
+
+    <div class="panel-body">
+
+        @using (Html.BeginForm("EnrolEdit", "CourseOrders", FormMethod.Post, new { id = "editEnrolmentForm" }))
+        {
+
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.EnrID)
+            @Html.HiddenFor(model => model.EnrNo)
+            @Html.HiddenFor(model => model.EnrType, new { id = "invType" })
+            @Html.HiddenFor(model => model.CustNo, new {  id = "custNo" })
+            @Html.HiddenFor(model => model.CustName, new { id = "custName" })
+            @Html.HiddenFor(model => model.CustNo, new { id = "custNo" })
+            @Html.HiddenFor(model => model.CustName, new { id = "custName" })
+            @Html.HiddenFor(model => model.CourseID, new { id = "courseID" })
+
+            @Html.HiddenFor(model => model.TutorID, new { id = "tutorID" })
+            @Html.HiddenFor(model => model.TutorName, new { id = "tutorName" })
+            @Html.HiddenFor(model => model.TermID, new { id = "termID" })
+            @Html.HiddenFor(model => model.TermName, new { id = "termName" })
+
+            @Html.HiddenFor(model => model.Deposit, new { id = "deposit" })
+            @Html.HiddenFor(model => model.SalesType, new { id = "salesType" })
+            @Html.HiddenFor(model => model.IsBillable)
+            @Html.HiddenFor(model => model.BillRemark)
+            @Html.HiddenFor(model => model.IsValid)
+            @Html.HiddenFor(model => model.PriceID, new { id = "priceID" })
+            @Html.HiddenFor(model => model.ScheduleID, new { id = "scheduleID" })
+            @Html.HiddenFor(model => model.StartTime)
+            @Html.HiddenFor(model => model.EndTime)
+
+            @Html.HiddenFor(model => model.PersonID, new { id = "personID" })
+            @Html.HiddenFor(model => model.PersonName, new { id = "personName" })
+
+            @Html.HiddenFor(model => model.Status)
+
+            @Html.HiddenFor(model => model.CreatedBy)
+            @Html.HiddenFor(model => model.CreatedOn)
+            @Html.HiddenFor(model => model.ModifiedBy)
+            @Html.HiddenFor(model => model.ModifiedOn)
+
+            <input type="hidden" id="txtUrl1" value="" />
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CustName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @*<select class="form-control selectpicker" data-size="10" data-live-search="true" data-style="btn-white">
+                                    <option value="" selected>Select student</option>
+                                    @foreach (var item in ViewData["ClientsAll"] as IEnumerable<iTrade.Models.Client>)
+                                    {
+                                        <option value="@item.CustNo">@item.CustName</option>
+                                    }
+                                </select>*@
+                                <input type="text" value="@Model.CustName" class="form-control" readonly="readonly" />
+                                @Html.ValidationMessageFor(model => model.CustName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-1">               
+                                @*<a href="@Url.Action("Create", "Clients")" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Student &nbsp;</a>*@
+                            </div>
+                        </div>
+                        <div class="form-group hidden">
+                            @Html.Label(" ", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.CustName2, new { htmlAttributes = new { id = "custName2", @class = "form-control", placeholder = "Additional name info if provided" } })
+                                @Html.ValidationMessageFor(model => model.CustName2, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CourseName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.CourseName, new { htmlAttributes = new { id = "courseName", @class = "form-control", placeholder = "Course name", @readonly = true } })
+                            </div>
+                            <div class="col-md-1">
+                                <a href="#addMultiitemModal" data-toggle="modal" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> Course &nbsp;&nbsp;</a>
+                            </div>
+                        </div>
+
+                        <div class="form-group hidden">
+                            @Html.LabelFor(model => model.CourseCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.CourseCode, new { htmlAttributes = new { id = "courseCode", @class = "form-control", placeholder = "Course code", @readonly = true } })
+                                @Html.ValidationMessageFor(model => model.CourseCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group hidden">
+                            @Html.LabelFor(model => model.CourseType, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.CourseType, new { htmlAttributes = new { id = "courseType", @class = "form-control", placeholder = "Course type", @readonly = true } })
+                                @Html.ValidationMessageFor(model => model.CourseType, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Course Level", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.CourseLevel, new { htmlAttributes = new { id = "courseLevel", @class = "form-control", placeholder = "Course level", @readonly = true } })
+                                @*@Html.DropDownListFor(m => m.CourseLevel, new SelectList(Enumerable.Empty<SelectListItem>(), "CourseLevelId", "CourseLevelName"), "Select course level",  new { @class = "form-control" })*@
+                                @Html.ValidationMessageFor(model => model.CourseLevel, "", new { @class = "text-danger" })
+                            </div>
+                            @*@Html.LabelFor(model => model.CourseDuration, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.CourseDuration, new { htmlAttributes = new { id = "courseDuration", @class = "form-control", placeholder = "Duration", @readonly = true } })
+                                @*@Html.DropDownListFor(m => m.CourseDuration, new SelectList(Enumerable.Empty<SelectListItem>(), "CourseDurationId", "CourseDurationName"), "Select duration", new { @class = "form-control" })*@
+                                @Html.ValidationMessageFor(model => model.CourseDuration, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TeacherLevel, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.TeacherLevel, new { htmlAttributes = new { id = "teacherLevel", @class = "form-control", placeholder = "Teacher level", @readonly = true } })
+                                @*@Html.DropDownListFor(m => m.TeacherLevel, new SelectList(Enumerable.Empty<SelectListItem>(), "TeacherLevelId", "TeacherLevelName"), "Select teacher level", new { @class = "form-control" })*@
+                                @Html.ValidationMessageFor(model => model.TeacherLevel, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+
+                        <div class="form-group hidden">
+                            @Html.LabelFor(model => model.OptionName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.OptionName, new { htmlAttributes = new { id = "optionName", @class = "form-control", placeholder = "Option name" } })
+                                @Html.ValidationMessageFor(model => model.OptionName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Weekday, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                @Html.DropDownListFor(model => model.Weekday, new List<SelectListItem> {
+                                                                                        new SelectListItem { Value = "1", Text = "Monday", Selected = true },
+                                                                                        new SelectListItem { Value = "2", Text = "Tuesday" },
+                                                                                        new SelectListItem { Value = "3", Text = "Wednesday" },
+                                                                                        new SelectListItem { Value = "4", Text = "Thursday" },
+                                                                                        new SelectListItem { Value = "5", Text = "Friday" },
+                                                                                        new SelectListItem { Value = "6", Text = "Saturday" },
+                                                                                        new SelectListItem { Value = "0", Text = "Sunday" }
+
+                                                                                      }, new { @class = "form-control" })
+                                @*<select class="form-control weekdaypicker" id="WeekDay" name="WeekDay" data-size="10" data-live-search="true" data-style="btn-white">
+                                    <option value="1">Monday</option>
+                                    <option value="2">Tuesday</option>
+                                    <option value="3">Wednesday</option>
+                                    <option value="4">Thursday</option>
+                                    <option value="5">Friday</option>
+                                    <option value="6">Saturday</option>
+                                    <option value="0">Sunday</option>
+                                </select>*@
+                                @Html.ValidationMessageFor(model => model.Weekday, "", new { @class = "text-danger" })
+                            </div>
+                            @*@Html.LabelFor(model => model.TutorName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                            <div class="col-md-3">
+                                <select class="form-control tutorpicker" id="selectTutor" name="selectTutor">
+                                    <option value="0" selected>Select tutor</option>
+                                    @foreach (var item in ViewData["TutorsAll"] as IEnumerable<iTrade.Models.Tutor>)
+                                    {
+                                        <option value="@item.TutorID">@item.TutorName</option>
+                                        //@item.FileName  // instead .FileName use property which u used in ur model class
+                                    }
+                                </select>
+                            </div>
+                            @*<div class="col-md-1">
+                <a href="#scheduleModal" data-toggle="modal" class="btn btn-sm btn-primary">Schedule</a>
+            </div>*@
+
+                            <div class="col-md-1">
+                                <a href="#getScheduleModal" data-toggle="modal" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> Schedule</a>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Start/End Time", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                <div class="input-group bootstrap-timepicker">
+                                    @Html.EditorFor(model => model.StartTimeValue, new { htmlAttributes = new { id = "startTime", @class = "timepicker form-control" } })
+                                    <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                    @Html.ValidationMessageFor(model => model.StartTimeValue, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group bootstrap-timepicker">
+                                    @Html.EditorFor(model => model.EndTimeValue, new { htmlAttributes = new { id = "endTime", @class = "timepicker form-control" } })
+                                    <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                    @Html.ValidationMessageFor(model => model.EndTimeValue, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Start/End Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { id = "startDate", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { id = "endDate", @class = "form-control", placeholder = "dd/mm/yyyy" } })
+                                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Remark, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control", placeholder = "Remark" } })
+                                @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EnrDate, htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.EnrDate, new { htmlAttributes = new { id = "invDate", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.EnrDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Term", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.TermName, new { htmlAttributes = new { id = "termName", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.TermName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PersonName, htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                <select class="form-control staffpicker">
+                                    <option value="0" selected>Select sales person</option>
+                                    @foreach (var item in ViewData["StaffsAll"] as IEnumerable<iTrade.Models.Staff>)
+                                    {
+                                        <option value="@item.StaffID"
+                                                @if (item.Email == User.Identity.Name) { <text> selected="selected" </text>              }>
+                                            @item.FirstName @item.LastName
+                                        </option>
+
+                                        @*<option value="@item.StaffID">@item.FirstName  @item.LastName</option>*@
+                                        //@item.FileName  // instead .FileName use property which u used in ur model class
+                                    }
+                                </select>
+
+                            </div>
+                        </div>
+
+                        <hr />
+
+                        <div class="form-group">
+                            @Html.Label("Course Fee $", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.Editor(" ", new { htmlAttributes = new { id = "itemUnitPrice", @class = "form-control", @readonly = true } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Discount $", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-4">
+                                @Html.Editor(" ", new { htmlAttributes = new { id = "itemDiscountValue", @class = "form-control", @readonly = true } })
+                            </div>
+                            <div class="col-md-4">
+                                @Html.Editor(" ", new { htmlAttributes = new { id = "itemDiscountPercentage", @class = "form-control", @readonly = true } })
+                            </div>
+                            @Html.Label("%", htmlAttributes: new { @class = "control-label pull-left col-md-1 text-left" })
+
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Final Course Fee $", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.CourseFee, new { htmlAttributes = new { id = "itemDiscountedPrice", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.CourseFee, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Registration Fee $", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.RegisterFee, new { htmlAttributes = new { id = "itemRegisterFee", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.RegisterFee, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.Label("(if applicable)", htmlAttributes: new { @class = "control-label col-md-3 text-left" })
+                        </div>
+
+
+
+
+
+                    </div>
+
+
+                </div>
+            </div>
+
+        }
+
+
+        <div id="divItemList">
+
+        </div>
+
+    </div>
+</div>
+<!-- end panel -->
+<!-- modal placeholder-->
+<div id="addMultiitemModal" class="modal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id='addMultiitemModalContent'>
+                <div class="modal-header">
+
+                    <button type="button" class="close" id="btnAddItemClose2002a" aria-hidden="true" data-dismiss="modal">X</button>
+                    <h3 class="modal-title lead"> Select Course </h3>
+                </div>
+                <div class="modal-body">
+                    @{Html.RenderAction("_DisplayCourses", "CourseOrders", new { txtSearch = "" });}
+
+                </div>
+
+                <div class="modal-footer">
+                    <button id="btnAddItemClose001aa" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <!-- modal placeholder-->
+<div id="getScheduleModal" class="modal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id='getScheduleModalContent'>
+                <div class="modal-header">
+
+                    <button type="button" class="close" id="btnAddItemClose2003a" aria-hidden="true" data-dismiss="modal">X</button>
+                    <h3 class="modal-title lead"> Select Schedule </h3>
+                </div>
+                <div class="modal-body">
+                    <div id='getScheduleModalData'></div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button id="btnAddItemClose002aa" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- modal placeholder-->
+<div id="scheduleModal" class="modal fade in" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='confirmModalContent'>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                    <span class="modal-title lead">Confirm Sales Order </span>
+                </div>
+                <div class="modal-body">
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span class="lead">Tutor Schedule</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <br />
+                        <div class="col-md-8 col-md-offset-2">
+
+                            <div class="form-group m-r-10">
+                                <input type="hidden" id="txtSorNo" value="" />
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <br />
+                </div>
+
+                <div class="modal-footer">
+                    <span id="progress2" class="text-center" style="display: none;">
+                        <img src="~/assets/img/Wait.gif" alt="wait" />
+                        Wait..
+                    </span>
+
+                    <input type="button" class="btn btn-primary" id="btnConfirm" value=" Confirm " />
+                    <button class="btn btn-white" data-dismiss="modal">Cancel</button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- modal placeholder MultiPagesPrint Modal-->
+<div id="MultiPrintModal" class="modal fade in" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id='MultiPrintModalContent'>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                    <span class="modal-title lead">Enrolment</span>
+                </div>
+                <div class="modal-body">
+                    <div id="contentAfter" class="hide">
+                        <h3 class="lead text-center"> Your new enrolment has been proceessed sucessfully. </h3>
+                        <h3 class="lead text-center">
+                            <a href="#" id="btnPay" class="btn btn-primary"><i class="fa fa-print m-r-5"></i> Go to Payment</a> &nbsp; or &nbsp;
+                            <a href="/CourseOrders/Enrolments" id="btnClose3" class="btn btn-white"> Back to List</a>
+                        </h3>
+
+                    </div>
+                    <div id="contentBefore">
+                        <div class="row table-responsive">
+                            <div id="divPreviewOrder">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div id="headerBefore">
+
+                    </div>
+                    <div id="headerAfter" class="hide">
+                        <span class="pull-right">
+                            <span id="progress4" class="text-center" style="display: none;">
+                                <img src="~/assets/img/Wait.gif" alt="wait" />
+                                Wait..
+                            </span>
+                            <button class="btn btn-white" data-dismiss="modal">Close</button>
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-combobox/js/bootstrap-combobox.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/select2/dist/js/select2.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery-tag-it/js/tag-it.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/js/form-plugins.star.js")"></script>
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/modal-order.js")"></script>
+
+
+}
+
+
+<script>
+    $(document).ready(function () {
+        // App.init();
+        TableManageDefault.init();
+        // Notification.init();
+        FormPlugins.init();
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#data-table0').DataTable({
+            "order": [[0, "desc"]],
+            "iDisplayLength": 100,
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+        });
+        $('#data-table1').DataTable({
+            "order": [[0, "asc"]],
+            "iDisplayLength": 100,
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+        });
+        //$('#data-table2').DataTable({
+        //    "order": [[0, "asc"]],
+        //    "bLengthChange": false,
+        //  //  "scrollY": "500px",
+        //    "scrollCollapse": true,
+        //    "paging": false,
+        //    "dom": '<"pull-left"f><"pull-right"l>tip'
+        //});
+        //$('#data-table3').DataTable({
+        //    "order": [[0, "desc"]],
+        //    "dom": '<"pull-left"f><"pull-right"l>tip'
+        //});
+        $('#data-table4').DataTable({
+            "order": [[0, "desc"]],
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+        });
+        $('#data-table5').DataTable({
+            "order": [[0, "desc"]],
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+        });
+        $('#data-table6').DataTable({
+            "order": [[0, "desc"]],
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+        });
+
+
+
+    });
+</script>
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+        var str = $('#custNo').val();
+        var url1 = '@Url.Action("_DisplayEnrolmentByCust", "CourseOrders", new { id = "_id_" })'
+                        .replace('_id_', str);
+        $("#divItemList").load(url1);
+        $('#txtUrl1').val(url1);
+
+        $('.selectpicker option[value='+@Model.CustNo+']').prop('selected', true);
+        $('.selectpicker').selectpicker('refresh');
+
+        $('.weekdaypicker option[value='+@Model.Weekday+']').prop('selected', true);
+        $('.weekdaypicker').selectpicker('refresh');
+
+        $('.tutorpicker option[value='+@Model.TutorID+']').prop('selected', true);
+        $('.tutorpicker').selectpicker('refresh');
+
+    });
+
+</script>
+
+<script type="text/javascript">
+
+    $('#getScheduleModal').on('shown.bs.modal', function () {
+        var PriceId = $('#priceID').val();
+         // alert("hi..." + PriceId);
+        var flag = true;
+        if (flag) {
+            var url = '@Url.Action("_DisplaySchedules", "CourseOrders")';
+            url += '/?id=' + PriceId;
+            $("#getScheduleModalData").load(url);
+            $('#getScheduleModal').modal({
+                keyboard: true
+            }, 'show');
+
+        }
+
+    });
+
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#invDate').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+        $('#invDate').datepicker('setDate', new Date());
+        $('#startDate').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+        $('#startDate').datepicker('setDate', new Date());
+        $('#endDate').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+
+        $('.timepicker').timepicker();
+
+
+        $('#itemUnitPrice').on("change", function () {
+            // alert('Changed!');
+
+            reCalculateAmount();
+        });
+        $('#itemDiscountedPrice').on("change", function () {
+            // alert('Changed!');
+
+            reCalculateAmount();
+        });
+
+        $('#itemDiscountPercentage').on("change", function () {
+            // alert('Changed!');
+
+            var unitprice = $('#itemUnitPrice').val();
+            var discpercentage = $('#itemDiscountPercentage').val();
+            var discvalue = +unitprice * (+discpercentage / 100);
+            discvalue = (0 - discvalue).toFixed(2);
+            $('#itemDiscountValue').val(discvalue);
+            var discountedprice = +unitprice + +discvalue;
+            discountedprice = discountedprice.toFixed(2);
+            $('#itemDiscountedPrice').val(discountedprice);
+
+            reCalculateAmount();
+
+        });
+
+        $('#itemDiscountValue').on("change", function () {
+           //  alert('Changed!');
+
+            var unitprice = $('#itemUnitPrice').val();
+            var discvalue = $('#itemDiscountValue').val().trim();
+            if (discvalue > 0) {
+                discvalue = 0 - +discvalue;
+            };
+            discvalue = discvalue.toFixed(2);
+            $('#itemDiscountValue').val(discvalue);
+
+            var discval1 = discvalue;
+            if (discval1 < 0) {
+                discval1 = 0 - discval1;
+            };
+            var discpercentage = (+discval1 / +unitprice) * 100;
+            discpercentage = discpercentage.toFixed(2);
+            $('#itemDiscountPercentage').val(discpercentage);
+
+            var discountedprice = +unitprice + +discvalue;
+            discountedprice = discountedprice.toFixed(2);
+            $('#itemDiscountedPrice').val(discountedprice);
+
+          //  reCalculateAmount();
+
+        });
+
+
+
+    });
+
+    function reCalculateAmount() {
+
+        var unitprice = $('#itemUnitPrice').val();
+        var qty = 1;
+        var sellprice = $('#itemDiscountedPrice').val();
+        var gstrate = 0;
+
+        var discount = (+sellprice - +unitprice);
+        discount = discount.toFixed(2);
+        $('#itemDiscount').val(discount);
+
+    };
+
+
+
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("select.selectpicker").change(function () {
+            var val = $(".selectpicker option:selected").val();
+            //   alert("You have selected the country - " + val);
+
+            if (val > 0) {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("AutoCompleteSelectedStudent")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        search: val
+                    },
+                    success: function (data) {
+                        $('#item1').val(data.result.CustNo);
+                        $('#item2').val(data.result.CustName);
+                        $('#custNo').val(data.result.CustNo);
+                        $('#custName').val(data.result.CustName);
+                        $('#addr1').val(data.result.Addr1);
+                        $('#addr2').val(data.result.Addr2);
+                        $('#addr3').val(data.result.Addr3);
+                        $('#postalCode').val(data.result.PostalCode)
+                        $('#invType').val(data.result.AccType);
+                        $('#accType').text(data.result.AccType);
+                        $('#paymentTerms').val(data.result.Terms);
+
+                        var str = $('#custNo').val();
+                        var url1 = '@Url.Action("_DisplayEnrolmentByCust", "CourseOrders", new { id = "_id_" })'
+                                        .replace('_id_', str);
+                        $("#divItemList").load(url1);
+                        $('#txtUrl1').val(url1);
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("_GetInvoiceNos")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        custno: val
+                    },
+                    success: function (data) {
+                        var productArray = data.result;
+
+                        $("#selectInvRef").empty();
+                        var optionsAsString = "";
+                        for (var i = 0; i < productArray.length; i++) {
+                            //alert(i + " " +  productArray.length + "" + productArray[i].IsDefault);
+
+                            var chk = " ";
+                            if (i == 0) {
+                                chk = " selected = 'selected' ";
+                                $('#invRef').val(productArray[i]);
+
+                            }
+
+                            optionsAsString += "<option " + chk + " value='" + productArray[i].trim() + "'>" + productArray[i].trim() + "</option>";
+                        }
+                        $('select[name="selectInvRef"]').append(optionsAsString);
+
+                    },
+                    error: function (xhr, status, error) {
+                        //alert(error);
+                    }
+                });
+
+
+
+            }
+        });
+
+        $("select.coursepicker").change(function () {
+            var vid = $(".coursepicker option:selected").val();
+            var vname = $(".coursepicker option:selected").text();
+            $('#courseID').val(vid);
+            $('#courseName').val(vname);
+
+            if (vid > 0) {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("_GetPricebookByCourseID")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        itemid: vid
+                    },
+                    success: function (data) {
+                        var items = data.result;
+
+                        $("#CourseLevel").html(""); // clear before appending new list
+                        $("#CourseLevel").append($('<option></option>').val("").html("Select course level"));
+                        $.each(items, function (i, item) {
+                            if ((item.CourseLevel != null) || (item.CourseLevel != ""))  {
+                                $("#CourseLevel").append(
+                                    $('<option></option>').val(item.CourseLevel).html(item.CourseLevel));
+                            }
+                        });
+
+                        $("#CourseDuration").html(""); // clear before appending new list
+                        $("#CourseDuration").append($('<option></option>').val("").html("Select duration"));
+                        $.each(items, function (i, item) {
+                            if ((item.CourseDuration != null) || (item.CourseDuration != "")) {
+                                $("#CourseDuration").append(
+                                    $('<option></option>').val(item.CourseDuration).html(item.CourseDuration));
+                            }
+                        });
+
+                        $("#TeacherLevel").html(""); // clear before appending new list
+                        $("#TeacherLevel").append($('<option></option>').val("").html("Select teacher level"));
+                        $.each(items, function (i, item) {
+                            if ((item.TeacherLevel != null) || (item.TeacherLevel != "")) {
+                                $("#TeacherLevel").append(
+                                    $('<option></option>').val(item.TeacherLevel).html(item.TeacherLevel));
+                            }
+                        });
+
+
+
+                    },
+                    error: function (xhr, status, error) {
+                        //alert(error);
+                    }
+                });
+
+            }
+
+
+
+
+
+        });
+        $("select.tutorpicker").change(function () {
+            var staffid = $(".tutorpicker option:selected").val();
+            var staffname = $(".tutorpicker option:selected").text();
+
+            $('#tutorID').val(staffid);
+            $('#tutorName').val(staffname);
+
+        });
+        $("select.staffpicker").change(function () {
+            var staffid = $(".staffpicker option:selected").val();
+            var staffname = $(".staffpicker option:selected").text();
+
+            $('#personID').val(staffid);
+            $('#personName').val(staffname);
+
+        });
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        $("#btnSaveChanges").click(function () {
+            $("#editEnrolmentForm").submit();
+        });
+
+        $("#btnVoid").click(function () {
+            
+            var EnrID=$("#EnrID").val();
+            $.post("/CourseOrders/UpdetStatus", { "ID": EnrID }, function (data)
+            {
+                $("#OpenEsc")[0].click();
+            })
+        });
+
+        $("#btnAddItem3a").click(function (e) {
+            e.preventDefault();
+            $(this).prop('disabled', true);
+            $("#btnActionType3").val("SaveAndNext");
+            $("#addMultiItemForm").submit();
+
+        });
+
+    });
+</script>
+
+
+
+
+
+
+
+@*<script>
+                $(document).ready(function () {
+                    $('#tags').autocomplete({
+                        source: function (request, response) {
+                            $.ajax({
+                                url: '@Url.Action("AutoComplete","Orders")',
+                                dataType: "json",
+                                contentType: 'application/json, charset=utf-8',
+                                data: {
+                                    search: $("#tags").val()
+                                },
+                                success: function (data) {
+
+                                    response($.map(data, function (item) {
+                                        return {
+                                            label: item.CustNo + " | " + item.CustName,
+
+                                        };
+                                    }));
+                                },
+                                error: function (xhr, status, error) {
+                                    alert(error);
+                                }
+
+                            });
+                        },
+                        selectFirst: true,
+                        delay: 0,
+                        autoFocus: true,
+                        minLength: 1
+                    });
+
+                    $("#tags").on("autocompleteselect", function (event, ui) {
+                        var str1 = ui.item.value;
+                        var str2 = str1.split("|");
+                        var val = str2[0].trim();
+
+                        //  alert(val);
+
+                        $.ajax({
+                            type: 'GET',
+                            url: '@Url.Action("AutoCompleteSelected","Orders")',
+                            dataType: "json",
+                            contentType: 'application/json, charset=utf-8',
+                            data: {
+                                search: val
+                            },
+                            success: function (data) {
+                                $('#custNo').val(data.result.CustNo);
+                                $('#custName').val(data.result.CustName);
+                                $('#addr1').val(data.result.Addr1);
+                                $('#addr2').val(data.result.Addr2);
+
+                                var country = data.result.Country;
+                                if (country == null || country.trim() == "") {
+                                    country = "";
+                                } else {
+                                    country = country.trim();
+                                }
+
+                                var postal = data.result.PostalCode;
+                                if (postal == null || postal.trim() == "") {
+                                    postal = "";
+                                } else {
+                                    postal = " " + postal;
+                                }
+
+                                var str = data.result.Addr3;
+                                if (str == null || str.trim() == "") {
+                                    str = country + postal;
+                                } else {
+                                    str = str + ", " + country + postal;
+                                }
+                                $('#addr3').val(str);
+                                $('#addr4').val("");
+                                $('#attn').val(data.result.ContactPerson);
+                                $('#phoneNo').val(data.result.PhoneNo);
+                                $('#faxNo').val(data.result.FaxNo);
+                                $('#invType').val(data.result.AccType);
+
+                            },
+                            error: function (xhr, status, error) {
+                                alert(error);
+                            }
+
+                        });
+
+                    });
+
+
+
+                });
+
+    </script>*@
+
+
+
+
+
+
+
+

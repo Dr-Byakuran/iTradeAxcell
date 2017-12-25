@@ -1,0 +1,485 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    
+</head>
+<body onload="window.print();">
+    <div>
+        @{
+            decimal dTotalCashSales = 0;
+            decimal dTotalCreditSales = 0;
+            decimal dTotalChequeSales = 0;
+            decimal dTotalNetsSales = 0;
+            decimal dTotalCreditCardSales = 0;
+            decimal dTotalCreditNoteSales = 0;
+        }
+        <div class="panel panel-default">
+            <center><h3>DAILY SALES REPORT</h3></center>
+            <div class="panel-body">
+                <!-- begin row -->
+                <div class="row">
+                    <!-- begin col-12 -->
+                    <div class="col-md-12">
+                        <!-- begin panel -->
+                        <div class="panel panel-inverse">
+
+                            <div class="panel-body">
+                                <h4>Daily Sales report for @ViewBag.StartDate</h4>
+
+                                <div class="table-responsive">
+                                    <table border="1" width="100%" cellpadding="2px" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2">
+                                                    &nbsp;
+                                                </th>
+                                                <th width="160px">
+                                                    AMOUNT
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td width="200px">
+                                                    CASH SALES
+                                                </td>
+                                                <td>
+                                                    DAILY CASH SALES
+                                                </td>
+                                                <td>
+                                                    @ViewBag.TotalDailyCash
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    &nbsp;
+                                                </td>
+                                                <td>
+                                                    CREDIT SALES
+                                                </td>
+                                                <td>@ViewBag.TotalCreditSales</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    &nbsp;
+                                                </td>
+                                                <td>
+                                                    <b>TOTAL SALES</b>
+                                                </td>
+                                                <td>@ViewBag.TotalSales</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="border: 0;">
+                                                    &nbsp;
+                                                </td>
+                                                <td style="border: 0;">
+                                                    &nbsp;
+                                                </td>
+                                                <td style="border: 0;">&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    RECEIVED
+                                                </td>
+                                                <td>
+                                                    CASH
+                                                </td>
+                                                <td>@ViewBag.ReceivedByCash</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    &nbsp;
+                                                </td>
+                                                <td>
+                                                    CHEQUE
+                                                </td>
+                                                <td>@ViewBag.ReceivedByCheque</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    &nbsp;
+                                                </td>
+                                                <td>NETS</td>
+                                                <td>@ViewBag.ReceivedByNETS</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    &nbsp;
+                                                </td>
+                                                <td>CREDIT CARD</td>
+                                                <td>@ViewBag.ReceivedByCreditCard</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    &nbsp;
+                                                </td>
+                                                <td><b>TOTAL RECEIVED</b></td>
+                                                <td>@ViewBag.TotalReceived</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <br /><br />
+                                    <table border="0" width="100%" cellpadding="2px" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <td width="200px">
+                                                    &nbsp;
+                                                </td>
+                                                <td><b>DIFFERENCE</b></td>
+                                                <td style="border: 1px solid black;" width="160px">@ViewBag.TotalDifference</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <br /><br />
+                                    <h4>CASH SALES DETAILS</h4>
+                                    <table border="1" width="100%" cellpadding="2px" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th width="160px">
+                                                    DATE
+                                                </th>
+                                                <th>
+                                                    COMPANY NAME & INVOICE NO.
+                                                </th>
+                                                <th width="160px">
+                                                    AMOUNT
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in ViewBag.CashSalesDetail as IEnumerable<iTrade.Models.DailySalesReportDetail>)
+                                            {
+                                                dTotalCashSales += @item.Amount;
+                                                <tr>
+                                                    <td>
+                                                        @item.RDate.ToShortDateString()
+                                                    </td>
+
+                                                    <td>
+                                                        @item.CompanyName  &nbsp; / &nbsp; @item.InvoiceNo
+
+                                                    </td>
+
+                                                    <td>
+                                                        @item.Amount
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                    <table border="0" width="100%" cellpadding="2px" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <td width="160px">
+                                                    &nbsp;
+                                                </td>
+
+                                                <td align="right">
+                                                    TOTAL AMOUNT
+                                                </td>
+
+                                                <td width="160px" style="border: 1px solid black;">
+                                                    @dTotalCashSales
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <br /><br />
+                                    <h4>CREDIT SALES DETAILS</h4>
+                                    <table border="1" width="100%" cellpadding="2px" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th width="160px">
+                                                    DATE
+                                                </th>
+                                                <th>
+                                                    COMPANY NAME & INVOICE NO.
+                                                </th>
+                                                <th width="160px">
+                                                    AMOUNT
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in ViewBag.CSalesDetail as IEnumerable<iTrade.Models.DailySalesReportDetail>)
+                                            {
+                                                dTotalCreditSales += @item.Amount;
+                                                <tr>
+                                                    <td>
+                                                        @item.RDate.ToShortDateString()
+                                                    </td>
+
+                                                    <td>
+                                                        @item.CompanyName  &nbsp; / &nbsp; @item.InvoiceNo
+
+                                                    </td>
+
+                                                    <td>
+                                                        @item.Amount
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                    <table border="0" width="100%" cellpadding="2px" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <td width="160px">
+                                                    &nbsp;
+                                                </td>
+
+                                                <td align="right">
+                                                    TOTAL AMOUNT
+                                                </td>
+
+                                                <td width="160px" style="border: 1px solid black;">
+                                                    @dTotalCreditSales
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <br /><br />
+
+
+                                    <h4>NETS RECEIVED DETAILS</h4>
+                                    <table border="1" width="100%" cellpadding="2px" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th width="160px">
+                                                    REF. NO.
+                                                </th>
+                                                <th>
+                                                    COMPANY NAME / INVOICE NO. / TEL NO.
+                                                </th>
+                                                <th width="160px">
+                                                    AMOUNT
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in ViewBag.CNetsDetail as IEnumerable<iTrade.Models.DailySalesReportDetail>)
+                                            {
+                                                dTotalNetsSales += @item.Amount;
+                                                <tr>
+                                                    <td>
+                                                        @item.ChequeNo
+                                                    </td>
+
+                                                    <td>
+                                                        @item.CompanyName  &nbsp; / &nbsp;
+                                                        @item.InvoiceNo &nbsp; / &nbsp;
+                                                        Tel: @item.TelephoneNo
+                                                    </td>
+
+                                                    <td>
+                                                        @item.Amount
+                                                    </td>
+                                                </tr>
+                                            }
+                                            <tr>
+                                                <td width="160px">
+                                                    &nbsp;
+                                                </td>
+
+                                                <td align="right">
+                                                    TOTAL AMOUNT
+                                                </td>
+
+                                                <td width="160px">
+                                                    @dTotalNetsSales
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <h4>CREDIT CARD RECEIVED DETAILS</h4>
+                                    <table border="1" width="100%" cellpadding="2px" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th width="160px">
+                                                    REF. NO.
+                                                </th>
+                                                <th>
+                                                    COMPANY NAME / INVOICE NO. / TEL NO.
+                                                </th>
+                                                <th width="160px">
+                                                    AMOUNT
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in ViewBag.CCreditCardDetail as IEnumerable<iTrade.Models.DailySalesReportDetail>)
+                                            {
+                                                dTotalCreditCardSales += @item.Amount;
+                                                <tr>
+                                                    <td>
+                                                        @item.ChequeNo
+                                                    </td>
+
+                                                    <td>
+                                                        @item.CompanyName  &nbsp; / &nbsp;
+                                                        @item.InvoiceNo &nbsp; / &nbsp;
+                                                        Tel: @item.TelephoneNo
+                                                    </td>
+
+                                                    <td>
+                                                        @item.Amount
+                                                    </td>
+                                                </tr>
+                                            }
+                                            <tr>
+                                                <td width="160px">
+                                                    &nbsp;
+                                                </td>
+
+                                                <td align="right">
+                                                    TOTAL AMOUNT
+                                                </td>
+
+                                                <td width="160px">
+                                                    @dTotalCreditCardSales
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <h4>CHEQUE RECEIVED DETAILS</h4>
+                                    <table border="1" width="100%" cellpadding="2px" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th width="160px">
+                                                    REF. NO.
+                                                </th>
+                                                <th>
+                                                    COMPANY NAME / INVOICE NO. / TEL NO.
+                                                </th>
+                                                <th width="160px">
+                                                    AMOUNT
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in ViewBag.CChequeDetail as IEnumerable<iTrade.Models.DailySalesReportDetail>)
+                                            {
+                                                dTotalChequeSales += @item.Amount;
+                                                <tr>
+                                                    <td>
+                                                        @item.ChequeNo
+                                                    </td>
+
+                                                    <td>
+                                                        @item.CompanyName  &nbsp; / &nbsp;
+                                                        @item.InvoiceNo &nbsp; / &nbsp;
+                                                        Tel: @item.TelephoneNo
+                                                    </td>
+
+                                                    <td>
+                                                        @item.Amount
+                                                    </td>
+                                                </tr>
+                                            }
+                                            <tr>
+                                                <td width="160px">
+                                                    &nbsp;
+                                                </td>
+
+                                                <td align="right">
+                                                    TOTAL AMOUNT
+                                                </td>
+
+                                                <td width="160px">
+                                                    @dTotalChequeSales
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <h4>CREDIT NOTE RECEIVED DETAILS</h4>
+                                    <table border="1" width="100%" cellpadding="2px" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th width="160px">
+                                                    REF. NO.
+                                                </th>
+                                                <th>
+                                                    COMPANY NAME / INVOICE NO. / TEL NO.
+                                                </th>
+                                                <th width="160px">
+                                                    AMOUNT
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in ViewBag.CCreditNoteDetail as IEnumerable<iTrade.Models.DailySalesReportDetail>)
+                                            {
+                                                dTotalCreditNoteSales += @item.Amount;
+                                                <tr>
+                                                    <td>
+                                                        @item.ChequeNo
+                                                    </td>
+
+                                                    <td>
+                                                        @item.CompanyName  &nbsp; / &nbsp;
+                                                        @item.InvoiceNo &nbsp; / &nbsp;
+                                                        Tel: @item.TelephoneNo
+                                                    </td>
+
+                                                    <td>
+                                                        @item.Amount
+                                                    </td>
+                                                </tr>
+                                            }
+                                            <tr>
+                                                <td width="160px">
+                                                    &nbsp;
+                                                </td>
+
+                                                <td align="right">
+                                                    TOTAL AMOUNT
+                                                </td>
+
+                                                <td width="160px">
+                                                    @dTotalCreditNoteSales
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end panel -->
+                    </div>
+                    <!-- end col-12 -->
+                </div>
+                <!-- end row -->
+
+
+
+                <br /><br /><br /><br />
+
+                <table class="table-condensed" width="100%">
+                    <tr>
+                        <td>
+                            ___________________________________<br />
+                            CASHIER SIGNATURE
+                        </td>
+                        <td align="right">
+                            ___________________________________<br />
+                            CHECKER SIGNATURE
+                        </td>
+                    </tr>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,95 @@
+﻿@model IEnumerable<iTrade.Models.ExchangeOrder>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin page-header -->
+<div class="page-header lead">
+    Exchange Order
+    <span class="email-btn-row pull-right">
+        <a href="/Exchange/Create" id="btnCreate1" class="btn btn-primary"><i class="fa fa-plus m-r-5"></i> New Exchange Order</a>
+    </span>
+
+</div>
+<!-- end page-header -->
+
+<div class="">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#default-tab-1" data-toggle="tab"><h5 class="media-heading">Recent orders</h5> </a></li>
+
+    </ul>
+</div>
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="default-tab-1">
+
+        @{Html.RenderAction("_DisplayResults", "Exchange", new { invtype = "" });}
+
+    </div>
+</div>
+
+
+
+
+
+@section Scripts{
+    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+
+}
+
+
+<script>
+            $(document).ready(function () {
+                // App.init();
+                TableManageDefault.init();
+                // Notification.init();
+
+            });
+</script>
+
+
+<script>
+            $(document).ready(function () {
+                $('#data-table0').DataTable({
+                    "order": [[0, "desc"]],
+                    "dom": '<"pull-left"f><"pull-right"l>tip'
+                });
+                $('#data-table1').DataTable({
+                    "order": [[0, "desc"]],
+                    "dom": '<"pull-left"f><"pull-right"l>tip'
+                });
+                $('#data-table2').DataTable({
+                    "order": [[0, "desc"]],
+                    "dom": '<"pull-left"f><"pull-right"l>tip'
+                });
+                $('#data-table3').DataTable({
+                    "order": [[0, "desc"]],
+                    "dom": '<"pull-left"f><"pull-right"l>tip'
+                });
+                $('#data-table4').DataTable({
+                    "order": [[0, "desc"]],
+                    "dom": '<"pull-left"f><"pull-right"l>tip'
+                });
+                $('#data-table5').DataTable({
+                    "order": [[0, "desc"]],
+                    "dom": '<"pull-left"f><"pull-right"l>tip'
+                });
+                $('#data-table6').DataTable({
+                    "order": [[0, "desc"]],
+                    "dom": '<"pull-left"f><"pull-right"l>tip'
+                });
+
+
+
+            });
+</script>

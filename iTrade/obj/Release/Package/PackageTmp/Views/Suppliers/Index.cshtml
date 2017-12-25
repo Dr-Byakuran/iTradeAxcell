@@ -1,0 +1,126 @@
+﻿@model IEnumerable<iTrade.Models.Supplier>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin page-header -->
+<h1 class="page-header lead">Suppliers </h1>
+<!-- end page-header -->
+<div class="email-btn-row hidden-xs">
+    <a href="/Suppliers/Create" id="btnCreate" class="btn btn-primary"><i class="fa fa-plus m-r-5"></i> New Supplier</a>
+</div>
+
+<!-- begin row -->
+<div class="row">
+    <!-- begin col-12 -->
+    <div class="col-md-12">
+        <!-- begin panel -->
+        <div class="panel panel-inverse">
+
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table id="data-table1" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SupplierID)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SupplierName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Country)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PhoneNo)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ContactPerson)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PrimaryEmail)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.IsActive)
+                                </th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SupplierID)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SupplierName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Country)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PhoneNo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ContactPerson)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PrimaryEmail)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IsActive)
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Edit", "Suppliers", new { id = item.SupplierID })" class="btn btn-primary">
+                                            <span class="fa fa-angle-double-right" />
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- end panel -->
+    </div>
+    <!-- end col-12 -->
+</div>
+<!-- end row -->
+@section Scripts{
+    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/modal-client.js")"></script>
+
+
+}
+
+
+<script>
+    $(document).ready(function () {
+        // App.init();
+        TableManageDefault.init();
+        // Notification.init();
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#data-table1').DataTable({
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+        });
+    });
+</script>
+

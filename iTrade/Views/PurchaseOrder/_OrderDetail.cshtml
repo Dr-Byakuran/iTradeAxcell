@@ -1,0 +1,605 @@
+﻿@model iTrade.Models.PurchaseOrder
+
+        <!-- begin panel -->
+@{
+    var dGST = (decimal)ViewData["seGSTRate"] * 100;
+}
+
+
+
+<div class="panel panel-inverse">
+    <div class="panel-body">
+        <div id="item-session">
+
+            @{Html.RenderAction("_DisplayInvDets", "PurchaseOrder", new { id = Model.SorID, act = ViewBag.Act });}
+
+
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+
+                            @if (ViewBag.Act != "1")
+                            {
+                                @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { id = "inputRemark", @class = "form-control", placeholder = "Remarks" } })
+
+                            }
+                            else
+                            {
+                                if (!string.IsNullOrEmpty(Model.Remark))
+                                {
+                                    <span>
+                                        Remark: <br /> @Html.DisplayFor(model => model.Remark, new { htmlAttributes = new {  @class = "form-control" } })
+                                    </span>
+                                }
+                            } 
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="row hidden">
+                        <div class="col-md-11  col-md-offset-1">
+                            <span class="lead"><u>Goods Receive Info </u></span>
+                        </div>
+                    </div>
+                    <div class="row hidden">
+                        <div class="col-md-11  col-md-offset-1">
+                            <div id="divKivDets">
+                                @{Html.RenderAction("_DisplayKivDets", "PurchaseOrder", new { id = Model.SorID, act = ViewBag.Act });}
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div class="col-md-4">
+                    <table class="table" style="width:100%;">
+                        <tr>
+                            <td style="width: 65%; border:0px;" align="right" valign="middle"><h4><span class="pull-right">Sub-Total </span></h4></td>
+                            <td style="border:0px;"><h4><span class="pull-left"> $ </span> <span class="pull-right">@Model.PreDiscAmount.ToString("N") </span></h4></td>
+
+                        </tr>
+                        <tr>
+                            <td style="border:0px;" align="right" valign="middle"> 
+                                <h4>
+                                    <span class="pull-right">
+                                        @if (ViewBag.Act != "1")
+                                        {
+                                            <span class="small">
+                                                [<a href="#discountModal" data-toggle="modal" class="btn btn-small">Set Disc</a>]
+                                            </span>
+                                        } 
+                                        &nbsp;  Discount
+                                    </span>
+                                </h4>
+
+                            </td>
+                            <td style="border:0px;">
+                                <h4>
+                                    <span class="pull-left">  $ </span> <span class="pull-right">
+
+                                        @Model.Discount.ToString("N")
+
+                                    </span>
+                                </h4>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td style="border:0px;" align="right" valign="middle"><h4><span class="pull-right">
+                                @if (ViewBag.Act != "1")
+                                {
+                                    <span class="small  hidden">
+                                        [<a href="#commModal" data-toggle="modal" class="btn btn-small">Comm</a>]
+                                    </span>
+                                }
+                                &nbsp; 
+                                Final Amount</span></h4></td>
+                            <td style="border:0px;"><h4><span class="pull-left">  $ </span> <span class="pull-right">@Model.Amount.ToString("N") </span></h4></td>
+
+                        </tr>
+
+                        <tr>
+                            <td style="border:0px;" align="right" valign="middle">
+
+                                    <h4>
+                                        <span class="pull-right">
+                                            @if (ViewBag.Act != "1")
+                                            {
+                                                <span class="small">
+                                                    [<a href="#gstModal" data-toggle="modal" class="btn btn-small">Zero-Rated</a>]
+                                                </span> 
+                                            }
+                                            &nbsp; GST 7%
+                                        </span>
+                                    </h4>
+       
+                            
+                            </td>
+                            <td style="border:0px;"><h4><span class="pull-left"> $ </span> <span class="pull-right">@Model.Gst.ToString("N") </span></h4></td>
+
+                        </tr>
+
+                        <tr>
+                            <td style="border:0px;" align="right" valign="middle"><h4><span class="pull-right semi-bold">Grand Total</span></h4></td>
+                            <td style="border:0px;"><h4><span class="pull-left semi-bold"> $ </span> <span class="pull-right semi-bold">@Model.Nett.ToString("N") </span></h4>
+                                <input type="hidden" id="invPreDiscAmount" value='@Model.PreDiscAmount.ToString("N")' />
+                                <input type="hidden" id="invDiscount" value='@Model.Discount.ToString("N")' />
+                                <input type="hidden" id="invAmount" value='@Model.Amount.ToString("N")' />
+                                <input type="hidden" id="invGst" value='@Model.Gst.ToString("N")' />
+                                <input type="hidden" id="invNett" value='@Model.Nett.ToString("N")' />
+                                <input type="hidden" id="invPaidAmount" value='@Model.PaidAmount.ToString("N")' />
+                                <input type="hidden" id="invOutstanding" value='@(Model.Nett - Model.PaidAmount)' />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border:0px;" align="right" valign="middle"><h4><span class="pull-right semi-bold">Paid</span></h4></td>
+                            <td style="border:0px;">
+                                <h4><span class="pull-left semi-bold"> $ </span> <span class="pull-right semi-bold">@Model.PaidAmount  </span></h4>
+                            </td>
+                        </tr>
+
+
+                    </table>
+
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+<!-- end panel -->
+
+
+                <!-- modal placeholder-->
+        <div id="discountModal" class="modal" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div id='discountModalContent'>
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3 class="modal-title"><span class="lead">Overall Discount</span></h3>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <span class="lead">Process Type</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <br />
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+
+                                            <div class="col-md-12">
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="processType" value="1" checked />
+                                                    By Amount
+                                                </label> &nbsp;&nbsp;
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="processType" value="2" />
+                                                    By Percentage %
+                                                </label> &nbsp;&nbsp;
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="processType" value="3" />
+                                                    Offer Final Amount at
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                            <div class="row">
+                                <br />
+                                <div class="col-md-8 col-md-offset-2">
+
+                                    <div class="form-group m-r-10">
+                                        <input type="text" class="txtInputValue form-control col-md-6" id="txtInputValue" value="" placeholder="Numbers only" />
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <br />
+                                <div class="col-md-8 col-md-offset-2">
+                                    <div class="form-group m-r-10 pull-right">
+                                        <table>
+                                            <tr><td colspan="2">Overall Summary</td></tr>
+                                            <tr>
+                                                <td>Sub-Total: </td>
+                                                <td> <input type="text" id="txtPreDiscAmount" value="@Model.PreDiscAmount" readonly /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Discount: </td>
+                                                <td> <input type="text" id="txtDiscount" value="@Model.Discount" readonly /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Final Amount: </td>
+                                                <td> <input type="text" id="txtAmount" value="@Model.Amount" readonly /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Gst: </td>
+                                                <td> <input type="text" id="txtGst" value="@Model.Gst" readonly /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Nett: </td>
+                                                <td> <input type="text" id="txtNett" value="@Model.Nett" readonly /></td>
+                                            </tr>
+
+                                        </table>
+
+                                        <input type="hidden" id="txtInvno" value="@Model.SorID" />
+                                        <input type="hidden" id="txtGstRate" value="0.07" />
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <br />
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <span id="progress" class="text-center" style="display: none;">
+                                <img src="~/assets/img/Wait.gif" alt="wait" />
+                                Wait..
+                            </span>
+
+                            <input type="button" class="btn btn-primary" id="btnDiscount" value=" Save " />
+                            <button class="btn btn-white" data-dismiss="modal">Cancel</button>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+                <!-- modal placeholder-->
+<div id="commModal" class="modal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='commModalContent'>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 class="modal-title"><span class="lead">Commision</span></h3>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <br />
+                        <div class="col-md-12">
+                            <div class="form-group m-r-10 lead">
+                                <table class="table row-fluid" style="border-top: 0px; border-bottom: 0px;"> 
+                                    <tr>
+                                        <td>Sales Amount: </td>
+                                        <td class="lead"> <input type="text" id="txtSalesAmount" value="@Model.Amount"   readonly /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Commision Rate (%): </td>
+                                        <td> <input type="text" id="txtCommRate" value="5.00"  /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Commision Total: </td>
+                                        <td> <input type="text" id="txtCommTotal" value="0.00"  /></td>
+                                    </tr>
+
+                                </table>
+
+                                <input type="hidden" id="txtCommInvno" value="@Model.SorID" />
+                                <input type="hidden" id="txtCommRateValue" value="0.00" />
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <br />
+
+                </div>
+
+                <div class="modal-footer">
+                    <span id="progress" class="text-center" style="display: none;">
+                        <img src="~/assets/img/Wait.gif" alt="wait" />
+                        Wait..
+                    </span>
+
+                    <input type="button" class="btn btn-primary" id="btnDiscount" value=" Save " />
+                    <button class="btn btn-white" data-dismiss="modal">Cancel</button>
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+                <!-- modal placeholder-->
+        <div id="gstModal" class="modal" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div id='gstModalContent'>
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3 class="modal-title lead">Zero-Rated GST</h3>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="row">
+                                <br />
+                                <div class="col-md-8 col-md-offset-2">
+
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">GST Set To: </label>
+                                        <div class="col-md-9">
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" id="chkZeroRated" name="radioZeroRated" value="Yes" checked />
+                                                    Zero-Rated
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" id="chkNonZeroRated" name="radioZeroRated" value="No" />
+                                                    Non Zero-Rated
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" id="gstSorNo" value="@Model.SorID" />
+                                    <input type="hidden" id="txtUrl3" value="/PurchaseOrder/_AddOverallDiscount" />
+                                    <br />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <span id="progress3" class="text-center" style="display: none;">
+                                <img src="~/assets/img/Wait.gif" alt="wait" />
+                                Wait..
+                            </span>
+
+                            <input type="button" class="btn btn-primary" id="btnZeroRated" value=" Confirm " />
+                            <button class="btn btn-white" data-dismiss="modal">Cancel</button>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+
+
+
+
+@*<script>
+    $(document).ready(function () {
+
+        var url2 = '@Url.Action("_DisplayKivDets", "PurchaseOrder", new { id = @Model.SorNo })';
+        $("#divKivDets").load(url2);
+        $('#txtUrl2').val(url2);
+
+    });
+</script>*@
+
+
+<script>
+    $(document).ready(function () {
+
+        $('#commModal').on('shown.bs.modal', function () {
+            var invAmount = $('#commModal #txtSalesAmount').val();
+            var commRate = $('#commModal  #txtCommRate').val();
+            var commTotal = (+invAmount * (+commRate / 100)).toFixed(2);
+
+            $('#commModal #txtCommTotal').val(commTotal);
+ 
+        });
+
+        $('#btnDiscount').click(function () {
+            if ($("#txtInputValue").val().length > 0) {
+                var invNo = $('#txtInvno').val();
+                var newDiscount = $('#txtDiscount').val();
+                var newAmount = $('#txtAmount').val();
+                var newGst = $('#txtGst').val();
+                var newNett = $('#txtNett').val();
+                var newUrl = '@Url.Action("_OrderDetail", "PurchaseOrder", new { id = @Model.SorID })';
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/PurchaseOrder/_AddOverallDiscount',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        valInvID: invNo, valDiscount: newDiscount, valAmount: newAmount, valGst: newGst, valNett: newNett
+                    },
+                    success: function (result) {
+
+                        if (result.success) {
+                            $('#discountModal').modal('hide');
+                            $('#progress').hide();
+                            $("#divOrderDetail").load(newUrl);
+                            //  alert("hello 1");
+                            //location.reload();
+                        } else {
+                            $('#progress').hide();
+                            $('#discountModalContent').html(result);
+                            //   alert("hello 2");
+                        }
+
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+
+            }
+            else {
+                alert("Not valid input.");
+            };
+
+
+        });
+
+
+
+
+        $('#btnZeroRated').click(function () {
+            var zerorate = $("input:radio[name='radioZeroRated']:checked").val();
+            var SorNo = $('#gstSorNo').val();
+            var newUrl = '@Url.Action("_OrderDetail", "PurchaseOrder", new { id = @Model.SorID })';
+
+            if (SorNo > 0) {
+                // alert(invNo + '**' + newDiscount + '**' + newAmount + '**' + newGst + '**' + newNett + '**' + newUrl);
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/PurchaseOrder/_ChangeGST',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        valSorID: SorNo, valZeroRated: zerorate
+                    },
+                    success: function (result) {
+
+                        if (result.success) {
+                            $('#gstModal').modal('hide');
+                            $('#progress3').hide();
+                            $("#divOrderDetail").load(newUrl);
+
+                        } else {
+                            $('#progress3').hide();
+                            $('#gstModalContent').html(result);
+                            //   alert("hello 2");
+                        }
+
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+
+            }
+            else {
+                alert("Not valid input.");
+            };
+
+
+        });
+
+
+
+    });
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#discountModal #txtInputValue").forceNumeric();
+        $('#discountModal #txtInputValue').on("change", function () {
+            //   alert('Changed!');
+            reCalculateAmount();
+
+        });
+
+        $('input[type=radio][name=processType]').change(function() {
+
+            reCalculateAmount();
+
+        });
+
+        function reCalculateAmount() {
+
+
+            var prediscAmount = @Model.PreDiscAmount;
+            var discount = @Model.Discount;
+            var amount = @Model.Amount;
+            var gst = @Model.Gst;
+            var nett = @Model.Nett;
+
+            var gstrate = $('#txtGstRate').val();
+
+            var txtinput = $('#txtInputValue').val();
+            txtinput = Number(txtinput).toFixed(2);
+
+            var discountType = $('input[type=radio][name=processType]:checked').val();
+
+            switch(discountType) {
+                case '1' :
+                    // by amount
+                    var newdiscount = 0 - txtinput;
+                    var newamount = +prediscAmount - +txtinput;
+                    var newgst = Math.round(newamount * gstrate * 100) / 100;
+                    newgst = newgst.toFixed(2);
+                    var newnett = +newamount + +newgst;
+                    newnett = newnett.toFixed(2);
+
+                    $('#txtPreDiscAmount').val(prediscAmount);
+                    $('#txtDiscount').val(newdiscount);
+                    $('#txtAmount').val(newamount);
+                    $('#txtGst').val(newgst);
+                    $('#txtNett').val(newnett);
+
+                    break;
+                case '2' :
+                    // by percentage
+                    var newdiscount = Math.round(prediscAmount * (txtinput / 100) * 100) / 100;
+                    newdiscount = newdiscount.toFixed(2);
+                    var newamount = prediscAmount - newdiscount;
+                    var newgst = Math.round(newamount * gstrate * 100) / 100;
+                    newgst = newgst.toFixed(2);
+                    var newnett = +newamount + +newgst;
+                    newnett = newnett.toFixed(2);
+
+                    $('#txtPreDiscAmount').val(prediscAmount);
+                    $('#txtDiscount').val(0 - newdiscount);
+                    $('#txtAmount').val(newamount);
+                    $('#txtGst').val(newgst);
+                    $('#txtNett').val(newnett);
+
+                    break;
+                case '3' :
+                    // offer a final amount
+                    var newdiscount = txtinput - prediscAmount;
+                    newdiscount = newdiscount.toFixed(2);
+                    var newamount = txtinput;
+                    var newgst = Math.round(newamount * gstrate * 100) / 100;
+                    newgst = newgst.toFixed(2);
+                    var newnett = +newamount + +newgst;
+
+                    $('#txtPreDiscAmount').val(prediscAmount);
+                    $('#txtDiscount').val(newdiscount);
+                    $('#txtAmount').val(newamount);
+                    $('#txtGst').val(newgst);
+                    $('#txtNett').val(newnett);
+
+                    break;
+            }
+        };
+    });
+</script>
+

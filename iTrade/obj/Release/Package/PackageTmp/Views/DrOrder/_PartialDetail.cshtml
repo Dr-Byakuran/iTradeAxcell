@@ -1,0 +1,45 @@
+﻿@model iTrade.Models.DrOrder
+
+<style>
+    .input-wrapper input[readonly]{background-color:white;}
+</style>
+<div class="panel panel-inverse">
+    <div class="panel-body">
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th style="width:80px;">&nbsp; </th>
+                    <th>
+                        NO
+                    </th>
+                    <th>SKU</th>
+                    <th class="col-md-4">
+                        Item Description
+                    </th>
+
+                    <th>
+                        Qty
+                    </th>
+                    <th>
+                        Unit Price
+                    </th>
+                    <th>
+                        Discount
+                    </th>
+                    <th>
+                        Sell Price
+                    </th>
+
+                    <th>
+                        <span >Amount </span>
+
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @Html.EditorFor(item => item.DrOrderDets)
+    </tbody>
+    </table>
+   </div>
+</div>

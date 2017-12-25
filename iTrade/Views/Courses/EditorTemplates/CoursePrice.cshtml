@@ -1,0 +1,77 @@
+﻿@model iTrade.Models.CoursePrice
+
+@using iTrade.Models
+
+<div class="infoPriceOption">
+    <div class="col-md-3">
+        @if (Model.IsDefault)
+        {
+            <h4> Default </h4>
+        }
+        else
+        {
+            <h4> Option</h4>
+        }
+
+        <div class="form-horizontal">
+            @Html.HiddenFor(model => model.OptionID)
+            @Html.HiddenFor(model => model.IsDefault, new { id = "optionType" })
+            @Html.HiddenFor(model => model.UnitFactor)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.OptionName, htmlAttributes: new { @class = "control-label col-md-5" })
+                <div class="col-md-7">
+                    @Html.EditorFor(model => model.OptionName, new { htmlAttributes = new { @class = "form-control", placeholder = "Title" } })
+                    @Html.ValidationMessageFor(model => model.OptionName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CostCode, htmlAttributes: new { @class = "control-label col-md-5" })
+                    <div class="col-md-7">
+                        @Html.EditorFor(model => model.CostCode, new { htmlAttributes = new { @class = "form-control", placeholder = "Cost Code" } })
+                        @Html.ValidationMessageFor(model => model.CostCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CostPrice, htmlAttributes: new { @class = "control-label col-md-5" })
+                <div class="col-md-7">
+                    @Html.EditorFor(model => model.CostPrice, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CostPrice, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.StudentPrice, htmlAttributes: new { @class = "control-label col-md-5" })
+                <div class="col-md-7">
+                    @Html.EditorFor(model => model.StudentPrice, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.StudentPrice, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.PublicPrice, htmlAttributes: new { @class = "control-label col-md-5" })
+                <div class="col-md-7">
+                    @Html.EditorFor(model => model.PublicPrice, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PublicPrice, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @if (!Model.IsDefault)
+            {
+                <div class="col-md-2 col-md-offset-8">
+                    @Html.HiddenFor(model => model.DeleteItem, new { @class = "mark-for-delete" })
+                    @Html.RemoveLink("Remove", "div.infoPriceOption", "input.mark-for-delete")
+                </div>
+            }
+
+
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+

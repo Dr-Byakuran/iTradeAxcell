@@ -1,0 +1,28 @@
+﻿@model iTrade.Models.ProductSelectEditor
+
+<tr class="even gradeC">
+    <td>
+        @Html.CheckBoxFor(model => model.Selected)
+        @Html.HiddenFor(model => model.ProductID)
+        @Html.HiddenFor(model => model.SKU)
+        @Html.HiddenFor(model => model.CostPrice)
+        @Html.HiddenFor(model => model.CostCode)
+
+    </td>
+    <td>@Html.DisplayFor(model => model.SKU)</td>
+    <td>
+        @Html.DisplayFor(model => model.ProductName)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.ModelNo)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.Unit)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.Qty)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.RetailPrice)
+    </td>
+</tr>

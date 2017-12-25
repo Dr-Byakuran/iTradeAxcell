@@ -1,0 +1,119 @@
+﻿@model iTrade.Models.SalesOrder
+
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">Overall Discount</h3>
+</div>
+
+
+@using (Html.BeginForm("_AddOverallDiscount", "Orders", FormMethod.Post, new { id = "discountForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.SorID)
+    @Html.HiddenFor(model => model.InvType, new { id = "invType" })
+
+    @Html.HiddenFor(model => model.PostalCode, new { id = "postalCode" })
+    @Html.HiddenFor(model => model.PersonID, new { id = "personID" })
+
+    @Html.HiddenFor(model => model.CustNo, new { id = "custNo" })
+    @Html.HiddenFor(model => model.CustName, new { id = "custName" })
+    @Html.HiddenFor(model => model.PreDiscAmount, new { id = "preDiscAmount" })
+    @Html.HiddenFor(model => model.Discount, new { id = "discount" })
+    @Html.HiddenFor(model => model.Amount, new { id = "amount" })
+    @Html.HiddenFor(model => model.Gst, new { id = "gst" })
+    @Html.HiddenFor(model => model.Nett, new { id = "nett" })
+    @Html.HiddenFor(model => model.IsPaid)
+    @Html.HiddenFor(model => model.PaidDate)
+    @Html.HiddenFor(model => model.CreatedBy)
+    @Html.HiddenFor(model => model.CreatedOn)
+    @Html.HiddenFor(model => model.ModifiedBy)
+    @Html.HiddenFor(model => model.ModifiedOn)
+
+    @Html.HiddenFor(model => model.Remark)
+
+    <div class="modal-body">
+
+        <div class="row">
+            <div class="col-md-12">
+                <span class="lead">Process Type</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12"><br />
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                        
+                            <div class="col-md-12">
+                                <label class="radio-inline">
+                                    <input type="radio" name="optionsRadios" value="1" checked />
+                                    By Amount
+                                </label> &nbsp;&nbsp;
+                                <label class="radio-inline">
+                                    <input type="radio" name="optionsRadios" value="2" />
+                                    By Percentage %
+                                </label> &nbsp;&nbsp;
+                                <label class="radio-inline">
+                                    <input type="radio" name="optionsRadios" value="3" />
+                                    Offer Final Amount at
+                                </label>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+ 
+
+            </div>
+             <div class="row"><br />
+                 <div class="col-md-8 col-md-offset-2">
+ 
+                         <div class="form-group m-r-10">
+                             <input type="text" class="form-control col-md-6" id="txtInputValue" value="0" />
+                         </div>
+ 
+                 </div> 
+             </div>
+                    <br />
+            </div>
+
+            <div class="modal-footer">
+                <span id="progress" class="text-center" style="display: none;">
+                    <img src="~/assets/img/Wait.gif" alt="wait" />
+                    Wait..
+                </span>
+
+                <input class="btn btn-primary" type="submit" id="btnSubmit" value=" Save " />
+                <button class="btn btn-white" data-dismiss="modal">Close</button>
+            </div>
+
+
+}
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#txtInputValue').on("change", function () {
+            //   alert('Changed!');
+            var txtinput = $('#txtInputValue').val();
+            txtinput = Number(txtinput).toFixed(2);
+
+            var prediscAmount = @Model.PreDiscAmount;
+            var discount = @Model.Discount;
+            var amount = @Model.Amount;
+            var gst = @Model.Gst;
+            var nett = @Model.Nett;
+
+            $('#amount').val(txtinput);
+
+            //   alert(txtinput);
+
+
+        });
+
+
+    });
+</script>

@@ -1,0 +1,777 @@
+﻿@model iTrade.Models.Course
+@using iTrade.CustomHtmlHelper;
+@using iTrade.Models;
+@*@model IEnumerable<iTrade.Models.Course>*@
+@*@model IEnumerable<iTrade.Models.Tutor>*@
+@*@model IEnumerable<iTrade.Models.Staff>*@
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-datepicker/css/datepicker.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-combobox/css/bootstrap-combobox.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/select2/dist/css/select2.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/jquery-tag-it/css/jquery.tagit.css")" rel="stylesheet" type="text/css" />
+
+
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+@using (Html.BeginForm())
+{
+
+    <!-- begin page-header -->
+    <div class="page-header lead">
+        Courses / @Model.CourseName
+        <span class="email-btn-row pull-right">
+            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-default" })
+            <button type="button" id="btnSaveAndAdd" class="btn btn-default">Save & Add Another</button>
+            <button type="submit" id="btnSaveChanges" class="btn btn-primary">Save Changes</button>
+        </span>
+    </div>
+    <!-- end page-header -->
+
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.CourseID)
+    @Html.HiddenFor(model => model.PreCourseID, new { id = "courseID" })
+    @Html.HiddenFor(model => model.PreCourseName, new { id = "courseName" })
+    @Html.HiddenFor(model => model.TutorID, new { id = "tutorID", @Value = "0" })
+    @Html.HiddenFor(model => model.TutorName, new { id = "tutorName", @Value = "" })
+    @Html.HiddenFor(model => model.PersonID, new { id = "personID" })
+    @Html.HiddenFor(model => model.PersonName, new { id = "personName" })
+    @Html.HiddenFor(model => model.BaseCurrency)
+    @Html.HiddenFor(model => model.IsControlItem)
+    @Html.HiddenFor(model => model.ImageUrl)
+    @Html.HiddenFor(model => model.ImageUrl2)
+    @Html.HiddenFor(model => model.Unit)
+    @Html.HiddenFor(model => model.IsFocRevision)
+    @Html.HiddenFor(model => model.MaxRevision)
+    @Html.HiddenFor(model => model.MaxYears)
+    @Html.HiddenFor(model => model.CreatedBy)
+    @Html.HiddenFor(model => model.CreatedOn)
+
+    <div class="">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#default-tab-1" data-toggle="tab"><h5 class="media-heading">General Info</h5> </a></li>
+            <li class="hidden"><a href="#default-tab-2" data-toggle="tab"><h5 class="media-heading">Course Fees</h5></a></li>
+            <li class="hidden"><a href="#default-tab-3" data-toggle="tab"><h5 class="media-heading">Bundle/Package</h5></a></li>
+            <li class=""><a href="#default-tab-4" data-toggle="tab"><h5 class="media-heading">Schedule</h5></a></li>
+            <li class=""><a href="#default-tab-5" data-toggle="tab"><h5 class="media-heading">Sales History</h5></a></li>
+        </ul>
+
+    </div>
+
+    <div class="tab-content">
+        <div class="tab-pane fade active in" id="default-tab-1">
+            <div class="form-horizontal">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CourseName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.CourseName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CourseName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CourseType, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.DropDownListFor(model => model.CourseType, new List<SelectListItem> {
+                                                                                        new SelectListItem { Value = "COURSE", Text = "COURSE", Selected = true },
+                                                                                        new SelectListItem { Value = "WORKSHOP", Text = "WORKSHOP" },
+                                                                                        new SelectListItem { Value = "REVISION", Text = "REVISION" },
+                                                                                        new SelectListItem { Value = "OTHER", Text = "OTHER" }
+
+                                                                                      }, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.CourseType, "", new { @class = "text-danger" })
+
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CourseCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.CourseCode, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CourseCode, "", new { @class = "text-danger" })
+                    </div>
+                    @*@Html.Label("Tutor", htmlAttributes: new { @class = "control-label col-md-1" })
+                    <div class="col-md-2">
+                        <select class="form-control tutorpicker">
+                            <option value="0">Select tutor</option>
+                            @foreach (var item in ViewData["TutorsAll"] as IEnumerable<iTrade.Models.Tutor>)
+                            {
+                                <option value="@item.TutorID"
+                                        @if (item.TutorID == Model.TutorID) { <text> selected="selected" </text>             }>
+                                    @item.TutorName
+                                </option>
+                            }
+                        </select>
+
+                    </div>*@
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CourseDesc, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.CourseDesc, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CourseDesc, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CourseCats, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.CourseCats, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CourseCats, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group hidden">
+                    @Html.LabelFor(model => model.CourseLevel, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.CourseLevel, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CourseLevel, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group hidden">
+                    @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MaxMakeUp, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.MaxMakeUp, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.MaxMakeUp, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+
+                </div>
+
+
+                @*<div class="form-group">
+                    @Html.LabelFor(model => model.PreCourseName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        <select class="form-control coursepicker">
+                            <option value="0">Select course</option>
+                            @foreach (var item in ViewData["CoursesAll"] as IEnumerable<iTrade.Models.Course>)
+                            {
+                                <option value="@item.CourseID"
+                                        @if (item.CourseID == Model.CourseID) { <text> selected="selected" </text>            }>
+                                    @item.CourseName
+                                </option>
+                            }
+                        </select>
+
+                    </div>
+                </div>*@
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Is Active?</label>
+                    <div class="col-md-2">
+                        <label class="radio-inline">@Html.RadioButtonFor(x => x.IsActive, "true") Yes</label>  &nbsp;&nbsp;
+                        <label class="radio-inline">@Html.RadioButtonFor(x => x.IsActive, "false") No</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Remark, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+
+        <div class="tab-pane fade hidden" id="default-tab-2">
+
+            <div class="form-horizontal hidden">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StudentPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.StudentPrice, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.StudentPrice, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PublicPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.PublicPrice, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PublicPrice, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="divPriceOptions">
+                        <div class="form-horizontal">
+                            @Html.EditorFor(x => x.CoursePrices)
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-1">
+                        @Html.AddLink("+ Optional (Another price)", "#divPriceOptions", ".infoPriceOption", "CoursePrices", typeof(iTrade.Models.CoursePrice))
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+        <div class="tab-pane fade hidden" id="default-tab-3">
+
+            <div class="form-group">
+                <h4 class="control-label">This is a Bundle/Package course?</h4> &nbsp;&nbsp;&nbsp;&nbsp;
+                <label class="radio-inline">@Html.RadioButtonFor(x => x.IsBundle, "true") Yes</label> &nbsp;&nbsp;
+                <label class="radio-inline">@Html.RadioButtonFor(x => x.IsBundle, "false") No</label>
+            </div>
+            <hr />
+
+            <h4>Items list for the package </h4>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <h5>Code</h5>
+                </div>
+                <div class="col-md-4">
+                    <h5>Course Name</h5>
+                </div>
+                <div class="col-md-2">
+                    <h5>Qty</h5>
+                </div>
+                <div class="col-md-1">
+                    <h5>Position</h5>
+                </div>
+                <div class="col-md-2">
+
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-horizontal">
+                        <div id="infoBundles">
+                            @Html.EditorFor(x => x.CourseBundles)
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+
+                    @Html.AddLink("Add another item", "#infoBundles", ".infoBundle", "CourseBundles", typeof(iTrade.Models.CourseBundle))
+
+                </div>
+            </div>
+
+            <br />
+
+        </div>
+
+
+        <div class="tab-pane fade" id="default-tab-4">
+            <p class="semi-bold">Upcoming Schedule</p>
+
+            @{Html.RenderAction("_DisplayScheduleHistory", "Courses", new { id = Model.CourseID, ch = "" });}
+
+
+            <p class="semi-bold">Pervious Schedule</p>
+
+            @{Html.RenderAction("_DisplayScheduleHistory", "Courses", new { id = Model.CourseID, ch = "History" });}
+
+
+            @*<div class="row">
+                <div class="col-md-12">
+                    <div id="divPricebreaks">
+                        @Html.EditorFor(x => x.CourseSchedules)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+
+                        @Html.AddLink("Add Pricebreak", "#divPricebreaks", ".infoPricebreak", "CourseSchedules", typeof(iTrade.Models.CourseSchedule))
+
+                    </div>
+                </div>
+            </div>*@
+        </div>
+        <div class="tab-pane fade" id="default-tab-5">
+            <p class="lead">View Sales History</p>
+            @*@{Html.RenderAction("_DisplayScheduleHistory", "Courses", new { id = Model.CourseID });}*@
+        </div>
+
+
+    </div>
+
+
+    <br />
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+
+}
+
+@section Scripts{
+    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-combobox/js/bootstrap-combobox.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/select2/dist/js/select2.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery-tag-it/js/tag-it.min.js")"></script>
+
+
+    <script src="@Url.Content("~/assets/js/form-plugins.star.js")"></script>
+
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/modal-open.js")"></script>
+
+
+}
+
+
+<script>
+    $(document).ready(function () {
+        // App.init();
+        TableManageDefault.init();
+        // Notification.init();
+        FormPlugins.init();
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#data-table1').DataTable({
+            "bFilter": false,
+            "bLengthChange": false,
+            "iDisplayLength": 30,
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+        });
+        $('#data-table2').DataTable({
+            "bFilter": false,
+            "bLengthChange": false,
+            "iDisplayLength": 30,
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+        });
+    });
+</script>
+
+@*<script>
+    $(document).ready(function () {
+        $('.scheduleDate').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+        //$('#deliveryDate').datepicker('setDate', new Date());
+    });
+</script>*@
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("select.staffpicker").change(function () {
+            var staffid = $(".staffpicker option:selected").val().trim();
+            var staffname = $(".staffpicker option:selected").text().trim();
+
+            $('#personID').val(staffid);
+            $('#personName').val(staffname);
+
+        });
+        $("select.coursepicker").change(function () {
+            var courseid = $(".coursepicker option:selected").val().trim();
+            var coursename = $(".coursepicker option:selected").text().trim();
+
+            $('#courseID').val(courseid);
+            $('#courseName').val(coursename);
+
+        });
+        $("select.tutorpicker").change(function () {
+            var tutorid = $(".tutorpicker option:selected").val().trim();
+            var tutorname = $(".tutorpicker option:selected").text().trim();
+
+            $('#tutorID').val(tutorid);
+            $('#tutorName').val(tutorname);
+
+        });
+
+    });
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#infoBundles input[id*=txtSearch]').focus().autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '@Url.Action("AutoComplete_Course")',
+                        dataType: "json",
+                        contentType: 'application/json, charset=utf-8',
+                        data: {
+                            search: $('#infoBundles input[id*=txtSearch]').focus().val()
+                        },
+                        success: function (data) {
+
+                            response($.map(data, function (item) {
+                                return {
+                                    label: item.ProductID + " | " + item.SKU + " | " + item.ProductName + " | $ " + item.SellPrice + " | " + item.CostCode,
+
+                                };
+                            }));
+
+                        },
+                        error: function (xhr, status, error) {
+                            alert(error);
+                        }
+
+                    });
+                },
+                selectFirst: true,
+                delay: 0,
+                autoFocus: true,
+                minLength: 1
+
+        });
+
+        $('#infoBundles input[id*=txtSearch]').on("autocompleteselect", function (event, ui) {
+            var str1 = ui.item.value;
+            var str2 = str1.split("|");
+            var val = str2[0].trim();
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("AutoCompleteSelected_Course")',
+                dataType: "json",
+                contentType: 'application/json, charset=utf-8',
+                data: {
+                    search: val
+                },
+                success: function (data) {
+                    $('#txtProductID').val(data.result.ProductID);
+                    $('#txtSKU').val(data.result.SKU);
+                    $('#txtProductType').val(data.result.ProductType);
+                    $('#txtProductName').val(data.result.ProductName);
+                    $('#txtModelNo').val(data.result.ModelNo);
+                    $('#txtIsBundle').val(data.result.IsBundle);
+                    $('#txtIsControlItem').val(data.result.IsControlItem);
+                    $('#txtRemark').val("Package Item");
+
+                    $('#itemUnit').val(data.result.Unit);
+                    var unitprice = data.result.SellPrice.toFixed(2);
+                    $('#itemUnitPrice').val(unitprice);
+                    $('#itemStockQty').val(0);
+
+                    $('#itemCostPrice').val(data.result.CostPrice);
+                    var disc = (0.00).toFixed(2);
+                    $('#itemDiscount').val(disc);
+                    $('#itemDiscountedPrice').val(unitprice);
+
+                    var qty = $('#txtQty').val();
+
+                    var amount = Math.round(qty * unitprice * 100) / 100;
+                    amount = amount.toFixed(2);
+
+                    $('#itemAmount').val(amount);
+
+                    $('#txtQty').focus();
+                    $('#txtQty').select();
+                    $('.infoBundle input.txtKey').val("");
+                    $('#searchbox').hide();
+
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+
+            });
+
+        });
+
+    });
+
+</script>
+
+
+<script type="text/javascript">
+    function removeNestedForm(element, container, deleteElement) {
+        $container = $(element).parents(container);
+        $container.find(deleteElement).val('True');
+        $container.hide();
+    }
+
+    function addNestedForm(container, counter, ticks, content) {
+        var nextIndex = $(counter).length;
+        var pattern = new RegExp(ticks, "gi");
+        content = content.replace(pattern, nextIndex);
+        $(container).append(content);
+
+        //$('.scheduleDate').datepicker({
+        //    format: 'dd/mm/yyyy',
+        //    setDate: new Date(),
+        //    todayHighlight: true,
+        //    autoclose: true
+        //});
+        //$('.timepicker').timepicker();
+
+        var textbox1 = document.getElementsByName($(content).find('.searchInput').attr('name'));
+
+        $(textbox1).focus().autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("AutoComplete_Product")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        search: $(textbox1).val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (item) {
+                            return {
+                                label: item.ProductID + " | " + item.SKU + " | " + item.ProductName + " | $ " + item.SellPrice + " | " + item.CostCode,
+
+                            };
+                        }));
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+            },
+            selectFirst: true,
+            delay: 0,
+            autoFocus: true,
+            minLength: 1
+
+
+        });
+
+        $('#infoBundles input[id*=txtSearch]').focus().on("autocompleteselect", function (event, ui) {
+            var str1 = ui.item.value;
+            var str2 = str1.split("|");
+            var val = str2[0].trim();
+
+            $container = $(this).parents('div.infoBundle');
+
+            //  alert(val);
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("AutoCompleteSelected_Product")',
+                dataType: "json",
+                contentType: 'application/json, charset=utf-8',
+                data: {
+                    search: val
+                },
+                success: function (data) {
+                    $container.find('#txtProductID').val(data.result.ProductID);
+                    $container.find('#txtSKU').val(data.result.SKU);
+                    $container.find('#txtProductType').val(data.result.ProductType);
+                    $container.find('#txtProductName').val(data.result.ProductName);
+                    $container.find('#txtModelNo').val(data.result.ModelNo);
+                    $container.find('#txtIsBundle').val(data.result.IsBundle);
+                    $container.find('#txtIsControlItem').val(data.result.IsControlItem);
+                    $container.find('#txtRemark').val("Package Item");
+
+                    $container.find('#txtQty').focus();
+                    $container.find('#txtQty').select();
+                    $container.find('#txtSearch').val("");
+                    $container.find('#searchbox').hide();
+
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+
+            });
+
+        });
+
+
+        $('#focBundles input[id*=focSearch]').focus().on("autocompleteselect", function (event, ui) {
+            var str1 = ui.item.value;
+            var str2 = str1.split("|");
+            var val = str2[0].trim();
+
+            $container = $(this).parents('div.focBundle');
+
+            //  alert(val);
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("AutoCompleteSelected_Product")',
+                dataType: "json",
+                contentType: 'application/json, charset=utf-8',
+                data: {
+                    search: val
+                },
+                success: function (data) {
+                    $container.find('#focProductID').val(data.result.ProductID);
+                    $container.find('#focSKU').val(data.result.SKU);
+                    $container.find('#focProductType').val(data.result.ProductType);
+                    $container.find('#focProductName').val(data.result.ProductName);
+                    $container.find('#focModelNo').val(data.result.ModelNo);
+                    $container.find('#focIsBundle').val(data.result.IsBundle);
+                    $container.find('#focIsControlItem').val(data.result.IsControlItem);
+                    $container.find('#focRemark').val("Package Item");
+
+                    $container.find('#focQty').focus();
+                    $container.find('#focQty').select();
+                    $container.find('#focSearch').val("");
+                    $container.find('#focsearchbox').hide();
+
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+
+            });
+
+        });
+
+
+
+    }
+
+
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#focBundles input[id*=focSearch]').focus().autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("AutoComplete_Product")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        search: $('#focBundles input[id*=focSearch]').focus().val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (item) {
+                            return {
+                                label: item.ProductID + " | " + item.SKU + " | " + item.ProductName + " | $ " + item.SellPrice + " | " + item.CostCode,
+
+                            };
+                        }));
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+            },
+            selectFirst: true,
+            delay: 0,
+            autoFocus: true,
+            minLength: 1
+
+
+        });
+
+        $('#focBundles input[id*=focSearch]').on("autocompleteselect", function (event, ui) {
+            var str1 = ui.item.value;
+            var str2 = str1.split("|");
+            var val = str2[0].trim();
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("AutoCompleteSelected_Product")',
+                dataType: "json",
+                contentType: 'application/json, charset=utf-8',
+                data: {
+                    search: val
+                },
+                success: function (data) {
+                    $('#focProductID').val(data.result.ProductID);
+                    $('#focSKU').val(data.result.SKU);
+                    $('#focProductType').val(data.result.ProductType);
+                    $('#focProductName').val(data.result.ProductName);
+                    $('#focModelNo').val(data.result.ModelNo);
+                    $('#focIsBundle').val(data.result.IsBundle);
+                    $('#focIsControlItem').val(data.result.IsControlItem);
+                    $('#focRemark').val("Package Item");
+
+                    $('#itemUnit').val(data.result.Unit);
+                    var unitprice = data.result.SellPrice.toFixed(2);
+                    $('#itemUnitPrice').val(unitprice);
+                    $('#itemStockQty').val(0);
+
+                    $('#itemCostPrice').val(data.result.CostPrice);
+                    var disc = (0.00).toFixed(2);
+                    $('#itemDiscount').val(disc);
+                    $('#itemDiscountedPrice').val(unitprice);
+
+                    var qty = $('#focQty').val();
+
+                    var amount = Math.round(qty * unitprice * 100) / 100;
+                    amount = amount.toFixed(2);
+
+                    $('#itemAmount').val(amount);
+
+                    $('#focQty').focus();
+                    $('#focQty').select();
+                    $('.focBundle input.focKey').val("");
+                    $('#focsearchbox').hide();
+
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+
+            });
+
+        });
+
+
+
+    });
+
+</script>

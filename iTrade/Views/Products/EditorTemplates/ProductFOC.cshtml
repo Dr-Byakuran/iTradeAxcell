@@ -1,0 +1,60 @@
+﻿@model iTrade.Models.ProductFOC
+@using iTrade.Models
+
+<div class="focBundle">
+    @Html.HiddenFor(model => model.FocID)
+    @Html.HiddenFor(model => model.IncProductID, new { id = "focProductID" })
+    @Html.HiddenFor(model => model.IncProductType, new { id = "focProductType" })
+    @Html.HiddenFor(model => model.IncModelNo, new { id = "focModelNo" })
+    @Html.HiddenFor(model => model.IsControlItem, new { id = "focIsControlItem" })
+    @Html.HiddenFor(model => model.IncRemark, new { id = "focRemark" })
+
+    <div class="form-group">
+        <div class="col-md-2">
+            @Html.EditorFor(model => model.IncSKU, new { htmlAttributes = new { id = "focSKU", @class = "form-control", @readonly = true } })
+            @Html.ValidationMessageFor(model => model.IncSKU, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.IncProductName, new { htmlAttributes = new { id = "focProductName", @class = "form-control", @readonly = true } })
+            @Html.ValidationMessageFor(model => model.IncProductName, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="col-md-2">
+            @Html.EditorFor(model => model.IncQty, new { htmlAttributes = new { id = "focQty", @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.IncQty, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-1">
+            @Html.EditorFor(model => model.Position, new { htmlAttributes = new { id = "focPosition", @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Position, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="col-md-2">
+            @Html.HiddenFor(model => model.DeleteFOC, new { @class = "mark-for-delete" })
+            @Html.RemoveLink("Remove", "div.focBundle", "input.mark-for-delete")
+        </div>
+
+    </div>
+    @if (string.IsNullOrEmpty(Model.IncSKU))
+    {
+        <div id="focsearchbox" class="form-group">
+            <div class="col-md-6">
+                @Html.Editor("focSearch", new { htmlAttributes = new { id = "focSearch", name = "focSearch", @class = "searchInput form-control", placeholder = "Search products by name or code" } })
+            </div>
+        </div>
+    }
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,39 @@
+﻿
+@using iTrade.CustomHtmlHelper;
+@model IEnumerable<iTrade.Models.INV> 
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.InvNo)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.CustName)
+            @if (!string.IsNullOrEmpty(item.CustName2))
+            {
+                <span>&nbsp; (@Html.DisplayFor(modelItem => item.CustName2))</span>
+            }
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.InvDate)
+        </td>
+
+        <td>
+           $ &nbsp;  @Html.DisplayFor(modelItem => item.Nett)
+        </td>
+ 
+
+        <td>
+            @Html.DisplayFor(modelItem => item.IsPaid)
+        </td>
+                                        
+ 
+    </tr>
+}
+
+ 
+ 
+

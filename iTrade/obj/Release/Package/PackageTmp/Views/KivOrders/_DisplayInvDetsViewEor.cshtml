@@ -1,0 +1,68 @@
+﻿@model List<iTrade.Models.KivOrderDet>
+
+@using (@Html.BeginForm())
+{
+    <input type="hidden" id="txtKorID" name="txtKorID" value="@ViewBag.KorNumber" />
+
+    for (int i = 0; i < Model.Count; i++)
+    {
+        <tr>
+            <td style="width:120px;"></td>
+            <td>@string.Format("{0}", i + 1) </td>
+
+            <td class="col-md-4">
+                @Html.HiddenFor(model => model[i].DetID)
+                @Html.HiddenFor(model => model[i].KorID)
+                @Html.HiddenFor(model => model[i].KivID)
+                @Html.HiddenFor(model => model[i].InvID)
+                @Html.HiddenFor(model => model[i].InvNo)
+                @Html.HiddenFor(model => model[i].InvDetID)
+                @Html.HiddenFor(model => model[i].ItemID)
+                @Html.HiddenFor(model => model[i].ItemCode)
+                @Html.HiddenFor(model => model[i].ItemName)
+                @Html.HiddenFor(model => model[i].Unit)
+                @Html.HiddenFor(model => model[i].SellType)
+                @Html.HiddenFor(model => model[i].SalesType)
+
+                @Html.HiddenFor(model => model[i].Position)
+                @Html.HiddenFor(model => model[i].Remark)
+
+                @Html.DisplayFor(model => model[i].ItemName, new { htmlAttributes = new { @class = "form-control col-md-6" } }) &nbsp;
+                @if (Model[i].SalesType == "FOCItem")
+                {
+                    <span class="label label-warning">FOC</span>
+                }  &nbsp;
+                @if (Model[i].SalesType == "ExchangedItem")
+                {
+                    <span class="label label-warning">@Model[i].Remark</span>
+                }
+
+            </td>
+            <td>@Html.DisplayFor(model => model[i].DeliverOrderQty, new { htmlAttributes = new { @class = "form-control" } })</td>
+            <td class="semi-bold">@Html.DisplayFor(model => model[i].DeliverQty, new { htmlAttributes = new { @class = "form-control" } })</td>
+            <td>
+                @if (Model[i].ChangedQty < 0)
+                {
+                    @Html.DisplayFor(model => model[i].ChangedQty, new { htmlAttributes = new { @class = "form-control" } })
+                }
+            </td>
+            <td></td>
+        </tr>
+
+
+
+
+    }
+
+}
+
+<!-- modal placeholder-->
+<div id="myModal" class="modal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+

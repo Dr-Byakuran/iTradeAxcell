@@ -1,0 +1,168 @@
+﻿@model IEnumerable<iTrade.Models.PaymentReceipt>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin page-header -->
+<div class="page-header lead">
+    Payment Receipt
+    <span class="email-btn-row hidden-xs pull-right">
+        <a href="/Payment/Create" id="btnCreate" class="btn btn-primary"><i class="fa fa-plus m-r-5"></i> Payment By Customer</a>
+        @*<a href="/Payment/Payment" id="btnPayment" class="btn btn-primary"><i class="fa fa-plus m-r-5"></i> Quick Payment (Invoice No.)</a>*@
+    </span>
+</div>
+<!-- end page-header -->
+@using (Html.BeginForm("Index", null, FormMethod.Post))
+{
+
+    <div class="">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#default-tab-1" data-toggle="tab"><h5 class="media-heading">Recent payments</h5> </a></li>
+
+        </ul>
+
+    </div>
+    <div class="tab-content">
+        <div class="tab-pane fade active in" id="default-tab-1">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.Label("Search / Filter", htmlAttributes: new { @class = "control-label col-md-1 text-left" })
+                            <div class="col-md-6">
+                                @Html.Editor("txtSearch", new { htmlAttributes = new { id = "txtSearch", name = "txtSearch", @class = "form-control", placeholder = "Search payments by customer or payment mode..." } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="table-responsive">
+                <table id="data-table1" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PrNo)
+                            </th>
+                            <th>
+                                Date
+                            </th>
+                            <th class="col-md-4">
+                                @Html.DisplayNameFor(model => model.CustName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PaymentFor)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Amount)
+                            </th>
+
+                            <th>
+                                Mode
+                            </th>
+                            <th>Status</th>
+                            <th>Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr class="even gradeC">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PrNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PaymentDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CustName)
+                                    @if (!string.IsNullOrEmpty(item.CustName2))
+                                    {
+                                        <span>&nbsp; (@Html.DisplayFor(modelItem => item.CustName2))</span>
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PaymentFor)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Amount)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PaymentMode)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Status)
+                                </td>
+ 
+                                <td>
+
+                                    @if (item.Status == "Completed")
+                                    {
+                                        <a href="@Url.Action("View", "Payment", new { id = item.PrID })" class="btn btn-primary">
+                                        <span class="fa fa-angle-double-right" />
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("Edit", "Payment", new { id = item.PrID })" class="btn btn-primary">
+                                            <span class="fa fa-angle-double-right" />
+                                        </a>
+                                    }
+                                    
+                                </td>
+                            </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+
+
+}
+
+
+
+@section Scripts{
+    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+
+}
+
+
+<script>
+        $(document).ready(function () {
+           // App.init();
+            TableManageDefault.init();
+           // Notification.init();
+        });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#data-table1').DataTable({
+            "bFilter": false,
+            //"bInfo": false,
+            "bLengthChange": false,
+            "order": [[0, "desc"]],
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+        });
+    });
+</script>

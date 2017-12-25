@@ -1,0 +1,100 @@
+﻿@using iTrade.CustomHtmlHelper;
+@model IEnumerable<iTrade.Models.ExchangeOrder>
+
+@using (Html.BeginForm("index", null, FormMethod.Get))
+{
+
+    <!-- begin row -->
+    <div class="row">
+        <!-- begin col-12 -->
+        <div class="col-md-12">
+            <!-- begin panel -->
+            <div class="panel panel-inverse">
+
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table id="data-table0" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.EorNo)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.InvDate)
+                                    </th>
+                                    <th class="col-md-4">
+                                        @Html.DisplayNameFor(model => model.CustName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.InvType)
+                                    </th>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Status)
+                                    </th>
+
+
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.EorNo)
+
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.InvDate)
+                                        </td>
+
+                                        <td class="col-md-4">
+                                            @Html.DisplayFor(modelItem => item.CustName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.InvType)
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Status)
+                                        </td>
+
+
+                                        <td>
+                                            @if (item.Status.StartsWith("Confirmed"))
+                                            {
+                                                <a href="@Url.Action("Edit", "Exchange", new { id = item.EorID })" class="btn btn-primary">
+                                                    <span class="fa fa-angle-double-right" />
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a href="@Url.Action("Edit", "Exchange", new { id = item.EorID })" class="btn btn-primary">
+                                                    <span class="fa fa-angle-double-right" />
+                                                </a>
+
+                                            }
+
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- end panel -->
+        </div>
+        <!-- end col-12 -->
+    </div>
+    <!-- end row -->
+
+}
+
+
+
+
+

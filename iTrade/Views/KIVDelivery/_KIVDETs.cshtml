@@ -1,0 +1,152 @@
+﻿@model iTrade.Models.KIVDeliveryCreateViewModel
+
+@{
+    ViewBag.Title = null;
+    Layout = null;
+    int i = 0;
+    string strYear = string.Empty;
+    string chkId = string.Empty;
+    string txtId = string.Empty;
+    iTrade.Models.StarDbContext db = new iTrade.Models.StarDbContext();
+}
+
+<div class="panel panel-inverse">
+    <div class="panel-body">
+        <table id="tblData" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th width="5%">@*<input type="checkbox" onclick="toggle(this)" />*@</th>                    
+                    <th width="5%">S/O</th>
+                    <th width="15%">
+                        Invoice No.
+                    </th>
+                    <th width="35%">
+                        Description
+                    </th>
+                    <th width="10%">
+                        Order Qty
+                    </th>
+                    <th width="10%">
+                        Balance Qty
+                    </th>
+                    <th width="10%">
+                        Delivery Qty
+                    </th>
+                    <th width="10%">
+                        KIV Balance Qty
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int x = 0; x < Model.KIVDETs.Count; x++)
+                {
+                    i++;
+                    strYear = Model.KIVDETs[x].CreatedOn.Year.ToString();
+                    chkId = string.Format("DetID{0}", Model.KIVDETs[x].DetID.ToString());
+                    txtId = string.Format("TxtID{0}", Model.KIVDETs[x].DetID.ToString());
+                    bool bChecked = false;
+                    var kivDetId = Model.KIVDETs[x].DetID;
+                    var kivDetails = db.KIVDeliveryDetails.Where(m => m.KIVDelID == @Model.KIVDelivery.KIVDelID && m.DetID == kivDetId).ToList();
+
+                    double currDelivery = 0;
+                    if (kivDetails.Count > 0) { currDelivery = kivDetails.FirstOrDefault().DeliveryQty; }
+                    else { currDelivery = Model.KIVDETs[x].DeliveryQty; }
+                    if (kivDetails.Count > 0) { bChecked = true; }
+
+                    iTrade.Models.KIVDET kivdet = db.KIVDETs.Find(Model.KIVDETs[x].DetID);
+                    double kivBalQty = 0;
+
+                    kivBalQty = Model.KIVDETs[x].KivBalanceQty;
+                    if (Model.KIVDETs[x].KivBalanceQty == 0)
+                    {
+                        if (kivdet != null)
+                        {
+                            kivBalQty = kivdet.KivBalanceQty;
+                        }
+                    }
+                    <tr>
+                        <td>
+                            @if (bChecked)
+                            {
+                                <input type="checkbox" checked=@bChecked name="DetID[]" id=@chkId value=@Model.KIVDETs[x].DetID onclick="getInv(@Model.KIVDETs[x].DetID,@currDelivery)" />
+                            }
+                            else
+                            {
+                                <input type="checkbox" checked=@bChecked name="DetID[]" id=@chkId value=@Model.KIVDETs[x].DetID onclick="getInv(@Model.KIVDETs[x].DetID,@Model.KIVDETs[x].KivBalanceQty)" />
+                            }
+                        </td>
+
+                        <td>@i</td>
+                        <td>
+                            @string.Format("INV-{0}{1:000000}", strYear, Model.KIVDETs[x].InvID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.KIVDETs[x].ItemName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.KIVDETs[x].OrderQty)
+                        </td>
+
+                        <td>
+                            @kivBalQty
+                        </td>
+                        <td>
+
+                            @if (bChecked)
+                            {
+                                <input id=@txtId name="TxtID[]" txtid value=@currDelivery class="form-control" data-parsley-maxlength=@kivBalQty data-parsley-type="number" />
+                            }
+                            else
+                            {
+                                <input id=@txtId name="TxtID[]" txtid value="0" class="form-control" disabled data-parsley-maxlength=@kivBalQty data-parsley-type="number" />
+                            }
+                        </td>
+                        <td>
+                            @*@Html.EditorFor(modelItem => Model.KIVDETs[x].KivBalanceQty, new { htmlAttributes = new { @class = "form-control", @id=@txtId, @data_parsley_type = "number", @disabled="disabled" } })*@
+                            @kivBalQty
+
+                            @Html.HiddenFor(modelItem => Model.KIVDETs[x].DetID)
+                            @Html.HiddenFor(modelItem => Model.KIVDETs[x].InvID)
+                            @Html.HiddenFor(modelItem => Model.KIVDETs[x].ItemID)
+                            @Html.HiddenFor(modelItem => Model.KIVDETs[x].ItemName)
+                            @Html.HiddenFor(modelItem => Model.KIVDETs[x].OrderQty)
+                            @Html.HiddenFor(modelItem => Model.KIVDETs[x].BalanceQty)
+                            @Html.HiddenFor(modelItem => Model.KIVDETs[x].DeliveryQty)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+
+
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+    function toggle(source) {
+        checkboxes = document.getElementsByName('DetID');
+   
+        for (var i = 0, n = checkboxes.length; i < n; i++) {
+            checkboxes[i].checked = source.checked;
+            
+        }
+    }
+
+    function getInv(source, val) {
+        var strID='TxtID' + source;
+        var cbID='DetID' + source;
+        var cb = document.getElementById(cbID);
+        var tb = document.getElementById(strID);
+
+        if (cb.checked==true)
+        {
+            $(tb).removeAttr('disabled');
+            $(tb).val('0');
+        }
+        else{
+            $(tb).attr('disabled', 'disabled');
+            $(tb).val('0');
+        }
+    }
+</script>
+   

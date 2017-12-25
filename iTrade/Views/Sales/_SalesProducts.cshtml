@@ -1,0 +1,221 @@
+﻿@model iTrade.Models.SAR_Product
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "form1", id = "form1" }))
+{
+
+    @Html.HiddenFor(model => model.SARID)
+    @Html.HiddenFor(model => model.SARNumberA)
+    @Html.HiddenFor(model => model.SARNumberB)
+    @Html.HiddenFor(model => model.SARNumberC)
+    @Html.HiddenFor(model => model.SARNumberD)
+    @Html.HiddenFor(model => model.ProductID, new { id = "productId"})
+    @Html.HiddenFor(model => model.Unit, new { @Value = " " })
+    @Html.HiddenFor(model => model.Remark, new { @Value = " " })
+
+<!-- begin row -->
+<div class="row">
+    <!-- begin col-12 -->
+    <div class="col-md-12">
+        <!-- begin panel -->
+        <div class="panel panel-inverse">
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    S/N
+                                </th>
+                                <th>
+                                    Goods Description
+                                </th>
+
+                                <th>
+                                    Qty
+                                </th>
+                                <th>
+                                    Unit Price
+                                </th>
+                                <th>
+                                    Amount (SGD)
+                                </th>
+
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @{Html.RenderAction("_SalesItems", "Sales", new { id = @Model.SARID });}
+
+
+
+    
+                            <tr>
+                                <td> </td>
+                                <td class="col-md-6">
+
+                                            @Html.Editor("tags2", new { htmlAttributes = new { id = "tags2", @class = "form-control", placeholder = "Search products by brand name or model" } })
+                                </td>
+                                <td colspan="4"> </td>
+                            </tr>
+                            <tr>
+                                <td> </td>
+                                <td class="col-md-6">                              
+                                        @Html.EditorFor(model => model.ItemDesc, new { htmlAttributes = new { id = "itemDesc", @class = "form-control col-md-6" } })
+                                        @Html.ValidationMessageFor(model => model.ItemDesc, "", new { @class = "text-danger" })
+              
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.Qty, new { htmlAttributes = new { id = "qty", @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.UnitPrice, new { htmlAttributes = new { id = "unitPrice", @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })                                 
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { id = "amount", @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })                            
+                                </td>
+                                <td>
+                                    <input type="submit" id="btnSubmit" value="Add Item" class="btn btn-primary" />
+                                </td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- end panel -->
+    </div>
+    <!-- end col-12 -->
+</div>
+<!-- end row -->
+    
+}
+
+<script>
+    $(document).ready(function () {
+        $('#tags2').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("AutoComplete_Product")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        search: $("#tags2").val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (item) {
+                            return {
+                                label: item.ProductID + " | " + item.Brand + " | " + item.ProductModel + " | " + item.SerialNo,
+
+                            };
+                        }));
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+            },
+            selectFirst: true,
+            delay: 0,
+            autoFocus: true,
+            minLength: 1
+        });
+
+        $("#tags2").on("autocompleteselect", function (event, ui) {
+            var str1 = ui.item.value;
+            var str2 = str1.split("|");
+            var val = str2[0].trim();
+
+            //  alert(val);
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("AutoCompleteSelected_Product")',
+                dataType: "json",
+                contentType: 'application/json, charset=utf-8',
+                data: {
+                    search: val
+                },
+                success: function (data) {
+
+                    $('#productId').val(data.result.ProductID);
+                    $('#itemDesc').val(data.result.ProductDesc);
+
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+
+            });
+
+        });
+
+
+
+    });
+
+</script>
+
+
+
+
+
+<script>
+    $(function () {
+        $("#form1").on("submit", function (event) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("_SalesProducts", "Sales")',
+                data: $("#form1").serialize(),
+                success: function (result) {
+                    if (result.redirectTo) {
+                        // The operation was a success on the server as it returned
+                        // a JSON objet with an url property pointing to the location
+                        // you would like to redirect to => now use the window.location.href
+                        // property to redirect the client to this location
+                        window.location.href = result.redirectTo;
+                    } else {
+                        // The server returned a partial view => let's refresh
+                        // the corresponding section of our DOM with it
+                        // $(".categories_content_container").html(result);
+                        alert("ajax not success");
+                    }
+                },
+                error: function () {
+                    alert("error");
+                }
+            });
+
+        });
+
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

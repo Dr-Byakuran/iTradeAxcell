@@ -1,0 +1,717 @@
+﻿@model iTrade.Models.SalesOrderSelection
+
+<link href="@Url.Content("~/assets/css/inv-print-form.css")" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#chkCashAmount').prop('readonly', true);
+        $('#chkNETSAmount').prop('readonly', true);
+        $('#chkCreditCardAmount').prop('readonly', true);
+        $('#chkChequeAmount').prop('readonly', true);
+        $('#chkChequeNumber').prop('readonly', true);
+
+        $('#chkCash').change(function() {
+            var isChecked = $(this).is(':checked');
+            if (isChecked)
+                $('#chkCashAmount').prop('readonly', false);
+            else
+            {
+                $("#chkCashAmount").val("");
+                $('#chkCashAmount').prop('readonly', true);
+            }
+        });
+
+        $('#chkNETS').change(function() {
+            var isChecked = $(this).is(':checked');
+            if (isChecked)
+                $('#chkNETSAmount').prop('readonly', false);
+            else
+            {
+                $("#chkNETSAmount").val("");
+                $('#chkNETSAmount').prop('readonly', true);
+            }
+        });
+
+        $('#chkCreditCard').change(function() {
+            var isChecked = $(this).is(':checked');
+            if (isChecked)
+                $('#chkCreditCardAmount').prop('readonly', false);
+            else
+            {
+                $("#chkCreditCardAmount").val("");
+                $('#chkCreditCardAmount').prop('readonly', true);
+            }
+        });
+
+        $('#chkCheque').change(function() {
+            var isChecked = $(this).is(':checked');
+            if (isChecked)
+            {
+                $('#chkChequeAmount').prop('readonly', false);
+                $('#chkChequeNumber').prop('readonly', false);
+                //$("#chkChequeAmount").show();
+                //$("#chkChequeNumber").show();
+            }
+            else
+            {
+                $("#chkChequeAmount").val("");
+                $('#chkChequeAmount').prop('readonly', true);
+                $('#chkChequeNumber').prop('readonly', true);
+                //$("#chkChequeAmount").hide();
+                //$("#chkChequeNumber").hide();
+            }
+        });
+
+        @*$("#btnSubmitPreview").click(function () {
+            var l = new Array();
+            var dTotal = 0;
+            var bFullPayment = false;
+
+            if ($("#chkCash option:selected").val() > 0)
+            {
+                dTotal += parseFloat($("#txtPaymentMethodCash").val());
+                l.push(new Object({ PaymentMethod: "Cash", Amount: $("#txtPaymentMethodCash").val(), ChequeNumber: "" }));
+            }
+
+            if ($("#chkNETS option:selected").val() > 0)
+            {
+                dTotal += parseFloat($("#txtPaymentMethodNETS").val());
+                l.push(new Object({ PaymentMethod: "NETS", Amount: $("#txtPaymentMethodNETS").val(), ChequeNumber: "" }));
+            }
+
+            if ($("#chkCreditCard option:selected").val() > 0)
+            {
+                dTotal += parseFloat($("#txtPaymentMethodCreditCard").val());
+                l.push(new Object({ PaymentMethod: "Credit Card", Amount: $("#txtPaymentMethodCreditCard").val(), ChequeNumber: "" }));
+            }
+
+            if ($("#chkCheque option:selected").val() > 0)
+            {
+                dTotal += parseFloat($("#txtPaymentMethodCheque").val());
+                l.push(new Object({ PaymentMethod: "Cheque", Amount: $("#txtPaymentMethodCheque").val(), ChequeNumber: $("#txtPaymentMethodChequeNumber").val() }));
+            }
+
+            if (parseFloat(@Model.Nett) == parseFloat(dTotal))
+            {
+                bFullPayment = true;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SubmitPaymentMethod")',
+                dataType: "json",
+                contentType: 'application/json, charset=utf-8',
+                data: {
+                    SorID : @Model.SorID,
+                    PaymentMethodList : l,
+                    FullPayment : bFullPayment
+                },
+                success: function (data) {
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+
+            });
+        });*@
+        $('#btnSubmitPayment').click(function () {
+            var bChecked = false;
+
+            if ($('#chkCash').is(':checked'))
+            {
+                bChecked = true;
+                if ($('#chkCashAmount').val() == "" || $('#chkCashAmount').val() == "0")
+                {
+                    alert("Please enter cash amount.");
+                    return false;
+                }
+            }
+
+            if ($('#chkNETS').is(':checked'))
+            {
+                bChecked = true;
+                if ($('#chkNETSAmount').val() == "" || $('#chkNETSAmount').val() == "0")
+                {
+                    alert("Please enter NETS amount.");
+                    return false;
+                }
+            }
+
+            if ($('#chkCreditCard').is(':checked'))
+            {
+                bChecked = true;
+                if ($('#chkCreditCardAmount').val() == "" || $('#chkCreditCardAmount').val() == "0")
+                {
+                    alert("Please enter credit card amount.");
+                    return false;
+                }
+            }
+
+            if ($('#chkCheque').is(':checked'))
+            {
+                bChecked = true;
+                if ($('#chkChequeAmount').val() == "" || $('#chkChequeAmount').val() == "0")
+                {
+                    alert("Please enter cheque amount.");
+                    return false;
+                }
+
+                if ($('#chkChequeNumber').val() == "")
+                {
+                    alert("Please enter cheque number.");
+                    return false;
+                }
+            }
+
+            if (bChecked) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/Orders/_SubmitSalesOrderPreview',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        SorID: '@Model.SorID',
+                        CheckBoxCash: $('#chkCash').is(':checked'),
+                        CheckBoxNETS: $('#chkNETS').is(':checked'),
+                        CheckBoxCreditCard: $('#chkCreditCard').is(':checked'),
+                        CheckBoxCheque: $('#chkCheque').is(':checked'),
+                        CheckBoxCashAmount: $('#chkCashAmount').val(),
+                        CheckBoxNETSAmount: $('#chkNETSAmount').val(),
+                        CheckBoxCreditCardAmount: $('#chkCreditCardAmount').val(),
+                        CheckBoxChequeAmount: $('#chkChequeAmount').val(),
+                        CheckBoxChequeNumber: $('#chkChequeNumber').val()
+                    },
+                    success: function (json) {
+                        if (json.success != null && !json.success)
+                        {
+                            alert(json.responseText);
+                        }
+                        if (json.isRedirect) {
+                            window.location.href = json.redirectUrl;
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+
+            }
+            else {
+                alert("Please select payment method.");
+            };
+
+
+        });
+    });
+
+    
+</script>
+
+    @Html.HiddenFor(model => model.SorID)
+@{
+    var dGST = (decimal)ViewData["seGSTRate"] * 100;
+}
+    <div style="position: relative; height: 100%;">
+        <div id="page1">
+            <!-- begin #content -->
+            <div id="content">
+                <!-- begin invoice -->
+                <div class="invoice">
+                    <table border="0" class="table table-bordered" cellspacing="0" cellpadding="0" style="top: -20px;" width="100%" height="120px">
+                        <tr>
+                            <td colspan="2">
+                                <h4>Total: $@Model.Nett.ToString("N")</h4>
+                            </td>
+                            <td colspan="2" align="right">
+                                <button type="button" id="btnSubmitPayment" class="btn btn-sm btn-success m-b-10">Submit</button>
+                                @*<input type="submit" value=" Submit " class="btn btn-sm btn-success m-b-10" />*@
+                                <a href="/Orders/MultiPagesPrintPage/@Model.SorID" target="_blank" class="btn btn-sm btn-success m-b-10"><i class="fa fa-print m-r-5"></i> Print</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="140px">
+                                @Html.CheckBoxFor(model => model.CheckBoxCash, new { id = "chkCash" }) Cash
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.CheckBoxCashAmount, new { id = "chkCashAmount", @class = "form-control", placeholder = "Cash Amount", Style = "width: 120px;" })
+                            </td>
+                            <td width="140px">
+                                @Html.CheckBoxFor(model => model.CheckBoxNETS, new { id = "chkNETS" }) NETS
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.CheckBoxNETSAmount, new { id = "chkNETSAmount", @class = "form-control", placeholder = "NETS Amount", Style = "width: 120px;" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.CheckBoxFor(model => model.CheckBoxCreditCard, new { id = "chkCreditCard" }) Credit Card
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.CheckBoxCreditCardAmount, new { id = "chkCreditCardAmount", @class = "form-control", placeholder = "Credit Card Amount", Style = "width: 140px;" })
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(model => model.CheckBoxCheque, new { id = "chkCheque" }) Cheque
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.CheckBoxChequeAmount, new { id = "chkChequeAmount", @class = "form-control", placeholder = "Cheque Amount", Style = "width: 120px;" })
+                                @Html.TextBoxFor(model => model.CheckBoxChequeNumber, new { id = "chkChequeNumber", @class = "form-control", placeholder = "Cheque Number", Style = "width: 120px;" })
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="inv-content" style=" left: 100px; top: 200px;">
+                        <div class="content-header">
+                            <table style="width:100%;">
+                                <tr>
+                                    <td style="width:60%;" valign="top">
+                                        <div style="float:left;  font-size: 10pt; letter-spacing: 0pt; font-weight:600; line-height:20px; margin-top:0px;margin-bottom:0px;">
+                                            <span style="font-size: 12pt; letter-spacing: 0pt; line-height:2.8em; font-weight:700; margin-top:0px;margin-bottom:30px;"> SOLD TO </span> <br />
+                                            <span id="txtCustName" style="font-size: 11.5pt; letter-spacing: 0pt; font-weight:700; margin-top:20px;margin-bottom:0px;">@Model.CustName </span> <br />
+
+                                            @if (@Model.Addr1 != null)
+                                            {
+                                                <span id="txtAddr1">@Model.Addr1 </span> <br />
+                                            }
+                                            @if (@Model.Addr2 != null)
+                                            {
+                                                <span id="txtAddr2">@Model.Addr2 </span> <br />
+                                            }
+                                            @if (@Model.Addr3 != null)
+                                            {
+                                                <span id="txtAddr3">@Model.Addr3 </span> <br />
+                                            }
+
+                                            @if (!string.IsNullOrEmpty(Model.DeliveryAddress))
+                                            {
+                                                <h5>*Deliver to: <span> @Model.DeliveryAddress </span></h5>
+
+                                            }
+
+
+                                        </div>
+
+
+                                    </td>
+
+                                    <td style="width:350px; text-align:center;">
+                                        <table style="width:100%; border:0px solid #000;">
+                                            <tr>
+                                                <td colspan="2" style="padding-top: 0px; padding-bottom: 15px;"> <span style="font-size: 14pt; letter-spacing: 2pt; text-align:center; font-weight:700; margin-top:0px;margin-bottom:30px;"> Sales Order </span></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left" style="width:40%; padding-top: 6px; padding-bottom: 6px;"> <span style="font-size: 10pt; letter-spacing: 0pt; font-weight:600; margin-top:0px;margin-bottom:0px;">Order No.:</span></td>
+                                                <td align="left" style="padding-left:25px; padding-top: 6px; padding-bottom: 6px;"> <span id="txtInvID" style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">DO# @Model.SorID </span></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td align="left" style="padding-top: 6px; padding-bottom: 6px;"> <span style="font-size: 10pt; letter-spacing: 0pt; font-weight:600; margin-top:0px;margin-bottom:0px;">Date:</span></td>
+                                                <td align="left" style="padding-left:25px; padding-top: 6px; padding-bottom: 6px;"> <span id="txtInvDate" style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">@Model.InvDate.ToShortDateString()</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left" style="padding-top: 6px; padding-bottom: 6px;"> <span style="font-size: 10pt; letter-spacing: 0pt; font-weight:600; margin-top:0px;margin-bottom:0px;">Terms:</span></td>
+                                                <td align="left" style="padding-left:25px; padding-top: 6px; padding-bottom: 6px;"> <span id="txtTerms" style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">@Model.PaymentTerms</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right" colspan="2" style="padding-top: 10px; padding-bottom: 10px;">
+                                                    <span style="font-size: 9pt; letter-spacing: 0pt; text-align:center; margin-top:15px;margin-bottom:15px;">
+                                                        @if (ViewBag.ItemCount > 12)
+                                                        {
+                                                            <span> Page 1 of 2</span>
+
+                                                        }
+
+                                                    </span>
+                                                </td>
+                                            </tr>
+
+                                        </table>
+
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <table class="table table-bordered row-fluid">
+                                <tr>
+                                    <td class="col-md-5 text-center" style="padding-top: 2px; padding-bottom: 2px;"><span style="font-size: 10pt; letter-spacing: 0pt; font-weight:700; margin-top:0px;margin-bottom:0px;">Sales Person</span></td>
+                                    <td class="col-md-7 text-center" style="padding-top: 2px; padding-bottom: 2px;"><span style="font-size: 10pt; letter-spacing: 0pt; font-weight:700; margin-top:0px;margin-bottom:0px;">Purchasing Order</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" style="padding-top: 2px; padding-bottom: 2px;"><span id="txtSalesPerson" style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">@Model.PersonName</span>  </td>
+                                    <td class="text-center" style="padding-top: 2px; padding-bottom: 2px;"><span id="txtPONO" style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">@Model.PoNo</span> </td>
+                                </tr>
+
+                            </table>
+
+
+                        </div>
+                        <div class="content-items" style=" left: 100px;">
+                            <div style="width:100%; text-align:left; font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">
+
+                                <table id="page1Table" class="table table-bordered row-fluid">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                No.
+                                            </th>
+                                            <th>
+                                                Goods Description
+                                            </th>
+
+                                            <th class="text-center">
+                                                Qty
+                                            </th>
+                                            <th class="text-center">
+                                                Unit
+                                            </th>
+                                            <th class="col-md-2">
+                                                <span class="pull-right"> List Price </span>
+
+                                            </th>
+                                            <th class="col-md-2">
+                                                <span class="pull-right"> Total ($)</span>
+
+                                            </th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @{Html.RenderAction("_DisplaySalesItems", "Orders", new { id = @Model.SorID, pageid = 1 });}
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td></td>
+                                            <td colspan="5">  </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6">
+                                                <b> KIV Info </b>
+                                                <table class="table table-striped" style="width:100%;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="col-md-6">Description</th>
+                                                            <th>Order <br />Qty</th>
+                                                            <th>Balance <br />Qty</th>
+                                                            <th>Deliver <br />Qty</th>
+                                                            <th>KIV <br />Balance</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                        @{Html.RenderAction("_DisplayKivDetsPrint", "Orders", new { id = Model.SorID });}
+
+
+                                                    </tbody>
+                                                </table>
+
+
+                                            </td>
+                                        </tr>
+
+                                    </tfoot>
+
+                                </table>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="inv-totalamount" style=" left: 100px;">
+
+                        <div style="float: right; width:38%;">
+                            <table class="table table-bordered">
+                                <tbody>
+
+                                    @if (Model.Discount != 0)
+                                    {
+                                        <tr>
+
+                                            <td style="height: 20px; border: 1px solid #000 !important;" align="left" valign="middle"><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">Sub-Total </span></td>
+                                            <td class="col-md-5 text-right" style="border-collapse: collapse !important; border: 1px solid #000 !important;"><span class="pull-left" style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">$</span><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">@Model.PreDiscAmount.ToString("#,##0.00") </span></td>
+
+                                        </tr>
+                                        <tr>
+
+                                            <td style="height: 20px; border: 1px solid #000 !important;" align="left" valign="middle"><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">Discount </span></td>
+                                            <td class="col-md-5 text-right" style="border-collapse: collapse !important; border: 1px solid #000 !important;"><span class="pull-left" style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">$</span><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">@Model.Discount.ToString("#,##0.00") </span></td>
+
+                                        </tr>
+
+                                    }
+                                    else
+                                    {
+                                        <tr>
+
+                                            <td style="height: 20px; border: 1px solid #000 !important;" align="left" valign="middle"><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">Sub-Total </span></td>
+                                            <td class="col-md-5 text-right" style="border-collapse: collapse !important; border: 1px solid #000 !important;"><span class="pull-left" style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">$</span><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">@Model.Amount.ToString("#,##0.00") </span></td>
+
+                                        </tr>
+                                    }
+                                    <tr>
+
+                                        <td style="height: 20px; border: 1px solid #000 !important;" align="left" valign="middle"><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">GST @dGST% </span></td>
+                                        <td class="col-md-5 text-right" style="border-top: 1px solid #000; border: 1px solid #000 !important;"><span class="pull-left" style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">$</span><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">@Model.Gst.ToString("#,##0.00") </span></td>
+
+                                    </tr>
+                                    <tr>
+
+                                        <td style="height: 20px; border: 1px solid #000 !important;" align="left" valign="middle"><span style="font-size: 10pt; letter-spacing: 0pt; font-weight:700; margin-top:0px;margin-bottom:0px;">Grand Total</span></td>
+                                        <td class="col-md-5 text-right" style="border: 1px solid #000 !important;"><span class="pull-left" style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">$</span><span style="font-size: 10pt; letter-spacing: 0pt; font-weight:700; margin-top:0px;margin-bottom:0px;">@Model.Nett.ToString("#,##0.00")</span></td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+                    <div class="inv-footer">
+                        &nbsp;
+                    </div>
+
+                </div>
+                <!-- end invoice -->
+
+            </div>
+
+        </div>
+
+
+
+        <p style="page-break-after:always;"></p>
+
+        <div id="page2">
+            <!-- begin #content -->
+            <div id="content">
+                <!-- begin invoice -->
+                <div class="invoice" style=" left: 100px;">
+                    <div class="page2-header">
+                        <div class="invoice-company">
+                            <span class="pull-right hidden-print" style="margin-top:20px;">
+                                <a href="javascript:;" onclick="window.print()" class="btn btn-sm btn-success m-b-10"><i class="fa fa-print m-r-5"></i> Print</a>
+                            </span>
+
+
+                        </div>
+                    </div>
+                    <div class="page2-content" style=" left: 100px;">
+                        <div class="content-header">
+                            <table style="width:100%;">
+                                <tr>
+                                    <td style="width:60%;" valign="top">
+                                        <div style="float:left;  font-size: 10pt; letter-spacing: 0pt; font-weight:600; line-height:20px; margin-top:0px;margin-bottom:0px;">
+                                            <span style="font-size: 12pt; letter-spacing: 0pt; line-height:2.8em; font-weight:700; margin-top:0px;margin-bottom:30px;"> SOLD TO </span> <br />
+                                            <span id="txtCustName" style="font-size: 11.5pt; letter-spacing: 0pt; font-weight:700; margin-top:20px;margin-bottom:0px;">@Model.CustName </span> <br />
+
+                                            @if (@Model.Addr1 != null)
+                                            {
+                                                <span id="txtAddr1">@Model.Addr1 </span> <br />
+                                            }
+                                            @if (@Model.Addr2 != null)
+                                            {
+                                                <span id="txtAddr2">@Model.Addr2 </span> <br />
+                                            }
+                                            @if (@Model.Addr3 != null)
+                                            {
+                                                <span id="txtAddr3">@Model.Addr3 </span> <br />
+                                            }
+
+                                            @if (!string.IsNullOrEmpty(Model.DeliveryAddress))
+                                            {
+                                                <h5>*Deliver to: <span> @Model.DeliveryAddress </span></h5>
+
+                                            }
+
+
+                                        </div>
+
+
+                                    </td>
+
+                                    <td style="width:350px; text-align:center;">
+                                        <table style="width:100%; border:0px solid #000;">
+                                            <tr>
+                                                <td colspan="2" style="padding-top: 0px; padding-bottom: 15px;"> <span style="font-size: 12pt; letter-spacing: 2pt; text-align:center; font-weight:700; margin-top:0px;margin-bottom:30px;"> Delivery Order </span></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left" style="width:40%; padding-top: 6px; padding-bottom: 6px;"> <span style="font-size: 10pt; letter-spacing: 0pt; font-weight:600; margin-top:0px;margin-bottom:0px;">Order No.:</span></td>
+                                                <td align="left" style="padding-left:25px; padding-top: 6px; padding-bottom: 6px;"> <span id="txtInvID" style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">DO# @Model.SorID </span></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td align="left" style="padding-top: 6px; padding-bottom: 6px;"> <span style="font-size: 10pt; letter-spacing: 0pt; font-weight:600; margin-top:0px;margin-bottom:0px;">Date:</span></td>
+                                                <td align="left" style="padding-left:25px; padding-top: 6px; padding-bottom: 6px;"> <span id="txtInvDate" style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">@Model.InvDate.ToShortDateString()</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left" style="padding-top: 6px; padding-bottom: 6px;"> <span style="font-size: 10pt; letter-spacing: 0pt; font-weight:600; margin-top:0px;margin-bottom:0px;">Terms:</span></td>
+                                                <td align="left" style="padding-left:25px; padding-top: 6px; padding-bottom: 6px;"> <span id="txtTerms" style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">@Model.PaymentTerms</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right" colspan="2" style="padding-top: 10px; padding-bottom: 10px;">
+                                                    <span style="font-size: 9pt; letter-spacing: 0pt; text-align:center; margin-top:15px;margin-bottom:15px;">
+                                                        @if (ViewBag.ItemCount > 12)
+                                                        {
+                                                            <span> Page 2 of 2</span>
+
+                                                        }
+
+                                                    </span>
+                                                </td>
+                                            </tr>
+
+                                        </table>
+
+                                    </td>
+
+                                </tr>
+                            </table>
+
+                            <table class="table table-bordered row-fluid">
+                                <tr>
+                                    <td class="col-md-5 text-center" style="padding-top: 2px; padding-bottom: 2px;"><span style="font-size: 10pt; letter-spacing: 0pt; font-weight:700; margin-top:0px;margin-bottom:0px;">Sales Person</span></td>
+                                    <td class="col-md-7 text-center" style="padding-top: 2px; padding-bottom: 2px;"><span style="font-size: 10pt; letter-spacing: 0pt; font-weight:700; margin-top:0px;margin-bottom:0px;">Purchasing Order</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" style="padding-top: 2px; padding-bottom: 2px;"><span id="txtSalesPerson" style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">@Model.PersonName</span>  </td>
+                                    <td class="text-center" style="padding-top: 2px; padding-bottom: 2px;"><span id="txtPONO" style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">@Model.PoNo</span> </td>
+                                </tr>
+
+                            </table>
+
+
+                        </div>
+                        <div class="content-items" style=" left: 100px;">
+                            <div style="width:100%; text-align:left; font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">
+
+                                <table class="table table-bordered row-fluid">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                No.
+                                            </th>
+                                            <th>
+                                                Goods Description
+                                            </th>
+
+                                            <th class="text-center">
+                                                Qty
+                                            </th>
+                                            <th class="text-center">
+                                                Unit
+                                            </th>
+                                            <th class="col-md-2">
+                                                <span class="pull-right"> List Price </span>
+
+                                            </th>
+                                            <th class="col-md-2">
+                                                <span class="pull-right"> Total ($)</span>
+
+                                            </th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @{Html.RenderAction("_DisplaySalesItems", "Orders", new { id = @Model.SorID, pageid = 2 });}
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="page2-totalamount" style=" left: 100px;">
+                        <div style="float: right; width:38%;">
+                            <table class="table table-bordered">
+                                <tbody>
+
+                                    @if (Model.Discount != 0)
+                                    {
+                                        <tr>
+
+                                            <td style="height: 20px; border: 1px solid #000 !important;" align="left" valign="middle"><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">Sub-Total </span></td>
+                                            <td class="col-md-5 text-right" style="border-collapse: collapse !important; border: 1px solid #000 !important;"><span class="pull-left" style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">$</span><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">@Model.PreDiscAmount.ToString("#,##0.00") </span></td>
+
+                                        </tr>
+                                        <tr>
+
+                                            <td style="height: 20px; border: 1px solid #000 !important;" align="left" valign="middle"><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">Discount </span></td>
+                                            <td class="col-md-5 text-right" style="border-collapse: collapse !important; border: 1px solid #000 !important;"><span class="pull-left" style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">$</span><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">@Model.Discount.ToString("#,##0.00") </span></td>
+
+                                        </tr>
+
+                                    }
+                                    else
+                                    {
+                                        <tr>
+
+                                            <td style="height: 20px; border: 1px solid #000 !important;" align="left" valign="middle"><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">Sub-Total </span></td>
+                                            <td class="col-md-5 text-right" style="border-collapse: collapse !important; border: 1px solid #000 !important;"><span class="pull-left" style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">$</span><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">@Model.Amount.ToString("#,##0.00") </span></td>
+
+                                        </tr>
+                                    }
+                                    <tr>
+
+                                        <td style="height: 20px; border: 1px solid #000 !important;" align="left" valign="middle"><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">GST @dGST% </span></td>
+                                        <td class="col-md-5 text-right" style="border-top: 1px solid #000; border: 1px solid #000 !important;"><span class="pull-left" style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">$</span><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">@Model.Gst.ToString("#,##0.00") </span></td>
+
+                                    </tr>
+                                    <tr>
+
+                                        <td style="height: 20px; border: 1px solid #000 !important;" align="left" valign="middle"><span style="font-size: 10pt; letter-spacing: 0pt; font-weight:700; margin-top:0px;margin-bottom:0px;">Grand Total</span></td>
+                                        <td class="col-md-5 text-right" style="border: 1px solid #000 !important;"><span class="pull-left" style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">$</span><span style="font-size: 10pt; letter-spacing: 0pt; font-weight:700; margin-top:0px;margin-bottom:0px;">@Model.Nett.ToString("#,##0.00")</span></td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                    <div class="page2-footer" style=" left: 100px;">
+                        &nbsp;
+                    </div>
+
+                </div>
+                <!-- end invoice -->
+
+            </div>
+
+        </div>
+    </div>
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            var count = @ViewBag.ItemCount;
+            //  alert(count);
+            if (count <= 12) {
+                $('#page1 .inv-totalamount').show();
+                $('#page1 .inv-signature').show();
+                $('#page2 .page2-totalamount').hide();
+                $('#page2').hide();
+
+            } else {
+
+                $('#page1 .inv-totalamount').hide();
+                $('#page1 .inv-signature').hide();
+                $('#page2 .page2-totalamount').show();
+                $('#page2').show();
+
+            };
+
+
+
+        });
+
+</script>

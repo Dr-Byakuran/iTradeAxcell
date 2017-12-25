@@ -1,0 +1,110 @@
+﻿@model iTrade.Models.Attachment
+@*<link href="~/assets/plugins/jquery-file-upload/css/style.css" rel="stylesheet" />*@
+<link href="~/assets/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" />
+<style type="text/css">
+    #files{
+        margin:0px; 
+        padding:0px; 
+        list-style:none;
+    }
+    #files li:last-child{
+        margin-bottom:10px;
+    }
+</style>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="row">
+            <div class="col-sm-3">
+                Attachment:
+            </div>
+            <div class="col-sm-9">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <!-- The container for the uploaded files -->
+                        <ul id="files">
+                            @if (Model != null)
+                            {
+                                foreach (var item in Model.Path.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
+                                {
+                                    <li>
+                                        <a href="/Attachments/@(ViewBag.SorNo+"/"+item)" target="_blank">@item</a>&nbsp;&nbsp;
+                                        @*@if (ViewBag.Act != "1")
+                                        {*@
+                                            <a href='javascript:void(0);' class='attach-remove'><i class='fa fa-remove'></i></a>
+                                        @*}*@
+                                    </li>
+                                }
+                            }
+                            @*@if(ViewBag.Act == "1" && (Model == null || (Model != null && string.IsNullOrEmpty(Model.Path))))
+                            {
+                                <li>空</li>
+                            }*@
+                        </ul>
+                        @*@if (ViewBag.Act != "1")
+                        {*@
+                            <span class="btn btn-success fileinput-button">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                <span>Select files...</span>
+                                <!-- The file input field used as target for the file upload widget -->
+                                <input id="fileupload" type="file" name="files[]" multiple>
+                            </span>
+                            <br>
+                        @*}*@
+                        <br>
+                        <!-- The global progress bar -->
+                        @*<div id="progress" class="progress">
+                                <div class="progress-bar progress-bar-success"></div>
+                            </div>*@
+
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    /*jslint unparam: true */
+    /*global window, $ */
+    $(function () {
+        //var type="";
+        //var path="";
+        'use strict';
+        var no="@ViewBag.SorNo";
+        // Change this to the location of your server-side upload handler:
+        var url = "/Tutor/ProccessUploadAttachments?Id="+@ViewBag.SorId+"&No="+no;
+        $('#fileupload').fileupload({
+            url: url,
+            dataType: 'json',
+            //maxFileSize: 50000000,
+            done: function (e, data) {
+                //alert(data.result.val);
+                @*type=data.result.val.split(';')[0];
+                path=data.result.val.split(';')[1];
+                url = "/Tutor/ProccessUploadAttachments?Id="+@ViewBag.SorId+"&No="+no+"&Type="+type+"&Paths="+path;*@
+                $.each(data.result.files, function (index, file) {
+                    $("<li><a href='/Attachments/"+no+"/" + file + "' target='_blank'>" + file.substring(file.lastIndexOf("/") + 1) + "</a> &nbsp;&nbsp;  <a href='javascript:void(0);' class='attach-remove'><i class='fa fa-remove'></i></a></li>").appendTo("#files");// target='_blank'
+                });
+
+            }
+            //,
+            //progressall: function (e, data) {
+            //    var progress = parseInt(data.loaded / data.total * 100, 10);
+            //    $('#progress .progress-bar').css(
+            //        'width',
+            //        progress + '%'
+            //    );
+            //}
+        }).prop('disabled', !$.support.fileInput)
+            .parent().addClass($.support.fileInput ? undefined : 'disabled');
+        $(document).on("click","#files .attach-remove",function(){
+
+            var $this=$(this);
+            var index=$this.closest("li").index();
+            var id=@ViewBag.SorId;
+            $.post("/Tutor/_RemoveAttachmentById",{sordId:id,index:index},function(){
+                $this.closest("li").remove();
+            });
+        })
+    });
+</script>

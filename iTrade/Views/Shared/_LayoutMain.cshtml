@@ -1,0 +1,559 @@
+﻿@using iTrade.CustomHtmlHelper;
+
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+
+    <link href="@Url.Content("http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700")" rel="stylesheet" type="text/css" />
+
+
+    @Styles.Render("~/css/css")
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/slimscroll")
+    @Scripts.Render("~/bundles/jquery-cookie")
+
+    <script type="text/javascript">
+    var sess_pollInterval = 60000;
+    var sess_expirationMinutes = 720;
+    var sess_warningMinutes = 715;
+    var sess_intervalID;
+    var sess_lastActivity;
+
+    function initSession() {
+        sess_lastActivity = new Date();
+        sessSetInterval();
+        $(document).bind('keypress.session', function (ed, e) {
+            sessKeyPressed(ed, e);
+        });
+    }
+    function sessSetInterval() {
+        sess_intervalID = setInterval('sessInterval()', sess_pollInterval);
+    }
+    function sessClearInterval() {
+        clearInterval(sess_intervalID);
+
+    }
+    function sessKeyPressed(ed, e) {
+        sess_lastActivity = new Date();
+    }
+    function sessLogOut() {
+        window.location.href = "../Account/LogOff";
+    }
+    function sessInterval() {
+        var now = new Date();
+        //get milliseconds of differneces
+        var diff = now - sess_lastActivity;
+        //get minutes between differences
+        var diffMins = (diff / 1000 / 60);
+        if (diffMins >= sess_warningMinutes) {
+            //warn before expiring
+            //stop the timer
+            sessClearInterval();
+            //prompt for attention
+            var active = confirm('Your session will expire in ' +
+            (sess_expirationMinutes - sess_warningMinutes) +
+            ' minutes (as of ' + now.toTimeString() + '), press OK to remain logged in ' +
+            'or press Cancel to log off.\nIf you are logged off any changes will be lost.');
+            if (active == true) {
+
+                now = new Date();
+                diff = now - sess_lastActivity;
+                diffMins = (diff / 1000 / 60);
+                if (diffMins > sess_expirationMinutes) {
+                    sessLogOut();
+                }
+                else {
+                    initSession();
+                    sessSetInterval();
+                    sess_lastActivity = new Date();
+                }
+            }
+            else {
+                sessLogOut();
+            }
+        }
+    }
+
+    var Controller = {
+        _name: null,
+        get Name() {
+            if (this._name == undefined || this._name.length <= 0) {
+                this._name = $('input#ControllerName').val();
+            }
+            return this._name;
+        }
+    }
+
+    </script>
+
+</head>
+<body onload="initSession()">
+    @{
+        var sCustomerMenu = "";
+        var sProduct = "";
+        var sSales = "";
+        var sQuotation = "";
+        var sSalesOrder = "";
+        var sSalesOrder2 = "";
+        var sPayment = "";
+        var sCreditNote = "";
+        var sInvoices = "";
+        var sKivCheck = "";
+        var sKivDelivery = "";
+        var sExchangeOrder = "";
+        var sInventory = "";
+        var sWarehouse = "";
+
+        var sPurchase = "";
+        var sSupplierMenu = "";
+        var sPurchaseOrder = "";
+        var sIncomingItems = "";
+        var sPoKivCheck = "";
+        var sPoKivDelivery = "";
+
+
+        //var sWarehouseLocation = "";
+        //var sWarehouseConsignment = "";
+        //var sWarehousePicking = "";
+        //var sWarehouseLoanMgt = "";
+        //var sWarehouseReminder = "";
+        //var sWarehouseStock = "";
+        var sSupplier = "";
+        var sReports = "";
+        var sFinancial = "";
+        //var sFinancialAccReceivable = "";
+        //var sFinancialAccPayable = "";
+        //var sFinancialDO = "";
+        //var sFinancialCredit = "";
+        var sPayroll = "";
+        var sHuman = "";
+        //var sHumanEmployeeMgt = "";
+        //var sHumanSalary = "";
+        //var sHumanDoc = "";
+        //var sHumanReminder = "";
+        //var sHumanTraining = "";
+        var sSetting = "";
+        var sReturnedItem = "";
+
+        if (Request.IsAuthenticated && User.IsInRole("Admin") || Request.IsAuthenticated && User.IsInRole("Management"))
+        {
+            sCustomerMenu = "";
+            sSales = "";
+            sProduct = "";
+            sQuotation = "";
+            sSalesOrder = "";
+            sSalesOrder2 = "";
+            sPayment = "";
+            sCreditNote = "";
+            sInvoices = "";
+            sKivCheck = "";
+            sKivDelivery = "";
+            sExchangeOrder = "";
+            sReturnedItem = "";
+            sInventory = "";
+            sWarehouse = "";
+            //sWarehouseLocation = "";
+            //sWarehouseConsignment = "";
+            //sWarehousePicking = "";
+            //sWarehouseLoanMgt = "";
+            //sWarehouseReminder = "";
+            //sWarehouseStock = "";
+            sSupplier = "";
+            sReports = "";
+            sFinancial = "";
+            //sFinancialAccReceivable = "";
+            //sFinancialAccPayable = "";
+            //sFinancialDO = "";
+            //sFinancialCredit = "";
+            sPayroll = "";
+            sHuman = "";
+            //sHumanEmployeeMgt = "";
+            //sHumanSalary = "";
+            //sHumanDoc = "";
+            //sHumanReminder = "";
+            //sHumanTraining = "";
+            sSetting = "";
+        }
+        else if (Request.IsAuthenticated && User.IsInRole("Guest"))
+        {
+
+        }
+        else if (Request.IsAuthenticated && User.IsInRole("Logistic / Warehouse"))
+        {
+            sCustomerMenu = "hidden";
+            sProduct = "hidden";
+            sQuotation = "hidden";
+            sSalesOrder = "hidden";
+            sSalesOrder2 = "hidden";
+            sPayment = "hidden";
+            sCreditNote = "hidden";
+            sInvoices = "";
+            sKivCheck = "";
+            sKivDelivery = "";
+            sExchangeOrder = "";
+            sReturnedItem = "";
+            sInventory = "";
+            sWarehouse = "";
+            //sWarehouseLocation = "hidden";
+            //sWarehouseConsignment = "hidden";
+            //sWarehousePicking = "";
+            //sWarehouseLoanMgt = "hidden";
+            //sWarehouseReminder = "hidden";
+            //sWarehouseStock = "";
+            sSupplier = "hidden";
+            sReports = "hidden";
+            sFinancial = "hidden";
+            //sFinancialAccReceivable = "hidden";
+            //sFinancialAccPayable = "hidden";
+            //sFinancialDO = "hidden";
+            //sFinancialCredit = "hidden";
+            sPayroll = "hidden";
+            sHuman = "hidden";
+            //sHumanEmployeeMgt = "hidden";
+            //sHumanSalary = "hidden";
+            //sHumanDoc = "hidden";
+            //sHumanReminder = "hidden";
+            //sHumanTraining = "hidden";
+            sSetting = "hidden";
+        }
+        else if (Request.IsAuthenticated && User.IsInRole("Sales Agent"))
+        {
+            sSales = "";
+            sCustomerMenu = "";
+            sProduct = "";
+            sQuotation = "hidden";
+            sSalesOrder = "";
+            sSalesOrder2 = "";
+            sPayment = "";
+            sCreditNote = "";
+            sInvoices = "";
+            sKivCheck = "";
+            sKivDelivery = "";
+            sExchangeOrder = "";
+            sReturnedItem = "hidden";
+            sInventory = "hidden";
+            sWarehouse = "hidden";
+            //sWarehouseLocation = "hidden";
+            //sWarehouseConsignment = "hidden";
+            //sWarehousePicking = "hidden";
+            //sWarehouseLoanMgt = "hidden";
+            //sWarehouseReminder = "hidden";
+            //sWarehouseStock = "hidden";
+            sSupplier = "hidden";
+            sReports = "";
+            sFinancial = "hidden";
+            //sFinancialAccReceivable = "hidden";
+            //sFinancialAccPayable = "hidden";
+            //sFinancialDO = "hidden";
+            //sFinancialCredit = "hidden";
+            sPayroll = "hidden";
+            sHuman = "hidden";
+            //sHumanEmployeeMgt = "hidden";
+            //sHumanSalary = "hidden";
+            //sHumanDoc = "hidden";
+            //sHumanReminder = "hidden";
+            //sHumanTraining = "hidden";
+            sSetting = "hidden";
+        }
+
+        ViewBag.ControllerName = ViewContext.RouteData.Values["controller"].ToString();
+    }
+    <!-- begin #page-loader -->
+    <div id="page-loader" class="fade in"><span class="spinner"></span></div>
+    <!-- end #page-loader -->
+    <!-- begin #page-container -->
+    <div id="page-container" class="fade page-sidebar-fixed page-header-fixed">
+        <!-- begin #header -->
+        <div id="header" class="header navbar navbar-default navbar-fixed-top">
+            <!-- begin container-fluid -->
+            <div class="container-fluid">
+                <!-- begin mobile sidebar expand / collapse button -->
+                <div class="navbar-header">
+                    <a href="~/Dashboard/Index" class="navbar-brand"><span class="navbar-logo"><img src="~/assets/img/star3erp.png" alt="" height="24" width="115" /></span></a>
+                    <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <!-- end mobile sidebar expand / collapse button -->
+                <!-- begin header navigation right -->
+                @Html.Partial("_LoginPartial")
+
+                <!-- end header navigation right -->
+            </div>
+            <!-- end container-fluid -->
+        </div>
+        <!-- end #header -->
+        <!-- begin #sidebar -->
+        <div id="sidebar" class="sidebar">
+            <!-- begin sidebar scrollbar -->
+            <div data-scrollbar="true" data-height="100%">
+                <!-- begin sidebar user -->
+                <ul class="nav">
+                    <li class="nav-profile">
+                        @{Html.RenderAction("_UserCompanyLogo", "Shared");}
+
+                        <div class="info">
+
+                        </div>
+                    </li>
+                </ul>
+                <!-- end sidebar user -->
+                <!-- begin sidebar nav -->
+                <ul class="nav">
+                    <li class='@Html.IsActive("Dashboard", "Index")'>
+                        <a href="@Url.Action("Index", "Dashboard")">
+                            <i class="fa fa-dashboard"></i><span>DASHBOARD</span>
+                        </a>
+                    </li>
+                    @*<li class='@Html.IsActive("Schedule", "Calendar")'>
+                        <a href="@Url.Action("Calendar", "Schedule")">
+                            <i class="fa fa-calendar"></i><span>CALENDAR</span>
+                        </a>
+                    </li>*@
+                    <li class="has-sub">
+                        <a href="javascript:;">
+                            <b class="caret pull-right"></b>
+                            <i class="fa fa-globe"></i>
+                            <span>ENROLMENT</span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class='@Html.IsActive("CourseOrders", "EnrolmentEdit")'>
+                                <a href="@Url.Action("EnrolmentEdit", "CourseOrders")">
+                                    <span>NEW ENROLMENT</span>
+                                </a>
+                            </li>
+                            <li class='@Html.IsActive("CourseOrders", "Enrolments")'>
+                                <a href="@Url.Action("Enrolments", "CourseOrders")">
+                                    <span>ENROLMENT LIST</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="has-sub">
+                        <a href="javascript:;">
+                            <b class="caret pull-right"></b>
+                            <i class="fa fa-clock-o"></i>
+                            <span>ATTENDANCE</span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class='@Html.IsActive("Schedule", "ClassSchedule")'>
+                                <a href="@Url.Action("ClassSchedule", "Schedule")">
+                                    <span>CLASS SCHEDULE</span>
+                                </a>
+                            </li>
+                            <li class='@Html.IsActive("Attendance", "Index")'>
+                                <a href="@Url.Action("Index", "Attendance")">
+                                    <span>ATTENDANCE</span>
+                                </a>
+                            </li>
+                            <li class='@Html.IsActive("Attendance", "MakeupList")'>
+                                <a href="@Url.Action("MakeupList", "Attendance")">
+                                    <span>ABSENT & ADHOC</span>
+                                </a>
+                            </li>
+                            <li class='@Html.IsActive("Schedule", "Holiday")'>
+                                <a href="@Url.Action("Holiday", "Schedule")">
+                                    <span>HOLIDAY</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="has-sub">
+                        <a href="javascript:;">
+                            <b class="caret pull-right"></b>
+                            <i class="fa fa-user"></i>
+                            <span>PROFILE</span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class='@Html.IsActive("Clients", "Index")'>
+                                <a href="@Url.Action("Index", "Clients")">
+                                    <span>STUDENT</span>
+                                </a>
+                            </li>
+                            <li class='@Html.IsActive("Tutor", "Index")'>
+                                <a href="@Url.Action("Index", "Tutor")">
+                                    <span>TUTOR</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="has-sub">
+                        <a href="javascript:;">
+                            <b class="caret pull-right"></b>
+                            <i class="fa fa-book"></i>
+                            <span>COURSE</span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class='@Html.IsActive("Courses", "Pricebook")'>
+                                <a href="@Url.Action("Pricebook", "Courses")">
+                                    <span>PRICEBOOK</span>
+                                </a>
+                            </li>
+                            <li class='@Html.IsActive("Courses", "Index")'>
+                                <a href="@Url.Action("Index", "Courses")">
+                                    <span>COURSE</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+
+                    <li class="has-sub @sFinancial">
+                        <a href="javascript:;">
+                            <b class="caret pull-right"></b>
+                            <i class="fa fa-table"></i>
+                            <span>FINANCIAL</span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class='@Html.IsActive("CourseOrders", "BatchInvoice") @sPayment'>
+                                <a href="@Url.Action("BatchInvoice", "CourseOrders")">
+                                    <span>BATCH INVOICE</span>
+                                </a>
+                            </li>
+                            <li class='@Html.IsActive("Payment", "Index") @sPayment'>
+                                <a href="@Url.Action("Index", "Payment")">
+                                    <span>RECEIVE PAYMENT</span>
+                                </a>
+                            </li>
+                            <li class='@Html.IsActive("CreditNote", "Index") @sCreditNote'>
+                                <a href="@Url.Action("Index", "CreditNote")">
+                                    <span>CREDIT NOTES</span>
+                                </a>
+                            </li>
+                            <li class='@Html.IsActive("CrSales", "Index") @sInvoices'>
+                                <a href="@Url.Action("CreditSales", "Sales")">
+                                    <span>SALES INVOICE</span>
+                                </a>
+                            </li>
+                            <li class=''>
+                                <a href="@Url.Action("BillItems", "CourseOrders")">
+                                    <span>BILLABLE ITEMS</span>
+                                </a>
+                            </li>
+                        </ul>
+
+                    </li>
+
+
+
+                    <li class='@Html.IsActive("Reports", "Index") @sReports'>
+                        <a href="@Url.Action("Index", "Reports")">
+                            <i class="fa fa-line-chart"></i><span>REPORT</span>
+                        </a>
+                    </li>
+
+                    <li class="has-sub @sSetting">
+                        <a href="javascript:;">
+                            <b class="caret pull-right"></b>
+                            <i class="fa fa-cog"></i>
+                            <span>SETTING</span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class='@Html.IsActive("Companies", "Index")'>
+                                <a href="@Url.Action("Index", "Companies")">
+                                    <span>COMPANY</span>
+                                </a>
+                            </li>
+                            <li class='@Html.IsActive("GSTs", "Edit/1")'>
+                                <a href="@Url.Action("Edit/1", "GSTs")">
+                                    <span>GST</span>
+                                </a>
+                            </li>
+                            <li class='@Html.IsActive("CustomSettings", "Edit")'>
+                                <a href="@Url.Action("Edit", "CustomSettings")">
+                                    <span>CUSTOM SETTINGS</span>
+                                </a>
+                            </li>
+                            <li class='@Html.IsActive("Staffs", "Index")'>
+                                <a href="@Url.Action("Index", "Staffs")">
+                                    <span>SALES MEMBER</span>
+                                </a>
+                            </li>
+
+                            <li class='@Html.IsActive("UsersAdmin", "Index")'>
+                                <a href="@Url.Action("Index", "UsersAdmin")">
+                                    <span>USER</span>
+                                </a>
+                            </li>
+                            <li class='@Html.IsActive("UserCompanies", "Index")'>
+                                <a href="@Url.Action("Index", "UserCompanies")">
+                                    <span>USER AND COMPANY</span>
+                                </a>
+                            </li>
+                            <li class='@Html.IsActive("RolesAdmin", "Index")'>
+                                <a href="@Url.Action("Index", "RolesAdmin")">
+                                    <span>ROLE</span>
+                                </a>
+                            </li>
+                        </ul>
+
+                    </li>
+
+
+
+
+                    <!-- begin sidebar minify button -->
+                    <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
+                    <!-- end sidebar minify button -->
+                </ul>
+                <!-- end sidebar nav -->
+            </div>
+            <!-- end sidebar scrollbar -->
+        </div>
+        @Html.Hidden("ControllerName", (string)ViewBag.ControllerName)
+        <div class="sidebar-bg"></div>
+        <!-- end #sidebar -->
+        <!-- begin #content -->
+        <div id="content" class="content">
+            @RenderBody()
+
+
+
+        </div>
+        <!-- end #content -->
+        <!-- begin scroll to top btn -->
+        <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
+        <!-- end scroll to top btn -->
+    </div>
+    <!-- end page container -->
+    @RenderSection("Scripts", required: false)
+
+    <script>
+        $(document).ready(function () {
+            App.init();
+
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var url = window.location;
+            // Will only work if string in href matches with location
+            $('ul.nav a[href="' + url + '"]').parent().addClass('active');
+
+            // Will also work for relative and absolute hrefs
+            $('ul.nav a').filter(function () {
+                return this.href == url;
+            }).parent().addClass('active').parent().parent().addClass('active');
+        });
+    </script>
+
+
+
+</body>
+</html>
+

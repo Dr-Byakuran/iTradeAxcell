@@ -1,0 +1,379 @@
+﻿@model iTrade.Models.KivOrder
+@*@model IEnumerable<iTrade.Models.Client>*@
+@*@model IEnumerable<iTrade.Models.Staff>*@
+
+@{
+    ViewBag.Title = "Create";
+    Layout = null;
+}
+
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-datepicker/css/datepicker.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-combobox/css/bootstrap-combobox.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/select2/dist/css/select2.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/parsley/src/parsley.css")" rel="stylesheet" type="text/css" />
+
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin panel -->
+<div class="panel panel-inverse">
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.KorID, new { id = "invNumber" })
+            @Html.HiddenFor(model => model.InvType, new { id = "invType" })
+
+            @Html.HiddenFor(model => model.Addr4, new { id = "addr4" })
+            @Html.HiddenFor(model => model.PhoneNo, new { id = "phoneNo" })
+            @Html.HiddenFor(model => model.FaxNo, new { id = "faxNo" })
+            
+            @Html.HiddenFor(model => model.PersonID, new { id = "personID" })
+            @Html.HiddenFor(model => model.PersonName, new { id = "personName" })
+            @Html.HiddenFor(model => model.CustNo, new { id = "custNo" })
+            @Html.HiddenFor(model => model.CustName, new { id = "custName" })
+
+            @Html.HiddenFor(model => model.Status)
+
+            @Html.HiddenFor(model => model.CreatedBy)
+            @Html.HiddenFor(model => model.CreatedOn)
+            @Html.HiddenFor(model => model.ModifiedBy)
+            @Html.HiddenFor(model => model.ModifiedOn)
+
+            @Html.HiddenFor(model => model.Remark)
+            @Html.Hidden("tags", new { htmlAttributes = new { id = "tags", @class = "form-control", placeholder = "Please enter customer name to view available list" } })
+
+
+
+
+            @*<div class="row">
+                <div class="col-md-7">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CustName, htmlAttributes: new { @class = "control-label col-md-4 text-left" })
+                            <div class="col-md-8 semi-bold">
+                                @Html.DisplayFor(model => model.CustName, new { htmlAttributes = new { id = "custName", @class = "form-control" } })
+                                @if (!string.IsNullOrEmpty(Model.CustName2))
+                                {
+                                    <span>&nbsp;&nbsp; -  @Model.CustName2</span>
+
+                                }
+
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Addr1, htmlAttributes: new { @class = "control-label col-md-4 text-left" })
+                            <div class="col-md-8">
+                                @Html.DisplayFor(model => model.Addr1, new { htmlAttributes = new { id = "addr1", @class = "form-control" } }) <br />
+                                @Html.DisplayFor(model => model.Addr2, new { htmlAttributes = new { id = "addr2", @class = "form-control" } }) <br />
+                                @Html.DisplayFor(model => model.Addr3, new { htmlAttributes = new { id = "addr3", @class = "form-control" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DeliveryAddress, htmlAttributes: new { @class = "control-label col-md-4 text-left" })
+                            <div class="col-md-8">
+                                @Html.DisplayFor(model => model.DeliveryAddress, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DeliveryDate, htmlAttributes: new { @class = "control-label col-md-4 text-left" })
+                            <div class="col-md-8">
+                                @Html.DisplayFor(model => model.DeliveryDate, new { htmlAttributes = new { id = "deliveryDate", @class = "form-control" } }) &nbsp;&nbsp;
+                                @Html.DisplayFor(model => model.DeliveryTime, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="col-md-5">
+                    <div class="form-horizontal">
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.InvDate, htmlAttributes: new { @class = "control-label col-md-4 text-left" })
+                            <div class="col-md-8">
+                                @Html.DisplayFor(model => model.InvDate, new { htmlAttributes = new { id = "invDate", @class = "form-control" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PoNo, htmlAttributes: new { @class = "control-label col-md-4 text-left" })
+                            <div class="col-md-8">
+                                @Html.DisplayFor(model => model.PoNo, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PersonName, htmlAttributes: new { @class = "control-label col-md-4 text-left" })
+                            <div class="col-md-8">
+                                @Html.DisplayFor(model => model.PersonName, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PaymentTerms, htmlAttributes: new { @class = "control-label col-md-4 text-left" })
+                            <div class="col-md-8">
+                                @Html.DisplayFor(model => model.PaymentTerms, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>*@
+
+        }
+
+
+        <table class="table table-striped row-fluid">
+            <thead>
+                <tr>
+                   
+                    <th style="width:28px;">
+                        NO
+                    </th>
+                    <th class="col-md-5">Item Description</th>
+                    @*<th>Invoice#</th>
+                    <th>Order <br />Qty</th>
+                    <th>Balance <br />Qty</th>*@
+                    <th class="col-md-3">Deliver Qty</th>
+                    <th class="col-md-3"> </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @{Html.RenderAction("_DisplayKivOrderDetsPrint", "KivOrders", new { id = Model.KorID });}
+
+
+            </tbody>
+        </table>
+
+
+
+
+
+        <!-- modal placeholder-->
+        <div id="kivPartialModal" class="modal" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div id='kivPartialModalContent'>
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3 class="modal-title"><span class="lead">Partial Delivery</span></h3>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <br />
+
+                                    <table class="table table-striped" style="width:100%;">
+                                        <thead>
+                                            <tr>
+                                                <th class="col-md-6">Description</th>
+                                                <th>Order <br />Qty</th>
+                                                <th>Balance <br />Qty</th>
+                                                <th>Deliver <br />Qty</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td> Item 1</td>
+                                                <td> 3 </td>
+                                                <td> 3 </td>
+                                                <td> <input type="text" value="0" class="form-control col-md-1" /> </td>
+
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+
+
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <br />
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <span id="progress" class="text-center" style="display: none;">
+                                <img src="~/assets/img/Wait.gif" alt="wait" />
+                                Wait..
+                            </span>
+
+                            <input type="button" class="btn btn-primary" id="btnPartialDelivery" value=" Save " />
+                            <button class="btn btn-white" data-dismiss="modal">Close</button>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+ 
+
+
+    </div>
+
+</div>
+<!-- end panel -->
+@section Scripts{
+    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-combobox/js/bootstrap-combobox.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/select2/dist/js/select2.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery-tag-it/js/tag-it.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/js/form-plugins.star.js")"></script>
+
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/modal-order.js")"></script>
+
+
+}
+
+
+<script>
+            $(document).ready(function () {
+                // App.init();
+                TableManageDefault.init();
+                // Notification.init();
+                FormPlugins.init();
+
+            });
+</script>
+
+<script>
+            $(document).ready(function () {
+                $('#invDate').datepicker({
+                    format: 'dd/mm/yyyy',
+                    setDate: new Date(),
+                    todayHighlight: true,
+                    autoclose: true
+                });
+                $('#deliveryDate').datepicker({
+                    format: 'dd/mm/yyyy',
+                    setDate: new Date(),
+                    todayHighlight: true,
+                    autoclose: true
+                });
+
+            });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $("#btnSaveChanges").click(function()
+        {
+            $("#orderForm").submit();
+
+        });
+    });
+</script>
+
+
+
+
+<script type="text/javascript">
+            $(document).ready(function () {
+                $("select.selectpicker").change(function () {
+                    var val = $(".selectpicker option:selected").val();
+                    //   alert("You have selected the country - " + val);
+
+                    if (val > 0) {
+                        $.ajax({
+                            type: 'GET',
+                            url: '@Url.Action("AutoCompleteSelected")',
+                            dataType: "json",
+                            contentType: 'application/json, charset=utf-8',
+                            data: {
+                                search: val
+                            },
+                            success: function (data) {
+                                $('#item1').val(data.result.CustNo);
+                                $('#item2').val(data.result.CustName);
+                                $('#custNo').val(data.result.CustNo);
+                                $('#custName').val(data.result.CustName);
+                                $('#addr1').val(data.result.Addr1);
+                                $('#addr2').val(data.result.Addr2);
+                                $('#addr3').val(data.result.Addr3);
+                                $('#postalCode').val(data.result.PostalCode)
+
+
+                            },
+                            error: function (xhr, status, error) {
+                                alert(error);
+                            }
+
+                        });
+
+                    }
+                });
+
+                $("select.staffpicker").change(function () {
+                    var staffid = $(".staffpicker option:selected").val();
+                    var staffname = $(".staffpicker option:selected").text().trim();
+
+                    $('#personID').val(staffid);
+                    $('#personName').val(staffname);
+
+                 //   alert($('#personID').val() + "-" + $('#personName').val());
+
+                });
+
+            });
+
+
+
+
+
+</script>
+
+
+
+
+
+

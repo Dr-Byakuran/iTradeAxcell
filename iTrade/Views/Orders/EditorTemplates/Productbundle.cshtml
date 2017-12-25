@@ -1,0 +1,41 @@
+﻿@model iTrade.Models.Productbundle
+@using iTrade.Models
+
+@Html.HiddenFor(model => model.BunleID)
+@Html.HiddenFor(model => model.IncProductID, new { id = "txtProductID" })
+@Html.HiddenFor(model => model.IncProductType, new { id = "txtProductType" })
+@Html.HiddenFor(model => model.IsControlItem, new { id = "txtIsControlItem" })
+@Html.HiddenFor(model => model.IncRemark, new { id = "txtRemark" })
+@Html.HiddenFor(model => model.IncModelNo, new { id = "txtModelNo" })
+
+<div class="row">
+    <div class="infoBundle">
+        <div class="form-group">
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.IncSKU, new { htmlAttributes = new { id = "txtSKU", @class = "form-control", @readonly = true } })
+                @Html.ValidationMessageFor(model => model.IncSKU, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.IncProductName, new { htmlAttributes = new { id = "txtProductName", @class = "form-control", @readonly = true } })
+                @Html.ValidationMessageFor(model => model.IncProductName, "", new { @class = "text-danger" })
+
+            </div>
+
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.IncQty, new { htmlAttributes = new { id = "txtQty", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IncQty, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+

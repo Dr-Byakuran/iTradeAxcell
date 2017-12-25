@@ -1,0 +1,25 @@
+﻿@model IEnumerable<iTrade.Models.SAR_ProductDet>
+
+<br />
+                    <table class="no-border">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    C/w following accessories & parts
+                                </td>
+                            </tr>
+
+                            @{int i = 0;}
+                            @foreach (var item in Model)
+                            {
+                                i++;
+                                <tr>
+                                    <td>
+                                        @i)
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                    </td> 
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>

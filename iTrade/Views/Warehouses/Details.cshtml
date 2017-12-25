@@ -1,0 +1,91 @@
+﻿@model iTrade.Models.Warehouse
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Warehouse</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LocationName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LocationName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Addr1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Addr1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Addr2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Addr2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Addr3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Addr3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PostalCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostalCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Country)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Country)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FaxNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FaxNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactPerson)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactPerson)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.LocationID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

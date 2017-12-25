@@ -1,0 +1,423 @@
+﻿@model List<iTrade.Models.INVDET>
+
+@using (Html.BeginForm("_DisplayInvDets", "Orders", FormMethod.Post, new { id = "EditInvDetInfoForm" }))
+{
+    var modelcount = Model.Count;
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th style="width:80px;">&nbsp; </th>
+                <th style="width:68px;">
+                    NO
+                </th>
+                <th>SKU</th>
+                <th class="col-md-4">
+                    Item Description
+                </th>
+ 
+                <th class="col-md-1">
+                    Qty
+                </th>
+                <th>
+                    Unit Price
+                </th>
+                <th>
+                    Unit Disc
+                </th>
+                <th>
+                    Sell Price
+                </th>
+                <th>
+                    Total Disc
+                </th>
+                <th>
+                    <span class="pull-right">Amount </span>
+
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @for (int i = 0; i < Model.Count; i++)
+            {
+            <tr>
+                <td>
+                    @Html.HiddenFor(model => model[i].DetID)
+                    @Html.HiddenFor(model => model[i].DetNum, new { id = "itemDetNum2" })
+                    @Html.HiddenFor(model => model[i].DetType, new { id = "itemDetType2" })
+                    @Html.HiddenFor(model => model[i].QuoNo, new { id = "itemQuoNo2" })
+                    @Html.HiddenFor(model => model[i].SorID, new { id = "itemSorID2" })
+                    @Html.HiddenFor(model => model[i].SorNo, new { id = "itemSorNo2" })
+                    @Html.HiddenFor(model => model[i].InvID, new { id = "itemInvID2" })
+                    @Html.HiddenFor(model => model[i].InvNo, new { id = "itemInvNo2" })
+                    @Html.HiddenFor(model => model[i].EorID, new { id = "itemEorID2" })
+                    @Html.HiddenFor(model => model[i].EorNo, new { id = "itemEorNo2" })
+                    @Html.HiddenFor(model => model[i].CnID, new { id = "itemCnID2" })
+                    @Html.HiddenFor(model => model[i].CnNo, new { id = "itemCnNo2" })
+
+                    @Html.HiddenFor(model => model[i].InvType, new { id = "itemInvType2" })
+                    @Html.HiddenFor(model => model[i].ItemID, new { id = "itemID2" })
+                    @Html.HiddenFor(model => model[i].ItemType, new { id = "itemType2" })
+                    @Html.HiddenFor(model => model[i].ItemName, new { id = "itemName2" })
+                    @Html.HiddenFor(model => model[i].Unit, new { id = "itemUnit2" })
+                    @Html.HiddenFor(model => model[i].UnitCostPrice, new { id = "itemUnitCostPrice2" })
+
+                    @Html.HiddenFor(model => model[i].PreDiscAmount, new { id = "itemPreDiscAmount2" })
+                    @Html.HiddenFor(model => model[i].Gst, new { id = "itemGst2" })
+                    @Html.HiddenFor(model => model[i].Nett, new { id = "itemNett2" })
+
+                    @Html.HiddenFor(model => model[i].IsBundle, new { id = "itemIsBundle2" })
+                    @Html.HiddenFor(model => model[i].RefItemID, new { id = "itemRefItemID2" })
+                    @Html.HiddenFor(model => model[i].InvRef, new { id = "itemInvRef2" })
+                    @Html.HiddenFor(model => model[i].IsControlItem, new { id = "itemIsControl2" })
+                    @Html.HiddenFor(model => model[i].LocationID, new { id = "warehouseID2" })
+                    @Html.HiddenFor(model => model[i].LocationName, new { id = "warehouseName2" })
+
+                    @Html.HiddenFor(model => model[i].SalesType, new { id = "itemSalesType2" })
+                    @Html.HiddenFor(model => model[i].Position, new { id = "itemPosition2" })
+                    @Html.HiddenFor(model => model[i].ImageUrl, new { id = "imageUrl2" })
+                    @Html.HiddenFor(model => model[i].ModifiedBy, new { id = "modifiedBy2" })
+                    @Html.HiddenFor(model => model[i].ModifiedOn, new { id = "modifiedOn2" })
+
+                    @if (ViewBag.Act != "1")
+                    {
+                        if (Model[i].IsBundle == true)
+                        {
+                            if (Model[i].RefItemID == 0)
+                            {
+                                <button type="button" id="btnDel" onclick="delItem(@Model[i].DetID)" class="btn btn-xs btn-primary"><span class="fa fa-remove" aria-hidden="true"></span></button>
+                                @*<a data-modal="" href="/Orders/_EditDetBundle/@Model[i].DetID" id="btnEditDetBundle" data-para1="@Model[i].DetID"><i class="fa fa-edit"></i></a>*@
+
+
+                            }
+                            else
+                            {
+
+
+                            };
+                        }
+                        else
+                        {
+                            <button type="button" id="btnDel" onclick="delItem(@Model[i].DetID)" class="btn btn-xs btn-primary"><span class="fa fa-remove" aria-hidden="true"></span></button>
+                            @*<a data-modal="" href="/Orders/_EditDet/@Model[i].DetID" id="btnEdit" class="btn btn-xs btn-primary"><i class="fa fa-edit"></i></a>*@
+                        }
+
+
+                        if (i != 0 && Model[i].Position.ToString().IndexOf(".1") < 0)
+                        {
+                            <a href="#" onclick="itemMoveUp(@Model[i].DetID)" class="btn btn-xs btn-primary"><i class="fa fa-arrow-up"></i></a>
+
+                            @*<div style="cursor: pointer;" onclick="itemMoveUp(@Model[i].DetID)"><i class="fa fa-chevron-up m-r-10"></i></div>*@
+                        }
+                        else
+                        {
+                            <a href="#"  class="btn btn-xs btn-primary"><i class="fa fa-arrow-up"></i></a>
+                        }
+
+                        @*if (i + 1 != modelcount)
+                        {
+                            <a href="#" onclick="itemMoveDown(@Model[i].DetID)"><i class="fa fa-arrow-down m-r-10"></i></a>
+                            @*<div style="cursor: pointer;" onclick="itemMoveDown(@Model[i].DetID)"><i class="fa fa-chevron-down m-r-10"></i></div>
+                        }*@
+                    }
+
+                </td>
+
+                <td>
+                    @Model[i].Position  &nbsp;
+                    <span class="text-right">
+                        @if (Model[i].IsBundle == true)
+                        {
+                            if (Model[i].RefItemID == 0)
+                            {
+                                <span class="label label-info">Pkg</span>
+                            }
+                        }
+                        @if (Model[i].SalesType == "FOCItem")
+                        {
+                            <span class="label label-warning">FOC</span>
+                        }
+                    </span>
+ 
+                </td>
+                <td>
+                    <span class="label label-info">@Model[i].DetType</span>
+                    @Model[i].ItemCode
+                </td>
+                <td class="input-wrapper">              
+                    @Html.EditorFor(model => model[i].ItemDesc, new { htmlAttributes = new { id = "itemDesc2", @class = "form-control col-md-12" } })
+                    @Html.EditorFor(model => model[i].Remark, new { htmlAttributes = new { id = "itemRemark2", @class = "form-control col-md-12", placeholder = "Remark" } })
+                </td>
+                <td class="input-wrapper">
+                    @Html.EditorFor(model => model[i].Qty, new { htmlAttributes = new { id = "itemQty2", @class = "form-control Qty col-md-12" } })
+                    @Html.EditorFor(model => model[i].Unit, new { htmlAttributes = new { id = "itemUnit2", @class = "form-control col-md-12", placeholder = "Unit" } })
+                </td>
+                <td class="input-wrapper">
+                    @Html.EditorFor(model => model[i].UnitPrice, new { htmlAttributes = new { id = "itemUnitPrice2", @class = "form-control Unitprice" } })
+
+                    @*&nbsp;&nbsp; @Model[i].Remark*@
+
+                </td>
+                <td class="input-wrapper">
+                    @Html.EditorFor(model => model[i].Discount, new { htmlAttributes = new { id = "itemDiscount2", @class = "form-control Unitprice" } })
+
+                </td>
+                <td class="input-wrapper">
+                    @Html.EditorFor(model => model[i].DiscountedPrice, new { htmlAttributes = new { id = "itemDiscountedPrice2", @class = "form-control Unitprice" } })
+
+                </td>
+                <td class="input-wrapper">
+                    <span class="form-control no-border">@(Model[i].Amount - (Model[i].UnitPrice * Convert.ToDecimal(Model[i].Qty)))</span>
+                    <span class="form-control no-border">
+                        @if ((Model[i].UnitPrice * Convert.ToDecimal(Model[i].Qty)) != 0)
+                        {
+                            @(((Model[i].UnitPrice * Convert.ToDecimal(Model[i].Qty) - Model[i].Amount) / (Model[i].UnitPrice * Convert.ToDecimal(Model[i].Qty))).ToString("P"))
+                        }
+                    </span>
+                </td>
+                <td class="input-wrapper text-right">
+                    @Html.EditorFor(model => model[i].Amount, new { htmlAttributes = new { id = "itemAmount2", @class = "form-control text-right Amount" } })
+
+                </td>
+
+
+            </tr>
+
+
+            }
+
+
+        </tbody>
+        <tfoot>
+                @if (Model.Count == 0)
+                {
+                    <tr>
+                        <td colspan="10"> &nbsp; </td>
+
+                    </tr>
+                }
+
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="8">
+                        @if (ViewBag.Act != "1")
+                        { 
+                            <span>
+                                <a href="#additemModal" data-toggle="modal" class="btn btn-primary"><i class="fa fa-plus"></i> Single item</a> &nbsp;
+                                <a href="#addMultiitemModal" data-toggle="modal" class="btn btn-primary"><i class="fa fa-plus"></i> Multi items</a> &nbsp;                  
+                            </span>
+
+                            if (Model.Count > 0)
+                            {
+                                <input type="button" id="btnSubmitInvDetInfo" class="btn btn-small btn-primary" value="Save Items" />
+                                @*<button id="btnSubmitInvDetInfo" class="btn btn-small btn-primary">
+                                        <i class="fa fa-save"></i> Save Items
+                                    </button>*@
+                            }
+
+                        }
+
+
+
+                    </td>
+                </tr>
+
+
+
+        </tfoot>
+
+    </table>
+
+
+
+}
+
+
+
+    <!-- modal placeholder-->
+    <div id="myModal" class="modal" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id='myModalContent'></div>
+            </div>
+        </div>
+    </div>
+
+<script>
+
+    function delItem(ID) {
+        var newUrl1 = $('#txtUrl1').val();
+
+        $.ajax({
+            type: 'GET',
+            url: '/Orders/_DelItem',
+            dataType: "json",
+            contentType: 'application/json, charset=utf-8',
+            data: {
+                id: ID
+            },
+            success: function (result) {
+                if (result.success) {
+                 //   alert("Item Deleted"); 
+                    $("#divOrderDetail").load(newUrl1);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+
+        });
+    }
+
+    function itemMoveUp(ID)
+    {
+        var newUrl1 = $('#txtUrl1').val();
+        $.ajax({
+            type: 'GET',
+            url: '/Orders/_ItemMoveUp',
+            dataType: "json",
+            contentType: 'application/json, charset=utf-8',
+            data: {
+                id: ID
+            },
+            success: function (result) {
+                if (result.success) {
+                    //   alert("Item Deleted"); 
+                    $("#divOrderDetail").load(newUrl1);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+
+        });
+    }
+
+    function itemMoveDown(ID) {
+        $.ajax({
+            type: 'GET',
+            url: '/Orders/_ItemMoveDown',
+            dataType: "json",
+            contentType: 'application/json, charset=utf-8',
+            data: {
+                id: ID
+            },
+            success: function (result) {
+                if (result.success) {
+                    //   alert("Item Deleted"); 
+                    $("#divOrderDetail").load(newUrl1);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+
+        });
+    }
+</script>
+
+
+    <script>
+        $(function () {
+            $("#item-session .form-control .Qty").on("focusout", function () {
+                var qty = $("#item-session .form-control .Qty").val();
+                var unitprice = $("#item-session .form-control .Unitprice").val();
+                var amount = $("#item-session .form-control .Amount").val();
+
+                var totalamount = qty * unitprice;
+
+                alert(unitprice);
+
+                $('#item-session .form-control.Amount').val(totalamount);
+
+                RecalculateItems();
+            });
+            $("#item-session .form-control .Unitprice").on("focusout", function () {
+                RecalculateItems();
+            });
+            $("#item-session .form-control .Amount").on("focusout", function () {
+                RecalculateItems();
+            });
+
+
+        })
+    </script>
+
+    <script>
+        function RecalculateItems() {
+            var totalAmount = 0;
+            $("#item-session .form-control .Amount").each(function () {
+                //same as above, except with items with Amount class
+                totalAmount += parseInt($(this).val());
+            });
+            //set inner html of each span identified above with the correct values
+            $("#TotalAmount").html(totalAmount);
+        }
+    </script>
+
+<script type="text/javascript">
+
+    $("#btnAddDet").click(function () {
+        var pid = $('#itemID').val().trim();
+        var qty = $('#itemQty').val().trim();
+        var SorID = $('#itemSorID').val().trim();
+        $('#txtTitleQty').text(qty);
+
+        var flag = $('#itemIsBundle').val().trim();
+        if (flag == "true") {
+            var url = '@Url.Action("_AddDetBundle", "Orders")';
+            url += '/?id=' + pid + '&qty=' + qty + '&SorID=' + SorID;
+            $("#bundleOrderModalContent").load(url);
+            $('#bundleOrderModal').modal({
+                keyboard: true
+            }, 'show');
+
+        } else {
+            $("#addDetForm").submit();
+        }
+
+    });
+
+
+    //   $("#btnEditDetBundle").click(function () {
+    //       var pid = this.dataset['para1'];
+    //       var url = '@Url.Action("_EditDetBundle", "Orders")';
+    //        url += '/?id=' + pid;
+    //        $("#bundleOrderModalContent").load(url);
+
+    //    });
+
+
+
+</script>
+
+
+
+<script type="text/javascript">
+    $("#btnSubmitInvDetInfo").click(function () {
+        $("#EditInvDetInfoForm").submit(function (e) {
+            e.preventDefault();
+            var newUrl1 = $('#txtUrl1').val();
+            //  alert('Form is submitting');
+            $.ajax({
+                url: this.action,
+                type: this.method,
+                data: $(this).serializeArray(),
+                success: function (result) {
+                    if (result.success) {
+                        $("#divOrderDetail").load(newUrl1);
+                         alert("Items Saved.");
+
+                    } else {
+                        alert("Items Not Saved.");
+                    }
+                }
+            });
+            return true;
+        });
+        $("#EditInvDetInfoForm").submit(); //invoke form submission
+
+    });
+
+</script>

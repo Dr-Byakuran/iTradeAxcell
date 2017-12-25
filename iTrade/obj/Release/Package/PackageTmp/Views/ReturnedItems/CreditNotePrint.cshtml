@@ -1,0 +1,207 @@
+﻿@model iTrade.Models.ReturnedItem
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+
+    <link href="@Url.Content("http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700")" rel="stylesheet" type="text/css" />
+
+
+    @Styles.Render("~/css/css")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <link href="@Url.Content("~/assets/css/star-print.css")" rel="stylesheet" type="text/css" />
+
+
+
+</head>
+<body onload="window.print();">
+
+    <!-- begin #content -->
+    <div id="content" class="content">
+
+        <!-- begin invoice -->
+        <div class="invoice">
+            <div class="invoice-company">
+                <div style="float:left;">
+                    <img src="~/assets/img/logo.png" />
+
+                </div>
+                <div style="float:left; margin-left: 20px; ">
+
+                    <p style="font-size: 16pt; letter-spacing: 1pt; text-align:left; margin-top:0px;margin-bottom:0px;">AMASCO INDUSTRIES PTE LTD </p>
+                    <p style="font-size: 8pt; letter-spacing: 0pt; text-align:left; margin-top:0px;margin-bottom:0px;">135 Joo Seng Road, #02-01 PM Industrial Building, Singapore 368363</p>
+                    <p style="font-size: 8pt; letter-spacing: 0pt; text-align:left; margin-top:0px;margin-bottom:0px;">+65 6289 6947 (Service Hotline)  &nbsp;&nbsp; Fax: +65 6289 7696 </p>
+                    <p style="font-size: 8pt; letter-spacing: 0pt; text-align:left; margin-top:0px;margin-bottom:0px;">Business Reg. No.: 123456789B  &nbsp;&nbsp; GST Reg. No.: 123456789G</p>
+
+                </div>
+
+
+
+            </div>
+
+            <div class="invoice-header">
+                <table style="width:100%;">
+                    <tr>
+                        <td style="width:70%;" valign="top">
+                            <div style="float:left;  font-size: 10pt; letter-spacing: 0pt; font-weight:600; line-height:20px; margin-top:0px;margin-bottom:0px;">
+                                <span style="font-size: 12pt; letter-spacing: 0pt; line-height:2.8em; font-weight:700; margin-top:0px;margin-bottom:30px;"> CREDIT NOTE </span> <br />
+                                <span id="txtCustName" style="font-size: 11.5pt; letter-spacing: 0pt; font-weight:700; margin-top:20px;margin-bottom:0px;">@Model.CustName </span> <br />
+
+                                @if (@Model.Addr1 != null)
+                                {
+                                    <span id="txtAddr1">@Model.Addr1 </span> <br />
+                                }
+                                @if (@Model.Addr2 != null)
+                                {
+                                    <span id="txtAddr2">@Model.Addr2 </span> <br />
+                                }
+                                @if (@Model.Addr3 != null)
+                                {
+                                    <span id="txtAddr3">@Model.Addr3 </span> <br />
+                                }
+
+                                Singapore @Model.PostalCode
+
+
+                            </div>
+
+
+                        </td>
+
+                        <td style="width:300px; text-align:center;">
+
+
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td style="padding-top: 2px; padding-bottom: 2px;"> <span style="font-size: 10pt; letter-spacing: 0pt; font-weight:700; margin-top:0px;margin-bottom:0px;">Returned Form No.</span></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top: 2px; padding-bottom: 2px;"> <span id="txtInvID" style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">NS-@Model.ReturnedItemID </span></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top: 2px; padding-bottom: 2px;"> <span style="font-size: 10pt; letter-spacing: 0pt; font-weight:700; margin-top:0px;margin-bottom:0px;">Date</span></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top: 2px; padding-bottom: 2px;"> <span id="txtInvDate" style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">@Model.InvDate.ToShortDateString()</span></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top: 2px; padding-bottom: 2px;"> <span style="font-size: 10pt; letter-spacing: 0pt; font-weight:700; margin-top:0px;margin-bottom:0px;">Invoice Ref.</span></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top: 2px; padding-bottom: 2px;"> <span id="txtInvDate" style="font-size: 10pt; letter-spacing: 0pt;  margin-top:0px;margin-bottom:0px;">@Model.InvRef</span></td>
+                                </tr>
+                            </table>
+
+
+                        </td>
+                    </tr>
+                </table>
+
+
+            </div>
+            <div class="invoice-content">
+                <div style="width:100%; text-align:left; font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">
+
+                    <table class="table table-bordered row-fluid">
+                        <thead>
+                            <tr>
+                                <th>
+                                    No.
+                                </th>
+                                <th>
+                                    Goods Description
+                                </th>
+
+                                <th class="text-center">
+                                    Qty
+                                </th>
+                                <th class="text-center">
+                                    Unit
+                                </th>
+                                <th class="col-md-2">
+                                    <span class="pull-right"> List Price </span>
+
+                                </th>
+                                <th class="col-md-2">
+                                    <span class="pull-right"> Total ($)</span>
+
+                                </th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{Html.RenderAction("_DisplaySalesItems", "ReturnedItems", new { id = @Model.ReturnedItemID });}
+                        </tbody>
+
+                        <tfoot>
+                            <tr>
+                                <td colspan="3"></td>
+                                <td colspan="3" style="height: 20px;  border-bottom:1px solid #000 !important;">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="border-right:1px solid #000 !important;"></td>
+                                <td colspan="2" style="height: 20px; border: 1px solid #000 !important;" align="left" valign="middle"><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">Total Credit</span></td>
+                                <td class="text-right" style="border-collapse: collapse !important; border: 1px solid #000 !important;"><span class="pull-left" style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">$</span><span style="font-size: 10pt; letter-spacing: 0pt; margin-top:0px;margin-bottom:0px;">@ViewData["seTotalAmountCreditNotePrint"] </span></td>
+
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+            <div class="inv-footer">
+
+                <div style="float: left; width:50%;">CUSTOMER'S COMPANY STAMP/SIGNATURRE <br /><br /><br /></div>
+                <div style="float: right; width:40%;">AMASCO INDUSTRIES PTE LTD  <br /><br /><br /></div>
+
+
+
+            </div>
+
+
+
+            <div class="inv-footerLogo" style="text-align:center;margin-top:10px;margin-bottom:10px;">
+
+
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+        <!-- end invoice -->
+
+
+
+
+    </div>
+
+
+</body>
+</html>

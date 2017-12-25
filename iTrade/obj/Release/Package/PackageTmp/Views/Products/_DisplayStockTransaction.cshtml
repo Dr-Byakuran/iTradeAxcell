@@ -1,0 +1,28 @@
+﻿
+@using iTrade.CustomHtmlHelper;
+@model IEnumerable<iTrade.Models.StockTransaction> 
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.LocationName)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.ProcessType)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Qty)
+        </td>
+
+        <td>
+            @item.CreatedOn.ToString("dd MMM yyyy")
+        </td>
+    </tr>
+}
+
+ 
+ 
+

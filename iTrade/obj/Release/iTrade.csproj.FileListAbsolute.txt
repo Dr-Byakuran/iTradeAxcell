@@ -1,0 +1,727 @@
+D:\WebApps\iTrade\iTrade\bin\iTrade.dll.config
+D:\WebApps\iTrade\iTrade\bin\iTrade.dll
+D:\WebApps\iTrade\iTrade\bin\iTrade.pdb
+D:\WebApps\iTrade\iTrade\bin\Antlr3.Runtime.dll
+D:\WebApps\iTrade\iTrade\bin\CLK.AspNet.Identity.dll
+D:\WebApps\iTrade\iTrade\bin\CLK.AspNet.Identity.EntityFramework.dll
+D:\WebApps\iTrade\iTrade\bin\CLK.AspNet.Identity.Mvc.dll
+D:\WebApps\iTrade\iTrade\bin\EntityFramework.dll
+D:\WebApps\iTrade\iTrade\bin\EntityFramework.SqlServer.dll
+D:\WebApps\iTrade\iTrade\bin\Microsoft.AspNet.Identity.Core.dll
+D:\WebApps\iTrade\iTrade\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\WebApps\iTrade\iTrade\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\WebApps\iTrade\iTrade\bin\Microsoft.Owin.dll
+D:\WebApps\iTrade\iTrade\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\WebApps\iTrade\iTrade\bin\Microsoft.Owin.Security.Cookies.dll
+D:\WebApps\iTrade\iTrade\bin\Microsoft.Owin.Security.dll
+D:\WebApps\iTrade\iTrade\bin\Microsoft.Owin.Security.Facebook.dll
+D:\WebApps\iTrade\iTrade\bin\Microsoft.Owin.Security.Google.dll
+D:\WebApps\iTrade\iTrade\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\WebApps\iTrade\iTrade\bin\Microsoft.Owin.Security.OAuth.dll
+D:\WebApps\iTrade\iTrade\bin\Microsoft.Owin.Security.Twitter.dll
+D:\WebApps\iTrade\iTrade\bin\Microsoft.Web.Infrastructure.dll
+D:\WebApps\iTrade\iTrade\bin\Newtonsoft.Json.dll
+D:\WebApps\iTrade\iTrade\bin\Owin.dll
+D:\WebApps\iTrade\iTrade\bin\System.Linq.Dynamic.dll
+D:\WebApps\iTrade\iTrade\bin\System.Web.Helpers.dll
+D:\WebApps\iTrade\iTrade\bin\System.Web.Mvc.dll
+D:\WebApps\iTrade\iTrade\bin\System.Web.Optimization.dll
+D:\WebApps\iTrade\iTrade\bin\System.Web.Razor.dll
+D:\WebApps\iTrade\iTrade\bin\System.Web.WebPages.Deployment.dll
+D:\WebApps\iTrade\iTrade\bin\System.Web.WebPages.dll
+D:\WebApps\iTrade\iTrade\bin\System.Web.WebPages.Razor.dll
+D:\WebApps\iTrade\iTrade\bin\WebGrease.dll
+D:\WebApps\iTrade\iTrade\bin\Antlr3.Runtime.pdb
+D:\WebApps\iTrade\iTrade\bin\EntityFramework.xml
+D:\WebApps\iTrade\iTrade\bin\EntityFramework.SqlServer.xml
+D:\WebApps\iTrade\iTrade\bin\Microsoft.AspNet.Identity.Core.xml
+D:\WebApps\iTrade\iTrade\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\WebApps\iTrade\iTrade\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\WebApps\iTrade\iTrade\bin\Microsoft.Owin.xml
+D:\WebApps\iTrade\iTrade\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\WebApps\iTrade\iTrade\bin\Microsoft.Owin.Security.xml
+D:\WebApps\iTrade\iTrade\bin\Microsoft.Owin.Security.Cookies.xml
+D:\WebApps\iTrade\iTrade\bin\Microsoft.Owin.Security.Facebook.xml
+D:\WebApps\iTrade\iTrade\bin\Microsoft.Owin.Security.Google.xml
+D:\WebApps\iTrade\iTrade\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\WebApps\iTrade\iTrade\bin\Microsoft.Owin.Security.OAuth.xml
+D:\WebApps\iTrade\iTrade\bin\Microsoft.Owin.Security.Twitter.xml
+D:\WebApps\iTrade\iTrade\bin\Newtonsoft.Json.xml
+D:\WebApps\iTrade\iTrade\bin\System.Web.Helpers.xml
+D:\WebApps\iTrade\iTrade\bin\System.Web.Mvc.xml
+D:\WebApps\iTrade\iTrade\bin\System.Web.Razor.xml
+D:\WebApps\iTrade\iTrade\bin\System.Web.WebPages.xml
+D:\WebApps\iTrade\iTrade\bin\System.Web.WebPages.Deployment.xml
+D:\WebApps\iTrade\iTrade\bin\System.Web.WebPages.Razor.xml
+D:\WebApps\iTrade\iTrade\bin\System.Web.Optimization.xml
+D:\WebApps\iTrade\iTrade\bin\zh-Hant\EntityFramework.resources.dll
+D:\WebApps\iTrade\iTrade\bin\zh-Hant\EntityFramework.SqlServer.resources.dll
+D:\WebApps\iTrade\iTrade\bin\zh-Hant\Microsoft.AspNet.Identity.Core.resources.dll
+D:\WebApps\iTrade\iTrade\bin\zh-Hant\Microsoft.AspNet.Identity.EntityFramework.resources.dll
+D:\WebApps\iTrade\iTrade\bin\zh-Hant\Microsoft.AspNet.Identity.Owin.resources.dll
+D:\WebApps\iTrade\iTrade\bin\zh-Hant\Microsoft.Owin.resources.dll
+D:\WebApps\iTrade\iTrade\bin\zh-Hant\Microsoft.Owin.Host.SystemWeb.resources.dll
+D:\WebApps\iTrade\iTrade\bin\zh-Hant\Microsoft.Owin.Security.resources.dll
+D:\WebApps\iTrade\iTrade\bin\zh-Hant\Microsoft.Owin.Security.Facebook.resources.dll
+D:\WebApps\iTrade\iTrade\bin\zh-Hant\Microsoft.Owin.Security.Google.resources.dll
+D:\WebApps\iTrade\iTrade\bin\zh-Hant\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
+D:\WebApps\iTrade\iTrade\bin\zh-Hant\Microsoft.Owin.Security.Twitter.resources.dll
+D:\WebApps\iTrade\iTrade\bin\zh-Hant\System.Web.Helpers.resources.dll
+D:\WebApps\iTrade\iTrade\bin\zh-Hant\System.Web.Mvc.resources.dll
+D:\WebApps\iTrade\iTrade\bin\zh-Hant\System.Web.Razor.resources.dll
+D:\WebApps\iTrade\iTrade\bin\zh-Hant\System.Web.WebPages.resources.dll
+D:\WebApps\iTrade\iTrade\bin\zh-Hant\System.Web.WebPages.Deployment.resources.dll
+D:\WebApps\iTrade\iTrade\bin\zh-Hant\System.Web.WebPages.Razor.resources.dll
+D:\WebApps\iTrade\iTrade\bin\zh-Hant\System.Web.Optimization.resources.dll
+D:\WebApps\iTrade\iTrade\obj\Release\iTrade.dll
+D:\WebApps\iTrade\iTrade\obj\Release\iTrade.pdb
+D:\WebApps\iTrade\iTrade\bin\itextsharp.dll
+D:\WebApps\iTrade\iTrade\bin\itextsharp.xmlworker.dll
+D:\WebApps\iTrade\iTrade\bin\MvcRazorToPdf.dll
+D:\WebApps\iTrade\iTrade\bin\itextsharp.xml
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\iTrade.dll.config
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\iTrade.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\iTrade.pdb
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Antlr3.Runtime.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\CLK.AspNet.Identity.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\CLK.AspNet.Identity.EntityFramework.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\CLK.AspNet.Identity.Mvc.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\EntityFramework.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\EntityFramework.SqlServer.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\itextsharp.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\itextsharp.xmlworker.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.AspNet.Identity.Core.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.Owin.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.Owin.Security.Cookies.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.Owin.Security.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.Owin.Security.Facebook.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.Owin.Security.Google.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.Owin.Security.OAuth.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.Owin.Security.Twitter.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.Web.Infrastructure.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\MvcRazorToPdf.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Newtonsoft.Json.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Owin.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\System.Linq.Dynamic.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\System.Web.Helpers.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\System.Web.Mvc.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\System.Web.Optimization.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\System.Web.Razor.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\System.Web.WebPages.Deployment.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\System.Web.WebPages.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\System.Web.WebPages.Razor.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\WebGrease.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Antlr3.Runtime.pdb
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\EntityFramework.xml
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\EntityFramework.SqlServer.xml
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\itextsharp.xml
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.AspNet.Identity.Core.xml
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.Owin.xml
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.Owin.Security.xml
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.Owin.Security.Cookies.xml
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.Owin.Security.Facebook.xml
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.Owin.Security.Google.xml
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.Owin.Security.OAuth.xml
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.Owin.Security.Twitter.xml
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Newtonsoft.Json.xml
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\System.Web.Helpers.xml
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\System.Web.Mvc.xml
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\System.Web.Razor.xml
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\System.Web.WebPages.xml
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\System.Web.WebPages.Deployment.xml
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\System.Web.WebPages.Razor.xml
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\System.Web.Optimization.xml
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\zh-Hant\EntityFramework.resources.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\zh-Hant\EntityFramework.SqlServer.resources.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\zh-Hant\Microsoft.AspNet.Identity.Core.resources.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\zh-Hant\Microsoft.AspNet.Identity.EntityFramework.resources.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\zh-Hant\Microsoft.AspNet.Identity.Owin.resources.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\zh-Hant\Microsoft.Owin.resources.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\zh-Hant\Microsoft.Owin.Host.SystemWeb.resources.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\zh-Hant\Microsoft.Owin.Security.resources.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\zh-Hant\Microsoft.Owin.Security.Facebook.resources.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\zh-Hant\Microsoft.Owin.Security.Google.resources.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\zh-Hant\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\zh-Hant\Microsoft.Owin.Security.Twitter.resources.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\zh-Hant\System.Web.Helpers.resources.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\zh-Hant\System.Web.Mvc.resources.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\zh-Hant\System.Web.Razor.resources.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\zh-Hant\System.Web.WebPages.resources.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\zh-Hant\System.Web.WebPages.Deployment.resources.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\zh-Hant\System.Web.WebPages.Razor.resources.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\zh-Hant\System.Web.Optimization.resources.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\obj\Release\iTrade.csprojResolveAssemblyReference.cache
+D:\Starlight Project\iTrade\iTrade\iTrade\obj\Release\iTrade.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\obj\Release\iTrade.pdb
+D:\Starlight Project\iTrade\iTrade\iTrade\obj\Release\RdlCompile.cache
+D:\Starlight Project\iTrade\iTrade\iTrade\obj\Release\RdlCompile.compiled
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\InvoiceNo.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\SqlServerTypes\x64\msvcr100.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\SqlServerTypes\x64\SqlServerSpatial110.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\SqlServerTypes\x86\msvcr100.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\SqlServerTypes\x86\SqlServerSpatial110.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.ReportViewer.Common.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.ReportViewer.DataVisualization.DLL
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.ReportViewer.Design.DLL
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.ReportViewer.ProcessingObjectModel.DLL
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.ReportViewer.WebDesign.DLL
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.ReportViewer.WebForms.DLL
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.ReportViewer.WinForms.DLL
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.SqlServer.Types.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.Windows.Design.Interaction.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.Windows.Design.Extensibility.dll
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.Windows.Design.Interaction.xml
+D:\Starlight Project\iTrade\iTrade\iTrade\bin\Microsoft.Windows.Design.Extensibility.xml
+D:\WebApps\iTrade\iTrade\bin\SqlServerTypes\x64\msvcr100.dll
+D:\WebApps\iTrade\iTrade\bin\SqlServerTypes\x64\SqlServerSpatial110.dll
+D:\WebApps\iTrade\iTrade\bin\SqlServerTypes\x86\msvcr100.dll
+D:\WebApps\iTrade\iTrade\bin\SqlServerTypes\x86\SqlServerSpatial110.dll
+D:\WebApps\iTrade\iTrade\bin\InvoiceNo.dll
+D:\WebApps\iTrade\iTrade\bin\Microsoft.ReportViewer.Common.dll
+D:\WebApps\iTrade\iTrade\bin\Microsoft.ReportViewer.DataVisualization.DLL
+D:\WebApps\iTrade\iTrade\bin\Microsoft.ReportViewer.Design.DLL
+D:\WebApps\iTrade\iTrade\bin\Microsoft.ReportViewer.ProcessingObjectModel.DLL
+D:\WebApps\iTrade\iTrade\bin\Microsoft.ReportViewer.WebDesign.DLL
+D:\WebApps\iTrade\iTrade\bin\Microsoft.ReportViewer.WebForms.DLL
+D:\WebApps\iTrade\iTrade\bin\Microsoft.ReportViewer.WinForms.DLL
+D:\WebApps\iTrade\iTrade\bin\Microsoft.SqlServer.Types.dll
+D:\WebApps\iTrade\iTrade\bin\Microsoft.Windows.Design.Interaction.dll
+D:\WebApps\iTrade\iTrade\bin\Microsoft.Windows.Design.Extensibility.dll
+D:\WebApps\iTrade\iTrade\bin\Microsoft.Windows.Design.Interaction.xml
+D:\WebApps\iTrade\iTrade\bin\Microsoft.Windows.Design.Extensibility.xml
+D:\WebApps\iTrade\iTrade\obj\Release\RdlCompile.cache
+D:\WebApps\iTrade\iTrade\obj\Release\RdlCompile.compiled
+D:\WebApps\iTradeAma\iTrade\bin\SqlServerTypes\x64\msvcr100.dll
+D:\WebApps\iTradeAma\iTrade\bin\SqlServerTypes\x64\SqlServerSpatial110.dll
+D:\WebApps\iTradeAma\iTrade\bin\SqlServerTypes\x86\msvcr100.dll
+D:\WebApps\iTradeAma\iTrade\bin\SqlServerTypes\x86\SqlServerSpatial110.dll
+D:\WebApps\iTradeAma\iTrade\bin\iTrade.dll.config
+D:\WebApps\iTradeAma\iTrade\bin\iTrade.dll
+D:\WebApps\iTradeAma\iTrade\bin\iTrade.pdb
+D:\WebApps\iTradeAma\iTrade\bin\Antlr3.Runtime.dll
+D:\WebApps\iTradeAma\iTrade\bin\CLK.AspNet.Identity.dll
+D:\WebApps\iTradeAma\iTrade\bin\CLK.AspNet.Identity.EntityFramework.dll
+D:\WebApps\iTradeAma\iTrade\bin\CLK.AspNet.Identity.Mvc.dll
+D:\WebApps\iTradeAma\iTrade\bin\EntityFramework.dll
+D:\WebApps\iTradeAma\iTrade\bin\EntityFramework.SqlServer.dll
+D:\WebApps\iTradeAma\iTrade\bin\InvoiceNo.dll
+D:\WebApps\iTradeAma\iTrade\bin\itextsharp.dll
+D:\WebApps\iTradeAma\iTrade\bin\itextsharp.xmlworker.dll
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.AspNet.Identity.Core.dll
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.Owin.dll
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.Owin.Security.Cookies.dll
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.Owin.Security.dll
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.Owin.Security.Facebook.dll
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.Owin.Security.Google.dll
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.Owin.Security.OAuth.dll
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.Owin.Security.Twitter.dll
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.ReportViewer.Common.dll
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.ReportViewer.DataVisualization.DLL
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.ReportViewer.Design.DLL
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.ReportViewer.ProcessingObjectModel.DLL
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.ReportViewer.WebDesign.DLL
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.ReportViewer.WebForms.DLL
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.ReportViewer.WinForms.DLL
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.SqlServer.Types.dll
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.Web.Infrastructure.dll
+D:\WebApps\iTradeAma\iTrade\bin\MvcRazorToPdf.dll
+D:\WebApps\iTradeAma\iTrade\bin\Newtonsoft.Json.dll
+D:\WebApps\iTradeAma\iTrade\bin\Owin.dll
+D:\WebApps\iTradeAma\iTrade\bin\System.Linq.Dynamic.dll
+D:\WebApps\iTradeAma\iTrade\bin\System.Web.Helpers.dll
+D:\WebApps\iTradeAma\iTrade\bin\System.Web.Mvc.dll
+D:\WebApps\iTradeAma\iTrade\bin\System.Web.Optimization.dll
+D:\WebApps\iTradeAma\iTrade\bin\System.Web.Razor.dll
+D:\WebApps\iTradeAma\iTrade\bin\System.Web.WebPages.Deployment.dll
+D:\WebApps\iTradeAma\iTrade\bin\System.Web.WebPages.dll
+D:\WebApps\iTradeAma\iTrade\bin\System.Web.WebPages.Razor.dll
+D:\WebApps\iTradeAma\iTrade\bin\WebGrease.dll
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.Windows.Design.Interaction.dll
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.Windows.Design.Extensibility.dll
+D:\WebApps\iTradeAma\iTrade\bin\Antlr3.Runtime.pdb
+D:\WebApps\iTradeAma\iTrade\bin\EntityFramework.xml
+D:\WebApps\iTradeAma\iTrade\bin\EntityFramework.SqlServer.xml
+D:\WebApps\iTradeAma\iTrade\bin\itextsharp.xml
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.AspNet.Identity.Core.xml
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.Owin.xml
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.Owin.Security.xml
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.Owin.Security.Cookies.xml
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.Owin.Security.Facebook.xml
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.Owin.Security.Google.xml
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.Owin.Security.OAuth.xml
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.Owin.Security.Twitter.xml
+D:\WebApps\iTradeAma\iTrade\bin\Newtonsoft.Json.xml
+D:\WebApps\iTradeAma\iTrade\bin\System.Web.Helpers.xml
+D:\WebApps\iTradeAma\iTrade\bin\System.Web.Mvc.xml
+D:\WebApps\iTradeAma\iTrade\bin\System.Web.Razor.xml
+D:\WebApps\iTradeAma\iTrade\bin\System.Web.WebPages.xml
+D:\WebApps\iTradeAma\iTrade\bin\System.Web.WebPages.Deployment.xml
+D:\WebApps\iTradeAma\iTrade\bin\System.Web.WebPages.Razor.xml
+D:\WebApps\iTradeAma\iTrade\bin\System.Web.Optimization.xml
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.Windows.Design.Interaction.xml
+D:\WebApps\iTradeAma\iTrade\bin\Microsoft.Windows.Design.Extensibility.xml
+D:\WebApps\iTradeAma\iTrade\bin\zh-Hant\EntityFramework.resources.dll
+D:\WebApps\iTradeAma\iTrade\bin\zh-Hant\EntityFramework.SqlServer.resources.dll
+D:\WebApps\iTradeAma\iTrade\bin\zh-Hant\Microsoft.AspNet.Identity.Core.resources.dll
+D:\WebApps\iTradeAma\iTrade\bin\zh-Hant\Microsoft.AspNet.Identity.EntityFramework.resources.dll
+D:\WebApps\iTradeAma\iTrade\bin\zh-Hant\Microsoft.AspNet.Identity.Owin.resources.dll
+D:\WebApps\iTradeAma\iTrade\bin\zh-Hant\Microsoft.Owin.resources.dll
+D:\WebApps\iTradeAma\iTrade\bin\zh-Hant\Microsoft.Owin.Host.SystemWeb.resources.dll
+D:\WebApps\iTradeAma\iTrade\bin\zh-Hant\Microsoft.Owin.Security.resources.dll
+D:\WebApps\iTradeAma\iTrade\bin\zh-Hant\Microsoft.Owin.Security.Facebook.resources.dll
+D:\WebApps\iTradeAma\iTrade\bin\zh-Hant\Microsoft.Owin.Security.Google.resources.dll
+D:\WebApps\iTradeAma\iTrade\bin\zh-Hant\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
+D:\WebApps\iTradeAma\iTrade\bin\zh-Hant\Microsoft.Owin.Security.Twitter.resources.dll
+D:\WebApps\iTradeAma\iTrade\bin\zh-Hant\System.Web.Helpers.resources.dll
+D:\WebApps\iTradeAma\iTrade\bin\zh-Hant\System.Web.Mvc.resources.dll
+D:\WebApps\iTradeAma\iTrade\bin\zh-Hant\System.Web.Razor.resources.dll
+D:\WebApps\iTradeAma\iTrade\bin\zh-Hant\System.Web.WebPages.resources.dll
+D:\WebApps\iTradeAma\iTrade\bin\zh-Hant\System.Web.WebPages.Deployment.resources.dll
+D:\WebApps\iTradeAma\iTrade\bin\zh-Hant\System.Web.WebPages.Razor.resources.dll
+D:\WebApps\iTradeAma\iTrade\bin\zh-Hant\System.Web.Optimization.resources.dll
+D:\WebApps\iTradeAma\iTrade\obj\Release\iTrade.csprojResolveAssemblyReference.cache
+D:\WebApps\iTradeAma\iTrade\obj\Release\RdlCompile.cache
+D:\WebApps\iTradeAma\iTrade\obj\Release\RdlCompile.compiled
+D:\WebApps\iTradeAma\iTrade\obj\Release\iTrade.dll
+D:\WebApps\iTradeAma\iTrade\obj\Release\iTrade.pdb
+D:\WebApps\iTrade\iTrade\obj\Release\iTrade.csprojResolveAssemblyReference.cache
+D:\WebApps\iLightcraft\iTrade\bin\SqlServerTypes\x64\msvcr100.dll
+D:\WebApps\iLightcraft\iTrade\bin\SqlServerTypes\x64\SqlServerSpatial110.dll
+D:\WebApps\iLightcraft\iTrade\bin\SqlServerTypes\x86\msvcr100.dll
+D:\WebApps\iLightcraft\iTrade\bin\SqlServerTypes\x86\SqlServerSpatial110.dll
+D:\WebApps\iLightcraft\iTrade\bin\iTrade.dll.config
+D:\WebApps\iLightcraft\iTrade\bin\iTrade.dll
+D:\WebApps\iLightcraft\iTrade\bin\iTrade.pdb
+D:\WebApps\iLightcraft\iTrade\bin\Antlr3.Runtime.dll
+D:\WebApps\iLightcraft\iTrade\bin\CLK.AspNet.Identity.dll
+D:\WebApps\iLightcraft\iTrade\bin\CLK.AspNet.Identity.EntityFramework.dll
+D:\WebApps\iLightcraft\iTrade\bin\CLK.AspNet.Identity.Mvc.dll
+D:\WebApps\iLightcraft\iTrade\bin\EntityFramework.dll
+D:\WebApps\iLightcraft\iTrade\bin\EntityFramework.SqlServer.dll
+D:\WebApps\iLightcraft\iTrade\bin\InvoiceNo.dll
+D:\WebApps\iLightcraft\iTrade\bin\itextsharp.dll
+D:\WebApps\iLightcraft\iTrade\bin\itextsharp.xmlworker.dll
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.AspNet.Identity.Core.dll
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.Owin.dll
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.Owin.Security.Cookies.dll
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.Owin.Security.dll
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.Owin.Security.Facebook.dll
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.Owin.Security.Google.dll
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.Owin.Security.OAuth.dll
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.Owin.Security.Twitter.dll
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.ReportViewer.Common.dll
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.ReportViewer.DataVisualization.DLL
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.ReportViewer.Design.DLL
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.ReportViewer.ProcessingObjectModel.DLL
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.ReportViewer.WebDesign.DLL
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.ReportViewer.WebForms.DLL
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.ReportViewer.WinForms.DLL
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.SqlServer.Types.dll
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.Web.Infrastructure.dll
+D:\WebApps\iLightcraft\iTrade\bin\MvcRazorToPdf.dll
+D:\WebApps\iLightcraft\iTrade\bin\Newtonsoft.Json.dll
+D:\WebApps\iLightcraft\iTrade\bin\Owin.dll
+D:\WebApps\iLightcraft\iTrade\bin\System.Linq.Dynamic.dll
+D:\WebApps\iLightcraft\iTrade\bin\System.Web.Helpers.dll
+D:\WebApps\iLightcraft\iTrade\bin\System.Web.Mvc.dll
+D:\WebApps\iLightcraft\iTrade\bin\System.Web.Optimization.dll
+D:\WebApps\iLightcraft\iTrade\bin\System.Web.Razor.dll
+D:\WebApps\iLightcraft\iTrade\bin\System.Web.WebPages.Deployment.dll
+D:\WebApps\iLightcraft\iTrade\bin\System.Web.WebPages.dll
+D:\WebApps\iLightcraft\iTrade\bin\System.Web.WebPages.Razor.dll
+D:\WebApps\iLightcraft\iTrade\bin\WebGrease.dll
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.Windows.Design.Interaction.dll
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.Windows.Design.Extensibility.dll
+D:\WebApps\iLightcraft\iTrade\bin\Antlr3.Runtime.pdb
+D:\WebApps\iLightcraft\iTrade\bin\EntityFramework.xml
+D:\WebApps\iLightcraft\iTrade\bin\EntityFramework.SqlServer.xml
+D:\WebApps\iLightcraft\iTrade\bin\itextsharp.xml
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.AspNet.Identity.Core.xml
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.Owin.xml
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.Owin.Security.xml
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.Owin.Security.Cookies.xml
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.Owin.Security.Facebook.xml
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.Owin.Security.Google.xml
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.Owin.Security.OAuth.xml
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.Owin.Security.Twitter.xml
+D:\WebApps\iLightcraft\iTrade\bin\Newtonsoft.Json.xml
+D:\WebApps\iLightcraft\iTrade\bin\System.Web.Helpers.xml
+D:\WebApps\iLightcraft\iTrade\bin\System.Web.Mvc.xml
+D:\WebApps\iLightcraft\iTrade\bin\System.Web.Razor.xml
+D:\WebApps\iLightcraft\iTrade\bin\System.Web.WebPages.xml
+D:\WebApps\iLightcraft\iTrade\bin\System.Web.WebPages.Deployment.xml
+D:\WebApps\iLightcraft\iTrade\bin\System.Web.WebPages.Razor.xml
+D:\WebApps\iLightcraft\iTrade\bin\System.Web.Optimization.xml
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.Windows.Design.Interaction.xml
+D:\WebApps\iLightcraft\iTrade\bin\Microsoft.Windows.Design.Extensibility.xml
+D:\WebApps\iLightcraft\iTrade\bin\zh-Hant\EntityFramework.resources.dll
+D:\WebApps\iLightcraft\iTrade\bin\zh-Hant\EntityFramework.SqlServer.resources.dll
+D:\WebApps\iLightcraft\iTrade\bin\zh-Hant\Microsoft.AspNet.Identity.Core.resources.dll
+D:\WebApps\iLightcraft\iTrade\bin\zh-Hant\Microsoft.AspNet.Identity.EntityFramework.resources.dll
+D:\WebApps\iLightcraft\iTrade\bin\zh-Hant\Microsoft.AspNet.Identity.Owin.resources.dll
+D:\WebApps\iLightcraft\iTrade\bin\zh-Hant\Microsoft.Owin.resources.dll
+D:\WebApps\iLightcraft\iTrade\bin\zh-Hant\Microsoft.Owin.Host.SystemWeb.resources.dll
+D:\WebApps\iLightcraft\iTrade\bin\zh-Hant\Microsoft.Owin.Security.resources.dll
+D:\WebApps\iLightcraft\iTrade\bin\zh-Hant\Microsoft.Owin.Security.Facebook.resources.dll
+D:\WebApps\iLightcraft\iTrade\bin\zh-Hant\Microsoft.Owin.Security.Google.resources.dll
+D:\WebApps\iLightcraft\iTrade\bin\zh-Hant\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
+D:\WebApps\iLightcraft\iTrade\bin\zh-Hant\Microsoft.Owin.Security.Twitter.resources.dll
+D:\WebApps\iLightcraft\iTrade\bin\zh-Hant\System.Web.Helpers.resources.dll
+D:\WebApps\iLightcraft\iTrade\bin\zh-Hant\System.Web.Mvc.resources.dll
+D:\WebApps\iLightcraft\iTrade\bin\zh-Hant\System.Web.Razor.resources.dll
+D:\WebApps\iLightcraft\iTrade\bin\zh-Hant\System.Web.WebPages.resources.dll
+D:\WebApps\iLightcraft\iTrade\bin\zh-Hant\System.Web.WebPages.Deployment.resources.dll
+D:\WebApps\iLightcraft\iTrade\bin\zh-Hant\System.Web.WebPages.Razor.resources.dll
+D:\WebApps\iLightcraft\iTrade\bin\zh-Hant\System.Web.Optimization.resources.dll
+D:\WebApps\iLightcraft\iTrade\obj\Release\RdlCompile.cache
+D:\WebApps\iLightcraft\iTrade\obj\Release\RdlCompile.compiled
+D:\WebApps\iLightcraft\iTrade\obj\Release\iTrade.dll
+D:\WebApps\iLightcraft\iTrade\obj\Release\iTrade.pdb
+D:\WebApps\iLightcraft\iTrade\obj\Release\iTrade.csprojResolveAssemblyReference.cache
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\SqlServerTypes\x64\msvcr100.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\SqlServerTypes\x64\SqlServerSpatial110.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\SqlServerTypes\x86\msvcr100.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\SqlServerTypes\x86\SqlServerSpatial110.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\iTrade.dll.config
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\iTrade.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\iTrade.pdb
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Antlr3.Runtime.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\CLK.AspNet.Identity.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\CLK.AspNet.Identity.EntityFramework.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\CLK.AspNet.Identity.Mvc.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\EntityFramework.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\EntityFramework.SqlServer.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\itextsharp.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\itextsharp.xmlworker.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.AspNet.Identity.Core.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.AspNet.Identity.Owin.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.Owin.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.Owin.Host.SystemWeb.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.Owin.Security.Cookies.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.Owin.Security.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.Owin.Security.Facebook.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.Owin.Security.Google.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.Owin.Security.OAuth.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.Owin.Security.Twitter.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.ReportViewer.Common.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.ReportViewer.DataVisualization.DLL
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.ReportViewer.Design.DLL
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.ReportViewer.ProcessingObjectModel.DLL
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.ReportViewer.WebDesign.DLL
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.ReportViewer.WebForms.DLL
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.ReportViewer.WinForms.DLL
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.Web.Infrastructure.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\MvcRazorToPdf.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Newtonsoft.Json.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Owin.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\System.Linq.Dynamic.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\System.Web.Helpers.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\System.Web.Mvc.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\System.Web.Optimization.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\System.Web.Razor.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\System.Web.WebPages.Deployment.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\System.Web.WebPages.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\System.Web.WebPages.Razor.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\WebGrease.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\EnvDTE.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\EnvDTE80.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\stdole.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.VisualStudio.TemplateWizardInterface.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.VisualStudio.VSHelp.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\VSLangProj.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\VSLangProj80.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.VisualStudio.ComponentModelHost.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.MSXML.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.Windows.Design.Interaction.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.Windows.Design.Extensibility.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\VSLangProj2.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Antlr3.Runtime.pdb
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\EntityFramework.xml
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\EntityFramework.SqlServer.xml
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\itextsharp.xml
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.AspNet.Identity.Core.xml
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.AspNet.Identity.Owin.xml
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.Owin.xml
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.Owin.Host.SystemWeb.xml
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.Owin.Security.xml
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.Owin.Security.Cookies.xml
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.Owin.Security.Facebook.xml
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.Owin.Security.Google.xml
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.Owin.Security.OAuth.xml
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Microsoft.Owin.Security.Twitter.xml
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\Newtonsoft.Json.xml
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\System.Web.Helpers.xml
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\System.Web.Mvc.xml
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\System.Web.Razor.xml
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\System.Web.WebPages.xml
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\System.Web.WebPages.Deployment.xml
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\System.Web.WebPages.Razor.xml
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\System.Web.Optimization.xml
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\zh-Hant\EntityFramework.resources.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\zh-Hant\EntityFramework.SqlServer.resources.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\zh-Hant\Microsoft.AspNet.Identity.Core.resources.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\zh-Hant\Microsoft.AspNet.Identity.EntityFramework.resources.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\zh-Hant\Microsoft.AspNet.Identity.Owin.resources.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\zh-Hant\Microsoft.Owin.resources.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\zh-Hant\Microsoft.Owin.Host.SystemWeb.resources.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\zh-Hant\Microsoft.Owin.Security.resources.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\zh-Hant\Microsoft.Owin.Security.Facebook.resources.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\zh-Hant\Microsoft.Owin.Security.Google.resources.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\zh-Hant\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\zh-Hant\Microsoft.Owin.Security.Twitter.resources.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\zh-Hant\System.Web.Helpers.resources.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\zh-Hant\System.Web.Mvc.resources.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\zh-Hant\System.Web.Razor.resources.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\zh-Hant\System.Web.WebPages.resources.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\zh-Hant\System.Web.WebPages.Deployment.resources.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\zh-Hant\System.Web.WebPages.Razor.resources.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\zh-Hant\System.Web.Optimization.resources.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\zh-Hans\Microsoft.Windows.Design.Interaction.resources.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\bin\zh-Hans\Microsoft.Windows.Design.Extensibility.resources.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\obj\Release\iTrade.csprojResolveAssemblyReference.cache
+E:\Work\新建文件夹\iLightcraft\iTrade\obj\Release\RdlCompile.cache
+E:\Work\新建文件夹\iLightcraft\iTrade\obj\Release\RdlCompile.compiled
+E:\Work\新建文件夹\iLightcraft\iTrade\obj\Release\iTrade.dll
+E:\Work\新建文件夹\iLightcraft\iTrade\obj\Release\iTrade.pdb
+D:\WebApps\iTradeBase\iTrade\bin\SqlServerTypes\x64\msvcr100.dll
+D:\WebApps\iTradeBase\iTrade\bin\SqlServerTypes\x64\SqlServerSpatial110.dll
+D:\WebApps\iTradeBase\iTrade\bin\SqlServerTypes\x86\msvcr100.dll
+D:\WebApps\iTradeBase\iTrade\bin\SqlServerTypes\x86\SqlServerSpatial110.dll
+D:\WebApps\iTradeBase\iTrade\bin\iTrade.dll.config
+D:\WebApps\iTradeBase\iTrade\bin\iTrade.dll
+D:\WebApps\iTradeBase\iTrade\bin\iTrade.pdb
+D:\WebApps\iTradeBase\iTrade\bin\Antlr3.Runtime.dll
+D:\WebApps\iTradeBase\iTrade\bin\CLK.AspNet.Identity.dll
+D:\WebApps\iTradeBase\iTrade\bin\CLK.AspNet.Identity.EntityFramework.dll
+D:\WebApps\iTradeBase\iTrade\bin\CLK.AspNet.Identity.Mvc.dll
+D:\WebApps\iTradeBase\iTrade\bin\EntityFramework.dll
+D:\WebApps\iTradeBase\iTrade\bin\EntityFramework.SqlServer.dll
+D:\WebApps\iTradeBase\iTrade\bin\InvoiceNo.dll
+D:\WebApps\iTradeBase\iTrade\bin\itextsharp.dll
+D:\WebApps\iTradeBase\iTrade\bin\itextsharp.xmlworker.dll
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.AspNet.Identity.Core.dll
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.Owin.dll
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.Owin.Security.Cookies.dll
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.Owin.Security.dll
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.Owin.Security.Facebook.dll
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.Owin.Security.Google.dll
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.Owin.Security.OAuth.dll
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.Owin.Security.Twitter.dll
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.ReportViewer.Common.dll
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.ReportViewer.DataVisualization.DLL
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.ReportViewer.Design.DLL
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.ReportViewer.ProcessingObjectModel.DLL
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.ReportViewer.WebDesign.DLL
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.ReportViewer.WebForms.DLL
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.ReportViewer.WinForms.DLL
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.SqlServer.Types.dll
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.Web.Infrastructure.dll
+D:\WebApps\iTradeBase\iTrade\bin\MvcRazorToPdf.dll
+D:\WebApps\iTradeBase\iTrade\bin\Newtonsoft.Json.dll
+D:\WebApps\iTradeBase\iTrade\bin\Owin.dll
+D:\WebApps\iTradeBase\iTrade\bin\System.Linq.Dynamic.dll
+D:\WebApps\iTradeBase\iTrade\bin\System.Web.Helpers.dll
+D:\WebApps\iTradeBase\iTrade\bin\System.Web.Mvc.dll
+D:\WebApps\iTradeBase\iTrade\bin\System.Web.Optimization.dll
+D:\WebApps\iTradeBase\iTrade\bin\System.Web.Razor.dll
+D:\WebApps\iTradeBase\iTrade\bin\System.Web.WebPages.Deployment.dll
+D:\WebApps\iTradeBase\iTrade\bin\System.Web.WebPages.dll
+D:\WebApps\iTradeBase\iTrade\bin\System.Web.WebPages.Razor.dll
+D:\WebApps\iTradeBase\iTrade\bin\WebGrease.dll
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.Windows.Design.Interaction.dll
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.Windows.Design.Extensibility.dll
+D:\WebApps\iTradeBase\iTrade\bin\Antlr3.Runtime.pdb
+D:\WebApps\iTradeBase\iTrade\bin\EntityFramework.xml
+D:\WebApps\iTradeBase\iTrade\bin\EntityFramework.SqlServer.xml
+D:\WebApps\iTradeBase\iTrade\bin\itextsharp.xml
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.AspNet.Identity.Core.xml
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.Owin.xml
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.Owin.Security.xml
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.Owin.Security.Cookies.xml
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.Owin.Security.Facebook.xml
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.Owin.Security.Google.xml
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.Owin.Security.OAuth.xml
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.Owin.Security.Twitter.xml
+D:\WebApps\iTradeBase\iTrade\bin\Newtonsoft.Json.xml
+D:\WebApps\iTradeBase\iTrade\bin\System.Web.Helpers.xml
+D:\WebApps\iTradeBase\iTrade\bin\System.Web.Mvc.xml
+D:\WebApps\iTradeBase\iTrade\bin\System.Web.Razor.xml
+D:\WebApps\iTradeBase\iTrade\bin\System.Web.WebPages.xml
+D:\WebApps\iTradeBase\iTrade\bin\System.Web.WebPages.Deployment.xml
+D:\WebApps\iTradeBase\iTrade\bin\System.Web.WebPages.Razor.xml
+D:\WebApps\iTradeBase\iTrade\bin\System.Web.Optimization.xml
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.Windows.Design.Interaction.xml
+D:\WebApps\iTradeBase\iTrade\bin\Microsoft.Windows.Design.Extensibility.xml
+D:\WebApps\iTradeBase\iTrade\bin\zh-Hant\EntityFramework.resources.dll
+D:\WebApps\iTradeBase\iTrade\bin\zh-Hant\EntityFramework.SqlServer.resources.dll
+D:\WebApps\iTradeBase\iTrade\bin\zh-Hant\Microsoft.AspNet.Identity.Core.resources.dll
+D:\WebApps\iTradeBase\iTrade\bin\zh-Hant\Microsoft.AspNet.Identity.EntityFramework.resources.dll
+D:\WebApps\iTradeBase\iTrade\bin\zh-Hant\Microsoft.AspNet.Identity.Owin.resources.dll
+D:\WebApps\iTradeBase\iTrade\bin\zh-Hant\Microsoft.Owin.resources.dll
+D:\WebApps\iTradeBase\iTrade\bin\zh-Hant\Microsoft.Owin.Host.SystemWeb.resources.dll
+D:\WebApps\iTradeBase\iTrade\bin\zh-Hant\Microsoft.Owin.Security.resources.dll
+D:\WebApps\iTradeBase\iTrade\bin\zh-Hant\Microsoft.Owin.Security.Facebook.resources.dll
+D:\WebApps\iTradeBase\iTrade\bin\zh-Hant\Microsoft.Owin.Security.Google.resources.dll
+D:\WebApps\iTradeBase\iTrade\bin\zh-Hant\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
+D:\WebApps\iTradeBase\iTrade\bin\zh-Hant\Microsoft.Owin.Security.Twitter.resources.dll
+D:\WebApps\iTradeBase\iTrade\bin\zh-Hans\System.Web.Helpers.resources.dll
+D:\WebApps\iTradeBase\iTrade\bin\zh-Hant\System.Web.Helpers.resources.dll
+D:\WebApps\iTradeBase\iTrade\bin\zh-Hans\System.Web.Mvc.resources.dll
+D:\WebApps\iTradeBase\iTrade\bin\zh-Hant\System.Web.Mvc.resources.dll
+D:\WebApps\iTradeBase\iTrade\bin\zh-Hans\System.Web.Razor.resources.dll
+D:\WebApps\iTradeBase\iTrade\bin\zh-Hant\System.Web.Razor.resources.dll
+D:\WebApps\iTradeBase\iTrade\bin\zh-Hans\System.Web.WebPages.resources.dll
+D:\WebApps\iTradeBase\iTrade\bin\zh-Hant\System.Web.WebPages.resources.dll
+D:\WebApps\iTradeBase\iTrade\bin\zh-Hans\System.Web.WebPages.Deployment.resources.dll
+D:\WebApps\iTradeBase\iTrade\bin\zh-Hant\System.Web.WebPages.Deployment.resources.dll
+D:\WebApps\iTradeBase\iTrade\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
+D:\WebApps\iTradeBase\iTrade\bin\zh-Hant\System.Web.WebPages.Razor.resources.dll
+D:\WebApps\iTradeBase\iTrade\bin\zh-Hant\System.Web.Optimization.resources.dll
+D:\WebApps\iTradeBase\iTrade\obj\Release\RdlCompile.cache
+D:\WebApps\iTradeBase\iTrade\obj\Release\RdlCompile.compiled
+D:\WebApps\iTradeBase\iTrade\obj\Release\iTrade.dll
+D:\WebApps\iTradeBase\iTrade\obj\Release\iTrade.pdb
+D:\WebApps\iTradeBase\iTrade\obj\Release\iTrade.csprojResolveAssemblyReference.cache
+D:\WebApps\iSchool\iTrade\bin\SqlServerTypes\x64\msvcr100.dll
+D:\WebApps\iSchool\iTrade\bin\SqlServerTypes\x64\SqlServerSpatial110.dll
+D:\WebApps\iSchool\iTrade\bin\SqlServerTypes\x86\msvcr100.dll
+D:\WebApps\iSchool\iTrade\bin\SqlServerTypes\x86\SqlServerSpatial110.dll
+D:\WebApps\iSchool\iTrade\bin\iTrade.dll.config
+D:\WebApps\iSchool\iTrade\bin\iTrade.dll
+D:\WebApps\iSchool\iTrade\bin\iTrade.pdb
+D:\WebApps\iSchool\iTrade\bin\Antlr3.Runtime.dll
+D:\WebApps\iSchool\iTrade\bin\CLK.AspNet.Identity.dll
+D:\WebApps\iSchool\iTrade\bin\CLK.AspNet.Identity.EntityFramework.dll
+D:\WebApps\iSchool\iTrade\bin\CLK.AspNet.Identity.Mvc.dll
+D:\WebApps\iSchool\iTrade\bin\EntityFramework.dll
+D:\WebApps\iSchool\iTrade\bin\EntityFramework.SqlServer.dll
+D:\WebApps\iSchool\iTrade\bin\InvoiceNo.dll
+D:\WebApps\iSchool\iTrade\bin\itextsharp.dll
+D:\WebApps\iSchool\iTrade\bin\itextsharp.xmlworker.dll
+D:\WebApps\iSchool\iTrade\bin\Microsoft.AspNet.Identity.Core.dll
+D:\WebApps\iSchool\iTrade\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\WebApps\iSchool\iTrade\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\WebApps\iSchool\iTrade\bin\Microsoft.Owin.dll
+D:\WebApps\iSchool\iTrade\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\WebApps\iSchool\iTrade\bin\Microsoft.Owin.Security.Cookies.dll
+D:\WebApps\iSchool\iTrade\bin\Microsoft.Owin.Security.dll
+D:\WebApps\iSchool\iTrade\bin\Microsoft.Owin.Security.Facebook.dll
+D:\WebApps\iSchool\iTrade\bin\Microsoft.Owin.Security.Google.dll
+D:\WebApps\iSchool\iTrade\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\WebApps\iSchool\iTrade\bin\Microsoft.Owin.Security.OAuth.dll
+D:\WebApps\iSchool\iTrade\bin\Microsoft.Owin.Security.Twitter.dll
+D:\WebApps\iSchool\iTrade\bin\Microsoft.ReportViewer.Common.dll
+D:\WebApps\iSchool\iTrade\bin\Microsoft.ReportViewer.DataVisualization.DLL
+D:\WebApps\iSchool\iTrade\bin\Microsoft.ReportViewer.Design.DLL
+D:\WebApps\iSchool\iTrade\bin\Microsoft.ReportViewer.ProcessingObjectModel.DLL
+D:\WebApps\iSchool\iTrade\bin\Microsoft.ReportViewer.WebDesign.DLL
+D:\WebApps\iSchool\iTrade\bin\Microsoft.ReportViewer.WebForms.DLL
+D:\WebApps\iSchool\iTrade\bin\Microsoft.ReportViewer.WinForms.DLL
+D:\WebApps\iSchool\iTrade\bin\Microsoft.SqlServer.Types.dll
+D:\WebApps\iSchool\iTrade\bin\Microsoft.Web.Infrastructure.dll
+D:\WebApps\iSchool\iTrade\bin\MvcRazorToPdf.dll
+D:\WebApps\iSchool\iTrade\bin\Newtonsoft.Json.dll
+D:\WebApps\iSchool\iTrade\bin\Owin.dll
+D:\WebApps\iSchool\iTrade\bin\System.Linq.Dynamic.dll
+D:\WebApps\iSchool\iTrade\bin\System.Web.Helpers.dll
+D:\WebApps\iSchool\iTrade\bin\System.Web.Mvc.dll
+D:\WebApps\iSchool\iTrade\bin\System.Web.Optimization.dll
+D:\WebApps\iSchool\iTrade\bin\System.Web.Razor.dll
+D:\WebApps\iSchool\iTrade\bin\System.Web.WebPages.Deployment.dll
+D:\WebApps\iSchool\iTrade\bin\System.Web.WebPages.dll
+D:\WebApps\iSchool\iTrade\bin\System.Web.WebPages.Razor.dll
+D:\WebApps\iSchool\iTrade\bin\WebGrease.dll
+D:\WebApps\iSchool\iTrade\bin\Microsoft.Windows.Design.Interaction.dll
+D:\WebApps\iSchool\iTrade\bin\Microsoft.Windows.Design.Extensibility.dll
+D:\WebApps\iSchool\iTrade\bin\Antlr3.Runtime.pdb
+D:\WebApps\iSchool\iTrade\bin\EntityFramework.xml
+D:\WebApps\iSchool\iTrade\bin\EntityFramework.SqlServer.xml
+D:\WebApps\iSchool\iTrade\bin\itextsharp.xml
+D:\WebApps\iSchool\iTrade\bin\Microsoft.AspNet.Identity.Core.xml
+D:\WebApps\iSchool\iTrade\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\WebApps\iSchool\iTrade\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\WebApps\iSchool\iTrade\bin\Microsoft.Owin.xml
+D:\WebApps\iSchool\iTrade\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\WebApps\iSchool\iTrade\bin\Microsoft.Owin.Security.xml
+D:\WebApps\iSchool\iTrade\bin\Microsoft.Owin.Security.Cookies.xml
+D:\WebApps\iSchool\iTrade\bin\Microsoft.Owin.Security.Facebook.xml
+D:\WebApps\iSchool\iTrade\bin\Microsoft.Owin.Security.Google.xml
+D:\WebApps\iSchool\iTrade\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\WebApps\iSchool\iTrade\bin\Microsoft.Owin.Security.OAuth.xml
+D:\WebApps\iSchool\iTrade\bin\Microsoft.Owin.Security.Twitter.xml
+D:\WebApps\iSchool\iTrade\bin\Newtonsoft.Json.xml
+D:\WebApps\iSchool\iTrade\bin\System.Web.Helpers.xml
+D:\WebApps\iSchool\iTrade\bin\System.Web.Mvc.xml
+D:\WebApps\iSchool\iTrade\bin\System.Web.Razor.xml
+D:\WebApps\iSchool\iTrade\bin\System.Web.WebPages.xml
+D:\WebApps\iSchool\iTrade\bin\System.Web.WebPages.Deployment.xml
+D:\WebApps\iSchool\iTrade\bin\System.Web.WebPages.Razor.xml
+D:\WebApps\iSchool\iTrade\bin\System.Web.Optimization.xml
+D:\WebApps\iSchool\iTrade\bin\Microsoft.Windows.Design.Interaction.xml
+D:\WebApps\iSchool\iTrade\bin\Microsoft.Windows.Design.Extensibility.xml
+D:\WebApps\iSchool\iTrade\bin\zh-Hant\EntityFramework.resources.dll
+D:\WebApps\iSchool\iTrade\bin\zh-Hant\EntityFramework.SqlServer.resources.dll
+D:\WebApps\iSchool\iTrade\bin\zh-Hant\Microsoft.AspNet.Identity.Core.resources.dll
+D:\WebApps\iSchool\iTrade\bin\zh-Hant\Microsoft.AspNet.Identity.EntityFramework.resources.dll
+D:\WebApps\iSchool\iTrade\bin\zh-Hant\Microsoft.AspNet.Identity.Owin.resources.dll
+D:\WebApps\iSchool\iTrade\bin\zh-Hant\Microsoft.Owin.resources.dll
+D:\WebApps\iSchool\iTrade\bin\zh-Hant\Microsoft.Owin.Host.SystemWeb.resources.dll
+D:\WebApps\iSchool\iTrade\bin\zh-Hant\Microsoft.Owin.Security.resources.dll
+D:\WebApps\iSchool\iTrade\bin\zh-Hant\Microsoft.Owin.Security.Facebook.resources.dll
+D:\WebApps\iSchool\iTrade\bin\zh-Hant\Microsoft.Owin.Security.Google.resources.dll
+D:\WebApps\iSchool\iTrade\bin\zh-Hant\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
+D:\WebApps\iSchool\iTrade\bin\zh-Hant\Microsoft.Owin.Security.Twitter.resources.dll
+D:\WebApps\iSchool\iTrade\bin\zh-Hans\System.Web.Helpers.resources.dll
+D:\WebApps\iSchool\iTrade\bin\zh-Hant\System.Web.Helpers.resources.dll
+D:\WebApps\iSchool\iTrade\bin\zh-Hans\System.Web.Mvc.resources.dll
+D:\WebApps\iSchool\iTrade\bin\zh-Hant\System.Web.Mvc.resources.dll
+D:\WebApps\iSchool\iTrade\bin\zh-Hans\System.Web.Razor.resources.dll
+D:\WebApps\iSchool\iTrade\bin\zh-Hant\System.Web.Razor.resources.dll
+D:\WebApps\iSchool\iTrade\bin\zh-Hans\System.Web.WebPages.resources.dll
+D:\WebApps\iSchool\iTrade\bin\zh-Hant\System.Web.WebPages.resources.dll
+D:\WebApps\iSchool\iTrade\bin\zh-Hans\System.Web.WebPages.Deployment.resources.dll
+D:\WebApps\iSchool\iTrade\bin\zh-Hant\System.Web.WebPages.Deployment.resources.dll
+D:\WebApps\iSchool\iTrade\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
+D:\WebApps\iSchool\iTrade\bin\zh-Hant\System.Web.WebPages.Razor.resources.dll
+D:\WebApps\iSchool\iTrade\bin\zh-Hant\System.Web.Optimization.resources.dll
+D:\WebApps\iSchool\iTrade\obj\Release\iTrade.csprojResolveAssemblyReference.cache
+D:\WebApps\iSchool\iTrade\obj\Release\RdlCompile.cache
+D:\WebApps\iSchool\iTrade\obj\Release\RdlCompile.compiled
+D:\WebApps\iSchool\iTrade\obj\Release\iTrade.dll
+D:\WebApps\iSchool\iTrade\obj\Release\iTrade.pdb

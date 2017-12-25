@@ -1,0 +1,323 @@
+﻿@model List<iTrade.Models.ClassAttendee>
+
+@using (Html.BeginForm("_DisplayClassAttendees", "Attendance", FormMethod.Post, new { id = "editAttendeesForm" }))
+{
+    var modelcount = Model.Count;
+
+    <table id="data-table100" class="table table-condensed">
+        <thead>
+            <tr>
+                <th>
+                    No
+                </th>
+                <th class="col-md-3">
+                    Name
+                </th>
+                <th>
+                    NRIC/Passport
+                </th>
+                <th>
+                    Type
+                </th>
+                <th><input type="checkbox" name="chkAll" class="chkLeft" />
+                    Is Present?
+                </th>
+                <th>
+                    Absent Type
+                </th>
+                <th>
+                    Note
+                </th>
+                @*<th>Allow Makeup?</th>*@
+                @*<th> Action </th>*@
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                @Html.HiddenFor(model => model[i].DetID, new { id = "itemDetID2" })
+                @Html.HiddenFor(model => model[i].RefDetID, new { id = "itemRefDetID2" })
+                @Html.HiddenFor(model => model[i].AttendID, new { id = "itemAttendID2" })
+                @Html.HiddenFor(model => model[i].AttendDate, new { id = "itemAttendDate2" })
+                @Html.HiddenFor(model => model[i].ScheduleID, new { id = "itemScheduleID2" })
+                @Html.HiddenFor(model => model[i].CustNo, new { id = "itemCustNo2" })
+                @Html.HiddenFor(model => model[i].CustName, new { id = "itemCustName2" })
+                @Html.HiddenFor(model => model[i].NRIC, new { id = "itemNRIC2" })
+
+                @*@Html.HiddenFor(model => model[i].IsPresent, new { id = "itemIsPresent2" })*@
+                @*@Html.HiddenFor(model => model[i].AbsentType, new { id = "itemAbsentType2" })*@
+                @*@Html.HiddenFor(model => model[i].IsMakeup, new { id = "itemIsMakeup2" })*@
+                @Html.HiddenFor(model => model[i].Status, new { id = "itemStatus2" })
+
+                @Html.HiddenFor(model => model[i].ClockTimeIN, new { id = "itemClockIn2" })
+                @Html.HiddenFor(model => model[i].ClockTimeOUT, new { id = "itemClockOut2" })
+                @Html.HiddenFor(model => model[i].ClockLocation, new { id = "itemClockLocation2" })
+                @Html.HiddenFor(model => model[i].Remark, new { id = "itemRemark2" })
+                @Html.HiddenFor(model => model[i].ModifiedBy, new { id = "modifiedBy2" })
+                @Html.HiddenFor(model => model[i].ModifiedOn, new { id = "modifiedOn2" })
+
+
+
+                <tr>
+                    <td style="width:88px;">
+                        @(i + 1)
+                    </td>
+                    <td class="col-md-2">
+                        @Model[i].CustName
+                    </td>
+                    <td>
+                        @Model[i].NRIC
+                    </td>
+                    <td>
+                        @Model[i].AttendType
+                    </td>
+                    @if (Model[i].ActionStatus == "Open")
+                    {
+                        <td>
+                            @*<input type="checkbox" class="chkLeft" style="margin-top:10px;" value="@Model[i].DetID" />*@
+
+                            @Html.CheckBoxFor(model => model[i].IsPresent, new { htmlAttributes = new { id = "itemIsPresent2", @class = "form-control chkLeft" } })
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(model => model[i].AbsentType, new SelectList(new List<SelectListItem> {
+                                                                                        //new SelectListItem { Value = "", Text = "", Selected = true },
+                                                                                        new SelectListItem { Value = "SA", Text = "Student Absent" },
+                                                                                        new SelectListItem { Value = "TA", Text = "Teacher Absent" },
+                                                                                        new SelectListItem { Value = "MC", Text = "MC" },
+                                                                                        new SelectListItem { Value = "OS", Text = "Oversea" },
+                                                                                        new SelectListItem { Value = "ABS", Text = "Absent" },
+                                                                                        new SelectListItem { Value = "OT", Text = "Other" }
+                                                                                      }, "Value", "Text", Model[i].AbsentType), "Select Type", new { id = "itemAbsentType2", name = "itemAbsentType2", @class = "form-control absentType" })
+                            @Html.ValidationMessageFor(model => model[i].AbsentType, "", new { @class = "text-danger" })
+                        </td>
+                        <td>
+                            @Html.EditorFor(model => model[i].Notes, new { htmlAttributes = new { id = "itemTeacherLevel2", @class = "form-control notes" } })
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @*<input type="checkbox" class="chkLeft" style="margin-top:10px;" value="@Model[i].DetID" />*@
+
+                            @Html.CheckBoxFor(model => model[i].IsPresent, new { onclick = "return false", htmlAttributes = new { id = "itemIsPresent2", @class = "form-control chkLeft" } })
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(model => model[i].AbsentType, new SelectList(new List<SelectListItem> {
+                                                                                        //new SelectListItem { Value = "", Text = "", Selected = true },
+                                                                                        new SelectListItem { Value = "SA", Text = "Student Absent" },
+                                                                                        new SelectListItem { Value = "TA", Text = "Teacher Absent" },
+                                                                                        new SelectListItem { Value = "MC", Text = "MC" },
+                                                                                        new SelectListItem { Value = "OS", Text = "Oversea" },
+                                                                                        new SelectListItem { Value = "ABS", Text = "Absent" },
+                                                                                        new SelectListItem { Value = "OT", Text = "Other" }
+                                                                                      }, "Value", "Text", Model[i].AbsentType), "Select Type", new { id = "itemAbsentType2", @disabled = "disabled", name = "itemAbsentType2", @class = "form-control absentType" })
+                            @Html.ValidationMessageFor(model => model[i].AbsentType, "", new { @class = "text-danger" })
+                        </td>
+                        <td>
+                            @Html.EditorFor(model => model[i].Notes, new { htmlAttributes = new { id = "itemTeacherLevel2", @readonly = true, @class = "form-control notes" } })
+                        </td>
+                    }
+
+                    @*<td>
+                        @Html.CheckBoxFor(model => model[i].IsMakeup, new { htmlAttributes = new { id = "itemIsMakeup2", @class = "form-control isMakeup" } })
+                    </td>*@
+                    @*<td>
+                        <button type="button" id="btnDel" onclick="delItem(@Model[i].DetID)" class="btn btn-sm btn-primary"><span class="fa fa-remove" aria-hidden="true"></span></button>
+                    </td>*@
+
+                </tr>
+
+
+            }
+
+
+        </tbody>
+        <tfoot>
+            @if (Model.Count == 0)
+            {
+                <tr>
+                    <td colspan="7"> &nbsp; </td>
+
+                </tr>
+            }
+
+            <tr>
+                <td colspan="6"></td>
+                <td colspan="1">
+                    @if (Model.Count > 0)
+                    {
+                    <input type="button" id="btnSubmitAttendeeInfo" class="btn btn-small btn-primary" value="Save Changes" />
+
+                    }
+
+
+                </td>
+            </tr>
+
+
+
+        </tfoot>
+
+
+
+    </table>
+
+}
+
+
+
+<!-- modal placeholder-->
+<div id="myModal" class="modal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        //var table = $('#data-table10').DataTable({
+        //    'columnDefs': [
+        //       {
+        //           'targets': 0,
+        //           'checkboxes': {
+        //               'selectRow': true
+        //           }
+        //       }
+        //    ],
+        //    'select': {
+        //        'style': 'multi'
+        //    },
+        //    'order': [[1, 'asc']]
+        //});
+
+
+        //$('#data-table1').DataTable({
+        //    "bLengthChange": false,
+        //    "iDisplayLength": 100,
+        //    "dom": '<"pull-left"f><"pull-right"l>tip'
+        //});
+
+    });
+</script>
+
+<script>
+
+    function delItem(ID) {
+        alert("hi..");
+        var newUrl1 = $('#txtUrl1').val();
+
+        $.ajax({
+            type: 'GET',
+            url: '/Attendance/_DelItem',
+            dataType: "json",
+            contentType: 'application/json, charset=utf-8',
+            data: {
+                id: ID
+            },
+            success: function (result) {
+                if (result.success) {
+                 //   alert("Item Deleted");
+                    $("#divOrderDetail").load(newUrl1);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+
+        });
+    }
+
+    function itemMoveUp(ID)
+    {
+        var newUrl1 = $('#txtUrl1').val();
+        $.ajax({
+            type: 'GET',
+            url: '/Attendance/_ItemMoveUp',
+            dataType: "json",
+            contentType: 'application/json, charset=utf-8',
+            data: {
+                id: ID
+            },
+            success: function (result) {
+                if (result.success) {
+                    //   alert("Item Deleted");
+                    $("#divOrderDetail").load(newUrl1);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+
+        });
+    }
+
+</script>
+
+<script type="text/javascript">
+    $("#btnSubmitAttendeeInfo").click(function () {
+        $("#editAttendeesForm").submit(function (e) {
+            e.preventDefault();
+            var newUrl1 = $('#txtUrl1').val();
+            //  alert('Form is submitting');
+            $.ajax({
+                url: this.action,
+                type: this.method,
+                data: $(this).serializeArray(),
+                success: function (result) {
+                    if (result.success) {
+                        $("#divOrderDetail").load(newUrl1);
+                        alert("Items Saved.");
+
+                    } else {
+                        alert("Items Not Saved.");
+                    }
+                }
+            });
+            return true;
+        });
+        $("#editAttendeesForm").submit(); //invoke form submission
+
+    });
+
+</script>
+
+
+
+
+<style>
+    .chkLeft {
+        position: absolute;
+        left: -5px;
+        display: inline-block;
+    }
+</style>
+
+<script>
+    $(function () {
+        $(".chkLeft").parent().css("position", "relative");
+        $("input[type='checkbox'][name='chkAll']").change(function () {
+            if ($(this).prop("checked") == true)
+                $("tbody tr").find("td:eq(3)>input[type='checkbox']").prop('checked', true);
+            else
+                $("tbody tr").find("td:eq(3)>input[type='checkbox']").prop('checked', false);
+        });
+
+        $("#submissionToexcel").click(function (e) {
+            e.preventDefault();
+            var params = ShowChk();
+            if (params == "")
+                return;
+            var url = "/Attendance/SubmissionToExcel?DetIdStr=" + params;
+            window.open(url);
+            //alert(ShowChk());
+        })
+    })
+    function ShowChk() {
+        return $("tbody tr").find("td:eq(3)>input[type='checkbox']:checked").map(function () {
+            return $(this).attr("value");
+        }).get().join(",");
+    }
+</script>

@@ -1,0 +1,142 @@
+﻿@model List<iTrade.Models.ClassSchedule>
+
+<div class="panel">
+    <div class="panel-body">
+        @if (Model.Count > 1)
+        {
+            <span class="lead">Class: @Model[0].CourseName  (@Model[0].CourseLevel -  @Model[0].CourseDuration -  @Model[0].TeacherLevel) </span>
+        }
+        else
+        {
+            <span class="lead"> Please select course prior to find the schedule.</span>
+        }
+
+
+        <div class="table-responsive">
+            <table id="data-table3" class="datatable3 table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Type</th>
+                        <th>
+                            Weekday
+                        </th>
+                        <th>
+                            Start/End Time
+                        </th>
+                        <th>
+                            Start/End Date
+                        </th>
+                        <th>Tutor</th>
+                        <th> Action </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int i = 0; }
+                    @foreach (var item in Model)
+                    {
+                        i++;
+                        <tr class="even gradeC">
+                            <td>@item.ScheduleID</td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ScheduleType)
+                            </td>
+                            <td>
+                                @Enum.GetName(typeof(DayOfWeek), (item.Weekday == 7 ? 0 : item.Weekday))
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StartTimeValue) - @Html.DisplayFor(modelItem => item.EndTimeValue)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FromDate) - @Html.DisplayFor(modelItem => item.ToDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TutorName)
+                            </td>
+                            <td>
+                                <a href="#" id="btn-selectSchedule" class="btn-selectSchedule btn btn-primary" data-id="@item.ScheduleID"> Select </a>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+
+        </div>
+
+
+
+
+
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var table = $('#data-table3').DataTable({
+            "order": [[0, "asc"]],
+            "bFilter": false,
+            "bLengthChange": false,
+            //  "scrollY": "500px",
+            "scrollCollapse": true,
+            "paging": false,
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+
+        });
+
+        $('.datatable3').on('click', '.btn-selectSchedule', function () {
+            var data = table.row($(this).parents('tr')).data();
+            var myNo = data[0].trim();
+            //  alert(myNo);
+
+            $.ajax({
+                type: 'GET',
+                url: '/CourseOrders/_GetScheduleByID',
+                dataType: "json",
+                contentType: 'application/json, charset=utf-8',
+                data: {
+                    itemid: myNo
+                },
+                success: function (data) {
+                    if (data.success) {
+                        $("#getScheduleModal").modal('hide');
+
+                        $('#scheduleID').val(data.result.ScheduleID);
+                        //$('#WeekDay').val(data.result.Weekday);
+                        $('#startTime').val(data.result.StartTimeValue);
+                        $('#endTime').val(data.result.EndTimeValue);
+
+                        var todate = new Date(parseInt(data.result.ToDate.slice(6, -2)));
+
+                        $('#endDate').datepicker('setDate', new Date(todate));
+                        $('#tutorID').val(data.result.TutorID);
+                        $('#tutorName').val(data.result.TutorName);
+                        //$('#selectTutor').val(data.result.TutorID);
+
+                        $('.weekdaypicker option[value=' + data.result.Weekday + ']').prop('selected', true);
+                        $('.weekdaypicker').selectpicker('refresh');
+
+                        $('.tutorpicker option[value=' + data.result.TutorID + ']').prop('selected', true);
+                        $('.tutorpicker').selectpicker('refresh');
+
+
+                    } else {
+                        alert(result.responseText);
+                    }
+
+
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+
+            });
+
+        });
+
+    });
+</script>
+
+ 

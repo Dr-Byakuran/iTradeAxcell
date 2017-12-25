@@ -1,0 +1,45 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+<link href="@Url.Content("~/assets/plugins/jquery-jvectormap/jquery-jvectormap-1.2.2.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-datepicker/css/datepicker.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-datepicker/css/datepicker3.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+
+
+<!-- begin page-header -->
+<h1 class="page-header lead">Dashboard <small></small></h1>
+<!-- end page-header -->
+
+@if (User.IsInRole("Accounts") == false)
+{
+    
+    Html.RenderAction("_Sales", "Dashboard");
+}
+@if (User.IsInRole("Accounts"))
+{
+    Html.RenderAction("_Accounts", "Dashboard");
+}
+
+
+ 
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/flot/jquery.flot.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/flot/jquery.flot.resize.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/flot/jquery.flot.pie.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/sparkline/jquery.sparkline.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery-jvectormap/jquery-jvectormap-1.2.2.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery-jvectormap/jquery-jvectormap-world-mill-en.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")"></script>
+    <script src="@Url.Content("~/assets/js/dashboard.min.js")"></script>
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+
+ 
+
+<script>
+    $(document).ready(function () {
+        //  App.init();
+        Dashboard.init();
+    });
+</script>

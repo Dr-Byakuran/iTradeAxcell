@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin page-header -->
+<div class="page-header lead">
+    Enrolment List
+    <span class="email-btn-row pull-right">
+        <a href="/CourseOrders/EnrolmentEdit" id="btnCreate1" class="btn btn-primary"><i class="fa fa-plus m-r-5"></i> New Enrolment</a>
+    </span>
+
+</div>
+<!-- end page-header -->
+
+<div>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#default-tab-1" data-toggle="tab">All  <span style="margin-left:15px;" class="badge"></span></a></li>
+    </ul>
+
+</div>
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="default-tab-1">
+        @{Html.RenderAction("_DisplayEnrolments", "CourseOrders");}
+
+    </div>
+
+</div>
+
+
+
+
+@section Scripts{
+    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+
+}
+
+
+<script>
+    $(document).ready(function () {
+        // App.init();
+        TableManageDefault.init();
+        // Notification.init();
+
+    });
+</script>
+

@@ -1,0 +1,202 @@
+﻿@model iTrade.Models.StatementAccountViewModel
+@using System.Text;
+@{
+    Layout = null;
+    string strPrintedBy = ViewBag.PrintedBy;
+    string strDateDisp = String.Format("{0:dd MMM yyyy}", DateTime.Now);
+    string strTimeDisp = String.Format("{0:h:mm tt}", DateTime.Now);
+    string strFooter = string.Format("This document is printed by {0} on {1} at {2}", strPrintedBy, strDateDisp, strTimeDisp);
+    string strAmount = "0.00";
+    int i = 0;
+    decimal credit = 0;
+    decimal balance = 0;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Statement of Account</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+
+    @Styles.Render("~/css/css")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <link href="@Url.Content("~/assets/css/sar-print.css")" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+    <!-- begin #content -->
+    <img src="@ViewBag.HeaderURL\..\..\..\assets\img\ACHHeader.jpg" />
+    <table height="100%">
+        <tr>
+            <td valign="top">
+                <table>
+                    <tr>
+                        <td width="20%" style="vertical-align:text-bottom;font-size:small"></td>
+                        <td width="45%" style="vertical-align:text-bottom;font-size:small"></td>
+                        <td width="15%" style="vertical-align:text-bottom;font-size:small"></td>
+                        <td width="20%" style="vertical-align:text-bottom;font-size:small"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="vertical-align:text-bottom"><b>@Model.Client.CustName</b></td>
+                        <td colspan="2" style="vertical-align:text-bottom"><b>STATEMENT OF ACCOUNT</b></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="vertical-align:text-bottom;font-size:small">&nbsp;&nbsp;@Model.Client.Addr1</td>
+                        <td style="vertical-align:text-bottom;font-size:small"></td>
+                        <td  style="vertical-align:text-bottom;font-size:small"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="vertical-align:text-bottom;font-size:small">&nbsp;&nbsp;@Model.Client.Addr2</td>
+                        <td style="vertical-align:text-bottom;font-size:small"></td>
+                        <td style="vertical-align:text-bottom;font-size:small"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="vertical-align:text-bottom;font-size:small">&nbsp;&nbsp;@Model.Client.Addr3</td>
+                        <td style="vertical-align:text-bottom;font-size:small"></td>
+                        <td style="vertical-align:text-bottom;font-size:small"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="vertical-align:text-bottom;font-size:small">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="vertical-align:text-bottom;font-size:small">
+                            <table>
+                                <tr>
+                                    <td width="20%" style="vertical-align:text-bottom;font-size:small">TEL</td>
+                                    <td width="10%" style="vertical-align:text-bottom;font-size:small">FAX</td>
+                                    <td width="10%" style="vertical-align:text-bottom;font-size:small">ACC NO</td>
+                                    <td width="10%" style="vertical-align:text-bottom;font-size:small">TERM</td>
+                                    <td width="15%" style="vertical-align:text-bottom;font-size:small">MONTH</td>
+                                    <td width="10%" style="vertical-align:text-bottom;font-size:small">DATE</td>
+                                    <td width="15%">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align:text-bottom;font-size:small">@Model.Client.PhoneNo - @Model.Client.ContactPerson</td>
+                                    <td style="vertical-align:text-bottom;font-size:small">@Model.Client.FaxNo</td>
+                                    <td style="vertical-align:text-bottom;font-size:small">@Model.Client.AccNo</td>
+                                    <td style="vertical-align:text-bottom;font-size:small">@string.Format("{0} DAYS",ViewBag.PaymentTerm)</td>
+                                    <td style="vertical-align:text-bottom;font-size:small">@ViewBag.QueryMonth</td>
+                                    <td style="vertical-align:text-bottom;font-size:small">@strDateDisp</td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="15%" style="border-top:1px;border-bottom:1px;vertical-align:text-bottom;font-size:small">DATE</td>
+                        <td width="20%" style="border-top:1px;border-bottom:1px;vertical-align:text-bottom;font-size:small">REF NO</td>
+                        <td width="26%" style="border-top:1px;border-bottom:1px;vertical-align:text-bottom;font-size:small">DESCRIPTION</td>
+                        <td width="12%" align="right" style="border-top:1px;border-bottom:1px;vertical-align:text-bottom;font-size:small">DEBIT</td>
+                        <td width="12%" align="right" style="border-top:1px;border-bottom:1px;vertical-align:text-bottom;font-size:small">CREDIT</td>
+                        <td width="15%" align="right" style="border-top:1px;border-bottom:1px;vertical-align:text-bottom;font-size:small">BALANCE</td>
+                    </tr>
+                    @foreach (var item in Model.StatementAccount)
+                    {
+                        i++;
+                        balance += item.Amount;
+                        string strItemDateDisp = String.Format("{0:dd MMM yyyy}", item.CreatedOn);
+                        string strYear = item.InvDate.Year.ToString();
+                        <tr style="vertical-align:middle;height:auto">
+                            <td style="vertical-align:text-top; font-size:small">@strItemDateDisp</td>
+                            <td style="vertical-align:text-top; font-size:small">@string.Format("INV-{0}{1:0000}", strYear, item.InvID)</td>
+                            <td style="vertical-align:text-top; font-size:small">@item.PaymentMethod</td>
+                            <td align="right" style="vertical-align:text-top; font-size:small">@item.Amount</td>
+                            <td align="right" style="vertical-align:text-top; font-size:small"></td>
+                            <td align="right" style="vertical-align:text-top; font-size:small">@balance</td>
+                        </tr>
+                    }
+                </table>
+
+            </td>
+        </tr>
+        <tr>
+            <td valign="bottom">
+                <table width="100%">
+                    <tr>
+                        <td colspan="5" style="border-top:1px;font-size:small">&nbsp;</td>
+                        <td align="right" style="border-top:1px;font-size:small">@string</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">&nbsp;</td>
+                    </tr>
+
+                    <tr>
+                        <td width="16%" style="border-top:1px;border-left:1px;border-right:1px;font-size:small" align="right">&nbsp;</td>
+                        <td width="17%" style="border-top:1px;border-right:1px;font-size:small" align="right">&nbsp;</td>
+                        <td width="17%" style="border-top:1px;border-right:1px;font-size:small" align="right">&nbsp;</td>
+                        <td width="16%" style="border-top:1px;border-right:1px;font-size:small" align="right">&nbsp;</td>
+                        <td width="17%" style="border-top:1px;border-right:1px;font-size:small" align="right">&nbsp;</td>
+                        <td width="17%" style="border-top:1px;border-right:1px;font-size:small" align="right">&nbsp;</td>
+                    </tr><tr>
+                        <td width="16%" style="border-left:1px;border-right:1px;font-size:small" align="right">5 MONTHS&nbsp;</td>
+                        <td width="17%" style="border-right:1px;font-size:small" align="right">4 MONTHS&nbsp;</td>
+                        <td width="17%" style="border-right:1px;font-size:small" align="right">3 MONTHS&nbsp;</td>
+                        <td width="16%" style="border-right:1px;font-size:small" align="right">2 MONTHS&nbsp;</td>
+                        <td width="17%" style="border-right:1px;font-size:small" align="right">1 MONTH&nbsp;</td>
+                        <td width="17%" style="border-right:1px;font-size:small" align="right">CURRENT&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td width="16%" style="border-bottom:1px;border-left:1px;border-right:1px;font-size:small" align="right">0.00</td>
+                        <td width="17%" style="border-bottom:1px;border-right:1px;font-size:small" align="right">0.00</td>
+                        <td width="17%" style="border-bottom:1px;border-right:1px;font-size:small" align="right">0.00</td>
+                        <td width="16%" style="border-bottom:1px;border-right:1px;font-size:small" align="right">0.00</td>
+                        <td width="17%" style="border-bottom:1px;border-right:1px;font-size:small" align="right">0.00</td>
+                        <td width="17%" style="border-bottom:1px;border-right:1px;font-size:small" align="right">0.00</td>
+                    </tr>
+                    <tr>
+                        <td width="16%" style="border-left:1px;border-right:1px;font-size:small" align="right">&nbsp;</td>
+                        <td width="17%" style="border-right:1px;font-size:small" align="right">&nbsp;</td>
+                        <td width="17%" style="border-right:1px;font-size:small" align="right">&nbsp;</td>
+                        <td width="16%" style="border-right:1px;font-size:small" align="right">&nbsp;</td>
+                        <td width="17%" style="border-right:1px;font-size:small" align="right">&nbsp;</td>
+                        <td width="17%" style="border-right:1px;font-size:small" align="right">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td width="16%" style="border-left:1px;border-right:1px;font-size:small" align="right">11 MONTHS+&nbsp;</td>
+                        <td width="17%" style="border-right:1px;font-size:small" align="right">10 MONTHS&nbsp;</td>
+                        <td width="17%" style="border-right:1px;font-size:small" align="right">9 MONTHS&nbsp;</td>
+                        <td width="16%" style="border-right:1px;font-size:small" align="right">8 MONTHS&nbsp;</td>
+                        <td width="17%" style="border-right:1px;font-size:small" align="right">7 MONTHS&nbsp;</td>
+                        <td width="17%" style="border-right:1px;font-size:small" align="right">6 MONTHS&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td width="16%" style="border-bottom:1px;border-left:1px;border-right:1px;font-size:small" align="right">0.00</td>
+                        <td width="17%" style="border-bottom:1px;border-right:1px;font-size:small" align="right">0.00</td>
+                        <td width="17%" style="border-bottom:1px;border-right:1px;font-size:small" align="right">0.00</td>
+                        <td width="16%" style="border-bottom:1px;border-right:1px;font-size:small" align="right">0.00</td>
+                        <td width="17%" style="border-bottom:1px;border-right:1px;font-size:small" align="right">0.00</td>
+                        <td width="17%" style="border-bottom:1px;border-right:1px;font-size:small" align="right">0.00</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">                            
+                            <span style="font-size: 8pt;">WE SHALL BE GRATEFUL IF YOU WILL LET US HAVE PAYMENT AS SOON AS POSSIBLE</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+                            <span style="font-size: 8pt;">ANY DISCREPANCY IN THIS STATEMENT PLEASE INFORM US IN WRITING WITHIN 10 DAYS</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" align="left">
+                            <span style="font-size: 7pt; font-weight:lighter;">@strFooter</span>
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

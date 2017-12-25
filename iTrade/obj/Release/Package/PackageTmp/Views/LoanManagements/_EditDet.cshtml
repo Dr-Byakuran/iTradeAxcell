@@ -1,0 +1,162 @@
+﻿
+@model iTrade.Models.LoanManagementDetail
+@*@model IEnumerable<iTrade.Models.ProductSelection>*@
+<style>
+    .datepicker {
+        z-index: 1151 !important;
+    }
+</style>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title"><span class="lead">@Model.ItemName &nbsp;&nbsp; <small> @Model.ItemCode</small>  </span> &nbsp;&nbsp;&nbsp;&nbsp;  <span id="txtTitle"></span> </h3>
+</div>
+
+
+@using (Html.BeginForm("_EditDet", "LoanManagements", FormMethod.Post, new { id = "EditDetForm", @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.LoanManagementDetailID)
+    @Html.HiddenFor(model => model.LoanManagementID)
+    @Html.HiddenFor(model => model.ItemID, new { id = "itemID2" })
+    @Html.HiddenFor(model => model.ItemCode, new { id = "itemCode2" })
+    @Html.HiddenFor(model => model.ItemType, new { id = "itemType2" })
+    @Html.HiddenFor(model => model.ItemName, new { id = "itemName2" })
+
+    @Html.HiddenFor(model => model.IsControlItem, new { id = "itemIsControl2" })
+
+    <input type="hidden" id="itemGstRate2" value="0.07" />
+    <input type="hidden" id="itemStockQty2" />
+    <input type="hidden" id="itemCostPrice2" />
+
+
+    <div class="modal-body">
+        <div class="form-horizontal">
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ItemName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    <select class="form-control productselectpicker" data-size="10" data-live-search="true" data-style="btn-white">
+                        <option value="" selected>Select product</option>
+                        @foreach (var item in ViewData["ProductChangeList"] as IEnumerable<iTrade.Models.ProductSelection>)
+                        {
+                            <option value="@item.ProductID"
+                                    @if (item.ProductID == Model.ItemID) { <text> selected="selected" </text>         }>
+                                @item.ProductName
+                            </option>
+                            //@item.FileName  // instead .FileName use property which u used in ur model class
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Qty, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.Qty, new { htmlAttributes = new { @id = "itemQty2", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.Unit, new { htmlAttributes = new { @id = "itemUnit2", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Unit, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @id = "itemStartDate2", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @id = "itemEndDate2", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Remark, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { id = "itemRemark2", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+
+    </div>
+
+    <div class="modal-footer">
+
+        <input class="btn btn-primary" id="btnEditSave" type="submit" value="Save Changes" />
+        <button class="btn btn-white" data-dismiss="modal">Cancel</button>
+    </div>
+}
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#itemStartDate2').datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true
+        });
+        $('#itemEndDate2').datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true
+        });
+        $("select.productselectpicker").change(function () {
+            var val = $(".productselectpicker option:selected").val();
+            //   alert("You have selected the country - " + val);
+
+            if (val > 0) {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("AutoCompleteSelected_Product")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        search: val
+                    },
+                    success: function (data) {
+                        $('#itemID2').val(data.result.ProductID);
+                        $('#itemCode2').val(data.result.SKU);
+                        $('#itemType2').val(data.result.ProductType);
+                        $('#itemName2').val(data.result.ProductName);
+                        $('#itemStockQty2').val(0);
+
+                        $('#itemQty2').focus();
+                        $('#itemQty2').select();
+
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+
+            }
+        });
+
+    });
+
+
+
+</script>
+
+
+
+
+

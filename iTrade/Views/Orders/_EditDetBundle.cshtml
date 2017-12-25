@@ -1,0 +1,204 @@
+﻿
+@model List<iTrade.Models.INVDET>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title"><span class="lead">@Model[0].ItemName &nbsp;&nbsp; <small> @Model[0].ItemCode</small>  </span> &nbsp;&nbsp;&nbsp;&nbsp;  <span id="txtTitle"></span> </h3>
+</div>
+
+@using (Html.BeginForm("_EditDetBundle", "Orders", FormMethod.Post, new { id = "EditDetBundleForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="modal-body">
+
+        @Html.HiddenFor(model => model[0].DetID)
+        @Html.HiddenFor(model => model[0].SorID, new { id = "itemSorID0" })
+        @Html.HiddenFor(model => model[0].InvID, new { id = "itemInvID0", @Value = "0" })
+        @Html.HiddenFor(model => model[0].ItemID, new { id = "itemID0" })
+        @Html.HiddenFor(model => model[0].ItemType, new { id = "itemType0" })
+        @Html.HiddenFor(model => model[0].ItemCode, new { id = "itemCode0" })
+        @Html.HiddenFor(model => model[0].ItemName, new { id = "itemName0" })
+        @Html.HiddenFor(model => model[0].Unit, new { id = "itemUnit0" })
+        @Html.HiddenFor(model => model[0].UnitPrice, new { id = "itemUnitPrice0" })
+
+        @Html.HiddenFor(model => model[0].PreDiscAmount, new { id = "itemPreDiscAmount0" })
+        @Html.HiddenFor(model => model[0].Discount, new { id = "itemDiscount0" })
+
+        @Html.HiddenFor(model => model[0].Gst, new { id = "itemGst0" })
+        @Html.HiddenFor(model => model[0].Nett, new { id = "itemNett0" })
+
+        @Html.HiddenFor(model => model[0].IsBundle, new { id = "itemIsBundle0" })
+        @Html.HiddenFor(model => model[0].RefItemID, new { id = "itemRefItemID0" })
+        @Html.HiddenFor(model => model[0].IsControlItem, new { id = "itemIsControl0" })
+        @Html.HiddenFor(model => model[0].SalesType, new { id = "itemSalesType0" })
+        @Html.HiddenFor(model => model[0].Position, new { id = "itemPosition0" })
+        @Html.HiddenFor(model => model[0].SellType, new { id = "itemSellType0" })
+        @Html.HiddenFor(model => model[0].Remark, new { id = "itemRemark0" })
+
+        <div class="row">
+            <div class="infoBundle">
+                <div class="form-group">
+                    <div class="col-md-4">
+                        Ordering Qty:
+                        @Html.EditorFor(model => model[0].Qty, new { htmlAttributes = new { id = "txtQty0", @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model[0].Qty, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-4">
+                        Sell Price
+                        @Html.EditorFor(model => model[0].DiscountedPrice, new { htmlAttributes = new { id = "txtDiscountedPrice0", @class = "form-control"  } })
+                        @Html.ValidationMessageFor(model => model[0].DiscountedPrice, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-4">
+                        Amount
+                        @Html.EditorFor(model => model[0].Amount, new { htmlAttributes = new { id = "txtAmount0", @class = "form-control"  } })
+                        @Html.ValidationMessageFor(model => model[0].Amount, "", new { @class = "text-danger" })
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+        <br />
+        <span class="semi-bold">This package includes: </span>
+
+        @for (int i = 1; i < Model.Count; i++)
+        {
+            if (Model[i].SalesType == "BundleItem")
+            {
+
+                @Html.HiddenFor(model => model[i].DetID)
+                @Html.HiddenFor(model => model[i].SorID, new { id = "itemSorID1" })
+                @Html.HiddenFor(model => model[i].InvID, new { id = "itemInvID1", @Value = "0" })
+                @Html.HiddenFor(model => model[i].ItemID, new { id = "itemID1" })
+                @Html.HiddenFor(model => model[i].ItemType, new { id = "itemType1" })
+                @Html.HiddenFor(model => model[i].Unit, new { id = "itemUnit1" })
+                @Html.HiddenFor(model => model[i].UnitPrice, new { id = "itemUnitPrice1" })
+                @Html.HiddenFor(model => model[i].PreDiscAmount, new { id = "itemPreDiscAmount1" })
+                @Html.HiddenFor(model => model[i].Discount, new { id = "itemDiscount1" })
+                @Html.HiddenFor(model => model[i].Gst, new { id = "itemGst1" })
+                @Html.HiddenFor(model => model[i].Nett, new { id = "itemNett1" })
+                @Html.HiddenFor(model => model[i].DiscountedPrice, new { id = "itemDiscountedPrice1" })
+                @Html.HiddenFor(model => model[i].Amount, new { id = "itemAmount1" })
+
+                @Html.HiddenFor(model => model[i].IsBundle, new { id = "itemIsBundle1" })
+                @Html.HiddenFor(model => model[i].RefItemID, new { id = "itemRefItemID1" })
+                @Html.HiddenFor(model => model[i].IsControlItem, new { id = "itemIsControl1" })
+                @Html.HiddenFor(model => model[i].SalesType, new { id = "itemSalesType1" })
+                @Html.HiddenFor(model => model[i].Position, new { id = "itemPosition1" })            
+            
+                @Html.HiddenFor(model => model[i].SellType, new { id = "itemSellType1" })
+                @Html.HiddenFor(model => model[i].Remark, new { id = "itemRemark1" })
+
+                <div class="row">
+                    <div class="infoBundle">
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model[i].ItemCode, new { htmlAttributes = new { id = "txtSKU1", @class = "form-control", @readonly = true } })
+                                @Html.ValidationMessageFor(model => model[i].ItemCode, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model[i].ItemName, new { htmlAttributes = new { id = "txtProductName1", @class = "form-control", @readonly = true } })
+                                @Html.ValidationMessageFor(model => model[i].ItemName, "", new { @class = "text-danger" })
+
+                            </div>
+
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model[i].Qty, new { htmlAttributes = new { id = "txtQty1", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model[i].Qty, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            }
+        }
+
+        @if (ViewBag.HasFOC == "True")
+        {
+            <br />
+            <span class="semi-bold">FOC items includes: </span>
+            for (int i = 1; i < Model.Count; i++)
+            {
+                if (Model[i].SalesType == "FOCItem")
+                {
+                    @Html.HiddenFor(model => model[i].DetID)
+                    @Html.HiddenFor(model => model[i].SorID, new { id = "itemSorID2" })
+                    @Html.HiddenFor(model => model[i].InvID, new { id = "itemInvID2", @Value = "0" })
+                    @Html.HiddenFor(model => model[i].ItemID, new { id = "itemID2" })
+                    @Html.HiddenFor(model => model[i].ItemType, new { id = "itemType2" })
+                    @Html.HiddenFor(model => model[i].Unit, new { id = "itemUnit2" })
+                    @Html.HiddenFor(model => model[i].UnitPrice, new { id = "itemUnitPrice2" })
+                    @Html.HiddenFor(model => model[i].PreDiscAmount, new { id = "itemPreDiscAmount2" })
+                    @Html.HiddenFor(model => model[i].Discount, new { id = "itemDiscount2" })
+                    @Html.HiddenFor(model => model[i].Gst, new { id = "itemGst2" })
+                    @Html.HiddenFor(model => model[i].Nett, new { id = "itemNett2" })
+                    @Html.HiddenFor(model => model[i].DiscountedPrice, new { id = "itemDiscountedPrice2" })
+                    @Html.HiddenFor(model => model[i].Amount, new { id = "itemAmount2" })
+
+                    @Html.HiddenFor(model => model[i].IsBundle, new { id = "itemIsBundle2" })
+                    @Html.HiddenFor(model => model[i].RefItemID, new { id = "itemRefItemID2" })
+                    @Html.HiddenFor(model => model[i].IsControlItem, new { id = "itemIsControl2" })
+                    @Html.HiddenFor(model => model[i].SalesType, new { id = "itemSalesType2" })
+                    @Html.HiddenFor(model => model[i].Position, new { id = "itemPosition2" })
+
+                    @Html.HiddenFor(model => model[i].SellType, new { id = "itemSellType2" })
+                    @Html.HiddenFor(model => model[i].Remark, new { id = "itemRemark2" })
+
+
+                    <div class="row">
+                        <div class="infoBundle">
+                            <div class="form-group">
+                                <div class="col-md-3">
+                                    @Html.EditorFor(model => model[i].ItemCode, new { htmlAttributes = new { id = "txtSKU2", @class = "form-control", @readonly = true } })
+                                    @Html.ValidationMessageFor(model => model[i].ItemCode, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.EditorFor(model => model[i].ItemName, new { htmlAttributes = new { id = "txtProductName2", @class = "form-control", @readonly = true } })
+                                    @Html.ValidationMessageFor(model => model[i].ItemName, "", new { @class = "text-danger" })
+
+                                </div>
+
+                                <div class="col-md-3">
+                                    @Html.EditorFor(model => model[i].Qty, new { htmlAttributes = new { id = "txtQty2", @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model[i].Qty, "", new { @class = "text-danger" })
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            }
+
+
+        }
+
+
+        <br />
+
+    </div>
+
+    <div class="modal-footer">
+        <span id="progress" class="text-center" style="display: none;">
+            <img src="~/assets/img/Wait.gif" alt="wait" />
+            Wait..
+        </span>
+
+        <input type="submit" class="btn btn-primary" id="btnEditBundleOrder" value=" Confirm " />
+        <button class="btn btn-white" data-dismiss="modal">Cancel</button>
+    </div>
+
+    
+
+}
+
+

@@ -1,0 +1,103 @@
+﻿@model iTrade.Models.EnrolmentSelectionView
+
+<div id="checkboxes">
+    <div class="table-responsive">
+        <table id="data-table1" class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="checkall" />
+                    </th>
+                    <th>
+                        Enrol#
+                    </th>
+                    <th>Date </th>
+                    <th class="col-md-2">
+                        Student 
+                    </th>
+                    <th>
+                        FIN
+                    </th>
+                    <th class="col-md-2">
+                        Course Name
+                    </th>
+                    <th>Level</th>
+                    <th>
+                        Teacher
+                    </th>
+                    <th>
+                        Weekday
+                    </th>
+                    <th>
+                        Start Date
+                    </th>
+                    <th>
+                        End Date
+                    </th>
+                    <th>Status</th>
+                    <th>Remark</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @Html.EditorFor(model => model.DataSelects)
+
+            </tbody>
+ 
+        </table>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $.fn.dataTable.ext.legacy.ajax = true;
+        $('#data-table1').DataTable({
+            "bFilter": false,
+            //"bInfo": false,
+            paging: false,
+            "bLengthChange": false,
+            "order": [[1, "desc"]],
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+        });
+    });
+
+    $("#data-table1").submit(function (event) {
+        var table = $('#data-table1').DataTable();
+        table.page.len(-1).draw();
+    });
+
+</script>
+
+
+<script type="text/javascript">
+
+    function toggleChecked(status) {
+        $("#checkboxes input").each(function () {
+
+            // Set the checked status of each to match the
+            // checked status of the check all checkbox:
+            $(this).prop("checked", status);
+        });
+    }
+
+    $(document).ready(function () {
+        //Set the default value of the global checkbox to true:
+        $("#checkall").prop('checked', false);
+
+        // Attach the call to toggleChecked to the
+        // click event of the global checkbox:
+        $("#checkall").click(function () {
+            var status = $("#checkall").prop('checked');
+            toggleChecked(status);
+        });
+    });
+</script>
+
+

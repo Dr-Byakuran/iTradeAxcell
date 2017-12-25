@@ -1,0 +1,89 @@
+﻿@model iTrade.Models.LoginViewModel
+
+@{
+    Layout = null;
+    ViewBag.Title = "Log in";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>STAR3ERP - Login</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+
+
+    <link href="@Url.Content("http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/assets/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/assets/plugins/bootstrap/css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/assets/plugins/font-awesome/css/font-awesome.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/assets/css/animate.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/assets/css/style.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/assets/css/style-responsive.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/assets/css/theme/blue.css")" rel="stylesheet" type="text/css" />
+
+</head>
+<body class="pace-top" style="background-color:#ffffff;">
+    <!-- begin #page-container -->
+    <div id="page-container" class="fade">
+        <!-- begin login -->
+        <div class="login  animated fadeInDown">
+            <div class="login-content" style="background-color:#ffffff;">
+                <div class="text-center">
+                    <img src="~/assets/img/star3erp_logo.png" />
+                </div>
+
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(m => m.RememberMe, new { @Value = false })
+                    <div class="form-group m-b-20">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-lg", placeholder = "Email Address" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+
+                    </div>
+                    <div class="form-group m-b-20">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control input-lg", placeholder = "Password" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+ 
+
+                    <div class="form-group login-buttons m-b-20">
+                        <button type="submit" class="btn btn-primary btn-block btn-lg">Login</button>
+                    </div>
+                }
+
+                <div class="text-center">
+                    <p>Copyright © 2015 by Starlight Technohub Pte Ltd <br /> 
+                    All Rights Reserved. <br /> 
+                    Powered by <a href="http://www.starlight.sg">Starlight Technohub Pte Ltd</a><br /> 
+                    </p>
+
+                    <img src="~/assets/img/starlight_logo.png" />
+                </div>
+
+            </div>
+        </div>
+        <!-- end login -->
+    </div>
+    <!-- end page container -->
+
+    <script src="@Url.Content("~/assets/plugins/jquery/jquery-1.9.1.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery/jquery-migrate-1.1.0.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap/js/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/slimscroll/jquery.slimscroll.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery-cookie/jquery.cookie.js")"></script>
+
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+
+    <script>
+		$(document).ready(function() {
+			App.init();
+		});
+    </script>
+</body>
+</html>

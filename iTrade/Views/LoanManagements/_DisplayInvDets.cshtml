@@ -1,0 +1,121 @@
+﻿
+@model List<iTrade.Models.LoanManagementDetail>
+
+
+@using (@Html.BeginForm())
+{
+    var modelcount = Model.Count;
+    for (int i = 0; i < Model.Count; i++)
+    {
+        <tr>
+            <td style="width:80px;">
+                @Html.HiddenFor(model => model[i].LoanManagementDetailID)
+                @Html.HiddenFor(model => model[i].LoanManagementID, new { id = "InvID" })
+                @Html.HiddenFor(model => model[i].Unit)
+                @Html.HiddenFor(model => model[i].IsControlItem, new { id = "isControlItem" })
+
+                @if (@ViewBag.ReturnedItemStatus != "Confirmed")
+                {
+                    if (Model[i].IsBundle == true)
+                    {
+                        if (Model[i].RefItemID == 0)
+                        {
+                        <a data-modal="" href="/LoanManagements/_DelDet/@Model[i].LoanManagementDetailID" id="btnDelDetBundle"><i class="fa fa-remove m-r-10"></i></a>
+                        <a data-modal="" href="/LoanManagements/_EditDetBundle/@Model[i].LoanManagementDetailID" id="btnEditDetBundle" data-para1="@Model[i].LoanManagementDetailID"><i class="fa fa-edit m-r-10"></i></a>
+
+
+                        }
+                        else
+                        {
+
+
+                        };
+                    }
+                    else
+                    {
+                        <a data-modal="" href="/LoanManagements/_DelDet/@Model[i].LoanManagementDetailID" id="btnDel"><i class="fa fa-remove m-r-5"></i></a>
+    <a data-modal="" href="/LoanManagements/_EditDet/@Model[i].LoanManagementDetailID" id="btnEdit"><i class="fa fa-edit m-r-5"></i></a>
+                    }
+                }
+            </td>
+
+            <td style="width:20px;">
+                @(i + 1)
+            </td>
+
+            <td class="col-md-4">
+                @Html.DisplayFor(model => model[i].ItemName, new { htmlAttributes = new { id = "itemName2", @class = "form-control col-md-6", @readonly = true } })  &nbsp;&nbsp;
+                @if (Model[i].IsBundle == true)
+                {
+                    if (Model[i].RefItemID == 0)
+                    {
+                        <span class="label label-info">Package</span>
+                    }
+                    if (Model[i].SalesType == "FOCItem")
+                    {
+                        <span class="label label-warning">FOC</span>
+                    }
+                }
+
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model[i].Qty, new { htmlAttributes = new { id = "itemQty2", @class = "form-control Qty", @readonly = true } })
+            </td>
+            <td>
+                @Html.DisplayFor(model => model[i].StartDate, new { htmlAttributes = new { id = "itemStartDate2", @class = "form-control StartDate", @readonly = true } })
+
+                @*&nbsp;&nbsp; @Model[i].Remark*@
+
+            </td>
+            <td>
+                @Html.DisplayFor(model => model[i].EndDate, new { htmlAttributes = new { id = "itemEndDate2", @class = "form-control EndDate", @readonly = true } })
+
+                @*&nbsp;&nbsp; @Model[i].Remark*@
+
+            </td>
+
+
+        </tr>
+
+
+    }
+
+}
+
+
+
+<!-- modal placeholder-->
+<div id="myModal" class="modal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $("#btnAddDet").click(function () {
+        var pid = $('#itemID').val().trim();
+        var qty = $('#itemQty').val().trim();
+        var SorID = $('#itemSorID').val().trim();
+        $('#txtTitleQty').text(qty);
+
+        var flag = $('#itemIsBundle').val().trim();
+        if (flag == "true") {
+            var url = '@Url.Action("_AddDetBundle", "LoanManagements")';
+            url += '/?id=' + pid + '&qty=' + qty + '&SorID=' + SorID;
+            $("#bundleOrderModalContent").load(url);
+            $('#bundleOrderModal').modal({
+                keyboard: true
+            }, 'show');
+
+        } else {
+            $("#addDetForm").submit();
+        }
+
+    });
+
+</script>
+

@@ -1,0 +1,122 @@
+﻿@using iTrade.CustomHtmlHelper;
+@model IEnumerable<iTrade.Models.Schedule>
+@*@model IEnumerable<iTrade.Models.Course>*@
+
+@using (Html.BeginForm("_DisplayResult", null, FormMethod.Get, new { id = "viewScheduleForm" }))
+{
+    <div class="row">
+        <div class="col-md-10">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <div class="input-group  col-md-12">
+                            <span class="input-group-addon">From</span>
+                            <input type="text" class="form-control col-md-5" id="fromDate" name="fromDate" value="@ViewBag.StartDate" placeholder="dd/mm/yyyy" />
+                            <span class="input-group-addon">to</span>
+                            <input type="text" class="form-control col-md-5" id="toDate" name="toDate" value="@ViewBag.EndDate" placeholder="dd/mm/yyyy" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-control coursepicker">
+                            <option value="0">Select course</option>
+                            @foreach (var item in ViewData["CoursesAll"] as IEnumerable<iTrade.Models.Course>)
+                            {
+                                <option value="@item.CourseID"
+                                        @if (item.CourseID == ViewBag.CourseID) { <text> selected="selected" </text>                    }>
+                                    @item.CourseName
+                                </option>
+                            }
+                        </select>
+                        <input type="hidden" id="courseID" name="courseID" value="@ViewBag.CourseID" />
+                    </div>
+                    <div class="col-md-2">
+                        <input type="submit" id="btnApplySchedule" value=" Apply " class="btn btn-primary col-md-12" />
+
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+
+    <p class="lead"> Schedule from @ViewBag.StartDate  to   @ViewBag.EndDate </p>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table id="data-table1" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                Course
+                            </th>
+
+                            <th>
+                                Title
+                            </th>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                Start Time
+                            </th>
+                            <th>
+                                End Time
+                            </th>
+                            <th>
+                                Type/Group
+                            </th>
+                            <th class="col-md-2"> Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CourseName)
+
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ScheduleTitle)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ScheduleDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StartTimeValue)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EndTimeValue)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ScheduleType)
+
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("ViewAttendance", "Attendance", new { id = item.ScheduleID })" class="btn btn-primary">
+                                        View Attendance
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+}
+
+
+
+
+
+
+
+

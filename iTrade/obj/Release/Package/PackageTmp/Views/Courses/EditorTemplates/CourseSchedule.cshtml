@@ -1,0 +1,54 @@
+﻿@model iTrade.Models.CourseSchedule
+@using iTrade.Models
+
+
+<div class="infoPricebreak row">
+
+
+        @Html.HiddenFor(model => model.ScheduleID)
+        @Html.HiddenFor(model => model.StartTime)
+        @Html.HiddenFor(model => model.EndTime)
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.ScheduleType, new { htmlAttributes = new { @class = "form-control col-md-12" } })
+                    @Html.ValidationMessageFor(model => model.ScheduleType, "", new { @class = "text-danger" })
+
+                </div>
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.ScheduleTitle, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ScheduleTitle, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.ScheduleDate, new { htmlAttributes = new { @class = "scheduleDate form-control", placeholder = "dd/mm/yyyy" } })
+                    @Html.ValidationMessageFor(model => model.ScheduleDate, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group bootstrap-timepicker">
+                        @Html.EditorFor(model => model.StartTimeValue, new { htmlAttributes = new { @class = "timepicker form-control" } })
+                        <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                        @Html.ValidationMessageFor(model => model.StartTimeValue, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group bootstrap-timepicker">
+                        @Html.EditorFor(model => model.EndTimeValue, new { htmlAttributes = new { @class = "timepicker form-control" } })
+                        <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                        @Html.ValidationMessageFor(model => model.EndTimeValue, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    @Html.HiddenFor(model => model.DeleteItem, new { @class = "mark-for-delete" })
+                    @Html.RemoveLink("Remove", "div.infoPricebreak", "input.mark-for-delete")
+                </div>
+
+            </div>
+        </div>
+
+
+
+</div>
+
+ 

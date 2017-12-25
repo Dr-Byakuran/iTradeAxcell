@@ -1,0 +1,187 @@
+﻿@model iTrade.Models.SAR
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SAR</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SARNumberA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SARNumberA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SARNumberB)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SARNumberB)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SARNumberC)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SARNumberC)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SARNumberD)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SARNumberD)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustNO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustNO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateAgreement)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateAgreement)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AmountPaid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmountPaid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AmountBalance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmountBalance)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentTerm)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentTerm)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentText1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentText1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentText2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentText2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentText3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentText3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentText4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentText4)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentText5)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentText5)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentText6)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentText6)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PersonID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PersonName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateCreated)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SARID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,37 @@
+﻿ @model iTrade.Models.Pricebreak
+@using iTrade.Models
+
+<div class="infoPricebreak row">
+    @Html.HiddenFor(model => model.PriceID)
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.BreakQty, new { htmlAttributes = new { @class = "form-control col-md-12" } })
+                @Html.ValidationMessageFor(model => model.BreakQty, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.RetailPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RetailPrice, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.WholesalePrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.WholesalePrice, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.DealerPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DealerPrice, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.FocQty, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FocQty, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2">
+                @Html.HiddenFor(model => model.DeleteItem, new { @class = "mark-for-delete" })
+                @Html.RemoveLink("Remove", "div.infoPricebreak", "input.mark-for-delete")
+            </div>
+
+        </div>
+    </div>
+</div>

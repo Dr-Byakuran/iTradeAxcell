@@ -1,0 +1,495 @@
+﻿@model iTrade.Models.INV
+@*@model IEnumerable<iTrade.Models.Client>*@
+@*@model IEnumerable<iTrade.Models.Staff>*@
+@*@model IEnumerable<iTrade.Models.Warehouse>*@
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-datepicker/css/datepicker.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-combobox/css/bootstrap-combobox.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/select2/dist/css/select2.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/jquery-tag-it/css/jquery.tagit.css")" rel="stylesheet" type="text/css" />
+
+
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin page-header -->
+<h1 class="page-header lead">Account Receivables</h1>
+<!-- end page-header -->
+<div class="email-btn-row hidden-xs">
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
+
+</div>
+
+<!-- begin panel -->
+<div class="panel panel-inverse">
+    <div class="panel-heading">
+        Sales invoice info
+    </div>
+
+    <div class="panel-body">
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.InvID)
+                        @Html.HiddenFor(model => model.InvType, new { id = "invType", @Value = "CR" })
+
+                        @Html.HiddenFor(model => model.Attn, new { id = "attn" })
+                        @Html.HiddenFor(model => model.PersonID, new { id = "personID", @Value = "0" })
+                        @Html.HiddenFor(model => model.PersonName, new { id = "personName", @Value = "" })
+                        @Html.HiddenFor(model => model.LocationID, new { id = "warehouseID", @Value = "11" })
+                        @Html.HiddenFor(model => model.LocationName, new { id = "warehouseName", @Value = "Main Warehouse" })
+                        @Html.HiddenFor(model => model.CustNo, new { id = "custNo" })
+                        @Html.HiddenFor(model => model.CustName, new { id = "custName" })
+                        @Html.HiddenFor(model => model.PreDiscAmount, new { @Value = "0" })
+                        @Html.HiddenFor(model => model.Discount, new { @Value = "0" })
+                        @Html.HiddenFor(model => model.Amount, new { @Value = "0" })
+                        @Html.HiddenFor(model => model.Gst, new { @Value = "0" })
+                        @Html.HiddenFor(model => model.Nett, new { @Value = "0" })
+                        @Html.HiddenFor(model => model.IsPaid, new { @Value = "False" })
+                        @Html.HiddenFor(model => model.PaidDate)
+                        @Html.HiddenFor(model => model.CreatedBy)
+                        @Html.HiddenFor(model => model.CreatedOn)
+                        @Html.HiddenFor(model => model.ModifiedBy)
+                        @Html.HiddenFor(model => model.ModifiedOn)
+
+                        @Html.HiddenFor(model => model.Status, new { @Value = "Normal" })
+                        @Html.HiddenFor(model => model.Remark, new { @Value = "" })
+
+
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    @Html.Label("Invoice NO", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-8">
+                                        @Html.Editor(" ", new { htmlAttributes = new { id = "invNumber", @class = "form-control", placeholder = "Auto generated once click save button", @readonly = true } })
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CustName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-8">
+                                        <select class="form-control selectpicker" data-size="10" data-live-search="true" data-style="btn-white">
+                                            <option value="" selected>Select company</option>
+                                            @foreach (var item in ViewData["ClientsAll"] as IEnumerable<iTrade.Models.Client>)
+                                            {
+                                                <option value="@item.CustNo">@item.CustName</option>
+                                                //@item.FileName  // instead .FileName use property which u used in ur model class
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Addr1, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Addr1, new { htmlAttributes = new { id = "addr1", @class = "form-control", @readonly = true } })
+                                        @Html.ValidationMessageFor(model => model.Addr1, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Addr2, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Addr2, new { htmlAttributes = new { id = "addr2", @class = "form-control", @readonly = true } })
+                                        @Html.ValidationMessageFor(model => model.Addr2, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Addr3, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Addr3, new { htmlAttributes = new { id = "addr3", @class = "form-control", @readonly = true } })
+                                        @Html.ValidationMessageFor(model => model.Addr3, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.DeliveryAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.DeliveryAddress, new { htmlAttributes = new { @class = "form-control", placeholder = "Delivery address if different from the above" } })
+                                        @Html.ValidationMessageFor(model => model.DeliveryAddress, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-horizontal">
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.InvDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.InvDate, new { htmlAttributes = new { id = "invDate", @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.InvDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.PoNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.PoNo, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.PoNo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.PersonName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-8">
+                                        <select class="form-control staffpicker">
+                                            <option value="" selected>Select sales person</option>
+                                            @foreach (var item in ViewData["StaffsAll"] as IEnumerable<iTrade.Models.Staff>)
+                                            {
+                                                <option value="@item.StaffID">@item.FirstName  @item.LastName</option>
+                                                //@item.FileName  // instead .FileName use property which u used in ur model class
+                                            }
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.PaymentTerms, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.PaymentTerms, new { htmlAttributes = new { @Value = "30 Days", @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.PaymentTerms, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.DeliveryDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-2">
+                                        @Html.EditorFor(model => model.DeliveryDate, new { htmlAttributes = new { id = "deliveryDate", @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.DeliveryDate, "", new { @class = "text-danger" })
+                                    </div>
+                                    @Html.LabelFor(model => model.DeliveryTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-2">
+                                        @Html.EditorFor(model => model.DeliveryTime, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.DeliveryTime, "", new { @class = "text-danger" })
+                                    </div>
+
+                                </div>
+
+
+                                <div class="form-group">
+                                    @Html.Label("Stock From", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-8">
+                                        <select class="form-control warehousepicker">
+                           
+                                            @foreach (var item in ViewData["WarehouseAll"] as IEnumerable<iTrade.Models.Warehouse>)
+                                            {
+                                                <option value="@item.LocationID">@item.LocationName</option>
+                                                //@item.FileName  // instead .FileName use property which u used in ur model class
+                                            }
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-6 col-md-4 pull-left">
+                                        <input type="submit" value=" Create " class="btn btn-primary col-md-12" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    }
+    
+                     <!-- begin panel -->
+                    <div class="panel panel-inverse">
+                        <div class="panel-body">
+                            <div class="">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>&nbsp; </th>
+                                            <th>
+                                                NO
+                                            </th>
+                                            <th>
+                                                Item Description
+                                            </th>
+                                            <th>
+                                                Qty
+                                            </th>
+                                            <th>
+                                                Unit Price
+                                            </th>
+                                            <th>
+                                                Unit
+                                            </th>
+                                            <th>
+                                                <span class="pull-right">Amount </span>
+
+                                            </th>
+                                            <th>
+
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td colspan="7">
+                                                <br /> Please click save button to start adding items.
+                                                <br /><br />
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="6" align="right" valign="middle"><h4><span class="">Sub-Total</span></h4></td>
+                                            <td><h4><span class="pull-left">$ </span> <span class="pull-right">@Model.Amount.ToString("N") </span></h4></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6" align="right" valign="middle"><h4><span class="">GST 7% </span></h4></td>
+                                            <td><h4><span class="pull-left">$ </span> <span class="pull-right">@Model.Gst.ToString("N") </span></h4></td>
+                                            <td></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="6" align="right" valign="middle"><h4><span class="semi-bold">Grand Total</span></h4></td>
+                                            <td><h4><span class="pull-left semi-bold">$ </span> <span class="pull-right semi-bold">@Model.Nett.ToString("N") </span></h4></td>
+                                            <td></td>
+
+                                        </tr>
+                                        <tr>
+                                            <td colspan="8"> &nbsp; </td>
+                                        </tr>
+
+                                       
+
+                                    </tfoot>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end panel -->
+
+
+
+
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+
+
+
+    </div>
+</div>
+<!-- end panel -->
+@section Scripts{
+    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-combobox/js/bootstrap-combobox.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/select2/dist/js/select2.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery-tag-it/js/tag-it.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/js/form-plugins.star.js")"></script>
+
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/modal-open.js")"></script>
+
+
+}
+
+
+<script>
+    $(document).ready(function () {
+        // App.init();
+        TableManageDefault.init();
+        // Notification.init();
+        FormPlugins.init();
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#invDate').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+        $('#invDate').datepicker('setDate', new Date());
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#deliveryDate').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+        $('#deliveryDate').datepicker('setDate', new Date());
+    });
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("select.selectpicker").change(function () {
+            var val = $(".selectpicker option:selected").val();
+            //   alert("You have selected the country - " + val);
+
+            if (val > 0) {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("AutoCompleteSelected")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        search: val
+                    },
+                    success: function (data) {
+                        $('#item1').val(data.result.CustNo);
+                        $('#item2').val(data.result.CustName);
+                        $('#custNo').val(data.result.CustNo);
+                        $('#custName').val(data.result.CustName);
+                        $('#addr1').val(data.result.Addr1);
+                        $('#addr2').val(data.result.Addr2);
+                        $('#addr3').val(data.result.Addr3);
+                        $('#postalCode').val(data.result.PostalCode)
+
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+
+            }
+        });
+
+
+        $("select.staffpicker").change(function () {
+            var staffid = $(".staffpicker option:selected").val();
+            var staffname = $(".staffpicker option:selected").text();
+
+            $('#personID').val(staffid);
+            $('#personName').val(staffname);
+
+        });
+
+        $("select.warehousepicker").change(function () {
+            var warehouseid = $(".warehousepicker option:selected").val();
+            var warehousename = $(".warehousepicker option:selected").text().trim();
+
+            $('#warehouseID').val(warehouseid);
+            $('#warehouseName').val(warehousename);
+
+         //   alert(warehouseid +  " " + warehousename);
+
+        });
+
+    });
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#tags').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("AutoComplete")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        search: $("#tags").val()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (item) {
+                            return {
+                                label: item.CustNo + " | " + item.CustName,
+
+                            };
+                        }));
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+            },
+            selectFirst: true,
+            delay: 0,
+            autoFocus: true,
+            minLength: 1
+        });
+
+        $("#tags").on("autocompleteselect", function (event, ui) {
+            var str1 = ui.item.value;
+            var str2 = str1.split("|");
+            var val = str2[0].trim();
+
+            //  alert(val);
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("AutoCompleteSelected")',
+                dataType: "json",
+                contentType: 'application/json, charset=utf-8',
+                data: {
+                    search: val
+                },
+                success: function (data) {
+
+                    $('#custNo').val(data.result.CustNo);
+                    $('#custName').val(data.result.CustName);
+                    $('#addr1').val(data.result.Addr1);
+                    $('#addr2').val(data.result.Addr2);
+                    $('#addr3').val(data.result.Addr3);
+                    $('#postalCode').val(data.result.PostalCode)
+
+
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+
+            });
+
+        });
+
+
+
+    });
+
+</script>
+
+

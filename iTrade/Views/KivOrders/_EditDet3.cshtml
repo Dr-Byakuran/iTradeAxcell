@@ -1,0 +1,94 @@
+﻿@model List<iTrade.Models.KivOrderDet>
+
+<div class="panel">
+    <div class="panel-body">
+        @using (Html.BeginForm("_EditDet3", "KivOrders", FormMethod.Post, new { id = "EditDet3Form", @class = "form-horizontal" }))
+        {
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 class="modal-title"><span class="lead">@Model[0].ItemName &nbsp;&nbsp; <small> @Model[0].ItemCode</small>  </span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="lead">Balance Qty: @Html.DisplayFor(model => model[0].BalanceQty, new { htmlAttributes = new { @class = "form-control" } }) </span>  <span id="txtTitle"></span> </h3>
+
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="txtKorID3" name="txtKorID3" value="@Model[0].KorID" />
+
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-5 semi-bold">
+
+                            </div>
+                            <div class="col-md-4">
+
+                            </div>
+
+                            <div class="col-md-3 semi-bold">
+                                Deliver Qty
+                            </div>
+                        </div>
+                    </div>
+
+
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        @Html.HiddenFor(model => model[i].DetID)
+                        @Html.HiddenFor(model => model[i].KorID)
+                        @Html.HiddenFor(model => model[i].KivID)
+                        @Html.HiddenFor(model => model[i].InvID)
+                        @Html.HiddenFor(model => model[i].InvNo)
+                        @Html.HiddenFor(model => model[i].InvDetID)
+                        @Html.HiddenFor(model => model[i].ItemID)
+                        @Html.HiddenFor(model => model[i].ItemCode)
+                        @Html.HiddenFor(model => model[i].ItemName)
+                        @Html.HiddenFor(model => model[i].SellType)
+                        @Html.HiddenFor(model => model[i].Unit)
+
+                        @Html.HiddenFor(model => model[i].DeliverOrderQty)
+                        @Html.HiddenFor(model => model[i].ChangedQty) 
+                        
+                        @Html.HiddenFor(model => model[i].SalesType)
+                        @Html.HiddenFor(model => model[i].RefItemID)
+                        @Html.HiddenFor(model => model[i].Position)
+                        @Html.HiddenFor(model => model[i].Remark)
+
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-5">
+                                    @Html.DisplayFor(model => model[i].ItemName, new { htmlAttributes = new { @class = "form-control col-md-6" } })
+                                    @if (Model[i].SalesType == "FOCItem")
+                                    {
+                                        <span class="label label-warning">FOC</span>
+                                    }
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.DisplayFor(model => model[i].ItemCode, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                <div class="col-md-3 semi-bold">
+                                    @Html.EditorFor(model => model[i].DeliverQty, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+
+                        </div>
+
+                    }
+                </div>
+
+
+
+            </div>
+
+            <div class="modal-footer">
+
+                <input class="btn btn-primary" id="btnEditSave3" type="submit" value="Save" />
+                <button class="btn btn-white" data-dismiss="modal">Cancel</button>
+            </div>
+
+        }
+
+
+
+
+    </div>
+</div>
+
+

@@ -1,0 +1,482 @@
+﻿@using iTrade.CustomHtmlHelper;
+@model iTrade.Models.Purchase
+@*@model IEnumerable<iTrade.Models.RawProduct>*@
+@*@model IEnumerable<iTrade.Models.Supplier>*@
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-datepicker/css/datepicker.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-combobox/css/bootstrap-combobox.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/select2/dist/css/select2.min.css")" rel="stylesheet" type="text/css" />
+
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin page-header -->
+<h1 class="page-header lead">Purchasing </h1>
+<!-- end page-header -->
+<div class="email-btn-row hidden-xs">
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
+
+</div>
+
+<!-- begin panel -->
+<div class="panel panel-inverse">
+    <div class="panel-heading">
+        New purchasing
+    </div>
+
+    <div class="panel-body">
+
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.ProductID, new { id = "productID" })
+            @Html.HiddenFor(model => model.ProductName, new { id = "productName" })
+            @Html.HiddenFor(model => model.SupplierID, new { id = "supplierID" })
+            @Html.HiddenFor(model => model.SupplierName, new { id = "supplierName" })
+            @Html.HiddenFor(model => model.Dimension, new { id = "productDimension", @Value = "" })
+            @Html.HiddenFor(model => model.CreatedBy)
+            @Html.HiddenFor(model => model.CreatedOn)
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BatchNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.BatchNo, new { htmlAttributes = new { @Value = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString("00") + DateTime.Now.Day.ToString("00") , @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.BatchNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                <div id="item-product">
+                                    <select class="form-control selectpicker" data-size="10" data-live-search="true" data-style="btn-white">
+                                        <option value="" selected>Select product</option>
+                                        @foreach (var item in ViewData["RawProductData"] as IEnumerable<iTrade.Models.RawProduct>)
+                                        {
+                                            <option value="@item.ProductID">@item.ProductName</option>
+                                            //@item.FileName  // instead .FileName use property which u used in ur model class
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Material, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.Material, new { htmlAttributes = new { id = "productMaterial", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Material, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Length, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.DropDownListFor(model => model.Length, new List<SelectListItem> {
+                                                                                        new SelectListItem { Value = "6", Text = "6", Selected = true },
+                                                                                        new SelectListItem { Value = "4", Text = "4" },
+
+                                                                                      }, new { id = "productLength", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Length, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.LengthUnit, new { htmlAttributes = new { id = "productLengthUnit", @Value = "m", @class = "form-control", @readonly = true } })
+                                @Html.ValidationMessageFor(model => model.LengthUnit, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Thickness, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(model => model.Thickness, new List<SelectListItem> {
+                                                                                        new SelectListItem { Value = "2.5mm", Text = "2.5mm", Selected = true },
+                                                                                        new SelectListItem { Value = "3mm", Text = "3mm" },
+                                                                                        new SelectListItem { Value = "3mm", Text = "3mm" },  
+                                                                                        new SelectListItem { Value = "3.5mm", Text = "3.5mm" },   
+                                                                                        new SelectListItem { Value = "4mm", Text = "4mm" }, 
+                                                                                          new SelectListItem { Value = "5mm", Text = "5mm" },                                                                                                                                                                                                                                                                                                                                                        
+
+                                                                                      }, new { id = "productThickness", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Thickness, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Qty, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.Qty, new { htmlAttributes = new { @Value = "0", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.Unit, new List<SelectListItem> {
+                                                                                        new SelectListItem { Value = "PC", Text = "PC", Selected = true },
+                               
+
+                                                                                      }, new { id = "productUnit", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Unit, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BuyingPriceORG, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.BuyingPriceORG, new { htmlAttributes = new { id = "txtBuyingPrice", @Value = "0.00",  @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.BuyingPriceORG, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.Currency, new List<SelectListItem> {
+                                                                                        new SelectListItem { Value = "SGD", Text = "SGD", Selected = true },
+                                                                                        new SelectListItem { Value = "USD", Text = "USD" },
+                                                                                        new SelectListItem { Value = "RMB", Text = "RMB" }, 
+                                                                                         new SelectListItem { Value = "INR", Text = "INR" },  
+                                                                                         new SelectListItem { Value = "JPY", Text = "JPY" }, 
+                                                                                         new SelectListItem { Value = "KRW", Text = "KRW" },                                                                                                                                                                                   
+                                                                                                                                                                                                                                          
+
+                                                                                      }, new { id = "txtCurrency", @class = "form-control" })
+
+                                @Html.ValidationMessageFor(model => model.Currency, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ExRate, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.ExRate, new { htmlAttributes = new { id = "txtExRate", @Value = "1.0000", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ExRate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BuyingPriceSGD, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.BuyingPriceSGD, new { htmlAttributes = new { id = "txtBuyingPriceSGD", @Value = "0.00", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.BuyingPriceSGD, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+                <div class="col-md-6">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DateIn, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.DateIn, new { htmlAttributes = new { id = "dateIn", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.DateIn, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ProductCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.ProductCode, new { htmlAttributes = new { id = "productCode", @class = "form-control", @readonly = true } })
+                                @Html.ValidationMessageFor(model => model.ProductCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ProductType, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.ProductType, new { htmlAttributes = new { id = "productType", @class = "form-control", @readonly = true } })
+                                @Html.ValidationMessageFor(model => model.ProductType, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <br /><br />
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Weight, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @Value = "0.00", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Weight, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.UOM, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(model => model.UOM, new List<SelectListItem> {
+                                                                                        new SelectListItem { Value = "Kg", Text = "Kg", Selected = true },
+                                                                                        new SelectListItem { Value = "Tons", Text = "Tons" },
+
+                                                                                      }, new { id = "txtUOM", @class = "form-control" })
+
+                                @Html.ValidationMessageFor(model => model.UOM, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(model => model.Country, new List<SelectListItem> {
+                                                                                        new SelectListItem { Value = "Singapore", Text = "Singapore", Selected = true },
+                                                                                        new SelectListItem { Value = "USA", Text = "USA" },
+                                                                                        new SelectListItem { Value = "China", Text = "China" },
+                                                                                         new SelectListItem { Value = "India", Text = "India" },
+                                                                                         new SelectListItem { Value = "Japan", Text = "Japan" },
+                                                                                         new SelectListItem { Value = "South Korea", Text = "South Korea" },
+
+
+                                                                                      }, new { id = "txtCurrency", @class = "form-control" })
+
+
+                                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SupplierName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                <div id="item-supplier">
+                                    <select class="form-control selectpicker" data-size="10" data-live-search="true" data-style="btn-white">
+                                        <option value="" selected>Select Supplier</option>
+                                        @foreach (var item in ViewData["SupplierData"] as IEnumerable<iTrade.Models.Supplier>)
+                                        {
+                                            <option value="@item.SupplierID">@item.SupplierName</option>
+                                            //@item.FileName  // instead .FileName use property which u used in ur model class
+                                        }
+                                    </select>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Remark, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-6">
+                                 &nbsp;
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-6 pull-right">
+                                <input type="submit" value="Save" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+        }
+
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+
+
+
+    </div>
+</div>
+<!-- end panel -->
+@section Scripts{
+    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-combobox/js/bootstrap-combobox.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/select2/dist/js/select2.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/js/form-plugins.star.js")"></script>
+
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/modal-open.js")"></script>
+
+
+}
+
+<script>
+    $(document).ready(function () {
+        // App.init();
+        TableManageDefault.init();
+        // Notification.init();
+        FormPlugins.init();
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#dateIn').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+        $('#dateIn').datepicker('setDate', new Date());
+    });
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#item-product select.selectpicker").change(function () {
+            var val = $("#item-product .selectpicker option:selected").val();
+            //   alert("You have selected the item - " + val);
+
+            if (val > 0) {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("AutoCompleteSelected_Product")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        search: val
+                    },
+                    success: function (data) {
+                        $('#productID').val(data.result.ProductID);
+                        $('#productCode').val(data.result.ProductCode);
+                        $('#productType').val(data.result.ProductType);
+                        $('#productName').val(data.result.ProductName);
+                        $('#productDimension').val(data.result.Dimension);
+                        $('#productMaterial').val(data.result.Material);
+                        $('#productLength').val(data.result.Length);
+                        $('#productLengthUnit').val(data.result.LengthUnit);
+                        $('#productThickness').val(data.result.Thickness);
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+
+            }
+        });
+    });
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#item-supplier select.selectpicker").change(function () {
+            var val = $("#item-supplier .selectpicker option:selected").val();
+            //   alert("You have selected the item - " + val);
+
+            if (val > 0) {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("AutoCompleteSelected_Supplier")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        search: val
+                    },
+                    success: function (data) {
+                        $('#supplierID').val(data.result.SupplierID);
+                        $('#supplierName').val(data.result.SupplierName);
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+
+            }
+        });
+    });
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#txtCurrency').on("change", function () {
+            // alert('Changed!');
+            var currency = $('#txtCurrency').val();
+
+            switch (currency) {
+                case "SGD" :
+                    $('#txtExRate').val("1.0000");
+                    break;
+                case "USD":
+                    $('#txtExRate').val("1.4300");
+                    break;
+                case "RMB":
+                    $('#txtExRate').val("0.2200");
+                    break;
+                case "INR":
+                    $('#txtExRate').val("0.0220");
+                    break;
+                case "JPY":
+                    $('#txtExRate').val("0.0120");
+                    break;
+                case "KRW":
+                    $('#txtExRate').val("0.0012");
+                    break;
+
+            }
+
+            reCalculateAmount();
+        });
+
+        $('#txtBuyingPrice').on("change", function () {
+            // alert('Changed!');
+
+            reCalculateAmount();
+        });
+
+
+        $('#txtExRate').on("change", function () {
+            // alert('Changed!');
+
+            reCalculateAmount();
+        });
+
+
+    });
+
+    function reCalculateAmount() {
+
+        var buyingprice = $('#txtBuyingPrice').val();
+        var currency = $('#txtCurrency').val();
+        var exrate = $('#txtExRate').val();
+ 
+        var newprice = buyingprice * exrate;
+        newprice = newprice.toFixed(2);
+
+        $('#txtBuyingPriceSGD').val(newprice);
+
+
+
+    };
+
+</script>

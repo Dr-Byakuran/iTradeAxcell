@@ -1,0 +1,159 @@
+﻿@model List<iTrade.Models.KIVDET>
+
+
+@using (Html.BeginForm("_DisplayKivDets", "Orders", FormMethod.Post, new { id = "editKivQtyForm" }))
+{
+
+        <table class="table table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th class="col-md-6">Description</th>
+                    <th>Order <br />Qty</th>
+                    <th>Balance <br />Qty</th>
+                    <th>Deliver <br />Qty</th>
+                    <th>KIV <br />Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    if (Model[i].SalesType == "Bundle")
+                    {
+                        @Html.HiddenFor(model => model[i].DetID)
+                        @Html.HiddenFor(model => model[i].KivID)
+                        @Html.HiddenFor(model => model[i].InvDetID)
+                        @Html.HiddenFor(model => model[i].SorID)
+                        @Html.HiddenFor(model => model[i].InvID)
+                        @Html.HiddenFor(model => model[i].KorID)
+                        @Html.HiddenFor(model => model[i].ItemID)
+                        @Html.HiddenFor(model => model[i].ItemCode)
+                        @Html.HiddenFor(model => model[i].Unit)
+                    
+                        @Html.HiddenFor(model => model[i].OrderQty)
+                        @Html.HiddenFor(model => model[i].BalanceQty)
+                        @Html.HiddenFor(model => model[i].KivBalanceQty)
+                        @Html.HiddenFor(model => model[i].SalesType)
+                        @Html.HiddenFor(model => model[i].Remark)
+                        @Html.HiddenFor(model => model[i].ItemName)
+                        @Html.HiddenFor(model => model[i].DeliverQty)
+                        @Html.HiddenFor(model => model[i].Position)
+
+                    }
+                    else
+                    {
+                        <tr>
+                            <td class="col-md-6">
+                                @Html.HiddenFor(model => model[i].DetID)
+                                @Html.HiddenFor(model => model[i].KivID)
+                                @Html.HiddenFor(model => model[i].InvDetID)
+                                @Html.HiddenFor(model => model[i].SorID)
+                                @Html.HiddenFor(model => model[i].InvID)
+                                @Html.HiddenFor(model => model[i].KorID)
+                                @Html.HiddenFor(model => model[i].ItemID)
+                                @Html.HiddenFor(model => model[i].ItemCode)
+                                @Html.HiddenFor(model => model[i].ItemName)
+                                @Html.HiddenFor(model => model[i].Unit)
+
+                                @Html.HiddenFor(model => model[i].OrderQty)
+                                @Html.HiddenFor(model => model[i].BalanceQty)
+                                @Html.HiddenFor(model => model[i].KivBalanceQty)
+                                @Html.HiddenFor(model => model[i].SalesType)
+                                @Html.HiddenFor(model => model[i].Remark)
+                                @Html.HiddenFor(model => model[i].Position)
+
+
+                                @if (Model[i].SalesType == "FOCItem")
+                                {
+                                    <span class="label label-warning">FOC</span>
+                                }
+                                @Html.DisplayFor(model => model[i].ItemName, new { htmlAttributes = new { @class = "form-control col-md-6" } })
+                                <br />
+
+                            </td>
+                            <td>@Html.DisplayFor(model => model[i].OrderQty, new { htmlAttributes = new { @class = "form-control" } })</td>
+                            <td>@Html.DisplayFor(model => model[i].BalanceQty, new { htmlAttributes = new { @class = "form-control" } })</td>
+                            <td>
+                                @if (ViewBag.Act != "1")
+                                {
+                                    @Html.EditorFor(model => model[i].DeliverQty, new { htmlAttributes = new { @class = "form-control" } })
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(model => model[i].DeliverQty, new { htmlAttributes = new { @class = "form-control" } })
+                                }
+
+                            
+                            </td>
+
+                            <td>@Html.DisplayFor(model => model[i].KivBalanceQty, new { htmlAttributes = new { @class = "form-control" } })</td>
+
+                        </tr>
+                    }
+
+
+
+                }
+
+
+            </tbody>
+            <tfoot>
+
+                @if (Model.Count > 0 && ViewBag.Act != "1")
+                {
+                    <tr>
+                        <td colspan="6">
+                            <span class="pull-right">
+                                <input type="button" id="btnSubmitKivInfo" class="btn btn-small btn-primary col-md-12" value="Save KIV" />
+                                @*<button type="submit" id="btnSubmitKivInfo" class="btn btn-small btn-primary col-md-12">
+                                    Update KIV
+                                </button>*@
+                                &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                            </span>
+                        </td>
+                    </tr>
+                }
+
+
+            </tfoot>
+        </table>
+
+
+
+}
+
+<div class="row">
+    <div class="col-md-12">
+
+ 
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    $("#btnSubmitKivInfo").click(function () {
+        $("#editKivQtyForm").submit(function (e) {
+            e.preventDefault();
+            var newUrl1 = $('#txtUrl1').val();
+          //  alert('Form is submitting');
+            $.ajax({
+                url: this.action,
+                type: this.method,
+                data: $(this).serializeArray(),
+                success: function (result) {
+                    if (result.success) {
+                        $("#divOrderDetail").load(newUrl1);
+                       // alert("Kiv Saved.");
+
+                    } else {
+                        alert("Kiv Not Saved.");
+                    }
+                }
+            });
+            return true;
+        });
+       $("#editKivQtyForm").submit(); //invoke form submission
+
+    });
+ 
+</script>

@@ -1,0 +1,137 @@
+﻿@model List<iTrade.Models.KIV>
+
+<!-- begin row -->
+<div class="row">
+    <!-- begin col-12 -->
+    <div class="col-md-12">
+        <!-- begin panel -->
+        <div class="panel panel-inverse">
+
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table id="data-table1" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    No
+                                </th>
+                                <th class="col-md-2">
+                                    Reference#
+                                </th>
+                                <th>Date </th>
+                                <th class="col-md-3">
+                                    Company
+                                </th>
+                                <th class="col-md-3">
+                                    Product Name
+                                </th>
+                                <th>SKU</th>
+                                <th>
+                                    Order Qty
+                                </th>
+                                <th>Balance Qty</th>
+                                <th>Remark</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+                                //if (Model[i].BalanceQty != 0)
+                                {
+                                    <tr>
+                                        <td>@string.Format("{0}", i + 1) </td>
+                                        <td>
+                                            @Model[i].InvNo
+                                            @if (Model[i].BalanceQty != 0)
+                                            {
+                                                <span class="pull-right">
+                                                    <button id="btnSelectedInvNo" class="selectedInvNo btn btn-xs btn-primary" data-id="@Model[i].InvNo"><span class="fa fa-send" aria-hidden="true"></span></button>
+                                                </span>
+                                            }
+                                        </td>
+                                        <td>@Model[i].InvDate.ToShortDateString()</td>
+                                        <td class="col-md-3">@Model[i].CustName </td>
+                                        <td class="col-md-3">
+                                            @Model[i].ProductName
+                                            @if (Model[i].SalesType == "FOCItem")
+                                            {
+                                                <span class="label label-warning">FOC</span>
+                                            }
+                                            @if (Model[i].SalesType == "ExchangedItem")
+                                            {
+                                                <span class="label label-warning">Exchanged</span>
+                                            }
+                                        </td>
+                                        <td>@Model[i].SKU </td>
+                                        <td>@Html.DisplayFor(model => model[i].OrderQty, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                        <td style="font-size: 16px; font-weight:bold;">@Html.DisplayFor(model => model[i].BalanceQty, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                        <td>@Model[i].Remark  </td>
+                                        <td> 
+                                                <a href="@Url.Action("KivHistory", "KivOrders", new { id = Model[i].KivID })" class="btn btn-primary">
+                                                    <span class="fa fa-angle-double-right" />
+                                                </a>
+                                        </td>
+
+
+
+                                    </tr>
+                                }
+
+
+                            }
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- end panel -->
+    </div>
+    <!-- end col-12 -->
+</div>
+<!-- end row -->
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on("click", ".selectedInvNo", function (e) {
+            e.preventDefault();
+            var myInvNo = $(this).data('id').trim();
+           // alert(myInvNo);
+            $.ajax({
+                type: 'GET',
+                url: '/KivOrders/CreateByInvNo',
+                dataType: "json",
+                contentType: 'application/json, charset=utf-8',
+                data: {
+                    id: myInvNo
+                },
+                success: function (result) {
+                    if (result.success) {
+                        if (result.redirectUrl != null) {
+                            window.location = result.redirectUrl;
+                        }
+                    } else {
+                        alert(result.responseText);
+                    }
+
+
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+
+            });
+
+
+            @*var url = '@Url.Action("CreateByInvNo", "KivOrders", new { id = "ID" })'.replace("ID", myInvNo);
+            alert(url);
+            window.location.href = url;*@
+
+        });
+    });
+</script>

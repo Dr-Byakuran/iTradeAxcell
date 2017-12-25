@@ -1,0 +1,277 @@
+﻿
+@model iTrade.Models.LoanManagementDetail
+
+
+@using (Html.BeginForm("_AddDet", "LoanManagements", FormMethod.Post, new { id = "addDetForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.LoanManagementDetailID)
+    @Html.HiddenFor(model => model.LoanManagementID, new { id = "itemSorID" })
+    @Html.HiddenFor(model => model.ItemID, new { id = "itemID" })
+    @Html.HiddenFor(model => model.ItemType, new { id = "itemType" })
+    @Html.HiddenFor(model => model.ItemName, new { id = "itemName" })
+    @Html.HiddenFor(model => model.ItemCode, new { id = "itemCode" })
+    @Html.HiddenFor(model => model.Unit, new { id = "itemUnit" })
+
+    @Html.HiddenFor(model => model.IsBundle, new { id = "itemIsBundle" })
+    @Html.HiddenFor(model => model.RefItemID, new { id = "itemRefItemID" })
+    @Html.HiddenFor(model => model.IsControlItem, new { id = "itemIsControl" })
+    @Html.HiddenFor(model => model.SalesType, new { id = "itemSalesType" })
+    @Html.HiddenFor(model => model.Position, new { id = "itemPosition", @Value = "0" })
+
+    <input type="hidden" id="itemGstRate" value="0.07" />
+    <input type="hidden" id="itemStockQty" />
+    <input type="hidden" id="itemCostPrice" />
+
+
+    <tr>
+        <td colspan="2"></td>
+
+        <td class="col-md-4">
+
+            @Html.Editor("txtSearch", new { htmlAttributes = new { id = "txtSearch", @class = "form-control", placeholder = "Search products by name or code" } })
+
+        </td>
+        <td>
+            @Html.EditorFor(model => model.Qty, new { htmlAttributes = new { id = "itemQty", @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
+
+        </td>
+
+        <td>
+            @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { id = "itemStartDate", @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+
+        </td>
+        <td>
+            @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { id = "itemEndDate", @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" style="border-top: none; margin-top: -10px;"></td>
+        <td colspan="2" style="border-top: none; margin-top: -10px;">
+            @Html.HiddenFor(model => model.Remark, new { htmlAttributes = new { id = "itemRemark", @class = "form-control", placeholder = "Remark" } })
+            @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+
+                    <div id="optionPricebreak"> </div>
+
+                    <span id="BreakQty1"></span>  &nbsp;   &nbsp;
+                    <span id="BreakQty2"></span> &nbsp;   &nbsp;
+                    <span id="BreakQty3"></span> &nbsp;   &nbsp;
+                </div>
+            </div>
+
+
+        </td>
+        <td colspan="2" style="border-top: none;margin-top: -10px;">
+            <button type="button" id="btnAddDet" class="btn btn-small btn-primary col-md-12">
+                <i class="fa fa-save"></i> &nbsp;&nbsp; Add
+            </button>
+
+        </td>
+    </tr>
+
+
+
+
+}
+
+
+
+<!-- modal placeholder-->
+<div id="bundleOrderModal" class="modal fade in" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 class="modal-title lead"><span id="txtTitle"> </span> &nbsp;&nbsp; &nbsp; Qty: <span id="txtTitleQty"> </span></h3>
+            </div>
+            <div id='bundleOrderModalContent'></div>
+
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#itemStartDate').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+        $('#itemEndDate').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+        $('#txtSearch').on("focus", function () {
+            // alert('Changed!');
+            $(this).select();
+        });
+        $('#itemQty').on("focus", function () {
+            // alert('Changed!');
+            $(this).select();
+        });
+        $('#itemStartDate').on("focus", function () {
+            // alert('Changed!');
+            $(this).select();
+        });
+        $('#itemEndDate').on("focus", function () {
+            // alert('Changed!');
+            $(this).select();
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#txtSearch').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("AutoComplete_Product")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        search: $("#txtSearch").val().trim()
+                    },
+                    success: function (data) {
+
+                        response($.map(data, function (item) {
+                            return {
+                                label: item.ProductID + " | " + item.ProductName + " | $ " + item.SellPrice,
+
+                            };
+                        }));
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+            },
+            selectFirst: true,
+            delay: 0,
+            autoFocus: true,
+            minLength: 1
+        });
+
+        $("#txtSearch").on("autocompleteselect", function (event, ui) {
+            var str1 = ui.item.value;
+            var str2 = str1.split("|");
+            var val = str2[0].trim();
+
+            $('#optionPricebreak').empty();
+            //  alert(val);
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("AutoCompleteSelected_Product")',
+                dataType: "json",
+                contentType: 'application/json, charset=utf-8',
+                data: {
+                    search: val
+                },
+                success: function (data) {
+                    $('#itemID').val(data.result.ProductID);
+                    $('#itemCode').val(data.result.SKU);
+                    $('#itemType').val(data.result.ProductType);
+                    $('#itemName').val(data.result.ProductName);
+
+                    $('#itemSalesType').val(data.result.ModelNo);
+                    $('#itemIsBundle').val(data.result.IsBundle);
+                    $('#txtTitle').text(data.result.ProductName);
+
+                    $('#itemIsControlItem').val(data.result.IsControlItem);
+
+                    $('#itemQty').val(1);
+                    var invtype = $('#invType').val();
+                    if (invtype.toUpperCase() == "CS") {
+                        unitprice = data.result.RetailPrice.toFixed(2);
+                    }
+
+                    $('#itemStockQty').val(0);
+
+                    $('#itemQty').focus();
+                    $('#itemQty').select();
+
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+
+            });
+
+        });
+
+
+
+    });
+
+</script>
+
+
+<script type="text/javascript">
+    $("#btnAddDet").click(function () {
+        //   $("#btnAddDet").prop('disabled', true);
+        var pid = $('#itemID').val().trim();
+        var qty = $('#itemQty').val().trim();
+        var SorID = $('#itemSorID').val().trim();
+        $('#txtTitleQty').text(qty);
+
+        var flag = $('#itemIsBundle').val().trim();
+
+        if (flag == "true") {
+            var url = '@Url.Action("_AddDetBundle", "LoanManagements")';
+            url += '/?id=' + pid + '&qty=' + qty + '&SorID=' + SorID;
+            $("#bundleOrderModalContent").load(url);
+            $('#bundleOrderModal').modal({
+                keyboard: true
+            }, 'show');
+
+        } else {
+            $("#addDetForm").submit();
+        }
+
+    });
+
+
+
+
+    $('#txtSearch').keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $('#itemQty').focus();
+            $('#itemQty').select();
+        }
+        event.stopPropagation();
+    });
+    $('#itemQty').keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $('#itemDiscountedPrice').focus();
+            $('#itemDiscountedPrice').select();
+        }
+        event.stopPropagation();
+    });
+    $('#itemRemark').keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $('#btnAddDet').focus();
+            $('#btnAddDet').select();
+        }
+        event.stopPropagation();
+    });
+
+
+</script>

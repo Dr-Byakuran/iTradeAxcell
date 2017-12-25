@@ -1,0 +1,499 @@
+﻿@model iTrade.Models.ReceivedItem
+@*@model IEnumerable<iTrade.Models.Client>*@
+@*@model IEnumerable<iTrade.Models.Staff>*@
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-datepicker/css/datepicker.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-combobox/css/bootstrap-combobox.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/select2/dist/css/select2.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/parsley/src/parsley.css")" rel="stylesheet" type="text/css" />
+
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin page-header -->
+<div class="page-header lead">
+    Received Goods / RG# @Model.ReceivedItemID  &nbsp;&nbsp;
+
+    <span class="email-btn-row pull-right">
+        @*<a href="~/downloads/reporttemplate01.pdf" id="btnPayment" target="_blank" class="lead"> View Payment Records  </a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*@
+
+        <a href="@Url.Action("Index")"><span class="btn btn-default">Cancel </span></a>
+        @if (Model.Status != "Confirmed")
+        {
+            //<a href="#MultiPrintModal" data-toggle="modal" class="btn btn-default"><i class="fa fa-check-square-o m-r-5"></i> Preview & Submit</a>
+            <button type="button" id="btnSubmitReceived" class="btn btn-default"><i class="fa fa-check-square-o m-r-5"></i> Submit</button>
+            <button type="button" id="btnSaveAndAdd" class="btn btn-default">Save & Add Another</button>
+            <button type="button" id="btnSaveChanges" class="btn btn-primary">Save Changes</button>
+        }
+
+
+    </span>
+
+</div>
+<!-- end page-header -->
+<!-- begin panel -->
+<div class="panel panel-inverse">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-12">
+                Edit Received Goods
+            </div>
+        </div>
+
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm("Edit", "ReceivedItems", FormMethod.Post, new { id = "orderForm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.InvType, new { id = "invType" })
+            @Html.HiddenFor(model => model.ReceivedItemID, new { id = "txtReceivedItemID" })
+            @Html.HiddenFor(model => model.QuoID)
+
+            @Html.HiddenFor(model => model.PostalCode, new { id = "postalCode" })
+            @Html.HiddenFor(model => model.PersonID, new { id = "personID" })
+            @Html.HiddenFor(model => model.PersonName, new { id = "personName" })
+            @Html.HiddenFor(model => model.SupplierID, new { id = "supplierID" })
+            @Html.HiddenFor(model => model.SupplierName, new { id = "supplierName" })
+            @Html.HiddenFor(model => model.Status)
+            @Html.HiddenFor(model => model.CreatedBy)
+            @Html.HiddenFor(model => model.CreatedOn)
+            @Html.HiddenFor(model => model.ModifiedBy)
+            @Html.HiddenFor(model => model.ModifiedOn)
+
+            @Html.HiddenFor(model => model.Remark)
+            @Html.Hidden("tags", new { htmlAttributes = new { id = "tags", @class = "form-control", placeholder = "Please enter customer name to view available list" } })
+
+            <input type="hidden" id="custGroup" value="" />
+            <input type="hidden" id="actionType" name="actionType" value="0" />
+
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SupplierName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                <select class="form-control selectpicker" data-size="10" data-live-search="true" data-style="btn-white">
+                                    <option value="" selected>Select supplier</option>
+                                    @foreach (var item in ViewData["ClientsAll"] as IEnumerable<iTrade.Models.Supplier>)
+                                    {
+                                        <option value="@item.SupplierID"
+                                                @if (item.SupplierID == Model.SupplierID)
+                                                { <text> selected="selected" </text>        }>
+                                            @item.SupplierName
+                                        </option>
+                                        //@item.FileName  // instead .FileName use property which u used in ur model class
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-1">
+                                <span id="accType">@Model.InvType</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label(" ", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.SupplierName2, new { htmlAttributes = new { id = "supplierName2", @class = "form-control", placeholder = "Additional name info if provided" } })
+                                @Html.ValidationMessageFor(model => model.SupplierName2, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Addr1, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.Addr1, new { htmlAttributes = new { id = "addr1", @class = "form-control", @readonly = true } })
+                                @Html.ValidationMessageFor(model => model.Addr1, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Addr2, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.Addr2, new { htmlAttributes = new { id = "addr2", @class = "form-control", @readonly = true } })
+                                @Html.ValidationMessageFor(model => model.Addr2, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Addr3, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.Addr3, new { htmlAttributes = new { id = "addr3", @class = "form-control", @readonly = true } })
+                                @Html.ValidationMessageFor(model => model.Addr3, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ReceivedAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.ReceivedAddress, new { htmlAttributes = new { @class = "form-control", placeholder = "Received address if different from the above" } })
+                                @Html.ValidationMessageFor(model => model.ReceivedAddress, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="col-md-5">
+                    <div class="form-horizontal">
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.InvDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.InvDate, new { htmlAttributes = new { id = "invDate", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.InvDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PoNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.PoNo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.PoNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PersonName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                <select class="form-control staffpicker">
+                                    <option value="" selected>Select sales person</option>
+                                    @foreach (var item in ViewData["StaffsAll"] as IEnumerable<iTrade.Models.Staff>)
+                                    {
+                                        <option value="@item.StaffID"
+                                                @if (item.StaffID == Model.PersonID) { <text> selected="selected" </text>         }>
+                                            @item.FirstName @item.LastName
+                                        </option>
+                                        //@item.FileName  // instead .FileName use property which u used in ur model class
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ReceivedDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.ReceivedDate, new { htmlAttributes = new { id = "ReceivedDate", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ReceivedDate, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.ReceivedTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.ReceivedTime, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ReceivedTime, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+        }
+
+
+
+        <!-- begin panel -->
+        <div class="panel panel-inverse">
+            <div class="panel-body">
+                <div id="item-session">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>&nbsp; </th>
+                                <th>
+                                    NO
+                                </th>
+                                <th>
+                                    Item Description
+                                </th>
+                                <th>
+                                    Qty
+                                </th>
+                                <th>
+                                    Unit Price
+                                </th>
+                                <th>
+                                    Sell Price
+                                </th>
+                                <th>
+                                    Amount
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @{Html.RenderAction("_DisplayInvDets", "ReceivedItems", new { id = Model.ReceivedItemID });}
+
+
+                        <tfoot>
+                            <tr>
+                                <td colspan="7" style="border:0px;"> &nbsp; </td>
+                            </tr>
+
+                            @if (Model.Status != "Confirmed")
+                            {
+                                { Html.RenderAction("_AddDet", "ReceivedItems", new { id = Model.ReceivedItemID }); }
+                            }
+
+                            <tr>
+                                <td colspan="7" style="border:0px;"> &nbsp; </td>
+                            </tr>
+
+
+
+                        </tfoot>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- end panel -->
+        <!-- modal placeholder-->
+        <div id="convertModal" class="modal" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div id='convertModalContent'>
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3 class="modal-title">Convert to Invoice</h3>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <span class="lead">Are you sure to proceed Sales Order# @Model.ReceivedItemID ?</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <br />
+                                <div class="col-md-8 col-md-offset-2">
+
+                                    <div class="form-group m-r-10">
+                                        <input type="text" class="form-control col-md-6" id="txtSorID" value="@Model.ReceivedItemID" />
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <br />
+                        </div>
+
+                        <div class="modal-footer">
+                            <span id="progress2" class="text-center" style="display: none;">
+                                <img src="~/assets/img/Wait.gif" alt="wait" />
+                                Wait..
+                            </span>
+
+                            <input type="button" class="btn btn-primary" id="btnProceed" value=" Convert to Invoice " />
+                            <button class="btn btn-white" data-dismiss="modal">Cancel</button>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+
+
+
+    </div>
+
+</div>
+<!-- end panel -->
+@section Scripts{
+    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-combobox/js/bootstrap-combobox.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/select2/dist/js/select2.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery-tag-it/js/tag-it.min.js")"></script>
+
+    <script src="@Url.Content("~/assets/js/form-plugins.star.js")"></script>
+
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/modal-order.js")"></script>
+
+
+}
+
+
+<script>
+            $(document).ready(function () {
+                // App.init();
+                TableManageDefault.init();
+                // Notification.init();
+                FormPlugins.init();
+
+            });
+</script>
+
+<script>
+            $(document).ready(function () {
+                $('#invDate').datepicker({
+                    format: 'dd/mm/yyyy',
+                    setDate: new Date(),
+                    todayHighlight: true,
+                    autoclose: true
+                });
+                $('#ReceivedDate').datepicker({
+                    format: 'dd/mm/yyyy',
+                    setDate: new Date(),
+                    todayHighlight: true,
+                    autoclose: true
+                });
+
+            });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $("#btnSaveChanges").click(function()
+        {
+            $("#actionType").val("SaveAndStay");
+            //$("#orderForm").submit(function (event) {
+            //    event.preventDefault();
+            //});
+
+           $("#orderForm").submit();
+
+        });
+        $("#btnSaveAndAdd").click(function()
+        {
+            $("#actionType").val("SaveAndAdd");
+            $("#orderForm").submit();
+        });
+
+        $('#btnSubmitReceived').click(function () {
+            if ($("#txtReceivedItemID").val().length > 0) {
+                var SorID = $('#txtReceivedItemID').val();
+
+                // alert(SorID);
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/ReceivedItems/_ConvertToInvoice',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        valSorID: SorID
+                    },
+                    success: function (json) {
+                        if (json.isRedirect) {
+                            window.location.href = json.redirectUrl;
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+
+            }
+            else {
+                alert("Not valid input.");
+            };
+
+
+        });
+
+    });
+</script>
+
+<script type="text/javascript">
+            $(document).ready(function () {
+                $("select.selectpicker").change(function () {
+                    var val = $(".selectpicker option:selected").val();
+                    //   alert("You have selected the country - " + val);
+
+                    if (val > 0) {
+                        $.ajax({
+                            type: 'GET',
+                            url: '@Url.Action("AutoCompleteSelected")',
+                            dataType: "json",
+                            contentType: 'application/json, charset=utf-8',
+                            data: {
+                                search: val
+                            },
+                            success: function (data) {
+                                $('#item1').val(data.result.SupplierID);
+                                $('#item2').val(data.result.SupplierName);
+                                $('#supplierID').val(data.result.SupplierID);
+                                $('#supplierName').val(data.result.SupplierName);
+                                $('#addr1').val(data.result.Addr1);
+                                $('#addr2').val(data.result.Addr2);
+                                $('#addr3').val(data.result.Addr3);
+                                $('#postalCode').val(data.result.PostalCode)
+                                $('#invType').val(data.result.AccType);
+                                $('#accType').text(data.result.AccType);
+
+                               // var custName = data.result.CustName;
+                               // var custNo = data.result.CustNo;
+                               // var AccNo = data.result.AccNo;
+                               // $.getJSON(
+                               //   '/Orders/GetCreditSettings?custNo=' + custNo + ' #data',
+                               //   function (data) {
+                               //          var cre = data.CreditLimit;
+                               //       //   alert(cre);
+                               //          $('#lblHeader').text(custName + " Credit Limit: $ " + cre);
+                               //    //  var CreditLimit = '$' + data.CreditLimit.toLocaleString("en-US", { style: "decimal", minimumFractionDigits: 2 });
+                               //       var OverDueLimit = '$' + data.OverdueLimit.toLocaleString("en-US", { style: "decimal", minimumFractionDigits: 2 });
+                               //       var AccountBalance = '$' + data.AccountBalance.toLocaleString("en-US", { style: "decimal", minimumFractionDigits: 2 });
+
+                               //    //   $('#lblHeader').text(custName + "\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Acc No: " + AccNo + "\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Credit Limit: " + CreditLimit + "\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0OverDue Limit : " + OverDueLimit + "\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Account Balance : " + AccountBalance);
+                               //   }
+                               //);
+
+
+                            },
+                            error: function (xhr, status, error) {
+                                alert(error);
+                            }
+
+                        });
+
+                    }
+                });
+
+                $("select.staffpicker").change(function () {
+                    var staffid = $(".staffpicker option:selected").val();
+                    var staffname = $(".staffpicker option:selected").text().trim();
+
+                    $('#personID').val(staffid);
+                    $('#personName').val(staffname);
+
+                 //   alert($('#personID').val() + "-" + $('#personName').val());
+
+                });
+
+            });
+
+
+
+
+
+</script>
