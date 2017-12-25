@@ -1,0 +1,117 @@
+﻿@model IEnumerable<iTrade.Models.Course>
+
+<!-- begin row -->
+<div class="row">
+    <!-- begin col-12 -->
+    <div class="col-md-12">
+        <!-- begin panel -->
+        <div class="panel panel-inverse">
+
+            <div class="panel-body">
+
+                <div class="table-responsive">
+                    <table id="data-table1" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th width="10px">
+                                   
+                                </th>
+                                <th>
+                                    NO
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CourseCode)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CourseName)
+                                </th>   
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int i = 0;
+                                foreach (var item in Model)
+                                {
+                                    i++;
+                                    <tr class="even gradeC">
+                                        <td>
+                                            <input type="checkbox" id="cb@(i)" />
+                                            <input type="hidden" id="hidid@(i)" value="@item.CourseID" />
+                                        </td>
+                                        <td>
+                                            @i
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CourseCode)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CourseName)
+                                        </td>
+                                    </tr>
+
+                                }
+                            }
+                            
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- end panel -->
+    </div>
+    <!-- end col-12 -->
+</div>
+<!-- end row -->
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        @*$(document).on("click", ".selectedInvNo", function (e) {
+            e.preventDefault();
+            var myInvNo = $(this).data('id').trim();
+           // alert(myInvNo);
+            $.ajax({
+                type: 'GET',
+                url: '/KivOrders/CreateByInvNo',
+                dataType: "json",
+                contentType: 'application/json, charset=utf-8',
+                data: {
+                    id: myInvNo
+                },
+                success: function (result) {
+                    if (result.success) {
+                        if (result.redirectUrl != null) {
+                            window.location = result.redirectUrl;
+                        }
+                    } else {
+                        alert(result.responseText);
+                    }
+
+
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+
+            });
+
+
+            var url = '@Url.Action("CreateByInvNo", "KivOrders", new { id = "ID" })'.replace("ID", myInvNo);
+            alert(url);
+            window.location.href = url;
+
+        });*@
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#data-table1').DataTable({
+            "order": [[1, "asc"]],
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+        });
+
+    });
+
+</script>
