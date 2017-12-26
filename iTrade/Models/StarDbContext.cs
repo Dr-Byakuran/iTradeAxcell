@@ -20,6 +20,8 @@ namespace iTrade.Models
         //    public DbSet<Membership> Memberships { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<TutorRate> TutorRates { get; set; }
+        public DbSet<PaySlip> PaySlips { get; set; }
+        public DbSet<PaySlipDetail> PaySlipDetails { get; set; }
         public DbSet<CoursePrice> CoursePrices { get; set; }
         public DbSet<CourseBundle> CourseBundles { get; set; }
 
