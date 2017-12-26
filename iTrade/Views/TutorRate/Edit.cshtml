@@ -290,7 +290,7 @@
         <input type="hidden" id="SubjectsName" name="SubjectsName" />
 
         <div id="TutorRate">
-            @{Html.RenderAction("Detail", "TutorRate", new { id = Model.TutorID });}
+            @{Html.RenderAction("Detail", "TutorRate", new { id = Model.TutorCode });}
             <span class="col-md-2"></span>
             <span><a href="#additemModal" data-toggle="modal" class="btn btn-primary"><i class="fa fa-plus"></i> Single item</a> </span>
         </div>
@@ -307,11 +307,11 @@
             <div id='modifyItemModalContent'>
                 <div class="modal-header">
                     <button type="button" class="close" id="btnAddItemClose2002" aria-hidden="true" data-dismiss="modal">X</button>
-                    <h3 class="modal-title lead">No:@Model.TutorID &nbsp;&nbsp;&nbsp;&nbsp;@Model.TutorName&nbsp;(@Model.TutorType)</h3>
+                    <h3 class="modal-title lead">No:@Model.TutorCode &nbsp;&nbsp;&nbsp;&nbsp;@Model.TutorName&nbsp;(@Model.TutorType)</h3>
                 </div>
                 <div class="modal-body">
 
-                    @{Html.RenderAction("Item", "TutorRate", new { id = Model.TutorID});}
+                    @{Html.RenderAction("Item", "TutorRate", new { id = Model.TutorCode});}
 
                     <br />
 

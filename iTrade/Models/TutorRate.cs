@@ -14,8 +14,11 @@ namespace iTrade.Models
         [Display(Name = "TutorRateID")]
         public int TutorRateID { get; set; }
 
-        [Display(Name = "No")]
+        [Display(Name = "Tutor ID")]
         public int TutorID { get; set; }
+
+        [Display(Name = "TutorCode")]
+        public string TutorCode { get; set; }
 
         [Display(Name = "Name")]
         [StringLength(60)]

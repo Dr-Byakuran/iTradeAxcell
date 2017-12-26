@@ -5,6 +5,7 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.TutorID, new { id = "itemTutorID" })
+    @Html.HiddenFor(model => model.TutorCode, new { id = "itemTutorCode" })
     @Html.HiddenFor(model => model.TutorName, new { id = "itemTutorName" })
     @Html.HiddenFor(model => model.TutorType, new { id = "itemTutorType" })
 

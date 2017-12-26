@@ -42,19 +42,20 @@ namespace iTrade.Controllers
             return View(stu);
         }
 
-        public ActionResult Detail(int id)
+        public ActionResult Detail(string id)
         {
             var p = new List<TutorRate>();
-            p = db.TutorRates.Where(x => x.TutorID == id).ToList();
+            p = db.TutorRates.Where(x => x.TutorCode == id).ToList();
 
             return PartialView(p);
         }
 
-        public ActionResult Item(int id)
+        public ActionResult Item(string id)
         {
-            Tutor tut = db.Tutors.Find(id);
+            Tutor tut = db.Tutors.Where(x =>x.TutorCode ==id).FirstOrDefault();
             TutorRate p = new TutorRate();
             p.TutorID = tut.TutorID;
+            p.TutorCode = tut.TutorCode;
             p.TutorName = tut.TutorName;
             p.TutorType = tut.TutorType;
 
@@ -63,7 +64,7 @@ namespace iTrade.Controllers
 
         public void AddItem(TutorRate det)
         {
-            var tutorRate = db.TutorRates.Where(m => m.TutorID == det.TutorID).ToList();
+            var tutorRate = db.TutorRates.Where(m => m.TutorCode == det.TutorCode).ToList();
             double tuCount = tutorRate.Count;
             det.Position = tuCount + 1;
 
