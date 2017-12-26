@@ -54,5 +54,7 @@ namespace iTrade.Models
         [Display(Name = "Created On")]
         [StringLength(25)]
         public string CreatedOn { get; set; }
+
+        public double Position { get; set; }
     }
 }
