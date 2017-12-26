@@ -1,0 +1,50 @@
+﻿@model List<iTrade.Models.TutorRate>
+
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "EditDetailForm" }))
+{
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th class="col-md-1">
+                   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NO
+                </th>
+                <th class="col-md-1">ClassType</th>
+                <th class="col-md-1">CourseName</th>
+                <th class="col-md-1">CourseLevel</th>
+                <th class="col-md-1">MinAttend</th>
+                <th class="col-md-1">MaxAttend</th>
+                <th class="col-md-1">Rate</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <a data-modal="" href="" id="btnDel"><i class="fa fa-remove m-r-5"></i></a>
+                        <a href="" data-toggle="modal" id="btnEdit"><i class="fa fa-edit m-r-5"></i></a>
+                        @Model[i].Position
+                    </td>
+                    <td>
+                        @Model[i].ClassType
+                    </td>
+                    <td>
+                        @Model[i].CourseName                      
+                    </td>
+                    <td>
+                        @Model[i].CourseLevel
+                    </td>
+                    <td>
+                        @Model[i].MinAttend
+                    </td>
+                    <td>
+                        @Model[i].MaxAttend
+                    </td>
+                    <td>
+                        @Model[i].Rate
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -288,12 +288,42 @@
         </div>
         <input type="hidden" id="AttachmenNo" name="AttachmenNo" />
         <input type="hidden" id="SubjectsName" name="SubjectsName" />
+
+        <div id="TutorRate">
+            @{Html.RenderAction("Detail", "TutorRate", new { id = Model.TutorID });}
+            <span class="col-md-2"></span>
+            <span><a href="#additemModal" data-toggle="modal" class="btn btn-primary"><i class="fa fa-plus"></i> Single item</a> </span>
+        </div>
+
     </div>
 
 
 }
 
+<!--Add Item-->
+<div id="additemModal" class="modal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id='modifyItemModalContent'>
+                <div class="modal-header">
+                    <button type="button" class="close" id="btnAddItemClose2002" aria-hidden="true" data-dismiss="modal">X</button>
+                    <h3 class="modal-title lead">No:@Model.TutorID &nbsp;&nbsp;&nbsp;&nbsp;@Model.TutorName&nbsp;(@Model.TutorType)</h3>
+                </div>
+                <div class="modal-body">
 
+                    @{Html.RenderAction("Item", "TutorRate", new { id = Model.TutorID});}
+
+                    <br />
+
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-primary" id="btnAddItem" value=" Save & Close " />
+                    <button id="btnAddItemClose001" class="btn btn-white" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts{
     <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
@@ -462,5 +492,11 @@
 
 </script>
 
+<script>
+    $("#btnAddItem").click(function (e) {
 
+        $("#addItemFrom").submit();
+
+    });
+</script>
 
