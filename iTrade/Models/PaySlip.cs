@@ -33,7 +33,7 @@ namespace iTrade.Models
         public DateTime Date { get; set; }
 
         [Display(Name = "Total")]
-        public string Total { get; set; }
+        public double Total { get; set; }
 
     }
 }

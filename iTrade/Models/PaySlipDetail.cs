@@ -44,12 +44,9 @@ namespace iTrade.Models
         public string Quantity { get; set; }
 
         [Display(Name = "Amount")]
-        [StringLength(25)]
-        public string Amount { get; set; }
+        public double Amount { get; set; }
 
-        [Display(Name = "Total")]
-        [StringLength(25)]
-        public string Total { get; set; }
+        public double Position { get; set; }
 
     }
 }
