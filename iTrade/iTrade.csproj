@@ -287,6 +287,7 @@
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PaymentVoucherController.cs" />
+    <Compile Include="Controllers\PaySlipController.cs" />
     <Compile Include="Controllers\PermissionsAdminController.cs" />
     <Compile Include="Controllers\PoKivOrdersController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
@@ -305,6 +306,7 @@
     <Compile Include="Controllers\SuppliersController.cs" />
     <Compile Include="Controllers\TimeClockController.cs" />
     <Compile Include="Controllers\TutorController.cs" />
+    <Compile Include="Controllers\TutorRateController.cs" />
     <Compile Include="Controllers\UserAdminController.cs" />
     <Compile Include="Controllers\UserCompaniesController.cs" />
     <Compile Include="Controllers\VendorController.cs" />
@@ -317,6 +319,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>dsExchange.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="dsPaySlip.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsPaySlip.xsd</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -377,6 +384,8 @@
     <Compile Include="Models\MonthAll.cs" />
     <Compile Include="Models\PaymentReceipt.cs" />
     <Compile Include="Models\PaymentVoucher.cs" />
+    <Compile Include="Models\PaySlip.cs" />
+    <Compile Include="Models\PaySlipDetail.cs" />
     <Compile Include="Models\PoINV.cs" />
     <Compile Include="Models\PoINVDET.cs" />
     <Compile Include="Models\PoKIV.cs" />
@@ -429,6 +438,7 @@
     <Compile Include="Models\TimeClock.cs" />
     <Compile Include="Models\TimeSheet.cs" />
     <Compile Include="Models\Tutor.cs" />
+    <Compile Include="Models\TutorRate.cs" />
     <Compile Include="Models\UserCompany.cs" />
     <Compile Include="Models\UserCompanySelection.cs" />
     <Compile Include="Models\Vendor.cs" />
@@ -5383,6 +5393,17 @@
     <Content Include="dsExchange.xss">
       <DependentUpon>dsExchange.xsd</DependentUpon>
     </Content>
+    <Content Include="dsPaySlip.xsc">
+      <DependentUpon>dsPaySlip.xsd</DependentUpon>
+    </Content>
+    <None Include="dsPaySlip.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsPaySlip.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="dsPaySlip.xss">
+      <DependentUpon>dsPaySlip.xsd</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\iLightcraft.pubxml" />
     <None Include="Properties\PublishProfiles\iTrace XZH.pubxml" />
     <None Include="Properties\PublishProfiles\iTrade ACH.pubxml" />
@@ -6101,6 +6122,19 @@
     <Content Include="Views\Attendance\_DisplayRefund.cshtml" />
     <Content Include="Views\Attendance\_DisplayUpcomingClasses.cshtml" />
     <Content Include="Views\Attendance\_DisplayCharge.cshtml" />
+    <Content Include="Views\TutorRate\_SelCourse.cshtml" />
+    <Content Include="Views\TutorRate\Create.cshtml" />
+    <Content Include="Views\TutorRate\Edit.cshtml" />
+    <Content Include="Views\TutorRate\Index.cshtml" />
+    <Content Include="Views\TutorRate\UploadAttachment.cshtml" />
+    <Content Include="Views\TutorRate\Detail.cshtml" />
+    <Content Include="Views\TutorRate\Item.cshtml" />
+    <Content Include="Views\PaySlip\Index.cshtml" />
+    <Content Include="Views\PaySlip\Create.cshtml" />
+    <Content Include="Views\PaySlip\Detail.cshtml" />
+    <Content Include="Views\PaySlip\Item.cshtml" />
+    <Content Include="Views\PaySlip\Edit.cshtml" />
+    <Content Include="Views\TutorRate\DelDet.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -6158,6 +6192,7 @@
     <EmbeddedResource Include="ReportTemplate\rptGRN.rdlc" />
     <EmbeddedResource Include="ReportTemplate\rptInvoice - Copy.rdlc" />
     <EmbeddedResource Include="ReportTemplate\rptInvoice.rdlc" />
+    <EmbeddedResource Include="ReportTemplate\rptPaySlip.rdlc" />
     <EmbeddedResource Include="ReportTemplate\rptQuotation.rdlc" />
     <EmbeddedResource Include="ReportTemplate\rptSalesOrder.rdlc" />
     <EmbeddedResource Include="ReportTemplate\rptInvoice-Lightcraft.rdlc" />
