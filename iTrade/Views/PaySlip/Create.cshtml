@@ -1,0 +1,145 @@
+﻿@model iTrade.Models.PaySlip
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-datepicker/css/datepicker.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.css")" rel="stylesheet" type="text/css" />
+<link href="~/assets/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" />
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+    <!-- begin page-header -->
+    <div class="page-header lead">
+        New PaySlip
+        <span class="email-btn-row pull-right">
+            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-default" })
+            <button type="button" id="btnSaveChanges" class="btn btn-primary">Save Changes</button>
+        </span>
+    </div>
+    <!-- end page-header -->   
+<div class="panel-body">
+
+    @using (Html.BeginForm("Create", "PaySlip", FormMethod.Post, new { id = "PaySlipForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.TutorCode, new { id = "itemTutorCode" })
+        @Html.HiddenFor(model => model.TutorName, new { id = "itemTutorName" })
+
+        <div class="tab-content">
+            <div class="tab-pane fade active in" id="default-tab-1">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TutorName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            <select class="form-control selectpicker" data-size="10" data-live-search="true" data-style="btn-white">
+                                <option value="0" selected>Select Tutor</option>
+                                @foreach (var item in ViewData["TutorAll"] as IEnumerable<iTrade.Models.Tutor>)
+                                {
+                                    <option value="@item.TutorID">@item.TutorName</option>
+                                }
+                            </select>
+                        </div>
+                        @Html.LabelFor(model => model.Nric, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.Nric, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.Date, new { htmlAttributes = new { id = "Date", @class = "form-control", placeholder = "Date" } })
+                        </div>
+                        @Html.LabelFor(model => model.PaymentDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.PaymentDate, new { htmlAttributes = new { id = "PaymentDate", @class = "form-control", placeholder = "PaymentDate" } })
+                        </div>
+
+                    </div>
+                    <br />
+                </div>
+                <br />
+            </div>
+        </div>
+
+                }
+    </div>
+
+
+        @section Scripts{
+            <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+            <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+            <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+            <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+            <script src="@Url.Content("~/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")"></script>
+            <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+            <script src="@Url.Content("~/Scripts/modal-client.js")"></script>
+
+            <script src="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.js")"></script>
+            <script src="@Url.Content("~/assets/plugins/jquery-file-upload/js/jquery.fileupload.js")"></script>
+        }
+
+<script>
+    $(document).ready(function () {
+
+        $('#Date').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+        $('#Date').datepicker('setDate', new Date());
+
+        $('#PaymentDate').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+        $('#PaymentDate').datepicker('setDate', new Date());
+
+        $("#btnSaveChanges").click(function()
+        {           
+            $("#PaySlipForm").submit();
+        })
+    })     
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $("select.selectpicker").change(function () {
+            var val = $(".selectpicker option:selected").val();
+
+            if (val > 0) {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("AutoCompleteSelected")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        search: val
+                    },
+                    success: function (data) {
+                        $('#itemTutorCode').val(data.result.TutorCode);
+                        $('#itemTutorName').val(data.result.TutorName);
+                        $('#Nric').val(data.result.NRIC);
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+
+            }
+        });
+    });
+</script>

@@ -1,0 +1,156 @@
+﻿@model iTrade.Models.PaySlip
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/bootstrap-datepicker/css/datepicker.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.css")" rel="stylesheet" type="text/css" />
+<link href="~/assets/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" />
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin page-header -->
+<div class="page-header lead">
+    New PaySlip
+    <span class="email-btn-row pull-right">
+        @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-default" })
+        <button type="button" id="btnSaveChanges" class="btn btn-primary">Save Changes</button>
+        <a href="@Url.Action("PrintPaySlip", "PaySlip", new { id = Model.PaySlipID })" target="_blank" class="btn btn-primary"><i class="fa fa-print m-r-5"></i>Print PaySlip</a>
+    </span>
+</div>
+<!-- end page-header -->
+<div class="panel-body">
+
+    @using (Html.BeginForm("Edit", "PaySlip", FormMethod.Post, new { id = "EditPaySlipForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.PaySlipID, new { id = "paySlipID" })
+        @Html.HiddenFor(model => model.TutorCode, new { id = "tutorCode" })
+
+
+        <div class="tab-content">
+            <div class="tab-pane fade active in" id="default-tab-1">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TutorName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.TutorName, new { htmlAttributes = new { @class = "form-control", placeholder = "Name", @readonly = true  } })
+                        </div>
+                        @Html.LabelFor(model => model.Nric, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.Nric, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.Date, new { htmlAttributes = new { id = "Date", @class = "form-control", placeholder = "Date" } })
+                        </div>
+                        @Html.LabelFor(model => model.PaymentDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.PaymentDate, new { htmlAttributes = new { id = "PaymentDate", @class = "form-control", placeholder = "PaymentDate" } })
+                        </div>
+
+                    </div>
+
+                    <div id="PaySlipDetail">
+                        @{Html.RenderAction("Detail", "PaySlip", new { id = Model.PaySlipID });}
+                        <span class="col-md-2"></span>
+                        <span><a href="#additemModal" data-toggle="modal" class="btn btn-primary"><i class="fa fa-plus"></i> Single item</a> </span>                                        
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <h2> Sub-Total &nbsp; $ @Model.Total</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    </div>
+                <br />
+            </div>
+        </div>
+
+                            }
+</div>
+
+<!--Add Item-->
+<div id="additemModal" class="modal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id='modifyItemModalContent'>
+                <div class="modal-header">
+                    <button type="button" class="close" id="btnAddItemClose2002" aria-hidden="true" data-dismiss="modal">X</button>
+                    <h3 class="modal-title lead">No:@Model.TutorCode &nbsp;&nbsp;&nbsp;&nbsp;@Model.TutorName</h3>
+                </div>
+                <div class="modal-body">
+
+                    @{Html.RenderAction("Item", "PaySlip", new { id = Model.PaySlipID });}
+
+                    <br />
+
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-primary" id="btnAddItem" value=" Save & Close " />
+                    <button id="btnAddItemClose001" class="btn btn-white" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")"></script>
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/modal-client.js")"></script>
+
+    <script src="@Url.Content("~/assets/plugins/bootstrap-select/bootstrap-select.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery-file-upload/js/jquery.fileupload.js")"></script>
+}
+
+<script>
+    $(document).ready(function () {
+
+        $('#Date').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+        $('#Date').datepicker('setDate', new Date());
+
+        $('#PaymentDate').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+        $('#PaymentDate').datepicker('setDate', new Date());
+
+        $("#btnSaveChanges").click(function()
+        {
+            $("#EditPaySlipForm").submit();
+        })
+    })
+</script>
+
+<script>
+    $("#btnAddItem").click(function (e) {
+
+        $("#addItemFrom").submit();
+
+    });
+</script>

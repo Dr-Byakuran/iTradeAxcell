@@ -1,0 +1,55 @@
+﻿@model List<iTrade.Models.PaySlipDetail>
+
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "EditDetailForm" }))
+{
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th class="col-md-1">
+                   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NO
+                </th>
+                <th class="col-md-1">Date</th>
+                <th class="col-md-1">StartTime</th>
+                <th class="col-md-1">EndTime</th>
+                <th class="col-md-1">Hour</th>
+                <th class="col-md-1">Hourly Rate</th>
+                <th class="col-md-1">Student Quantity</th>
+                <th class="col-md-1">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ double sum = 0;}
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <a data-modal="" href="" id="btnDel"><i class="fa fa-remove m-r-5"></i></a>
+                        <a href="" data-toggle="modal" id="btnEdit"><i class="fa fa-edit m-r-5"></i></a>
+                        @Model[i].Position
+                    </td>
+                    <td>
+                        @Model[i].Date
+                    </td>
+                    <td>
+                        @Model[i].StartTime
+                    </td>
+                    <td>
+                        @Model[i].EndTime
+                    </td>
+                    <td>
+                        @Model[i].Hour
+                    </td>
+                    <td>
+                        @Model[i].HourlyRate
+                    </td>
+                    <td>
+                        @Model[i].Quantity
+                    </td>
+                    <td>
+                        @Model[i].Amount                       
+                    </td>
+                </tr>
+            }           
+        </tbody>
+    </table>
+}

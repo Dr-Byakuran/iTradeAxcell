@@ -1,0 +1,100 @@
+﻿@model iTrade.Models.PaySlipDetail
+
+@using (Html.BeginForm("AddItem", "PaySlip", FormMethod.Post, new { id = "addItemFrom" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.PaySlipDetailID, new { id = "itemPaySlipDetailID" })
+    @Html.HiddenFor(model => model.TutorCode, new { id = "itemTutorCode" })
+    @Html.HiddenFor(model => model.PaySlipID, new { id = "itemPaySlipID" })
+
+    <div class="row">
+        <div class="col-md-7">
+            <div class="form-horizontal">               
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.Date, new { htmlAttributes = new { id = "itemDate", @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { id = "itemStartTime", @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { id = "itemEndTime", @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Hour, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.Hour, new { htmlAttributes = new { id = "itemHour", @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.HourlyRate, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        <select id="itemHourlyRate" name="HourlyRate" class="form-control selectpicker" data-size="10" data-live-search="true" data-style="btn-white">
+                            <option value="0" selected>Select Rate</option>
+                            @foreach (var item in ViewData["TutorRateAll"] as IEnumerable<iTrade.Models.TutorRate>)
+                            {
+                                <option value="@item.Rate">@item.Rate</option>
+                            }
+                        </select>
+                    </div>
+               </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { id = "itemQuantity", @class = "form-control" } })
+                    </div>
+                </div>  
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { id = "itemAmount", @class = "form-control", @readonly=true } })
+                    </div>
+                </div>              
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+        $('#itemDate').datepicker({
+            format: 'dd/mm/yyyy',
+            setDate: new Date(),
+            todayHighlight: true,
+            autoclose: true
+        });
+        $('#itemDate').datepicker('setDate', new Date());
+    })
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#itemHour').on("change", function () {
+            // alert('Changed!');
+            reCalculateAmount();
+        });
+
+        $('#itemHourlyRate').on("change", function () {
+            // alert('Changed!');
+            reCalculateAmount();
+        });
+
+        function reCalculateAmount() {
+            var hour = $('#itemHour').val();
+            var rate = $('#itemHourlyRate').val();
+
+            var amount = hour * rate;
+            $('#itemAmount').val(amount);
+
+        }
+    })
+</script>
