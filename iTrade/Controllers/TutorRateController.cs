@@ -1,8 +1,10 @@
 ﻿using iTrade.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -42,6 +44,69 @@ namespace iTrade.Controllers
             return View(stu);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Tutor tu)
+        {
+            int tutorID = 0;
+            if (ModelState.IsValid)
+            {
+                tutorID = tu.TutorID;
+                tu.TutorType = (Request["TutorType"] == null) ? "" : Request["TutorType"].ToString();
+                tu.JobType = (Request["JobType"] == null) ? "" : Request["JobType"].ToString();
+                tu.Gender = (Request["Gender"] == null) ? "" : Request["Gender"].ToString();
+
+                tu.Subjects = (Request["CourseSubjects"] != null) ? Request["CourseSubjects"].ToString() : "";
+                string zhi = "";
+                string categoryid = "";
+                List<Course> cse = db.Courses.Where(x => x.IsActive == true).ToList();
+                string[] val = tu.Subjects.Split(',');
+                for (int i = 0; i < val.Length; i++)
+                {
+                    for (int k = 0; k < cse.Count; k++)
+                    {
+                        if (val[i] == cse[k].CourseID.ToString())
+                        {
+                            if (zhi == "")
+                            {
+                                zhi = cse[k].CourseName;
+                            }
+                            else
+                            {
+                                zhi += "," + cse[k].CourseName;
+                            }
+
+                            //if (categoryid == "")
+                            //{
+                            //    categoryid = cse[k].CourseCategory;
+                            //}
+                            //else
+                            //{
+                            //    categoryid += "," + cse[k].CourseCategory;
+                            //}
+                            break;
+                        }
+                    }
+                }
+                tu.AttId = (Request["AttachmenNo"] == null) ? 0 : Convert.ToInt32(Request["AttachmenNo"].ToString());
+                tu.SubjectsName = zhi;
+                tu.CategoryID = categoryid;
+
+                tu.ModifiedBy = User.Identity.Name;
+                tu.ModifiedOn = DateTime.Now;
+
+                db.Entry(tu).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.CustNo = tutorID;
+
+            //ViewBag.Status = Request.Form["selectedTab"];
+            ViewData["CourseAll"] = db.Courses.Where(x => x.IsActive == true).ToList();
+            return View(tu);
+        }
+
         public ActionResult Detail(string id)
         {
             var p = new List<TutorRate>();
@@ -57,7 +122,9 @@ namespace iTrade.Controllers
             p.TutorID = tut.TutorID;
             p.TutorCode = tut.TutorCode;
             p.TutorName = tut.TutorName;
-            p.TutorType = tut.TutorType;
+            p.TutorType = tut.JobType;
+
+            ViewData["CourseAll"] = db.Courses.Where(x => x.IsActive == true).ToList();
 
             return PartialView(p);
         }
