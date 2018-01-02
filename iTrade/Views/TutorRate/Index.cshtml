@@ -13,8 +13,8 @@
     Tutor
     <span class="email-btn-row hidden-xs pull-right">
         @*<button type="button" id="btnExport" class="btn btn-default">Export</button>*@
-        <a href="#" id="btnExecl" class="btn btn-primary">Export Excel</a>
-        <a href="/Tutor/Create" id="btnCreate" class="btn btn-primary"><i class="fa fa-plus m-r-5"></i> New tutor</a>
+        @*<a href="#" id="btnExecl" class="btn btn-primary">Export Excel</a>*@
+        @*<a href="/Tutor/Create" id="btnCreate" class="btn btn-primary"><i class="fa fa-plus m-r-5"></i> New tutor</a>*@
 
     </span>
 </div>
@@ -24,7 +24,7 @@
 
     <div class="">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#default-tab-1" data-toggle="tab"><h5 class="media-heading">All course</h5> </a></li>
+            <li class="active"><a href="#default-tab-1" data-toggle="tab"><h5 class="media-heading">All tutor</h5> </a></li>
 
         </ul>
 
@@ -37,7 +37,7 @@
                         <div class="form-group">
                             @Html.Label("Search / Filter", htmlAttributes: new { @class = "control-label col-md-1 text-left" })
                             <div class="col-md-6">
-                                @Html.Editor("txtFilter", new { htmlAttributes = new { id = "txtFilter", name = "txtFilter", @class = "form-control", placeholder = "Search customers by name..." } })
+                                @Html.Editor("txtFilter", new { htmlAttributes = new { id = "txtFilter", name = "txtFilter", @class = "form-control", placeholder = "Search tutor by code or name..." } })
                             </div>
                         </div>
                     </div>
