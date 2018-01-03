@@ -134,6 +134,8 @@ namespace iTrade.Controllers
             var tutorRate = db.TutorRates.Where(m => m.TutorCode == det.TutorCode).ToList();
             double tuCount = tutorRate.Count;
             det.Position = tuCount + 1;
+            Course cou = db.Courses.Where(m => m.CourseCode == det.CourseCode).FirstOrDefault();
+            det.CourseName = cou.CourseName;
 
             db.TutorRates.Add(det);
             int x = db.SaveChanges();
@@ -145,5 +147,29 @@ namespace iTrade.Controllers
             }
 
         }
+
+        public JsonResult AutoCourseLevel(string search)
+        {
+            if (search != null)
+            {
+                var c = db.Courses.Where(x => x.CourseCode == search).FirstOrDefault();
+
+                if (c != null)
+                {
+
+                    return Json(new { result = c }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return null;
+                };
+
+            }
+            else
+            {
+                return null;
+            }
+
+        }      
     }
 }
