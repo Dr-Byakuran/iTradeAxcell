@@ -28,6 +28,10 @@ namespace iTrade.Models
         [StringLength(20)]
         public string ClassType { get; set; }
 
+        [Display(Name = "Course Code")]
+        [StringLength(20)]
+        public string CourseCode { get; set; }
+
         [Display(Name = "Course Name")]
         [StringLength(20)]
         public string CourseName { get; set; }
