@@ -6134,7 +6134,6 @@
     <Content Include="Views\PaySlip\Detail.cshtml" />
     <Content Include="Views\PaySlip\Item.cshtml" />
     <Content Include="Views\PaySlip\Edit.cshtml" />
-    <Content Include="Views\TutorRate\DelDet.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
