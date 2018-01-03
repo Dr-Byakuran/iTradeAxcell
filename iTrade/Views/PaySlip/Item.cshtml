@@ -36,23 +36,38 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.HourlyRate, htmlAttributes: new { @class = "control-label col-md-3" })
+                    @Html.Label("Class Name", htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-9">
-                        <select id="itemHourlyRate" name="HourlyRate" class="form-control selectpicker" data-size="10" data-live-search="true" data-style="btn-white">
-                            <option value="0" selected>Select Rate</option>
+                        <select id="itemClassCode" name="ClassCode" class="form-control selectpicker" data-size="10" data-live-search="true" data-style="btn-white">
+                            <option value="0" selected>Select ClassName</option>
                             @foreach (var item in ViewData["TutorRateAll"] as IEnumerable<iTrade.Models.TutorRate>)
                             {
-                                <option value="@item.Rate">@item.Rate</option>
+                                <option value="@item.CourseCode">@item.CourseName</option>
                             }
                         </select>
                     </div>
-               </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ClassType, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        <select id="itemClassType" name="ClassType" class="form-control">
+                            <option value="Group">Group</option>
+                            <option value="Private">Private</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-9">
                         @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { id = "itemQuantity", @class = "form-control" } })
                     </div>
                 </div>  
+                <div class="form-group">
+                    @Html.LabelFor(model => model.HourlyRate, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.HourlyRate, new { htmlAttributes = new { id = "itemHourlyRate", @class = "form-control" , @readonly=true } })
+                    </div>
+                </div> 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-9">
@@ -95,6 +110,56 @@
             var amount = hour * rate;
             $('#itemAmount').val(amount);
 
+        }
+    })
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#itemClassCode').on("change", function () {
+            computeRate();
+        });
+
+        $('#itemClassType').on("change", function () {
+            computeRate();
+        });
+
+        $('#itemQuantity').on("change", function () {
+            computeRate();
+        });
+
+        function computeRate() {
+
+            var val1 = $('#itemClassCode').val();
+            var val2 = $('#itemClassType').val();
+            var val3 = $('#itemQuantity').val();
+
+            if (val1 != null && val2 != null && val3 != 0) {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("AutoSelect")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        classCode: val1,
+                        classType: val2,
+                        quantity: val3
+                    },
+                    success: function (data) {
+                        $('#itemHourlyRate').val(data.result.Rate);
+
+                        var hour = $('#itemHour').val();
+                        var rate = $('#itemHourlyRate').val();
+
+                        var amount = hour * rate;
+                        $('#itemAmount').val(amount);
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+            }
         }
     })
 </script>

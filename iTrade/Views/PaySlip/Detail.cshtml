@@ -8,6 +8,8 @@
                 <th class="col-md-1">
                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NO
                 </th>
+                <th class="col-md-1">ClassDesc</th>
+                <th class="col-md-1">ClassType</th>
                 <th class="col-md-1">Date</th>
                 <th class="col-md-1">StartTime</th>
                 <th class="col-md-1">EndTime</th>
@@ -26,6 +28,12 @@
                         <a data-modal="" href="" id="btnDel"><i class="fa fa-remove m-r-5"></i></a>
                         <a href="" data-toggle="modal" id="btnEdit"><i class="fa fa-edit m-r-5"></i></a>
                         @Model[i].Position
+                    </td>
+                    <td>
+                        @Model[i].ClassDesc
+                    </td>
+                    <td>
+                        @Model[i].ClassType
                     </td>
                     <td>
                         @Model[i].Date
