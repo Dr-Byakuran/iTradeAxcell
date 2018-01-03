@@ -48,5 +48,15 @@ namespace iTrade.Models
 
         public double Position { get; set; }
 
+        [Display(Name = "Class Desc")]
+        [StringLength(25)]
+        public string ClassDesc { get; set; }
+
+        public string ClassCode { get; set; }
+
+        [Display(Name = "ClassType")]
+        [StringLength(25)]
+        public string ClassType { get; set; }
+
     }
 }
