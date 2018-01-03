@@ -25,6 +25,7 @@
                     @Html.LabelFor(model => model.CourseName, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-9">
                         <select id="itemCourseCode" name="CourseCode" class="form-control selectpicker" data-size="10" data-live-search="true" data-style="btn-white">
+                            <option value="0" selected>Select Course</option>
                             @foreach (var item in ViewData["CourseAll"] as IEnumerable<iTrade.Models.Course>)
                             {
                                 <option value="@item.CourseCode">@item.CourseName</option>
@@ -66,22 +67,24 @@
         $('#itemCourseCode').on("change", function () {
             var val = $('#itemCourseCode').val();
 
-            $.ajax({
-                type: 'GET',
-                url: '@Url.Action("AutoCourseLevel")',
-                dataType: "json",
-                contentType: 'application/json, charset=utf-8',
-                data: {
-                    search: val
-                },
-                success: function (data) {
-                    $('#itemCourseLevel').val(data.result.CourseLevel);
-                },
-                error: function (xhr, status, error) {
-                    alert(error);
-                }
+            if (val != 0) {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("AutoCourseLevel")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        search: val
+                    },
+                    success: function (data) {
+                        $('#itemCourseLevel').val(data.result.CourseLevel);
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
 
-            });
+                });
+            }
         });       
     })
 </script>
