@@ -320,7 +320,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>dsExchange.xsd</DependentUpon>
     </Compile>
-    <Compile Include="dsPaySlip.Designer.cs">
+    <Compile Include="ReportDataSet\dsPaySlip.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>dsPaySlip.xsd</DependentUpon>
@@ -5393,15 +5393,15 @@
     <Content Include="dsExchange.xss">
       <DependentUpon>dsExchange.xsd</DependentUpon>
     </Content>
-    <Content Include="dsPaySlip.xsc">
+    <Content Include="ReportDataSet\dsPaySlip.xsc">
       <DependentUpon>dsPaySlip.xsd</DependentUpon>
     </Content>
-    <None Include="dsPaySlip.xsd">
+    <None Include="ReportDataSet\dsPaySlip.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dsPaySlip.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <Content Include="dsPaySlip.xss">
+    <Content Include="ReportDataSet\dsPaySlip.xss">
       <DependentUpon>dsPaySlip.xsd</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\iLightcraft.pubxml" />
