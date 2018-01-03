@@ -36,12 +36,10 @@ namespace iTrade.Models
         public string Hour { get; set; }
 
         [Display(Name = "Hourly Rate")]
-        [StringLength(25)]
-        public string HourlyRate { get; set; }
+        public double HourlyRate { get; set; }
 
         [Display(Name = "Student Quantity")]
-        [StringLength(25)]
-        public string Quantity { get; set; }
+        public double Quantity { get; set; }
 
         [Display(Name = "Amount")]
         public double Amount { get; set; }
