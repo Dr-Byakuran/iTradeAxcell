@@ -107,9 +107,11 @@ namespace iTrade.Controllers
         {
             var pay = db.PaySlipDetails.Where(m => m.PaySlipID == det.PaySlipID).ToList();
             PaySlip paySlip = db.PaySlips.Where(m => m.PaySlipID == det.PaySlipID).FirstOrDefault();
+            TutorRate tut = db.TutorRates.Where(m => m.CourseCode == det.ClassCode).FirstOrDefault();
 
             double payCount = pay.Count;
             det.Position = payCount + 1;
+            det.ClassDesc = tut.CourseName;
 
             paySlip.Total += det.Amount;
 
@@ -132,6 +134,30 @@ namespace iTrade.Controllers
                 var c = db.Tutors
                            .Where(x => x.TutorID == tuID)
                            .ToList().FirstOrDefault();
+
+                if (c != null)
+                {
+
+                    return Json(new { result = c }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return null;
+                };
+
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+
+        public JsonResult AutoSelect(string classCode,string classType,double quantity)
+        {
+            if (classCode != null && classType !=null && quantity !=0)
+            {
+                var c = db.TutorRates.Where(x => x.CourseCode == classCode && x.ClassType == classType && x.MinAttend <= quantity && x.MaxAttend >=quantity).FirstOrDefault();
 
                 if (c != null)
                 {
