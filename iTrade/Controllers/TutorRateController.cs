@@ -170,6 +170,18 @@ namespace iTrade.Controllers
                 return null;
             }
 
-        }      
+        }
+
+        public ActionResult DeleteConfirmed(int id)
+        {
+            var det = db.TutorRates.Find(id);
+
+            if (det != null)
+            {
+                db.Entry(det).State = EntityState.Deleted;
+                db.SaveChanges();
+            }
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+        }
     }
 }
