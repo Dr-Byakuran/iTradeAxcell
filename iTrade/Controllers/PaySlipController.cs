@@ -177,6 +177,18 @@ namespace iTrade.Controllers
 
         }
 
+        public ActionResult DeleteConfirmed(int id)
+        {
+            var det = db.PaySlipDetails.Find(id);
+
+            if (det != null)
+            {
+                db.Entry(det).State = EntityState.Deleted;
+                db.SaveChanges();
+            }
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult PrintPaySlip(int id)
         {
             string userName = User.Identity.Name;

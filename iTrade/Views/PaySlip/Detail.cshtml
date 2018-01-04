@@ -6,7 +6,7 @@
         <thead>
             <tr>
                 <th class="col-md-1">
-                   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NO
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NO
                 </th>
                 <th class="col-md-1">ClassDesc</th>
                 <th class="col-md-1">ClassType</th>
@@ -25,8 +25,8 @@
             {
                 <tr>
                     <td>
-                        <a data-modal="" href="" id="btnDel"><i class="fa fa-remove m-r-5"></i></a>
-                        <a href="" data-toggle="modal" id="btnEdit"><i class="fa fa-edit m-r-5"></i></a>
+                        <button type="button" id="btnDel" onclick="delItem(@Model[i].PaySlipDetailID)" class="btn btn-xs btn-primary"><span class="fa fa-remove" aria-hidden="true"></span></button>
+                        <button type="button" id="btnEdit" onclick="" class="btn btn-xs btn-primary"><span class="fa fa-edit m-r-5" aria-hidden="true"></span></button>&nbsp;&nbsp;    
                         @Model[i].Position
                     </td>
                     <td>
@@ -61,3 +61,27 @@
         </tbody>
     </table>
 }
+
+<script>
+    function delItem(ID) {
+        $.ajax({
+            type: 'GET',
+            url: '/PaySlip/DeleteConfirmed',
+            dataType: "json",
+            contentType: 'application/json, charset=utf-8',
+            data: {
+                id: ID
+            },
+            success: function (result) {
+                if (result.success) {
+                    //alert("Item Deleted");
+                    window.location.reload();
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+
+        });
+    }
+</script>
