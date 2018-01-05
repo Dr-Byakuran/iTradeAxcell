@@ -24,11 +24,11 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.CourseName, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-9">
-                        <select id="itemCourseCode" name="CourseCode" class="form-control selectpicker" data-size="10" data-live-search="true" data-style="btn-white">
+                        <select id="itemCourseID" name="CourseID" class="form-control selectpicker" data-size="10" data-live-search="true" data-style="btn-white">
                             <option value="0" selected>Select Course</option>
-                            @foreach (var item in ViewData["CourseAll"] as IEnumerable<iTrade.Models.Course>)
+                            @foreach (var item in ViewData["CourseAll"] as IEnumerable<iTrade.Models.Pricebook>)
                             {
-                                <option value="@item.CourseCode">@item.CourseName</option>
+                                <option value="@item.CourseID">@item.CourseName</option>
                             }
                         </select>
                     </div>
@@ -64,8 +64,8 @@
 
 <script>
     $(document).ready(function () {
-        $('#itemCourseCode').on("change", function () {
-            var val = $('#itemCourseCode').val();
+        $('#itemCourseID').on("change", function () {
+            var val = $('#itemCourseID').val();
 
             if (val != 0) {
                 $.ajax({

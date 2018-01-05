@@ -124,7 +124,7 @@ namespace iTrade.Controllers
             p.TutorName = tut.TutorName;
             p.TutorType = tut.JobType;
 
-            ViewData["CourseAll"] = db.Courses.Where(x => x.IsActive == true).ToList();
+            ViewData["CourseAll"] = db.Pricebooks.Where(x => x.IsValid == true).ToList();
 
             return PartialView(p);
         }
@@ -134,8 +134,11 @@ namespace iTrade.Controllers
             var tutorRate = db.TutorRates.Where(m => m.TutorCode == det.TutorCode).ToList();
             double tuCount = tutorRate.Count;
             det.Position = tuCount + 1;
-            Course cou = db.Courses.Where(m => m.CourseCode == det.CourseCode).FirstOrDefault();
+            Course cou = db.Courses.Where(m => m.CourseID == det.CourseID).FirstOrDefault();
+            Pricebook pBook = db.Pricebooks.Where(m => m.CourseID == cou.CourseID).FirstOrDefault();
             det.CourseName = cou.CourseName;
+            det.CourseCode = cou.CourseCode;
+            det.PriceID = pBook.PriceID;
 
             db.TutorRates.Add(det);
             int x = db.SaveChanges();
@@ -148,11 +151,11 @@ namespace iTrade.Controllers
 
         }
 
-        public JsonResult AutoCourseLevel(string search)
+        public JsonResult AutoCourseLevel(int search)
         {
-            if (search != null)
+            if (search != 0)
             {
-                var c = db.Courses.Where(x => x.CourseCode == search).FirstOrDefault();
+                var c = db.Courses.Where(x => x.CourseID == search).FirstOrDefault();
 
                 if (c != null)
                 {

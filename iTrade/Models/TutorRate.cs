@@ -32,6 +32,12 @@ namespace iTrade.Models
         [StringLength(20)]
         public string CourseCode { get; set; }
 
+        [Display(Name = "Course ID")]
+        public int CourseID { get; set; }
+
+        [Display(Name = "Price ID")]
+        public int PriceID { get; set; }
+
         [Display(Name = "Course Name")]
         [StringLength(20)]
         public string CourseName { get; set; }
