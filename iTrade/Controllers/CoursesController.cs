@@ -268,6 +268,7 @@ namespace iTrade.Controllers
 
             if (ModelState.IsValid)
             {
+                pb.CourseCode = db.Courses.Where(m => m.CourseID == pb.CourseID).FirstOrDefault().CourseCode;
                 db.Pricebooks.Add(pb);
                 db.SaveChanges();
             }
