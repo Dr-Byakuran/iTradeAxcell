@@ -9,7 +9,7 @@
               <Width>0.95486in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.46181in</Width>
+              <Width>1.90972in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.95486in</Width>
@@ -259,6 +259,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
+                              <Value>="("+(Fields!ClassDesc.Value)+")"</Value>
+                              <Style />
+                            </TextRun>
+                            <TextRun>
                               <Value>=Fields!StartTime.Value</Value>
                               <Style />
                             </TextRun>
@@ -449,7 +453,7 @@
         <Top>0.21403in</Top>
         <Left>0.56125in</Left>
         <Height>0.66667in</Height>
-        <Width>6.23611in</Width>
+        <Width>6.68402in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -729,7 +733,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>=":" + First(Fields!PaymentDate.Value, "DataSet1")</Value>
+                  <Value>=":" + First(Fields!PaymentDate.Value, "DataSet1")+"----"</Value>
                   <Style />
                 </TextRun>
               </TextRuns>
@@ -740,8 +744,41 @@
           <Top>1.59375in</Top>
           <Left>5.46403in</Left>
           <Height>0.25in</Height>
-          <Width>1.78125in</Width>
+          <Width>0.92708in</Width>
           <ZIndex>8</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <BottomBorder>
+              <Style>Solid</Style>
+            </BottomBorder>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox20">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>="" + First(Fields!PaymentDate2.Value, "DataSet1")</Value>
+                  <Style />
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox13</rd:DefaultName>
+          <Top>1.59375in</Top>
+          <Left>6.39111in</Left>
+          <Height>0.25in</Height>
+          <Width>0.85417in</Width>
+          <ZIndex>9</ZIndex>
           <Style>
             <Border>
               <Style>None</Style>
@@ -1109,7 +1146,7 @@
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>cb46e7f6-1728-4685-9581-b90c3a7e895b</rd:DataSourceID>
+      <rd:DataSourceID>db6d5e25-b953-4ba9-becf-637c5c9795e7</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
@@ -1121,6 +1158,14 @@
       <Fields>
         <Field Name="PaySlipID">
           <DataField>PaySlipID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="TutorCode">
+          <DataField>TutorCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TutorID">
+          <DataField>TutorID</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="TutorName">
@@ -1135,17 +1180,17 @@
           <DataField>PaymentDate</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
+        <Field Name="PaymentDate2">
+          <DataField>PaymentDate2</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
         <Field Name="Date">
           <DataField>Date</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Total">
           <DataField>Total</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="TutorCode">
-          <DataField>TutorCode</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Double</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
@@ -1167,9 +1212,17 @@
           <DataField>PaySlipDetailID</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="PaySlipID">
+          <DataField>PaySlipID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="TutorCode">
+          <DataField>TutorCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="Date">
           <DataField>Date</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="StartTime">
           <DataField>StartTime</DataField>
@@ -1181,35 +1234,31 @@
         </Field>
         <Field Name="Hour">
           <DataField>Hour</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Double</rd:TypeName>
         </Field>
         <Field Name="HourlyRate">
           <DataField>HourlyRate</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Double</rd:TypeName>
         </Field>
         <Field Name="Quantity">
           <DataField>Quantity</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Double</rd:TypeName>
         </Field>
         <Field Name="Amount">
           <DataField>Amount</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Total">
-          <DataField>Total</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="PaySlipID">
-          <DataField>PaySlipID</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="TutorCode">
-          <DataField>TutorCode</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Position">
-          <DataField>Position</DataField>
           <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="ClassDesc">
+          <DataField>ClassDesc</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ClassCode">
+          <DataField>ClassCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ClassType">
+          <DataField>ClassType</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
