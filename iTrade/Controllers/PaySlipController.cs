@@ -44,7 +44,49 @@ namespace iTrade.Controllers
             {
                 db.PaySlips.Add(det);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                var p = det.PaySlipID;
+                var status = "Closed";
+                var classAttendance = new List<ClassAttendance>();
+                classAttendance = db.ClassAttendances.Where(
+                    m => m.TutorID == det.TutorID &&
+                    m.Status == status &&
+                    m.AttendDate >= det.PaymentDate &&
+                    m.AttendDate <= det.PaymentDate2).ToList();
+
+                PaySlipDetail paySlipDetail = new PaySlipDetail();
+
+                foreach (var item in classAttendance)
+                {
+                    paySlipDetail.Date = Convert.ToString(item.AttendDate.Day) + '/' + Convert.ToString(item.AttendDate.Month) + '/' + Convert.ToString(item.AttendDate.Year);
+                    paySlipDetail.ClassType = db.ClassSchedules.Where(m => m.ScheduleID == item.ScheduleID).FirstOrDefault().ScheduleType;
+                    paySlipDetail.ClassCode = db.Pricebooks.Where(m => m.PriceID == item.PriceID).FirstOrDefault().CourseCode;
+                    paySlipDetail.ClassDesc = item.CourseName;
+                    paySlipDetail.StartTime = item.StartTimeValue;
+                    paySlipDetail.EndTime = item.EndTimeValue;
+                    paySlipDetail.TutorCode = db.Tutors.Where(m => m.TutorID == item.TutorID).FirstOrDefault().TutorCode;
+                    paySlipDetail.PaySlipID = det.PaySlipID;
+
+                    var qty = db.ClassAttendees.Where(m => m.AttendID == item.AttendID).ToList();
+                    paySlipDetail.Quantity = qty.Count;
+
+                    var diff =Convert.ToDateTime(item.EndTimeValue) - Convert.ToDateTime(item.StartTimeValue);
+                    paySlipDetail.Hour = Convert.ToDouble(diff.Hours)+ Convert.ToDouble(diff.Minutes)/60;
+                    paySlipDetail.HourlyRate = db.TutorRates.Where(
+                        m => m.TutorID == item.TutorID &&
+                        m.PriceID == item.PriceID &&
+                        m.ClassType == paySlipDetail.ClassType &&
+                        m.MinAttend <= paySlipDetail.Quantity &&
+                        m.MaxAttend >= paySlipDetail.Quantity
+                        ).FirstOrDefault().Rate;
+                    paySlipDetail.Amount = paySlipDetail.HourlyRate * paySlipDetail.Hour;
+
+                    det.Total += paySlipDetail.Amount;
+
+                    db.PaySlipDetails.Add(paySlipDetail);
+                    db.SaveChanges();
+                }
+                return RedirectToAction("Edit/" + p);
             }
 
             return View(det);
@@ -87,7 +129,7 @@ namespace iTrade.Controllers
         public ActionResult Detail(int id)
         {
             var p = new List<PaySlipDetail>();
-            p = db.PaySlipDetails.Where(x => x.PaySlipID == id).ToList();
+            p = db.PaySlipDetails.Where(x => x.PaySlipID == id).OrderBy(x =>x.Date).ToList();
 
             return PartialView(p);
         }
@@ -104,13 +146,10 @@ namespace iTrade.Controllers
         }
 
         public void AddItem(PaySlipDetail det)
-        {
-            var pay = db.PaySlipDetails.Where(m => m.PaySlipID == det.PaySlipID).ToList();
+        {           
             PaySlip paySlip = db.PaySlips.Where(m => m.PaySlipID == det.PaySlipID).FirstOrDefault();
             TutorRate tut = db.TutorRates.Where(m => m.CourseCode == det.ClassCode).FirstOrDefault();
 
-            double payCount = pay.Count;
-            det.Position = payCount + 1;
             det.ClassDesc = tut.CourseName;
 
             paySlip.Total += det.Amount;
@@ -163,6 +202,30 @@ namespace iTrade.Controllers
                 {
 
                     return Json(new { result = c }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return null;
+                };
+
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+
+        public JsonResult AutoHour(string starttime, string endtime)
+        {
+            if (starttime != null && endtime != null )
+            {
+                var hour = Convert.ToDateTime(endtime) - Convert.ToDateTime(starttime);
+
+                if (hour != null)
+                {
+
+                    return Json(new { result = hour.Hours }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
