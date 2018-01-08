@@ -55,8 +55,8 @@
                         @Html.LabelFor(model => model.ScheduleType, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-3">
                             @Html.DropDownListFor(model => model.ScheduleType, new List<SelectListItem> {
-                                                                                        new SelectListItem { Value = "Regular", Text = "Regular", Selected = true },
-                                                                                        new SelectListItem { Value = "Other", Text = "Other" }
+                                                                                        new SelectListItem { Value = "Group", Text = "Group", Selected = true },
+                                                                                        new SelectListItem { Value = "Private", Text = "Private" }
 
                                                                                       }, new { @class = "form-control" })
 
