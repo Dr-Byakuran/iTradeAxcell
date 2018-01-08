@@ -53,8 +53,7 @@ namespace iTrade.Models
         public int MaxAttend { get; set; }
 
         [Display(Name = "Rate")]
-        [StringLength(20)]
-        public string Rate { get; set; }
+        public double Rate { get; set; }
 
         [Display(Name = "Tutor Type")]
         [StringLength(25)]

@@ -18,6 +18,9 @@ namespace iTrade.Models
         [StringLength(25)]
         public string TutorCode { get; set; }
 
+        [Display(Name = "Tutor ID")]
+        public int TutorID { get; set; }
+
         [Display(Name = "Tutor Name")]
         [StringLength(25)]
         public string TutorName { get; set; }
@@ -27,10 +30,14 @@ namespace iTrade.Models
         public string Nric { get; set; }
 
         [Display(Name = "Period of payment")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime PaymentDate { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime PaymentDate2 { get; set; }
+
         [Display(Name = "Date")]
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
 
         [Display(Name = "Total")]
         public double Total { get; set; }

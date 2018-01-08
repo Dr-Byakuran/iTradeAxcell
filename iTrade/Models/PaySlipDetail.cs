@@ -21,7 +21,7 @@ namespace iTrade.Models
         public string TutorCode { get; set; }
 
         [Display(Name = "Date")]
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
 
         [Display(Name = "Start Time")]
         [StringLength(25)]
@@ -32,8 +32,7 @@ namespace iTrade.Models
         public string EndTime { get; set; }
 
         [Display(Name = "Hour")]
-        [StringLength(25)]
-        public string Hour { get; set; }
+        public double Hour { get; set; }
 
         [Display(Name = "Hourly Rate")]
         public double HourlyRate { get; set; }
@@ -43,8 +42,6 @@ namespace iTrade.Models
 
         [Display(Name = "Amount")]
         public double Amount { get; set; }
-
-        public double Position { get; set; }
 
         [Display(Name = "Class Desc")]
         [StringLength(25)]
