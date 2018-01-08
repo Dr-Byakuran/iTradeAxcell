@@ -6,11 +6,10 @@
         <thead>
             <tr>
                 <th class="col-md-1">
-                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NO
                 </th>
+                <th class="col-md-1">Date</th>
                 <th class="col-md-1">ClassDesc</th>
                 <th class="col-md-1">ClassType</th>
-                <th class="col-md-1">Date</th>
                 <th class="col-md-1">StartTime</th>
                 <th class="col-md-1">EndTime</th>
                 <th class="col-md-1">Hour</th>
@@ -26,17 +25,16 @@
                 <tr>
                     <td>
                         <button type="button" id="btnDel" onclick="delItem(@Model[i].PaySlipDetailID)" class="btn btn-xs btn-primary"><span class="fa fa-remove" aria-hidden="true"></span></button>
-                        <button type="button" id="btnEdit" onclick="" class="btn btn-xs btn-primary"><span class="fa fa-edit m-r-5" aria-hidden="true"></span></button>&nbsp;&nbsp;    
-                        @Model[i].Position
+                        @*<button type="button" id="btnEdit" onclick="" class="btn btn-xs btn-primary"><span class="fa fa-edit m-r-5" aria-hidden="true"></span></button>&nbsp;&nbsp;*@    
+                    </td>
+                    <td>
+                        @Model[i].Date
                     </td>
                     <td>
                         @Model[i].ClassDesc
                     </td>
                     <td>
                         @Model[i].ClassType
-                    </td>
-                    <td>
-                        @Model[i].Date
                     </td>
                     <td>
                         @Model[i].StartTime

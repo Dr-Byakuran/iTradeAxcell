@@ -13,31 +13,37 @@
             <div class="form-horizontal">               
                 <div class="form-group">
                     @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-9">
+                    <div class="col-md-4">
                         @Html.EditorFor(model => model.Date, new { htmlAttributes = new { id = "itemDate", @class = "form-control" } })
                     </div>
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-9">
-                        @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { id = "itemStartTime", @class = "form-control" } })
+                    <div class="col-md-4">
+                        <div class="input-group bootstrap-timepicker">
+                            @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { id = "itemstartTime", @class = "timepicker form-control" } })
+                            <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                            @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-9">
-                        @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { id = "itemEndTime", @class = "form-control" } })
+                    @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-1" })
+                    <div class="col-md-4">
+                        <div class="input-group bootstrap-timepicker">
+                            @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { id = "itemendTime", @class = "timepicker form-control" } })
+                            <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                            @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.Hour, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-9">
-                        @Html.EditorFor(model => model.Hour, new { htmlAttributes = new { id = "itemHour", @class = "form-control" } })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.Hour, new { htmlAttributes = new { id = "itemHour", @class = "form-control",@readonly =true } })
                     </div>
                 </div>
                 <div class="form-group">
                     @Html.Label("Class Name", htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-9">
+                    <div class="col-md-4">
                         <select id="itemClassCode" name="ClassCode" class="form-control selectpicker" data-size="10" data-live-search="true" data-style="btn-white">
                             <option value="0" selected>Select ClassName</option>
                             @foreach (var item in ViewData["TutorRateAll"] as IEnumerable<iTrade.Models.TutorRate>)
@@ -46,10 +52,8 @@
                             }
                         </select>
                     </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.ClassType, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-9">
+                    @Html.LabelFor(model => model.ClassType, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
                         <select id="itemClassType" name="ClassType" class="form-control">
                             <option value="Group">Group</option>
                             <option value="Private">Private</option>
@@ -58,19 +62,17 @@
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-9">
+                    <div class="col-md-4">
                         @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { id = "itemQuantity", @class = "form-control" } })
                     </div>
                 </div>  
                 <div class="form-group">
                     @Html.LabelFor(model => model.HourlyRate, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-9">
+                    <div class="col-md-4">
                         @Html.EditorFor(model => model.HourlyRate, new { htmlAttributes = new { id = "itemHourlyRate", @class = "form-control" , @readonly=true } })
-                    </div>
-                </div> 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-9">
+                    </div>              
+                    @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
                         @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { id = "itemAmount", @class = "form-control", @readonly=true } })
                     </div>
                 </div>              
@@ -88,6 +90,8 @@
             autoclose: true
         });
         $('#itemDate').datepicker('setDate', new Date());
+
+        $('.timepicker').timepicker();
     })
 </script>
 
@@ -162,4 +166,29 @@
             }
         }
     })
+</script>
+
+<script>
+    $('#itemHour').mouseover(function () {
+        var starttime = $('#itemstartTime').val();
+        var endtime = $('#itemendTime').val();
+
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("AutoHour")',
+            dataType: "json",
+            contentType: 'application/json, charset=utf-8',
+            data: {
+                starttime: starttime,
+                endtime: endtime
+            },
+            success: function (data) {
+                $('#itemHour').val(data.result);
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+
+        });
+    });
 </script>
