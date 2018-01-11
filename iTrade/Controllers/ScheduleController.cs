@@ -398,7 +398,30 @@ namespace iTrade.Controllers
 
             return PartialView(result);
         }
-         
+
+        public JsonResult AutoType(int priceid)
+        {
+            if (priceid != 0)
+            {
+                var c = db.Pricebooks.Where(x => x.PriceID == priceid).FirstOrDefault();
+
+                if (c != null)
+                {
+
+                    return Json(new { result = c }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return null;
+                };
+
+            }
+            else
+            {
+                return null;
+            }
+
+        }
 
     }
 }
