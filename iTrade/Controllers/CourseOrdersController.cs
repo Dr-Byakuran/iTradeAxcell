@@ -1568,7 +1568,9 @@ namespace iTrade.Controllers
         {
             var p = db.Enrolments.Where(x => x.CustNo != 0 && x.Status != "Void").OrderBy(x => x.EnrNo).ToList();
 
-             //ViewBag.QuoteNumber = id;
+            //ViewBag.QuoteNumber = id;
+            ViewData["EnrolmentAll"] = db.Enrolments.ToList();
+
             return PartialView(p);
         }
 
@@ -1589,6 +1591,7 @@ namespace iTrade.Controllers
                 p = db.Enrolments.Where(x => x.Status != "Void" &&  x.CustNo == id).OrderBy(x => x.EnrNo).ToList();
             };
 
+            ViewData["EnrolmentAll"] = db.Enrolments.ToList();
             //ViewBag.QuoteNumber = id;
 
             return PartialView(p);
@@ -1601,6 +1604,7 @@ namespace iTrade.Controllers
             var p = new List<Pricebook>();
 
             p = db.Pricebooks.Where(x => x.IsValid == true).Take(1000).OrderByDescending(x => x.CourseName).ToList();
+            ViewData["EnrolmentAll"] = db.Enrolments.ToList();
 
             return PartialView(p);
 
@@ -1642,7 +1646,7 @@ namespace iTrade.Controllers
 
         [HttpPost]
         //  [ValidateAntiForgeryToken]
-        public JsonResult EnrolEdit([Bind(Include = "EnrID,EnrNo,EnrType,EnrDate,CustNo,CustName,CustName2,NRIC,CourseID,CourseName,CourseCode,CourseType,CourseLevel,CourseDuration,TeacherLevel,OptionName,TutorID,TutorName,TermID,TermName,Weekday,StartDate,EndDate,StarTime,StartTimeValue,EndTime,EndTimeValue,RegisterFee,CourseFee,Deposit,SalesType,IsBillable,BillRemark,IsValid,Status,Remark,PersonID,PersonName,CreatedBy,CreatedOn,ModifiedBy,ModifiedOn")] Enrolment pb)
+        public JsonResult EnrolEdit([Bind(Include = "EnrID,EnrNo,EnrType,EnrDate,CustNo,CustName,CustName2,NRIC,PriceID,CourseID,CourseName,CourseCode,CourseType,CourseLevel,CourseDuration,TeacherLevel,OptionName,TutorID,TutorName,TermID,TermName,Weekday,StartDate,EndDate,StarTime,StartTimeValue,EndTime,EndTimeValue,RegisterFee,CourseFee,Deposit,SalesType,IsBillable,BillRemark,IsValid,Status,Remark,PersonID,PersonName,CreatedBy,CreatedOn,ModifiedBy,ModifiedOn")] Enrolment pb)
         {
             pb.ModifiedBy = User.Identity.Name;
             pb.ModifiedOn = DateTime.Now;

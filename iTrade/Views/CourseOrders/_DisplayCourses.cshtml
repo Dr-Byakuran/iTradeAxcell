@@ -20,6 +20,9 @@
                             Level
                         </th>
                         <th>
+                            Course Type
+                        </th>
+                        <th>
                             Duration
                         </th>
                         <th>
@@ -33,15 +36,24 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody>
-
+                <tbody>                   
                     @for (int i = 0; i < Model.Count; i++)
                     {
+                        var sum = 0;
                         <tr>
                             <td> @Model[i].PriceID </td>
                             <td class="col-md-3">@Model[i].CourseName </td>
                             <td>@Model[i].CourseCode</td>
-                            <td> @Model[i].CourseLevel </td>
+                            <td> @Model[i].CourseLevel </td>                           
+                            <td> @Model[i].CourseType 
+                                @foreach (var item in ViewData["EnrolmentAll"] as IEnumerable<iTrade.Models.Enrolment>)
+                                {
+                                    if (item.PriceID == Model[i].PriceID) {
+                                        sum++;
+                                    }
+                                }
+                            <span>(@sum)</span>
+                            </td>
                             <td>@Model[i].CourseDuration </td>
                             <td>@Model[i].TeacherLevel </td>
                             <td>@Model[i].StudentPrice </td>
@@ -109,6 +121,7 @@
                             $('#courseID').val(data.result.CourseID);
                             $('#courseName').val(data.result.CourseName);
                             $('#courseLevel').val(data.result.CourseLevel);
+                            $('#courseType').val(data.result.CourseType);
                             $('#courseDuration').val(data.result.CourseDuration);
                             $('#teacherLevel').val(data.result.TeacherLevel);
                             $('#registerFee').val(data.result.RegisterFee);
