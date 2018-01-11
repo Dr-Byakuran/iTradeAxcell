@@ -55,7 +55,7 @@
             @Html.HiddenFor(model => model.CourseID, new { @Value = "0", id = "courseID" })
             @Html.HiddenFor(model => model.CourseName, new { @Value = "", id = "courseName" })
             @Html.HiddenFor(model => model.CourseCode, new { @Value = "", id = "courseCode" })
-            @Html.HiddenFor(model => model.CourseType, new { @Value = "", id = "courseCode" })
+            @*@Html.HiddenFor(model => model.CourseType, new { @Value = "", id = "courseCode" })*@
 
             @Html.HiddenFor(model => model.CostPrice, new { @Value = "0" })
             @Html.HiddenFor(model => model.CostCode, new { @Value = "" })
@@ -84,6 +84,12 @@
             </td>
             <td>
                 @Html.EditorFor(model => model.CourseLevel, new { htmlAttributes = new { id = "itemCourseLevel2", @class = "form-control" } })
+            </td>
+            <td style="width:120px;">
+                @Html.DropDownListFor(model => model.CourseType, new List<SelectListItem> {
+                                                                                        new SelectListItem { Value = "Group", Text = "Group", Selected = true },
+                                                                                        new SelectListItem { Value = "Private", Text = "Private" }
+                                                                                      }, new { id = "itemCourseType2", @class = "form-control" })
             </td>
             <td>
                 @Html.EditorFor(model => model.CourseDuration, new { htmlAttributes = new { id = "itemCourseDuration2", @class = "form-control" } })

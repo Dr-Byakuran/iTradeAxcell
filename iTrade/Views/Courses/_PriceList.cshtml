@@ -16,6 +16,9 @@
                     Course Level
                 </th>
                 <th>
+                    Course Type
+                </th>
+                <th>
                     Duration
                 </th>
                 <th>Teacher Level</th>
@@ -63,6 +66,9 @@
                 </td>
                 <td>
                     @Html.EditorFor(model => model[i].CourseLevel, new { htmlAttributes = new { id = "itemCourseLevel2", @class = "form-control" } })
+                </td>
+                <td>
+                    @Html.EditorFor(model => model[i].CourseType, new { htmlAttributes = new { id = "itemCourseType2", @class = "form-control" } })
                 </td>
                 <td>
                     @Html.EditorFor(model => model[i].CourseDuration, new { htmlAttributes = new { id = "itemCourseDuration2", @class = "form-control" } })
