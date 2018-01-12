@@ -67,6 +67,7 @@
 
                     </div>
                     <div class="form-group">
+                        <div id="week">
                         @Html.LabelFor(model => model.Weekday, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-3">
                             @Html.DropDownListFor(model => model.Weekday, new List<SelectListItem> {
@@ -80,7 +81,8 @@
 
                                                                                       }, new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.Weekday, "", new { @class = "text-danger" })
-                        </div>            
+                        </div>  
+                        </div>          
                         @Html.Label("Tutor", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-3">
                             <select class="form-control tutorpicker" data-size="10" data-live-search="true" data-style="btn-white"> 
@@ -117,10 +119,12 @@
                             @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { id = "fromDate", @class = "fromDate form-control", placeholder = "DD/MM/YYYY" } })
                             @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
                         </div>
+                        <div id="itemToDate">
                         @Html.LabelFor(model => model.ToDate, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-3">
                             @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { id = "toDate", @class = "toDate form-control", placeholder = "DD/MM/YYYY" } })
                             @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
+                        </div>
                         </div>
                     </div>
 
@@ -190,6 +194,13 @@
                 },
                 success: function (data) {
                     $('#scheduleType').val(data.result.CourseType);
+                    if (data.result.CourseType == "Private") {
+                        $('#week').hide();
+                        $('#itemToDate').hide();
+                    } else {
+                        $('#week').show();
+                        $('#itemToDate').show();
+                    }
                 },
                 error: function (xhr, status, error) {
                 }
