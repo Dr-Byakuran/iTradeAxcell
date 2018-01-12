@@ -78,7 +78,7 @@
                                 @foreach (var item in ViewData["CoursesAll"] as IEnumerable<iTrade.Models.Pricebook>)
                                 {
                                     <option value="@item.PriceID">
-                                        @item.CourseName - @item.CourseLevel - @item.CourseDuration - @item.TeacherLevel
+                                        @item.CourseName - @item.CourseLevel - @item.CourseDuration - @item.TeacherLevel - @item.CourseType
                                     </option>
                                 }
                             </select>
@@ -89,19 +89,20 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.ScheduleType, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-3">
-                            @Html.DropDownListFor(model => model.ScheduleType, new List<SelectListItem> {
+                            @*@Html.DropDownListFor(model => model.ScheduleType, new List<SelectListItem> {
                                                                                         new SelectListItem { Value = "Group", Text = "Group", Selected = true },
                                                                                         new SelectListItem { Value = "Private", Text = "Private" }
 
-                                                                                      }, new { @class = "form-control" })
+                                                                                      }, new { @class = "form-control" })*@
 
-                            @*@Html.EditorFor(model => model.ScheduleType, new { htmlAttributes = new { id = "scheduleType", @class = "form-control", placeholder = "Type" } })*@
+                            @Html.EditorFor(model => model.ScheduleType, new { htmlAttributes = new { id = "scheduleType3", @class = "form-control", @readonly =true } })
                             @Html.ValidationMessageFor(model => model.ScheduleType, "", new { @class = "text-danger" })
                         </div>
 
 
                     </div>
                     <div class="form-group">
+                        <div id="week3">
                         @Html.LabelFor(model => model.Weekday, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-3">
                             @Html.DropDownListFor(model => model.Weekday, new List<SelectListItem> {
@@ -137,6 +138,7 @@
                                 <option value="0" @Suelect>Sunday</option>
                             </select>
                             @Html.ValidationMessageFor(model => model.Weekday, "", new { @class = "text-danger" })*@
+                        </div>
                         </div>
                         @Html.Label("Tutor", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-3">
@@ -174,10 +176,12 @@
                             @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { id = "fromDate3", @class = "fromDate form-control", placeholder = "DD/MM/YYYY" } })
                             @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
                         </div>
+                        <div id="itemToDate3">
                         @Html.LabelFor(model => model.ToDate, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-3">
                             @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { id = "toDate3", @class = "toDate form-control", placeholder = "DD/MM/YYYY" } })
                             @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
+                        </div>
                         </div>
                     </div>
 
@@ -236,6 +240,29 @@
 
             $('#priceID3').val(priceid);
             $('#courseTitle3').val(coursetitle);
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("AutoType")',
+                dataType: "json",
+                contentType: 'application/json, charset=utf-8',
+                data: {
+                    priceid: priceid
+                },
+                success: function (data) {
+                    $('#scheduleType3').val(data.result.CourseType);
+                    if (data.result.CourseType == "Private") {
+                        $('#week3').hide();
+                        $('#itemToDate3').hide();
+                    } else {
+                        $('#week3').show();
+                        $('#itemToDate3').show();
+                    }
+                },
+                error: function (xhr, status, error) {
+                }
+
+            });
 
         });
         $("select.tutorpicker3").change(function () {

@@ -334,6 +334,11 @@ namespace iTrade.Controllers
 
             if (ModelState.IsValid)
             {
+                if (data.ScheduleType == "Private")
+                {
+                    data.ToDate = data.FromDate;
+                    data.Weekday = Convert.ToInt32(data.FromDate.DayOfWeek);
+                }
                 db.Entry(data).State = EntityState.Modified;
                 db.SaveChanges();
             };
