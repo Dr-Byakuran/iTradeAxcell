@@ -238,6 +238,7 @@ namespace iTrade.Controllers
                     newatt.CourseDuration = sch.CourseDuration;
                     newatt.TeacherLevel = sch.TeacherLevel;
                     newatt.OptionName = sch.OptionName;
+                    newatt.CourseType = sch.ScheduleType;
                     newatt.TutorID = sch.TutorID;
                     newatt.TutorName = sch.TutorName;
                     newatt.Weekday = sch.Weekday;
