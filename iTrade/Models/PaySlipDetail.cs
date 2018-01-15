@@ -32,22 +32,24 @@ namespace iTrade.Models
         public string EndTime { get; set; }
 
         [Display(Name = "Hour")]
-        public double Hour { get; set; }
+        public double StudyHour { get; set; }
 
         [Display(Name = "Hourly Rate")]
         public double HourlyRate { get; set; }
 
         [Display(Name = "Student Quantity")]
-        public double Quantity { get; set; }
+        public int Quantity { get; set; }
 
         [Display(Name = "Amount")]
         public double Amount { get; set; }
 
+        public int PriceID { get; set; }
+
+        public string ClassCode { get; set; }
+
         [Display(Name = "Class Desc")]
         [StringLength(25)]
         public string ClassDesc { get; set; }
-
-        public string ClassCode { get; set; }
 
         [Display(Name = "ClassType")]
         [StringLength(25)]

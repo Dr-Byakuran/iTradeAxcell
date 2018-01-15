@@ -1,6 +1,6 @@
 ﻿@model iTrade.Models.PaySlipDetail
 
-@using (Html.BeginForm("AddItem", "PaySlip", FormMethod.Post, new { id = "addItemFrom" }))
+@using (Html.BeginForm("AddItem", "PaySlip", FormMethod.Post, new { id = "addPaySlipItemFrom" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -10,11 +10,27 @@
 
     <div class="row">
         <div class="col-md-7">
-            <div class="form-horizontal">               
+            <div class="form-horizontal">                              
+                <div class="form-group">
+                    @Html.Label("Class Name", htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        <select id="itemPriceID" name="PriceID" class="form-control selectpicker" data-size="10" data-live-search="true" data-style="btn-white">
+                            <option value="0" selected>Select ClassName</option>
+                            @foreach (var item in ViewData["PriceBookAll"] as IEnumerable<iTrade.Models.Pricebook>)
+                            {
+                                <option value="@item.PriceID">@item.CourseName - @item.CourseLevel - @item.CourseDuration - @item.TeacherLevel - @item.CourseType</option>
+                            }
+                        </select>
+                    </div>
+                </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
                         @Html.EditorFor(model => model.Date, new { htmlAttributes = new { id = "itemDate", @class = "form-control" } })
+                    </div>
+                    @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { id = "itemQuantity", @class = "form-control" } })
                     </div>
                 </div>
                 <div class="form-group">
@@ -36,36 +52,15 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Hour, htmlAttributes: new { @class = "control-label col-md-3" })
+                    @Html.LabelFor(model => model.StudyHour, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @Html.EditorFor(model => model.Hour, new { htmlAttributes = new { id = "itemHour", @class = "form-control",@readonly =true } })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.Label("Class Name", htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-4">
-                        <select id="itemClassCode" name="ClassCode" class="form-control selectpicker" data-size="10" data-live-search="true" data-style="btn-white">
-                            <option value="0" selected>Select ClassName</option>
-                            @foreach (var item in ViewData["TutorRateAll"] as IEnumerable<iTrade.Models.TutorRate>)
-                            {
-                                <option value="@item.CourseCode">@item.CourseName</option>
-                            }
-                        </select>
+                        @Html.EditorFor(model => model.StudyHour, new { htmlAttributes = new { id = "itemHour", @class = "form-control", @readonly = true } })
                     </div>
                     @Html.LabelFor(model => model.ClassType, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-3">
-                        <select id="itemClassType" name="ClassType" class="form-control">
-                            <option value="Group">Group</option>
-                            <option value="Private">Private</option>
-                        </select>
+                        @Html.EditorFor(model => model.ClassType, new { htmlAttributes = new { id = "itemClassType", @class = "form-control" , @readonly =true} })
                     </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-4">
-                        @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { id = "itemQuantity", @class = "form-control" } })
-                    </div>
-                </div>  
+                </div>                 
                 <div class="form-group">
                     @Html.LabelFor(model => model.HourlyRate, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
@@ -120,34 +115,55 @@
 
 <script>
     $(document).ready(function () {
-        $('#itemClassCode').on("change", function () {
-            computeRate();
-        });
+        $('#itemPriceID').on("change", function () {
+            var val1 = $('#itemPriceID').val();
+            var val2 = $('#itemQuantity').val();
 
-        $('#itemClassType').on("change", function () {
-            computeRate();
-        });
-
-        $('#itemQuantity').on("change", function () {
-            computeRate();
-        });
-
-        function computeRate() {
-
-            var val1 = $('#itemClassCode').val();
-            var val2 = $('#itemClassType').val();
-            var val3 = $('#itemQuantity').val();
-
-            if (val1 != null && val2 != null && val3 != 0) {
+            if (val1 != 0) {
                 $.ajax({
                     type: 'GET',
                     url: '@Url.Action("AutoSelect")',
                     dataType: "json",
                     contentType: 'application/json, charset=utf-8',
                     data: {
-                        classCode: val1,
-                        classType: val2,
-                        quantity: val3
+                        priceID: val1,
+                        quantity: val2
+                    },
+                    success: function (data) {
+                        $('#itemHourlyRate').val(data.result.Rate);
+                        $('#itemClassType').val(data.result.ClassType);
+
+                        var hour = $('#itemHour').val();
+                        var rate = $('#itemHourlyRate').val();
+
+                        var amount = hour * rate;
+                        $('#itemAmount').val(amount);
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Tutor don't have this rate,Please set again ");
+                    }
+
+            });
+            } else {              
+                $('#itemClassType').val(null);
+                $('#itemHourlyRate').val("0");
+                $('#itemAmount').val("0");
+            }
+        });
+
+        $('#itemQuantity').on("change", function () {
+            var val3 = $('#itemPriceID').val();
+            var val4 = $('#itemQuantity').val();
+
+            if (val3 != 0 && val4 > 0) {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("AutoSelect")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        priceID: val3,
+                        quantity: val4
                     },
                     success: function (data) {
                         $('#itemHourlyRate').val(data.result.Rate);
@@ -163,8 +179,11 @@
                     }
 
                 });
+            } else {
+                $('#itemHourlyRate').val("0");
+                $('#itemAmount').val("0");
             }
-        }
+    });
     })
 </script>
 
@@ -184,6 +203,10 @@
             },
             success: function (data) {
                 $('#itemHour').val(data.result);
+                var rate = $('#itemHourlyRate').val();
+
+                var amount = data.result * rate;
+                $('#itemAmount').val(amount);
             },
             error: function (xhr, status, error) {
                 alert(error);

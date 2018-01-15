@@ -71,7 +71,7 @@ namespace iTrade.Controllers
                     paySlipDetail.Quantity = qty.Count;
 
                     var diff =Convert.ToDateTime(item.EndTimeValue) - Convert.ToDateTime(item.StartTimeValue);
-                    paySlipDetail.Hour = Convert.ToDouble(diff.Hours)+ Convert.ToDouble(diff.Minutes)/60;
+                    paySlipDetail.StudyHour = Convert.ToDouble(diff.Hours)+ Convert.ToDouble(diff.Minutes)/60;
                     paySlipDetail.HourlyRate = db.TutorRates.Where(
                         m => m.TutorID == item.TutorID &&
                         m.PriceID == item.PriceID &&
@@ -79,7 +79,7 @@ namespace iTrade.Controllers
                         m.MinAttend <= paySlipDetail.Quantity &&
                         m.MaxAttend >= paySlipDetail.Quantity
                         ).FirstOrDefault().Rate;
-                    paySlipDetail.Amount = paySlipDetail.HourlyRate * paySlipDetail.Hour;
+                    paySlipDetail.Amount = paySlipDetail.HourlyRate * paySlipDetail.StudyHour;
 
                     det.Total += paySlipDetail.Amount;
 
@@ -131,6 +131,7 @@ namespace iTrade.Controllers
             var p = new List<PaySlipDetail>();
             p = db.PaySlipDetails.Where(x => x.PaySlipID == id).OrderBy(x =>x.Date).ToList();
 
+            ViewData["PriceBookAll"] = db.Pricebooks.ToList();
             return PartialView(p);
         }
 
@@ -141,15 +142,16 @@ namespace iTrade.Controllers
             p.PaySlipID = ps.PaySlipID;
             p.TutorCode = ps.TutorCode;
 
-            ViewData["TutorRateAll"] = db.TutorRates.Where(x => x.TutorCode == ps.TutorCode).ToList();
+            ViewData["PriceBookAll"] = db.Pricebooks.ToList();
             return PartialView(p);
         }
 
         public void AddItem(PaySlipDetail det)
         {           
             PaySlip paySlip = db.PaySlips.Where(m => m.PaySlipID == det.PaySlipID).FirstOrDefault();
-            TutorRate tut = db.TutorRates.Where(m => m.CourseCode == det.ClassCode).FirstOrDefault();
+            TutorRate tut = db.TutorRates.Where(m => m.PriceID == det.PriceID).FirstOrDefault();
 
+            det.ClassCode = tut.CourseCode;
             det.ClassDesc = tut.CourseName;
 
             paySlip.Total += det.Amount;
@@ -192,11 +194,11 @@ namespace iTrade.Controllers
 
         }
 
-        public JsonResult AutoSelect(string classCode,string classType,double quantity)
+        public JsonResult AutoSelect(int priceID, double quantity)
         {
-            if (classCode != null && classType !=null && quantity !=0)
+            if (priceID != 0 && quantity > 0)
             {
-                var c = db.TutorRates.Where(x => x.CourseCode == classCode && x.ClassType == classType && x.MinAttend <= quantity && x.MaxAttend >=quantity).FirstOrDefault();
+                var c = db.TutorRates.Where(x => x.PriceID == priceID && x.MinAttend <= quantity && x.MaxAttend >=quantity).FirstOrDefault();
 
                 if (c != null)
                 {
@@ -211,7 +213,17 @@ namespace iTrade.Controllers
             }
             else
             {
-                return null;
+                var m = db.TutorRates.Where(x => x.PriceID == priceID).FirstOrDefault();               
+
+                if (m != null)
+                {
+                    m.Rate = 0;
+                    return Json(new { result = m }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return null;
+                }
             }
 
         }
@@ -224,7 +236,6 @@ namespace iTrade.Controllers
 
                 if (hour != null)
                 {
-
                     return Json(new { result = hour.Hours }, JsonRequestBehavior.AllowGet);
                 }
                 else
@@ -243,10 +254,12 @@ namespace iTrade.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             var det = db.PaySlipDetails.Find(id);
+            var newdet = db.PaySlips.Find(det.PaySlipID);
 
             if (det != null)
             {
                 db.Entry(det).State = EntityState.Deleted;
+                newdet.Total -= det.Amount;
                 db.SaveChanges();
             }
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
