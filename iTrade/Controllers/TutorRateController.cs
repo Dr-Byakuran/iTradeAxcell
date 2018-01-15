@@ -134,11 +134,10 @@ namespace iTrade.Controllers
             var tutorRate = db.TutorRates.Where(m => m.TutorCode == det.TutorCode).ToList();
             double tuCount = tutorRate.Count;
             det.Position = tuCount + 1;
-            Course cou = db.Courses.Where(m => m.CourseID == det.CourseID).FirstOrDefault();
-            Pricebook pBook = db.Pricebooks.Where(m => m.CourseID == cou.CourseID).FirstOrDefault();
-            det.CourseName = cou.CourseName;
-            det.CourseCode = cou.CourseCode;
-            det.PriceID = pBook.PriceID;
+            Pricebook pBook = db.Pricebooks.Where(m => m.PriceID == det.PriceID).FirstOrDefault();
+            det.CourseName = pBook.CourseName;
+            det.CourseCode = pBook.CourseCode;
+            det.CourseID = pBook.CourseID;
 
             db.TutorRates.Add(det);
             int x = db.SaveChanges();
@@ -155,7 +154,7 @@ namespace iTrade.Controllers
         {
             if (search != 0)
             {
-                var c = db.Courses.Where(x => x.CourseID == search).FirstOrDefault();
+                var c = db.Pricebooks.Where(x => x.PriceID == search).FirstOrDefault();
 
                 if (c != null)
                 {
