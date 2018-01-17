@@ -144,6 +144,8 @@ namespace iTrade.Models
         [StringLength(60)]
         public string Terms { get; set; }
 
+        public int BranchID { get; set; }
+
         [StringLength(100)]
         public string Remark { get; set; }
 

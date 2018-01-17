@@ -82,6 +82,11 @@ namespace iTrade.Models
         [StringLength(60)]
         public string TutorName { get; set; }
 
+        public int BranchID { get; set; }
+
+        [Display(Name = "Branch Name")]
+        public string BranchName { get; set; }
+
         [Display(Name = "TermID")]
         public int TermID { get; set; }
 

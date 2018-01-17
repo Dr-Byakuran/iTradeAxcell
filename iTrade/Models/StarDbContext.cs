@@ -124,6 +124,8 @@ namespace iTrade.Models
 
         public System.Data.Entity.DbSet<iTrade.Models.Company> Companies { get; set; }
 
+        public DbSet<CompanyBranch> CompanyBranches { get; set; }
+
         public System.Data.Entity.DbSet<iTrade.Models.CustomSetting> CustomSettings { get; set; }
         public System.Data.Entity.DbSet<iTrade.Models.LoanManagement> LoanManagements { get; set; }
         public System.Data.Entity.DbSet<iTrade.Models.LoanManagementDetail> LoanManagementDetails { get; set; }
