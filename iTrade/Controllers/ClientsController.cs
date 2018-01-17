@@ -24,6 +24,8 @@ namespace iTrade.Controllers
                 result = db.Clients.Where(x => x.CustName.Contains(txtFilter) || x.AccNo.StartsWith(txtFilter)).Take(200).ToList();
             }
 
+            ViewData["BranchAll"] = db.CompanyBranches.Where(x => x.IsActive == true).OrderBy(x => x.BranchID).ToList();
+
             return View(result);
         }
 
@@ -66,6 +68,7 @@ namespace iTrade.Controllers
             clientViewModel.ClientCreditSetting = cs;
 
             ViewData["StaffsAll"] = db.Staffs.Where(x => x.IsActive == true).OrderBy(x => x.FirstName).ThenBy(x => x.LastName).ToList();
+            ViewData["BranchAll"] = db.CompanyBranches.Where(x => x.IsActive == true).OrderBy(x => x.BranchID).ToList();
 
             return View(clientViewModel);
         }
@@ -123,6 +126,7 @@ namespace iTrade.Controllers
             }
 
             ViewData["StaffsAll"] = db.Staffs.Where(x => x.IsActive == true).OrderBy(x => x.FirstName).ThenBy(x => x.LastName).ToList();
+            ViewData["BranchAll"] = db.CompanyBranches.Where(x => x.IsActive == true).OrderBy(x => x.BranchID).ToList();
 
             return View(clientViewModel);
         }
@@ -158,6 +162,7 @@ namespace iTrade.Controllers
             ViewBag.CustNo = id;
 
             ViewData["StaffsAll"] = db.Staffs.Where(x => x.IsActive == true).OrderBy(x => x.FirstName).ThenBy(x => x.LastName).ToList();
+            ViewData["BranchAll"] = db.CompanyBranches.Where(x => x.IsActive == true).OrderBy(x => x.BranchID).ToList();
 
             return View(clientViewModel);
         }
@@ -255,6 +260,7 @@ namespace iTrade.Controllers
             ViewBag.Status = Request.Form["selectedTab"];
 
             ViewData["StaffsAll"] = db.Staffs.Where(x => x.IsActive == true).OrderBy(x => x.FirstName).ThenBy(x => x.LastName).ToList();
+            ViewData["BranchAll"] = db.CompanyBranches.Where(x => x.IsActive == true).OrderBy(x => x.BranchID).ToList();
 
             return View(clientViewModel);
         }
@@ -273,6 +279,8 @@ namespace iTrade.Controllers
                 return HttpNotFound();
             }
             ViewData["StaffsAll"] = db.Staffs.Where(x => x.IsActive == true).OrderBy(x => x.FirstName).ThenBy(x => x.LastName).ToList();
+            ViewData["BranchAll"] = db.CompanyBranches.Where(x => x.IsActive == true).OrderBy(x => x.BranchID).ToList();
+
             return View(client);
         }
 
