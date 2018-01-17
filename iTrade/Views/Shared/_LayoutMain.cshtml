@@ -486,6 +486,11 @@
                                     <span>COMPANY</span>
                                 </a>
                             </li>
+                            <li class='@Html.IsActive("CustomSettings", "Outlets")'>
+                                <a href="@Url.Action("Outlets", "CustomSettings")">
+                                    <span>OUTLET</span>
+                                </a>
+                            </li>
                             <li class='@Html.IsActive("GSTs", "Edit/1")'>
                                 <a href="@Url.Action("Edit/1", "GSTs")">
                                     <span>GST</span>

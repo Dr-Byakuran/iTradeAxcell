@@ -20,6 +20,11 @@ namespace iTrade.Controllers
             return View(db.CustomSettings.ToList());
         }
 
+        public ActionResult Outlets()
+        {
+            return View(db.CompanyBranches.ToList());
+        }
+
         // GET: CustomSettings/Details/5
         public ActionResult Details(int? id)
         {
@@ -145,6 +150,73 @@ namespace iTrade.Controllers
             {
                 isRedirect = true
             }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult OutletEdit(int? id)
+        {
+            var co = new CompanyBranch();
+
+            if (id == null || id == 0)
+            {
+                co.BranchName = "Branch name";
+                var comp = db.Companies.OrderByDescending(x => x.CreatedOn).FirstOrDefault();
+                if (comp != null)
+                {
+                    co.CompID = comp.ID;
+                }
+
+                var flag = db.CompanyBranches.Any(x => x.IsDefault == true);
+                if (flag)
+                {
+                    co.IsDefault = true;
+                }
+                else
+                {
+                    co.IsDefault = false;
+
+                }
+
+                co.IsActive = true;
+                co.CreatedBy = User.Identity.Name;
+                co.CreatedOn = DateTime.Now;
+
+                if (ModelState.IsValid)
+                {
+                    db.CompanyBranches.Add(co);
+                    db.SaveChanges();
+                }
+
+                return RedirectToAction("OutletEdit", new { id = co.BranchID });
+
+            }
+
+            co = db.CompanyBranches.Find(id);
+
+            if (co == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(co);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult OutletEdit(CompanyBranch comp)
+        {
+            comp.ModifiedBy = User.Identity.Name;
+            comp.ModifiedOn = DateTime.Now;
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(comp).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return RedirectToAction("Outlets");
+            }
+
+            return View(comp);
+
         }
     }
 }

@@ -1,0 +1,147 @@
+﻿@model IEnumerable<iTrade.Models.CompanyBranch>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="@Url.Content("~/assets/plugins/DataTables/css/data-table.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin page-header -->
+<div class="page-header lead">
+    Outlets
+    <span class="email-btn-row hidden-xs pull-right">
+        <a href="/CustomSettings/OutletEdit" id="btnCreate" class="btn btn-primary"><i class="fa fa-plus m-r-5"></i> New outlet</a>
+    </span>
+</div>
+<!-- end page-header -->
+@using (Html.BeginForm("Index", null, FormMethod.Post))
+{
+
+    <div class="">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#default-tab-1" data-toggle="tab"><h5 class="media-heading">All outlets</h5> </a></li>
+
+        </ul>
+
+    </div>
+    <div class="tab-content">
+        <div class="tab-pane fade active in" id="default-tab-1">
+            <div class="row hidden">
+                <div class="col-md-12">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.Label("Search / Filter", htmlAttributes: new { @class = "control-label col-md-1 text-left" })
+                            <div class="col-md-6">
+                                @Html.Editor("txtFilter", new { htmlAttributes = new { id = "txtFilter", name = "txtFilter", @class = "form-control", placeholder = "Search outlets by name..." } })
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+            <div class="table-responsive">
+                <table id="data-table1" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.BranchID)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.BranchName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.BranchCode)
+                            </th>
+                            <th> Type</th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PhoneNo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PrimaryEmail)
+                            </th>
+                            <th>Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr class="even gradeC">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BranchID)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BranchName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BranchCode)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BranchType)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PhoneNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PrimaryEmail)
+                                </td>
+                                <td>
+
+                                    <a href="@Url.Action("OutletEdit", "CustomSettings", new { id = item.BranchID })" class="btn btn-primary">
+                                        <span class="fa fa-angle-double-right" />
+                                    </a>
+
+
+                                </td>
+                            </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+
+
+}
+
+
+
+@section Scripts{
+    <script src="@Url.Content("~/assets/plugins/DataTables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/assets/js/table-manage-default.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/assets/js/ui-modal-notification.demo.min.js")"></script>
+    <script src="@Url.Content("~/assets/js/apps.min.js")"></script>
+
+
+}
+
+
+<script>
+        $(document).ready(function () {
+           // App.init();
+            TableManageDefault.init();
+           // Notification.init();
+        });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#data-table1').DataTable({
+            // "bFilter": false,
+            //"bInfo": false,
+            "bLengthChange": false,
+            "dom": '<"pull-left"f><"pull-right"l>tip'
+        });
+    });
+</script>
