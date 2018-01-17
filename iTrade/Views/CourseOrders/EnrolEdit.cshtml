@@ -69,6 +69,7 @@
             @Html.HiddenFor(model => model.BillRemark)
             @Html.HiddenFor(model => model.IsValid)
             @Html.HiddenFor(model => model.PriceID, new { id = "priceID" })
+            @Html.HiddenFor(model => model.BranchID, new { id = "branchID"})
             @Html.HiddenFor(model => model.ScheduleID, new { id = "scheduleID" })
             @Html.HiddenFor(model => model.StartTime)
             @Html.HiddenFor(model => model.EndTime)
@@ -90,7 +91,7 @@
                     <div class="form-horizontal">
                         <div class="form-group">
                             @Html.LabelFor(model => model.CustName, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 @*<select class="form-control selectpicker" data-size="10" data-live-search="true" data-style="btn-white">
                                     <option value="" selected>Select student</option>
                                     @foreach (var item in ViewData["ClientsAll"] as IEnumerable<iTrade.Models.Client>)
@@ -100,6 +101,9 @@
                                 </select>*@
                                 <input type="text" value="@Model.CustName" class="form-control" readonly="readonly" />
                                 @Html.ValidationMessageFor(model => model.CustName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.BranchName, new { htmlAttributes = new { id = "branchName", @class = "form-control", @readonly = true } })
                             </div>
                             <div class="col-md-1">               
                                 @*<a href="@Url.Action("Create", "Clients")" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Student &nbsp;</a>*@

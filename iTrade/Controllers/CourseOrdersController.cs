@@ -1690,13 +1690,14 @@ namespace iTrade.Controllers
             ViewData["StudentsAll"] = db.Students.Where(x => x.IsActive == true).OrderBy(x => x.CustName).ToList();
             ViewData["StaffsAll"] = db.Staffs.Where(x => x.IsActive == true).OrderBy(x => x.FirstName).ThenBy(x => x.LastName).ToList();
             ViewData["TutorsAll"] = db.Tutors.Where(x => x.IsActive == true).OrderBy(x => x.TutorName).ThenBy(x => x.TutorName).ToList();
+            ViewData["BranchAll"] = db.CompanyBranches.Where(x => x.IsActive == true).ToList();
 
             return View(p);
         }
 
         [HttpPost]
         //  [ValidateAntiForgeryToken]
-        public JsonResult EnrolmentEdit([Bind(Include = "EnrID,EnrNo,EnrType,EnrDate,CustNo,CustName,CustName2,NRIC,PriceID,CourseID,CourseName,CourseCode,CourseType,CourseLevel,CourseDuration,TeacherLevel,OptionName,TutorID,TutorName,TermID,TermName,ScheduleID,Weekday,StartDate,EndDate,StarTime,StartTimeValue,EndTime,EndTimeValue,RegisterFee,CourseFee,Deposit,SalesType,IsBillable,BillRemark,IsValid,Status,Remark,PersonID,PersonName,CreatedBy,CreatedOn,ModifiedBy,ModifiedOn")] Enrolment enr)
+        public JsonResult EnrolmentEdit([Bind(Include = "EnrID,EnrNo,EnrType,EnrDate,CustNo,CustName,CustName2,NRIC,PriceID,BranchID,BranchName,CourseID,CourseName,CourseCode,CourseType,CourseLevel,CourseDuration,TeacherLevel,OptionName,TutorID,TutorName,TermID,TermName,ScheduleID,Weekday,StartDate,EndDate,StarTime,StartTimeValue,EndTime,EndTimeValue,RegisterFee,CourseFee,Deposit,SalesType,IsBillable,BillRemark,IsValid,Status,Remark,PersonID,PersonName,CreatedBy,CreatedOn,ModifiedBy,ModifiedOn")] Enrolment enr)
         {
             bool IsExist = db.Enrolments.Any(x => x.CustNo == enr.CustNo);
 

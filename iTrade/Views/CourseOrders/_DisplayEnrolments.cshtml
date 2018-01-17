@@ -28,6 +28,7 @@
                                 <th>
                                     End Date
                                 </th>
+                                <th>Branch Name</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -79,6 +80,9 @@
                                         {
                                             @Model[i].EndDate.Value.ToShortDateString()
                                         }                                           
+                                    </td>
+                                    <td>
+                                        @Model[i].BranchName
                                     </td>
                                     <td>
                                         @Model[i].Status

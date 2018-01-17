@@ -111,10 +111,12 @@ namespace iTrade.Controllers
                            .Where(x => x.CustNo == custno)
                            .ToList().FirstOrDefault();
 
+                var m = db.CompanyBranches.Where(x => x.BranchID == c.BranchID).FirstOrDefault();
+
                 if (c != null)
                 {
 
-                    return Json(new { result = c }, JsonRequestBehavior.AllowGet);
+                    return Json(new { result = c , result2 = m}, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
