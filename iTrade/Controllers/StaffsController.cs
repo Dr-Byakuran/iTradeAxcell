@@ -56,6 +56,7 @@ namespace iTrade.Controllers
                                  LastName = y.a.LastName,
                                  Position = y.a.Position,
                                  DepartmentName = y.a.DepartmentName,
+                                 BranchName = y.a.BranchName,
                                  Email = y.a.Email,
                                  MobileNo = y.a.MobileNo,
                                  IsActive = y.a.IsActive,
@@ -117,7 +118,7 @@ namespace iTrade.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "StaffID,FirstName,LastName,Position,DepartmentName,BranchID,Email,MobileNo,IsActive,Remark,CreatedBy,CreatedOn,UserID,IsCreateNewUser")] StaffModelView staff)
+        public ActionResult Create([Bind(Include = "StaffID,FirstName,LastName,Position,DepartmentName,BranchID,BranchName,Email,MobileNo,IsActive,Remark,CreatedBy,CreatedOn,UserID,IsCreateNewUser")] StaffModelView staff)
         {
             Staff o = new Staff();
             o.StaffID = staff.StaffID;
@@ -126,6 +127,7 @@ namespace iTrade.Controllers
             o.Position = staff.Position;
             o.DepartmentName = staff.DepartmentName;
             o.BranchID = staff.BranchID;
+            o.BranchName = staff.BranchName;
             o.Email = staff.Email;
             o.MobileNo = staff.MobileNo;
             o.IsActive = staff.IsActive;
@@ -265,6 +267,33 @@ namespace iTrade.Controllers
             ViewBag.RoleId = new SelectList(RoleManager.Roles, "Name", "Name");
 
             return RedirectToAction("Index");
+        }
+
+        public JsonResult AutoBranch(string search)
+        {
+            int branchID = Convert.ToInt32(search);
+            if (search != null)
+            {
+                var c = db.CompanyBranches
+                           .Where(x => x.BranchID == branchID)
+                           .ToList().FirstOrDefault();
+
+                if (c != null)
+                {
+
+                    return Json(new { result = c }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return null;
+                };
+
+            }
+            else
+            {
+                return null;
+            }
+
         }
     }
 }

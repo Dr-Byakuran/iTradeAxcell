@@ -31,6 +31,8 @@ namespace iTrade.Models
         [Display(Name = "Assign to Outlet")]
         public string BranchID { get; set; }
 
+        public string BranchName { get; set; }
+
         [Display(Name = "Department")]
         [StringLength(45)]
         public string DepartmentName { get; set; }

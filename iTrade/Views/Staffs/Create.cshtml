@@ -32,6 +32,7 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             @Html.HiddenFor(model => model.StaffID)
             @Html.HiddenFor(model => model.UserID)
+            @Html.HiddenFor(model => model.BranchName , new { id ="branchName" })
             @Html.HiddenFor(model => model.CreatedBy)
             @Html.HiddenFor(model => model.CreatedOn)
 
@@ -177,6 +178,25 @@
                 // and the current value is retrieved using .prop() method
                 $(group).prop("checked", false);
                 $box.prop("checked", true);
+
+                var val = $box.val();
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("AutoBranch")',
+                    dataType: "json",
+                    contentType: 'application/json, charset=utf-8',
+                    data: {
+                        search: val
+                    },
+                    success: function (data) {
+                        $('#branchName').val(data.result.BranchName);
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+
             } else {
                 $box.prop("checked", false);
             }
