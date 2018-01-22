@@ -54,6 +54,7 @@ namespace iTrade.Models
 
         [Display(Name = "User ID")]
         public string UserID { get; set; }
+        public string BranchID { get; set; }
         public string DisplayName { get; set; }
         public Boolean IsCreateNewUser { get; set; }
     }

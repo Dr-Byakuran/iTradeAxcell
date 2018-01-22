@@ -107,6 +107,8 @@ namespace iTrade.Controllers
             p.CreatedBy = User.Identity.Name;
             p.CreatedOn = DateTime.Now;
 
+            ViewBag.BranchId = new SelectList(db.CompanyBranches.ToList(), "BranchID", "BranchName");
+
             return View(p);
         }
 
@@ -115,7 +117,7 @@ namespace iTrade.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "StaffID,FirstName,LastName,Position,DepartmentName,Email,MobileNo,IsActive,Remark,CreatedBy,CreatedOn,UserID,IsCreateNewUser")] StaffModelView staff)
+        public ActionResult Create([Bind(Include = "StaffID,FirstName,LastName,Position,DepartmentName,BranchID,Email,MobileNo,IsActive,Remark,CreatedBy,CreatedOn,UserID,IsCreateNewUser")] StaffModelView staff)
         {
             Staff o = new Staff();
             o.StaffID = staff.StaffID;
@@ -123,6 +125,7 @@ namespace iTrade.Controllers
             o.LastName = staff.LastName;
             o.Position = staff.Position;
             o.DepartmentName = staff.DepartmentName;
+            o.BranchID = staff.BranchID;
             o.Email = staff.Email;
             o.MobileNo = staff.MobileNo;
             o.IsActive = staff.IsActive;
