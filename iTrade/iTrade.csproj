@@ -6136,6 +6136,7 @@
     <Content Include="Views\PaySlip\Edit.cshtml" />
     <Content Include="Views\CustomSettings\OutletEdit.cshtml" />
     <Content Include="Views\CustomSettings\Outlets.cshtml" />
+    <Content Include="Views\Shared\_UserProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -12,10 +12,84 @@ namespace iTrade.Controllers
     public class SharedController : Controller
     {
         private StarDbContext db = new StarDbContext();
+
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            set
+            {
+                _userManager = value;
+            }
+        }
         // GET: Shared
         public ActionResult Index()
         {
             return View();
+        }
+
+        public ActionResult _UserProfile()
+        {
+            var branches = db.CompanyBranches.Where(x => x.BranchID != 1 && x.IsActive == true).ToList();
+
+            int oid = 1;
+            string outletname = "";
+            string accessoutlets = "1";
+
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            if (user != null)
+            {
+                oid = Convert.ToInt32(user.BranchID);
+                var branch = db.CompanyBranches.Find(oid);
+
+                if (branch != null)
+                {
+                    outletname = branch.BranchName;
+                }
+                else
+                {
+                    var br = new CompanyBranch();
+                    br.BranchName = "Default";
+                    br.CompID = 1;
+                    br.IsActive = true;
+                    br.CreatedBy = user.Email;
+                    br.CreatedOn = DateTime.Now;
+
+                    db.CompanyBranches.Add(br);
+                    db.SaveChanges();
+
+                    oid = br.BranchID;
+                    outletname = br.BranchName;
+
+                    var comp = db.Companies.Find(br.CompID);
+                    //if (comp == null)
+                    //{
+                    //    var cp = new Company();
+                    //    cp.Name = "Your Company Name";
+                    //    cp.CreatedBy = user.Email;
+                    //    cp.CreatedOn = DateTime.Now;
+
+                    //    db.Companies.Add(cp);
+                    //    db.SaveChanges();
+                    //}
+
+                }
+
+                var staff = db.Staffs.Where(x => x.Email == user.Email).FirstOrDefault();
+                if (staff != null)
+                {
+                    accessoutlets = staff.BranchID;
+                }
+            }
+
+            ViewBag.OutletID = oid;
+            ViewBag.OutletName = outletname;
+            ViewBag.AccessOutlets = accessoutlets;
+
+            return PartialView(branches);
         }
 
         public ActionResult _UserCompanyLogo()

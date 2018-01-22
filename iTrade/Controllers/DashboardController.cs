@@ -7,10 +7,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using iTrade.Models;
+using Microsoft.AspNet.Identity;
 
 namespace iTrade.Controllers
 {
-    public class DashboardController : Controller
+    public class DashboardController : ControllerBase
     {
         private StarDbContext db = new StarDbContext();
 
@@ -18,6 +19,21 @@ namespace iTrade.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+        public ActionResult SwitchOutlet(string id)
+        {
+            if (!string.IsNullOrEmpty(id))
+            {
+                ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+                if (user != null)
+                {
+                    user.BranchID = id;
+                    UserManager.Update(user);
+                }                
+            }
+
+            return RedirectToAction("Index", "Dashboard");
+            //return View();
         }
 
         public ActionResult _Sales()
@@ -37,26 +53,57 @@ namespace iTrade.Controllers
 
         public ActionResult _DisplayRecentInvs()
         {
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            int BranchID = Convert.ToInt32(user.BranchID);
+
             var p = new List<INV>();
 
-            p = db.INVs.OrderByDescending(x => x.InvID).Take(20).ToList();
+            if (BranchID == 1)
+            {
+                p = db.INVs.OrderByDescending(x => x.InvID).Take(20).ToList();
+            }
+            else
+            {
+                p = db.INVs.Where(x => x.BranchID == BranchID).OrderByDescending(x => x.InvID).Take(20).ToList();
+            }
 
             return PartialView(p);
         }
 
         public ActionResult _DisplayOutstandingInvs()
         {
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            int BranchID = Convert.ToInt32(user.BranchID);
+
             var p = new List<INV>();
 
-            p = db.INVs.Where(x => x.IsPaid == false).OrderByDescending(x => x.InvID).Take(20).ToList();
+            if (BranchID == 1)
+            {
+                p = db.INVs.Where(x => x.IsPaid == false).OrderByDescending(x => x.InvID).Take(20).ToList();
+            }
+            else
+            {
+                p = db.INVs.Where(x => x.IsPaid == false && x.BranchID == BranchID).OrderByDescending(x => x.InvID).Take(20).ToList();
+            }
 
             return PartialView(p);
         }
         private decimal GetTotalUnpaid()
         {
-            decimal sumAmount = db.INVs.Where(x => x.IsPaid == false && x.Status != "Void").Sum(x => (decimal?)x.Nett) ?? 0;
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            int BranchID = Convert.ToInt32(user.BranchID);
+            if (BranchID == 1)
+            {
+                decimal sumAmount = db.INVs.Where(x => x.IsPaid == false && x.Status != "Void").Sum(x => (decimal?)x.Nett) ?? 0;
 
-            return sumAmount;
+                return sumAmount;
+            }
+            else
+            {
+                decimal sumAmount = db.INVs.Where(x => x.IsPaid == false && x.Status != "Void" && x.BranchID ==BranchID).Sum(x => (decimal?)x.Nett) ?? 0;
+
+                return sumAmount;
+            }
         }
 
         private int GetTodayOrders()
@@ -70,20 +117,43 @@ namespace iTrade.Controllers
 
         private int GetTodayInvs()
         {
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            int BranchID = Convert.ToInt32(user.BranchID);
+
             DateTime d1 = DateTime.Today;
+            if (BranchID == 1)
+            {
+                int countInv = db.INVs.Count(x => x.InvDate == d1 && x.Status != "Void");
 
-            int countInv = db.INVs.Count(x => x.InvDate == d1 && x.Status != "Void");
+                return countInv;
+            }
+            else
+            {
+                int countInv = db.INVs.Count(x => x.InvDate == d1 && x.Status != "Void" && x.BranchID == BranchID);
 
-            return countInv; 
+                return countInv;
+            }
         }
 
         private decimal GetTodaySales()
         {
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            int BranchID = Convert.ToInt32(user.BranchID);
+
             DateTime d1 = DateTime.Today;
 
-            decimal sumAmount = db.INVs.Where(x => DbFunctions.TruncateTime(x.InvDate) == d1 && x.Status != "Void").Sum(x => (decimal?)x.Nett) ?? 0;
+            if (BranchID == 1)
+            {
+                decimal sumAmount = db.INVs.Where(x => DbFunctions.TruncateTime(x.InvDate) == d1 && x.Status != "Void").Sum(x => (decimal?)x.Nett) ?? 0;
 
-            return sumAmount;
+                return sumAmount;
+            }
+            else
+            {
+                decimal sumAmount = db.INVs.Where(x => DbFunctions.TruncateTime(x.InvDate) == d1 && x.Status != "Void" && x.BranchID == BranchID).Sum(x => (decimal?)x.Nett) ?? 0;
+
+                return sumAmount;
+            }
  
         }
 

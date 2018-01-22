@@ -52,6 +52,7 @@ namespace iTrade.Models
             const string adminUserName = "admin@starlight.sg";
             const string adminUserPassword = "123456";
             const string adminUserDisplayName = "Admin";
+            const string branchID = "1";
 
             const string guestUserName = "demo@starlight.sg";
             const string guestUserPassword = "123456";
@@ -91,7 +92,7 @@ namespace iTrade.Models
             var adminUser = userManager.FindByName(adminUserName);
             if (adminUser == null)
             {
-                adminUser = new ApplicationUser { UserName = adminUserName, Email = adminUserName, DisplayName = adminUserDisplayName };
+                adminUser = new ApplicationUser { UserName = adminUserName, Email = adminUserName, DisplayName = adminUserDisplayName, BranchID = branchID };
                 userManager.Create(adminUser, adminUserPassword);
                 userManager.SetLockoutEnabled(adminUser.Id, false);
             }
@@ -99,7 +100,7 @@ namespace iTrade.Models
             var guestUser = userManager.FindByName(guestUserName);
             if (guestUser == null)
             {
-                guestUser = new ApplicationUser { UserName = guestUserName, Email = guestUserName, DisplayName = guestUserDisplayName };
+                guestUser = new ApplicationUser { UserName = guestUserName, Email = guestUserName, DisplayName = guestUserDisplayName, BranchID = branchID };
                 userManager.Create(guestUser, guestUserPassword);
                 userManager.SetLockoutEnabled(guestUser.Id, false);
             }
@@ -107,7 +108,7 @@ namespace iTrade.Models
             var salesagentUser = userManager.FindByName(salesagentUserName);
             if (salesagentUser == null)
             {
-                salesagentUser = new ApplicationUser { UserName = salesagentUserName, Email = salesagentUserName, DisplayName = salesagentUserDisplayName };
+                salesagentUser = new ApplicationUser { UserName = salesagentUserName, Email = salesagentUserName, DisplayName = salesagentUserDisplayName, BranchID = branchID };
                 userManager.Create(salesagentUser, salesagentUserPassword);
                 userManager.SetLockoutEnabled(salesagentUser.Id, false);
             }
@@ -115,7 +116,7 @@ namespace iTrade.Models
             var logisticwarehouseUser = userManager.FindByName(logisticwarehouseUserName);
             if (logisticwarehouseUser == null)
             {
-                logisticwarehouseUser = new ApplicationUser { UserName = logisticwarehouseUserName, Email = logisticwarehouseUserName, DisplayName = logisticwarehouseUserDisplayName };
+                logisticwarehouseUser = new ApplicationUser { UserName = logisticwarehouseUserName, Email = logisticwarehouseUserName, DisplayName = logisticwarehouseUserDisplayName, BranchID = branchID };
                 userManager.Create(logisticwarehouseUser, logisticwarehouseUserPassword);
                 userManager.SetLockoutEnabled(logisticwarehouseUser.Id, false);
             }
@@ -123,7 +124,7 @@ namespace iTrade.Models
             var mgtUser = userManager.FindByName(mgtUserName);
             if (mgtUser == null)
             {
-                mgtUser = new ApplicationUser { UserName = mgtUserName, Email = mgtUserName, DisplayName = mgtUserDisplayName };
+                mgtUser = new ApplicationUser { UserName = mgtUserName, Email = mgtUserName, DisplayName = mgtUserDisplayName, BranchID = branchID };
                 userManager.Create(mgtUser, mgtUserPassword);
                 userManager.SetLockoutEnabled(mgtUser.Id, false);
             }
@@ -337,6 +338,8 @@ namespace iTrade.Models
     public partial class ApplicationUser
     {
         public string DisplayName { get; set; }
+
+        public string BranchID { get; set; }
 
         // Methods
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(ApplicationUserManager manager)
