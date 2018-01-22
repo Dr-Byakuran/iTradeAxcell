@@ -162,6 +162,9 @@ namespace iTrade.Controllers
                 return HttpNotFound();
             }
             ViewData["seStaffUserList"] = UserManager.Users.ToList().OrderBy(x => x.DisplayName);
+
+            ViewBag.BranchId = new SelectList(db.CompanyBranches.ToList(), "BranchID", "BranchName");
+
             return View(staff);
         }
 
@@ -170,7 +173,7 @@ namespace iTrade.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "StaffID,FirstName,LastName,Position,DepartmentName,Email,MobileNo,IsActive,Remark,CreatedBy,CreatedOn,UserID")] Staff staff)
+        public ActionResult Edit([Bind(Include = "StaffID,FirstName,LastName,Position,DepartmentName,BranchID,BranchName,Email,MobileNo,IsActive,Remark,CreatedBy,CreatedOn,UserID")] Staff staff)
         {
             if (ModelState.IsValid)
             {
