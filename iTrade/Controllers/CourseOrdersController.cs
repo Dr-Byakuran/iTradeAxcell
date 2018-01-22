@@ -2308,6 +2308,7 @@ namespace iTrade.Controllers
             invs.CustNo = cust.CustNo;
             invs.CustName = cust.CustName;
             invs.CustName2 = cust.CustName2;
+            invs.BranchID = cust.BranchID;
             invs.Addr1 = cust.Addr1;
             invs.Addr2 = cust.Addr2;
             invs.Addr3 = cust.Addr3;
