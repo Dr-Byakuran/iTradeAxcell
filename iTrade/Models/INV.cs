@@ -56,6 +56,8 @@ namespace iTrade.Models
         [StringLength(20)]
         public string AccType { get; set; }
 
+        public int BranchID { get; set; }
+
         [Required]
         [Display(Name = "Company")]
         [StringLength(100, ErrorMessage = "Company name can not be empty.", MinimumLength = 1)]
