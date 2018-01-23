@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using iTrade.Models;
 using System.Transactions;
 using System.Data.SqlClient;
+using Microsoft.AspNet.Identity;
 
 namespace iTrade.Controllers
 {
@@ -1678,6 +1679,9 @@ namespace iTrade.Controllers
 
         public ActionResult EnrolmentEdit()
         {
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            int BranchID = Convert.ToInt32(user.BranchID);
+
             var p = new Enrolment();
             p.IsBillable = true;
             p.IsValid = true;
@@ -1685,8 +1689,16 @@ namespace iTrade.Controllers
             //  ViewBag.ProductTypes = db.ProductGroups.ToList();
 
             //ViewData["ClientsAll"] = GetClientListByUser("ALL");
-            ViewData["CoursesAll"] = db.Courses.Where(x => x.IsActive == true).OrderBy(x => x.CourseName).ToList();
-            ViewData["ClientsAll"] = db.Clients.Where(x => x.IsActive == true).OrderBy(x => x.CustName).ToList();
+
+            if(BranchID == 1)
+            {
+                ViewData["ClientsAll"] = db.Clients.Where(x => x.IsActive == true).OrderBy(x => x.CustName).ToList();
+            }else
+            {
+                ViewData["ClientsAll"] = db.Clients.Where(x => x.IsActive == true && x.BranchID == BranchID).OrderBy(x => x.CustName).ToList();
+            }
+
+            ViewData["CoursesAll"] = db.Courses.Where(x => x.IsActive == true).OrderBy(x => x.CourseName).ToList();           
             ViewData["StudentsAll"] = db.Students.Where(x => x.IsActive == true).OrderBy(x => x.CustName).ToList();
             ViewData["StaffsAll"] = db.Staffs.Where(x => x.IsActive == true).OrderBy(x => x.FirstName).ThenBy(x => x.LastName).ToList();
             ViewData["TutorsAll"] = db.Tutors.Where(x => x.IsActive == true).OrderBy(x => x.TutorName).ThenBy(x => x.TutorName).ToList();
