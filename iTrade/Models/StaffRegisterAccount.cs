@@ -10,6 +10,8 @@ namespace iTrade.Models
     {
         public int StaffID { get; set; }
 
+        public string BranchID { get; set; }
+
         [Required]
         [Display(Name = "Display Name")]
         public string DisplayName { get; set; }

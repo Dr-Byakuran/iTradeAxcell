@@ -25,6 +25,7 @@
         {
             @Html.AntiForgeryToken()
             @Html.HiddenFor(model => model.StaffID)
+            @Html.HiddenFor(model => model.BranchID)
             <h4>Create a new account.</h4>
             <hr />
             @Html.ValidationSummary("", new { @class = "text-error" })

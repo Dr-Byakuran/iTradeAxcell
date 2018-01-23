@@ -225,7 +225,8 @@ namespace iTrade.Controllers
             StaffRegisterAccount o = new StaffRegisterAccount()
             {
                 StaffID = id,
-                Email = staff.Email
+                Email = staff.Email,
+                BranchID = staff.BranchID
             };
             ViewBag.RoleId = new SelectList(RoleManager.Roles.ToList(), "Name", "Name");
             return View(o);
@@ -237,7 +238,7 @@ namespace iTrade.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = userViewModel.Email, Email = userViewModel.Email, DisplayName = userViewModel.DisplayName };
+                var user = new ApplicationUser { UserName = userViewModel.Email, Email = userViewModel.Email, DisplayName = userViewModel.DisplayName, BranchID = userViewModel.BranchID };
                 var adminresult = await UserManager.CreateAsync(user, userViewModel.Password);
 
                 //Add User to the selected Roles 
