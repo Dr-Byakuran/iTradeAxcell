@@ -97,13 +97,23 @@ namespace iTrade.Controllers
 
         public ActionResult ClassSchedule()
         {
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            int BranchID = Convert.ToInt32(user.BranchID);
+
             var p = new List<ClassSchedule>();
 
             var tday = DateTime.Now;
             DateTime d1 = new DateTime(tday.Year, tday.Month, 1);
             DateTime d2 = d1.AddMonths(1).AddDays(-1);
 
-            p = db.ClassSchedules.ToList();
+            if (BranchID == 1)
+            {
+                p = db.ClassSchedules.ToList();
+            }
+            else
+            {
+                p = db.ClassSchedules.Where(x => x.BranchID ==BranchID).ToList();
+            }
 
             ViewBag.StartDate = d1.ToShortDateString();
             ViewBag.EndDate = d2.ToShortDateString();
@@ -119,6 +129,9 @@ namespace iTrade.Controllers
         [HttpGet]
         public ActionResult ClassSchedule(string courseID, string fromDate, string toDate)
         {
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            int BranchID = Convert.ToInt32(user.BranchID);
+
             int cid = Convert.ToInt32(courseID);
             var tday = DateTime.Now;
             DateTime d1 = new DateTime(tday.Year, tday.Month, 1);
@@ -142,7 +155,14 @@ namespace iTrade.Controllers
             }
             else
             {
-                p = db.ClassSchedules.ToList();
+                if (BranchID == 1)
+                {
+                    p = db.ClassSchedules.ToList();
+                }
+                else
+                {
+                    p = db.ClassSchedules.Where(x => x.BranchID == BranchID).ToList();
+                }
 
             }
 
