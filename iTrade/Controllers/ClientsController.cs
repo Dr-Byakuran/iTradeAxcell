@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using iTrade.Models;
+using Microsoft.AspNet.Identity;
 
 namespace iTrade.Controllers
 {
@@ -17,16 +18,35 @@ namespace iTrade.Controllers
         // GET: Clients
         public ActionResult Index(string txtFilter)
         {
-            var result = db.Clients.Take(200).ToList();
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            int BranchID = Convert.ToInt32(user.BranchID);
 
-            if (!string.IsNullOrEmpty(txtFilter))
+            if (BranchID == 1)
             {
-                result = db.Clients.Where(x => x.CustName.Contains(txtFilter) || x.AccNo.StartsWith(txtFilter)).Take(200).ToList();
+                var result = db.Clients.Take(200).ToList();
+
+                if (!string.IsNullOrEmpty(txtFilter))
+                {
+                    result = db.Clients.Where(x => x.CustName.Contains(txtFilter) || x.AccNo.StartsWith(txtFilter)).Take(200).ToList();
+                }
+
+                ViewData["BranchAll"] = db.CompanyBranches.Where(x => x.IsActive == true).OrderBy(x => x.BranchID).ToList();
+
+                return View(result);
             }
+            else
+            {
+                var result = db.Clients.Where(x => x.BranchID == BranchID).Take(200).ToList();
 
-            ViewData["BranchAll"] = db.CompanyBranches.Where(x => x.IsActive == true).OrderBy(x => x.BranchID).ToList();
+                if (!string.IsNullOrEmpty(txtFilter))
+                {
+                    result = db.Clients.Where(x => x.CustName.Contains(txtFilter) || x.AccNo.StartsWith(txtFilter) && x.BranchID ==BranchID).Take(200).ToList();
+                }
 
-            return View(result);
+                ViewData["BranchAll"] = db.CompanyBranches.Where(x => x.IsActive == true).OrderBy(x => x.BranchID).ToList();
+
+                return View(result);
+            }
         }
 
         // GET: Clients/Details/5
