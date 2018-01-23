@@ -124,6 +124,8 @@ namespace iTrade.Controllers
         {
             //Get the list of Roles
             ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Name", "Name");
+            ViewBag.BranchId = new SelectList(db.CompanyBranches.ToList(), "BranchID", "BranchName");
+
             return View();
         }
 
@@ -134,7 +136,7 @@ namespace iTrade.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = userViewModel.Email, Email = userViewModel.Email, DisplayName = userViewModel.DisplayName };
+                var user = new ApplicationUser { UserName = userViewModel.Email, Email = userViewModel.Email, DisplayName = userViewModel.DisplayName, BranchID = userViewModel.BranchID };
                 var adminresult = await UserManager.CreateAsync(user, userViewModel.Password);
 
                 //Add User to the selected Roles 

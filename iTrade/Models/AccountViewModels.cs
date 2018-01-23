@@ -83,6 +83,8 @@ namespace iTrade.Models
         [Display(Name = "Confirm Password")]
         [Compare("Password", ErrorMessage = "Confirm password does not match with password.")]
         public string ConfirmPassword { get; set; }
+
+        public string BranchID { get; set; }
     }
 
     public class ResetPasswordViewModel
