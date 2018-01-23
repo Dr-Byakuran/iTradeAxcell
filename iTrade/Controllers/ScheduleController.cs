@@ -270,6 +270,8 @@ namespace iTrade.Controllers
                     newatt.AttendDate = dt;
                     newatt.ScheduleID = sch.ScheduleID;
                     newatt.PriceID = sch.PriceID;
+                    newatt.BranchID = sch.BranchID;
+                    newatt.BranchName = sch.BranchName;
                     newatt.CourseName = sch.CourseName;
                     newatt.CourseLevel = sch.CourseLevel;
                     newatt.CourseDuration = sch.CourseDuration;

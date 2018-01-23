@@ -23,6 +23,10 @@ namespace iTrade.Models
         [Display(Name = "PriceID")]
         public int PriceID { get; set; }
 
+        public int BranchID { get; set; }
+
+        public string BranchName { get; set; }
+
         [Display(Name = "Course Name")]
         [StringLength(100)]
         public string CourseName { get; set; }
