@@ -58,6 +58,7 @@
                 @Html.HiddenFor(model => model.OptionName, new { id = "optionName3" })
                 @Html.HiddenFor(model => model.TutorID, new {  id = "tutorID3" })
                 @Html.HiddenFor(model => model.TutorName, new { id = "tutorName3" })
+                @Html.HiddenFor(model => model.BranchID, new { id = "branchID3" })
 
                 @Html.HiddenFor(model => model.StartTime)
                 @Html.HiddenFor(model => model.EndTime)
@@ -97,6 +98,11 @@
 
                             @Html.EditorFor(model => model.ScheduleType, new { htmlAttributes = new { id = "scheduleType3", @class = "form-control", @readonly =true } })
                             @Html.ValidationMessageFor(model => model.ScheduleType, "", new { @class = "text-danger" })
+                        </div>
+                        @Html.Label("Assign to Outlet", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-3">
+                            @Html.EditorFor(model => model.BranchName, new { htmlAttributes = new { id = "branchName3", @class = "form-control", @readonly = true } })
+                            @Html.ValidationMessageFor(model => model.BranchName, "", new { @class = "text-danger" })
                         </div>
 
 
