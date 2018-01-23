@@ -22,6 +22,8 @@
                 @Html.HiddenFor(model => model.OptionName, new { id = "optionName2", @Value = "" })
                 @Html.HiddenFor(model => model.TutorID, new { @Value = "0", id = "tutorID" })
                 @Html.HiddenFor(model => model.TutorName, new { @Value = "", id = "tutorName" })
+                @Html.HiddenFor(model => model.BranchID, new { @Value = "0", id = "branchID" })
+                @Html.HiddenFor(model => model.BranchName, new { @Value = "", id = "branchName" })
 
                 @Html.HiddenFor(model => model.StartTime, new { @Value = "" })
                 @Html.HiddenFor(model => model.EndTime, new { @Value = "" })
@@ -63,8 +65,16 @@
                             @Html.EditorFor(model => model.ScheduleType, new { htmlAttributes = new { id = "scheduleType", @class = "form-control", @readonly=true } })
                             @Html.ValidationMessageFor(model => model.ScheduleType, "", new { @class = "text-danger" })
                         </div>
- 
-
+                        @Html.Label("Assign to Outlet", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-3">
+                            <select class="form-control branchpicker" data-size="10" data-live-search="true" data-style="btn-white">
+                                <option value="0" selected>Select OutLet</option>
+                                @foreach (var item in ViewData["BranchsAll"] as IEnumerable<iTrade.Models.CompanyBranch>)
+                                {
+                                    <option value="@item.BranchID">@item.BranchName</option>                                 
+                                }
+                            </select>
+                        </div>
                     </div>
                     <div class="form-group">
                         <div id="week">
@@ -177,6 +187,9 @@
         $('.tutorpicker option[value=' +@Model.TutorID +']').prop('selected', true);
         $('.tutorpicker').selectpicker('refresh');
 
+        $('.branchpicker option[value=' +@Model.BranchID +']').prop('selected', true);
+        $('.branchpicker').selectpicker('refresh');
+
         $("select.coursepicker2").change(function () {
             var priceid = $(".coursepicker2 option:selected").val().trim();
             var coursetitle = $(".coursepicker2 option:selected").text().trim();
@@ -222,6 +235,14 @@
 
             $('#personID').val(staffid);
             $('#personName').val(staffname);
+
+        });
+        $("select.branchpicker").change(function () {
+            var staffid = $(".branchpicker option:selected").val();
+            var staffname = $(".branchpicker option:selected").text().trim();
+
+            $('#branchID').val(staffid);
+            $('#branchName').val(staffname);
 
         });
 

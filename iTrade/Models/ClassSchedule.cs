@@ -43,6 +43,11 @@ namespace iTrade.Models
         [StringLength(30)]
         public string CourseDuration { get; set; }
 
+        public string BranchID { get; set; }
+
+        [Display(Name = "Branch Name")]
+        public string BranchName { get; set; }
+
         [Display(Name = "Teacher Level")]
         [StringLength(30)]
         public string TeacherLevel { get; set; }

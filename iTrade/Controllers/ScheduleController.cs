@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using iTrade.Models;
+using Microsoft.AspNet.Identity;
 
 namespace iTrade.Controllers
 {
@@ -156,6 +157,9 @@ namespace iTrade.Controllers
 
         public ActionResult _AddClassSchedule()
         {
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            int BranchID = Convert.ToInt32(user.BranchID);
+
             var p = new ClassSchedule();
 
             p.FromDate = DateTime.Now;
@@ -165,6 +169,15 @@ namespace iTrade.Controllers
             ViewData["CoursesAll"] = db.Pricebooks.Where(x => x.IsValid == true).OrderBy(x => x.CourseName).ToList();
             ViewData["TutorsAll"] = db.Tutors.Where(x => x.IsActive == true).OrderBy(x => x.TutorName).ToList();
             ViewData["StaffsAll"] = db.Staffs.Where(x => x.IsActive == true).OrderBy(x => x.FirstName).ToList();
+
+            if (BranchID == 1)
+            {
+                ViewData["BranchsAll"] = db.CompanyBranches.Where(x => x.IsActive == true).OrderBy(x => x.BranchID).ToList();
+            }
+            else
+            {
+                ViewData["BranchsAll"] = db.CompanyBranches.Where(x => x.IsActive == true && x.BranchID ==BranchID).OrderBy(x => x.BranchID).ToList();
+            }
 
             return PartialView(p);
         }
