@@ -18,6 +18,7 @@
                                 </th>
 
                                 <th class="col-md-2">Student</th>
+                                <th>Branch name</th>
                                 <th> For Month </th>
                                 <th>
                                     Enrol#
@@ -45,6 +46,9 @@
                                     <td>
                                         @Model[i].CustName
                                     </td>
+                                    <td>
+                                        @Model[i].BranchName
+                                   </td>
                                     <td>@Convert.ToDateTime(Model[i].BillForMonth).ToString("MMM-yyyy") </td>
                                     <td>
                                         @Model[i].EnrNo

@@ -1587,10 +1587,23 @@ namespace iTrade.Controllers
 
         public ActionResult _DisplayBillItems()
         {
-            var p = db.BillItems.Where(x => x.CustNo != 0).OrderByDescending(x => x.BillForMonth).ThenBy(x => x.EnrID).OrderByDescending(x => x.CreatedOn).ToList();
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            int BranchID = Convert.ToInt32(user.BranchID);
 
-            //ViewBag.QuoteNumber = id;
-            return PartialView(p);
+            if (BranchID == 1)
+            {
+                var p = db.BillItems.Where(x => x.CustNo != 0).OrderByDescending(x => x.BillForMonth).ThenBy(x => x.EnrID).OrderByDescending(x => x.CreatedOn).ToList();
+
+                //ViewBag.QuoteNumber = id;
+                return PartialView(p);
+            }
+            else
+            {
+                var p = db.BillItems.Where(x => x.CustNo != 0 && x.BranchID == BranchID).OrderByDescending(x => x.BillForMonth).ThenBy(x => x.EnrID).OrderByDescending(x => x.CreatedOn).ToList();
+
+                //ViewBag.QuoteNumber = id;
+                return PartialView(p);
+            }
         }
 
         public ActionResult _DisplayEnrolmentByCust(int id)
@@ -1761,6 +1774,8 @@ namespace iTrade.Controllers
                     det1.DetType = "OTHER";
                     det1.EnrID = enr.EnrID;
                     det1.EnrNo = enr.EnrNo;
+                    det1.BranchID = enr.BranchID;
+                    det1.BranchName = enr.BranchName;
                     det1.CustNo = enr.CustNo;
                     det1.CustName = enr.CustName;
                     det1.CustName2 = enr.CustName2;
@@ -2249,6 +2264,8 @@ namespace iTrade.Controllers
                             det.DetType = "REGULAR";
                             det.EnrID = enr.EnrID;
                             det.EnrNo = enr.EnrNo;
+                            det.BranchID = enr.BranchID;
+                            det.BranchName = enr.BranchName;
                             det.CustNo = enr.CustNo;
                             det.CustName = enr.CustName;
                             det.CustName2 = enr.CustName2;
@@ -2305,6 +2322,8 @@ namespace iTrade.Controllers
                                 det1.DetType = "OTHER";
                                 det1.EnrID = enr.EnrID;
                                 det1.EnrNo = enr.EnrNo;
+                                det1.BranchID = enr.BranchID;
+                                det1.BranchName = enr.BranchName;
                                 det1.CustNo = enr.CustNo;
                                 det1.CustName = enr.CustName;
                                 det1.CustName2 = enr.CustName2;

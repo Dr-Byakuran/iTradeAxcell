@@ -22,6 +22,10 @@ namespace iTrade.Models
         [StringLength(45)]
         public string DetType { get; set; }
 
+        public int BranchID { get; set; }
+
+        public string BranchName { get; set; }
+
         public int CustNo { get; set; }
 
         [Display(Name = "Student")]
