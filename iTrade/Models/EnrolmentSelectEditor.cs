@@ -19,6 +19,8 @@ namespace iTrade.Models
         public int CustNo { get; set; }
         public string CustName { get; set; }
         public string CustName2 { get; set; }
+        public int BranchID { get; set; }
+        public string BranchName { get; set; }
         public string NRIC { get; set; }
         public int CourseID { get; set; }
         public string CourseName { get; set; }

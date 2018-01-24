@@ -16,6 +16,7 @@
         @Html.HiddenFor(model => model.TutorName, new { id = "tutorName" })
         @Html.HiddenFor(model => model.TermID, new { id = "termID" })
         @Html.HiddenFor(model => model.TermName, new {  id = "termName" })
+        @Html.HiddenFor(model => model.BranchID, new { id = "branchID" })
 
         @Html.HiddenFor(model => model.RegisterFee, new {  id = "registerFee" })
         @Html.HiddenFor(model => model.CourseFee, new {  id = "courseFee" })
@@ -42,6 +43,7 @@
 
     </td>
     <td>@Model.EnrDate.ToShortDateString()</td>
+    <td>@Model.BranchName</td>
     <td>
         @Model.CustName
     </td>

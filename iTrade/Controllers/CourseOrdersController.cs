@@ -1946,6 +1946,8 @@ namespace iTrade.Controllers
                     EnrNo = p.EnrNo,
                     EnrType = p.EnrType,
                     EnrDate = p.EnrDate,
+                    BranchID = p.BranchID,
+                    BranchName = p.BranchName,
                     CustNo = p.CustNo,
                     CustName = p.CustName,
                     CustName2 = p.CustName2,
