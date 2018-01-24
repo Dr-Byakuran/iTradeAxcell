@@ -52,7 +52,7 @@ namespace iTrade.Controllers
                 else
                 {
                     var br = new CompanyBranch();
-                    br.BranchName = "Default";
+                    br.BranchName = "HQ OFFICE";
                     br.CompID = 1;
                     br.IsActive = true;
                     br.CreatedBy = user.Email;
