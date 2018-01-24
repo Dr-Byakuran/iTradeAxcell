@@ -23,6 +23,9 @@
                                         @Html.DisplayNameFor(model => model.CustName)
                                     </th>
                                     <th>
+                                        Branch Name
+                                    </th>
+                                    <th>
                                         @Html.DisplayNameFor(model => model.InvDate)
                                     </th>
                                     <th>For Month</th>
@@ -68,7 +71,14 @@
                                             }
 
                                         </td>
-
+                                        <td>@foreach (var br in ViewData["BranchsAll"] as IEnumerable<iTrade.Models.CompanyBranch>)
+                                        {
+                                            if(item.BranchID == br.BranchID)
+                                            {
+                                                <span>@br.BranchName</span>
+                                            }
+                                        }                                           
+                                        </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.InvDate)
                                         </td>

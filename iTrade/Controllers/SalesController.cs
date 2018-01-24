@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using iTrade.Models;
 using System.Transactions;
+using Microsoft.AspNet.Identity;
 
 namespace iTrade.Controllers
 {
@@ -25,13 +26,27 @@ namespace iTrade.Controllers
         // [ChildActionOnly] 
         public ActionResult _DisplayResults(string invtype)
         {
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            int BranchID = Convert.ToInt32(user.BranchID);
+
             DateTime datefrom = DateTime.Now.AddMonths(-12);
+
+            ViewData["BranchsAll"] = db.CompanyBranches.ToList();
 
             var p = new List<INV>();
 
-            p = db.INVs.Where(x => x.InvDate >= datefrom).Take(1000).OrderByDescending(x => x.InvID).ToList();
+            if (BranchID == 1)
+            {
+                p = db.INVs.Where(x => x.InvDate >= datefrom).Take(1000).OrderByDescending(x => x.InvID).ToList();
 
-            return PartialView(p);
+                return PartialView(p);
+            }
+            else
+            {
+                p = db.INVs.Where(x => x.InvDate >= datefrom && x.BranchID ==BranchID).Take(1000).OrderByDescending(x => x.InvID).ToList();
+
+                return PartialView(p);
+            }
 
         }
 
