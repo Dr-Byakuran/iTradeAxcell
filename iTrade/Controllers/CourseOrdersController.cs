@@ -1840,9 +1840,19 @@ namespace iTrade.Controllers
 
         public ActionResult BatchInvoice()
         {
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            int BranchID = Convert.ToInt32(user.BranchID);
 
-            ViewData["CoursesAll"] = db.Courses.Where(x => x.IsActive == true).OrderBy(x => x.CourseName).ToList();
-            ViewData["ClientsAll"] = db.Clients.Where(x => x.IsActive == true).OrderBy(x => x.CustName).ToList();
+            if (BranchID == 1)
+            {
+                ViewData["ClientsAll"] = db.Clients.Where(x => x.IsActive == true).OrderBy(x => x.CustName).ToList();
+            }
+            else
+            {
+                ViewData["ClientsAll"] = db.Clients.Where(x => x.IsActive == true && x.BranchID ==BranchID).OrderBy(x => x.CustName).ToList();
+            }
+
+            ViewData["CoursesAll"] = db.Courses.Where(x => x.IsActive == true).OrderBy(x => x.CourseName).ToList();          
             ViewData["StudentsAll"] = db.Students.Where(x => x.IsActive == true).OrderBy(x => x.CustName).ToList();
             ViewData["StaffsAll"] = db.Staffs.Where(x => x.IsActive == true).OrderBy(x => x.FirstName).ThenBy(x => x.LastName).ToList();
             ViewData["TutorsAll"] = db.Tutors.Where(x => x.IsActive == true).OrderBy(x => x.TutorName).ThenBy(x => x.TutorName).ToList();
@@ -1876,6 +1886,9 @@ namespace iTrade.Controllers
         [HttpGet]
         public ActionResult _EnrolmentResult(string p1, string p2, string p3, string p4, string p5, string p6)
         {
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            int BranchID = Convert.ToInt32(user.BranchID);
+
             int custno = 0;
             int courseno = 0;
             string courselevel = "";
@@ -1937,53 +1950,110 @@ namespace iTrade.Controllers
             plist = plist.Take(600).ToList();
 
             EnrolmentSelectionView model = new EnrolmentSelectionView();
-            foreach (var p in plist)
-            {
-                var selecteditor = new EnrolmentSelectEditor()
-                {
-                    Selected = false,
-                    EnrID = p.EnrID,
-                    EnrNo = p.EnrNo,
-                    EnrType = p.EnrType,
-                    EnrDate = p.EnrDate,
-                    BranchID = p.BranchID,
-                    BranchName = p.BranchName,
-                    CustNo = p.CustNo,
-                    CustName = p.CustName,
-                    CustName2 = p.CustName2,
-                    NRIC = p.NRIC,
-                    CourseID = p.CourseID,
-                    CourseCode = p.CourseCode,
-                    CourseType = p.CourseType,
-                    CourseName = p.CourseName,
-                    CourseLevel = p.CourseLevel,
-                    CourseDuration = p.CourseDuration,
-                    TeacherLevel = p.TeacherLevel,
-                    OptionName = p.OptionName,
-                    TutorID = p.TutorID,
-                    TutorName = p.TutorName,
-                    TermID = p.TermID,
-                    TermName = p.TermName,
-                    Weekday = p.Weekday,
-                    StartDate = p.StartDate,
-                    EndDate = p.EndDate,
-                    RegisterFee = p.RegisterFee,
-                    CourseFee = p.CourseFee,
-                    Deposit = p.Deposit,
-                    SalesType = p.SalesType,
-                    IsBillable = p.IsBillable,
-                    BillRemark = p.BillRemark,
-                    IsValid = p.IsValid,
-                    Status = p.Status,
-                    Remark = p.Remark,
-                    PersonID = p.PersonID,
-                    PersonName = p.PersonName,
-                    CreatedBy = p.CreatedBy,
-                    CreatedOn = p.CreatedOn
 
+            if (BranchID == 1)
+            {
+                foreach (var p in plist)
+                {
+                    var selecteditor = new EnrolmentSelectEditor()
+                    {
+                        Selected = false,
+                        EnrID = p.EnrID,
+                        EnrNo = p.EnrNo,
+                        EnrType = p.EnrType,
+                        EnrDate = p.EnrDate,
+                        BranchID = p.BranchID,
+                        BranchName = p.BranchName,
+                        CustNo = p.CustNo,
+                        CustName = p.CustName,
+                        CustName2 = p.CustName2,
+                        NRIC = p.NRIC,
+                        CourseID = p.CourseID,
+                        CourseCode = p.CourseCode,
+                        CourseType = p.CourseType,
+                        CourseName = p.CourseName,
+                        CourseLevel = p.CourseLevel,
+                        CourseDuration = p.CourseDuration,
+                        TeacherLevel = p.TeacherLevel,
+                        OptionName = p.OptionName,
+                        TutorID = p.TutorID,
+                        TutorName = p.TutorName,
+                        TermID = p.TermID,
+                        TermName = p.TermName,
+                        Weekday = p.Weekday,
+                        StartDate = p.StartDate,
+                        EndDate = p.EndDate,
+                        RegisterFee = p.RegisterFee,
+                        CourseFee = p.CourseFee,
+                        Deposit = p.Deposit,
+                        SalesType = p.SalesType,
+                        IsBillable = p.IsBillable,
+                        BillRemark = p.BillRemark,
+                        IsValid = p.IsValid,
+                        Status = p.Status,
+                        Remark = p.Remark,
+                        PersonID = p.PersonID,
+                        PersonName = p.PersonName,
+                        CreatedBy = p.CreatedBy,
+                        CreatedOn = p.CreatedOn
+
+                    };
+                    model.DataSelects.Add(selecteditor);
                 };
-                model.DataSelects.Add(selecteditor);
-            };
+            }
+            else
+            {
+                foreach (var p in plist)
+                {
+                    if (p.BranchID == BranchID)
+                    {
+                        var selecteditor = new EnrolmentSelectEditor()
+                        {
+                            Selected = false,
+                            EnrID = p.EnrID,
+                            EnrNo = p.EnrNo,
+                            EnrType = p.EnrType,
+                            EnrDate = p.EnrDate,
+                            BranchID = p.BranchID,
+                            BranchName = p.BranchName,
+                            CustNo = p.CustNo,
+                            CustName = p.CustName,
+                            CustName2 = p.CustName2,
+                            NRIC = p.NRIC,
+                            CourseID = p.CourseID,
+                            CourseCode = p.CourseCode,
+                            CourseType = p.CourseType,
+                            CourseName = p.CourseName,
+                            CourseLevel = p.CourseLevel,
+                            CourseDuration = p.CourseDuration,
+                            TeacherLevel = p.TeacherLevel,
+                            OptionName = p.OptionName,
+                            TutorID = p.TutorID,
+                            TutorName = p.TutorName,
+                            TermID = p.TermID,
+                            TermName = p.TermName,
+                            Weekday = p.Weekday,
+                            StartDate = p.StartDate,
+                            EndDate = p.EndDate,
+                            RegisterFee = p.RegisterFee,
+                            CourseFee = p.CourseFee,
+                            Deposit = p.Deposit,
+                            SalesType = p.SalesType,
+                            IsBillable = p.IsBillable,
+                            BillRemark = p.BillRemark,
+                            IsValid = p.IsValid,
+                            Status = p.Status,
+                            Remark = p.Remark,
+                            PersonID = p.PersonID,
+                            PersonName = p.PersonName,
+                            CreatedBy = p.CreatedBy,
+                            CreatedOn = p.CreatedOn
+
+                        };
+                        model.DataSelects.Add(selecteditor);
+                    }
+                };
+            }
 
             return PartialView(model);
         }
