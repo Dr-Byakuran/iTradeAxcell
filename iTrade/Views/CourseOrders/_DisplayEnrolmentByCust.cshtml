@@ -62,7 +62,7 @@
                                             @Model[i].CourseType
                                             @foreach (var item in ViewData["EnrolmentAll"] as IEnumerable<iTrade.Models.Enrolment>)
                                             {
-                                                if (item.PriceID == Model[i].PriceID)
+                                                if (item.PriceID == Model[i].PriceID && item.ScheduleID == Model[i].ScheduleID)
                                                 {
                                                     sum++;
                                                 }

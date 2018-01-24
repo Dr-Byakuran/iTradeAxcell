@@ -1630,6 +1630,8 @@ namespace iTrade.Controllers
 
             var p = new List<ClassSchedule>();
 
+            ViewData["EnrolmentAll"] = db.Enrolments.Where(x => x.PriceID ==id).ToList();
+
             if (BranchID == 1)
             {
                 p = db.ClassSchedules.Where(x => x.PriceID == id).Take(1000).OrderByDescending(x => x.CourseName).ToList();

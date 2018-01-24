@@ -57,14 +57,8 @@
                             <td>@Model[i].CourseDuration </td>
                             <td>@Model[i].TeacherLevel </td>
                             <td>@Model[i].StudentPrice </td>
-                            <td>
-                                @if (Model[i].CourseType == "Private" && sum >= 1)
-                                {                               
-                                }
-                                else
-                                {
+                            <td>                           
                                 <a href="#" class="btn-details btn btn-primary" data-id="@Model[i].PriceID"> Select </a>
-                                }
                                 @*<span class="pull-right">
                                     <button id="btnSelectedInvNo" class="selectedInvNo btn btn-xs btn-primary" data-id="@Model[i].PriceID">Select</button>
                                 </span>*@
