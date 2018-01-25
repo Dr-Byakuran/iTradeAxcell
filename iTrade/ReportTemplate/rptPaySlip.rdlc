@@ -302,7 +302,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Hour.Value</Value>
+                              <Value>=Fields!StudyHour.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1146,7 +1146,7 @@
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>db6d5e25-b953-4ba9-becf-637c5c9795e7</rd:DataSourceID>
+      <rd:DataSourceID>6d737486-bf4e-46a7-a0c1-f4d04a9990e0</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
@@ -1195,7 +1195,7 @@
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>dsPaySlip</rd:DataSetName>
-        <rd:SchemaPath>F:\workspace\smartGit\iTradeAxcell\iTrade\dsPaySlip.xsd</rd:SchemaPath>
+        <rd:SchemaPath>F:\workspace\smartGit\iTradeAxcell\iTrade\ReportDataSet\dsPaySlip.xsd</rd:SchemaPath>
         <rd:TableName>PaySlips</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
@@ -1232,8 +1232,8 @@
           <DataField>EndTime</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Hour">
-          <DataField>Hour</DataField>
+        <Field Name="StudyHour">
+          <DataField>StudyHour</DataField>
           <rd:TypeName>System.Double</rd:TypeName>
         </Field>
         <Field Name="HourlyRate">
@@ -1242,18 +1242,22 @@
         </Field>
         <Field Name="Quantity">
           <DataField>Quantity</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Amount">
           <DataField>Amount</DataField>
           <rd:TypeName>System.Double</rd:TypeName>
         </Field>
-        <Field Name="ClassDesc">
-          <DataField>ClassDesc</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+        <Field Name="PriceID">
+          <DataField>PriceID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="ClassCode">
           <DataField>ClassCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ClassDesc">
+          <DataField>ClassDesc</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="ClassType">
@@ -1263,7 +1267,7 @@
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>dsPaySlip</rd:DataSetName>
-        <rd:SchemaPath>F:\workspace\smartGit\iTradeAxcell\iTrade\dsPaySlip.xsd</rd:SchemaPath>
+        <rd:SchemaPath>F:\workspace\smartGit\iTradeAxcell\iTrade\ReportDataSet\dsPaySlip.xsd</rd:SchemaPath>
         <rd:TableName>PaySlipDetails</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>

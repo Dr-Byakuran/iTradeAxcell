@@ -326,7 +326,7 @@ namespace iTrade.ReportDataSet {
             
             private global::System.Data.DataColumn columnEndTime;
             
-            private global::System.Data.DataColumn columnHour;
+            private global::System.Data.DataColumn columnStudyHour;
             
             private global::System.Data.DataColumn columnHourlyRate;
             
@@ -334,9 +334,11 @@ namespace iTrade.ReportDataSet {
             
             private global::System.Data.DataColumn columnAmount;
             
-            private global::System.Data.DataColumn columnClassDesc;
+            private global::System.Data.DataColumn columnPriceID;
             
             private global::System.Data.DataColumn columnClassCode;
+            
+            private global::System.Data.DataColumn columnClassDesc;
             
             private global::System.Data.DataColumn columnClassType;
             
@@ -423,9 +425,9 @@ namespace iTrade.ReportDataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn HourColumn {
+            public global::System.Data.DataColumn StudyHourColumn {
                 get {
-                    return this.columnHour;
+                    return this.columnStudyHour;
                 }
             }
             
@@ -455,9 +457,9 @@ namespace iTrade.ReportDataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ClassDescColumn {
+            public global::System.Data.DataColumn PriceIDColumn {
                 get {
-                    return this.columnClassDesc;
+                    return this.columnPriceID;
                 }
             }
             
@@ -466,6 +468,14 @@ namespace iTrade.ReportDataSet {
             public global::System.Data.DataColumn ClassCodeColumn {
                 get {
                     return this.columnClassCode;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ClassDescColumn {
+                get {
+                    return this.columnClassDesc;
                 }
             }
             
@@ -514,7 +524,7 @@ namespace iTrade.ReportDataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public PaySlipDetailsRow AddPaySlipDetailsRow(int PaySlipID, string TutorCode, string Date, string StartTime, string EndTime, double Hour, double HourlyRate, double Quantity, double Amount, string ClassDesc, string ClassCode, string ClassType) {
+            public PaySlipDetailsRow AddPaySlipDetailsRow(int PaySlipID, string TutorCode, string Date, string StartTime, string EndTime, double StudyHour, double HourlyRate, int Quantity, double Amount, int PriceID, string ClassCode, string ClassDesc, string ClassType) {
                 PaySlipDetailsRow rowPaySlipDetailsRow = ((PaySlipDetailsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -523,12 +533,13 @@ namespace iTrade.ReportDataSet {
                         Date,
                         StartTime,
                         EndTime,
-                        Hour,
+                        StudyHour,
                         HourlyRate,
                         Quantity,
                         Amount,
-                        ClassDesc,
+                        PriceID,
                         ClassCode,
+                        ClassDesc,
                         ClassType};
                 rowPaySlipDetailsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowPaySlipDetailsRow);
@@ -565,12 +576,13 @@ namespace iTrade.ReportDataSet {
                 this.columnDate = base.Columns["Date"];
                 this.columnStartTime = base.Columns["StartTime"];
                 this.columnEndTime = base.Columns["EndTime"];
-                this.columnHour = base.Columns["Hour"];
+                this.columnStudyHour = base.Columns["StudyHour"];
                 this.columnHourlyRate = base.Columns["HourlyRate"];
                 this.columnQuantity = base.Columns["Quantity"];
                 this.columnAmount = base.Columns["Amount"];
-                this.columnClassDesc = base.Columns["ClassDesc"];
+                this.columnPriceID = base.Columns["PriceID"];
                 this.columnClassCode = base.Columns["ClassCode"];
+                this.columnClassDesc = base.Columns["ClassDesc"];
                 this.columnClassType = base.Columns["ClassType"];
             }
             
@@ -589,18 +601,20 @@ namespace iTrade.ReportDataSet {
                 base.Columns.Add(this.columnStartTime);
                 this.columnEndTime = new global::System.Data.DataColumn("EndTime", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnEndTime);
-                this.columnHour = new global::System.Data.DataColumn("Hour", typeof(double), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnHour);
+                this.columnStudyHour = new global::System.Data.DataColumn("StudyHour", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnStudyHour);
                 this.columnHourlyRate = new global::System.Data.DataColumn("HourlyRate", typeof(double), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnHourlyRate);
-                this.columnQuantity = new global::System.Data.DataColumn("Quantity", typeof(double), null, global::System.Data.MappingType.Element);
+                this.columnQuantity = new global::System.Data.DataColumn("Quantity", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnQuantity);
                 this.columnAmount = new global::System.Data.DataColumn("Amount", typeof(double), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnAmount);
-                this.columnClassDesc = new global::System.Data.DataColumn("ClassDesc", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnClassDesc);
+                this.columnPriceID = new global::System.Data.DataColumn("PriceID", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPriceID);
                 this.columnClassCode = new global::System.Data.DataColumn("ClassCode", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnClassCode);
+                this.columnClassDesc = new global::System.Data.DataColumn("ClassDesc", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnClassDesc);
                 this.columnClassType = new global::System.Data.DataColumn("ClassType", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnClassType);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
@@ -616,12 +630,13 @@ namespace iTrade.ReportDataSet {
                 this.columnDate.MaxLength = 2147483647;
                 this.columnStartTime.MaxLength = 25;
                 this.columnEndTime.MaxLength = 25;
-                this.columnHour.AllowDBNull = false;
+                this.columnStudyHour.AllowDBNull = false;
                 this.columnHourlyRate.AllowDBNull = false;
                 this.columnQuantity.AllowDBNull = false;
                 this.columnAmount.AllowDBNull = false;
-                this.columnClassDesc.MaxLength = 25;
+                this.columnPriceID.AllowDBNull = false;
                 this.columnClassCode.MaxLength = 2147483647;
+                this.columnClassDesc.MaxLength = 25;
                 this.columnClassType.MaxLength = 25;
             }
             
@@ -1233,12 +1248,12 @@ namespace iTrade.ReportDataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public double Hour {
+            public double StudyHour {
                 get {
-                    return ((double)(this[this.tablePaySlipDetails.HourColumn]));
+                    return ((double)(this[this.tablePaySlipDetails.StudyHourColumn]));
                 }
                 set {
-                    this[this.tablePaySlipDetails.HourColumn] = value;
+                    this[this.tablePaySlipDetails.StudyHourColumn] = value;
                 }
             }
             
@@ -1255,9 +1270,9 @@ namespace iTrade.ReportDataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public double Quantity {
+            public int Quantity {
                 get {
-                    return ((double)(this[this.tablePaySlipDetails.QuantityColumn]));
+                    return ((int)(this[this.tablePaySlipDetails.QuantityColumn]));
                 }
                 set {
                     this[this.tablePaySlipDetails.QuantityColumn] = value;
@@ -1277,17 +1292,12 @@ namespace iTrade.ReportDataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string ClassDesc {
+            public int PriceID {
                 get {
-                    try {
-                        return ((string)(this[this.tablePaySlipDetails.ClassDescColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("表“PaySlipDetails”中列“ClassDesc”的值为 DBNull。", e);
-                    }
+                    return ((int)(this[this.tablePaySlipDetails.PriceIDColumn]));
                 }
                 set {
-                    this[this.tablePaySlipDetails.ClassDescColumn] = value;
+                    this[this.tablePaySlipDetails.PriceIDColumn] = value;
                 }
             }
             
@@ -1304,6 +1314,22 @@ namespace iTrade.ReportDataSet {
                 }
                 set {
                     this[this.tablePaySlipDetails.ClassCodeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string ClassDesc {
+                get {
+                    try {
+                        return ((string)(this[this.tablePaySlipDetails.ClassDescColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("表“PaySlipDetails”中列“ClassDesc”的值为 DBNull。", e);
+                    }
+                }
+                set {
+                    this[this.tablePaySlipDetails.ClassDescColumn] = value;
                 }
             }
             
@@ -1373,18 +1399,6 @@ namespace iTrade.ReportDataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsClassDescNull() {
-                return this.IsNull(this.tablePaySlipDetails.ClassDescColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetClassDescNull() {
-                this[this.tablePaySlipDetails.ClassDescColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsClassCodeNull() {
                 return this.IsNull(this.tablePaySlipDetails.ClassCodeColumn);
             }
@@ -1393,6 +1407,18 @@ namespace iTrade.ReportDataSet {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetClassCodeNull() {
                 this[this.tablePaySlipDetails.ClassCodeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsClassDescNull() {
+                return this.IsNull(this.tablePaySlipDetails.ClassDescColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetClassDescNull() {
+                this[this.tablePaySlipDetails.ClassDescColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1789,12 +1815,13 @@ namespace iTrade.ReportDataSet.dsPaySlipTableAdapters {
             tableMapping.ColumnMappings.Add("Date", "Date");
             tableMapping.ColumnMappings.Add("StartTime", "StartTime");
             tableMapping.ColumnMappings.Add("EndTime", "EndTime");
-            tableMapping.ColumnMappings.Add("Hour", "Hour");
+            tableMapping.ColumnMappings.Add("StudyHour", "StudyHour");
             tableMapping.ColumnMappings.Add("HourlyRate", "HourlyRate");
             tableMapping.ColumnMappings.Add("Quantity", "Quantity");
             tableMapping.ColumnMappings.Add("Amount", "Amount");
-            tableMapping.ColumnMappings.Add("ClassDesc", "ClassDesc");
+            tableMapping.ColumnMappings.Add("PriceID", "PriceID");
             tableMapping.ColumnMappings.Add("ClassCode", "ClassCode");
+            tableMapping.ColumnMappings.Add("ClassDesc", "ClassDesc");
             tableMapping.ColumnMappings.Add("ClassType", "ClassType");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
@@ -1805,35 +1832,37 @@ namespace iTrade.ReportDataSet.dsPaySlipTableAdapters {
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_PaySlipDetailID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PaySlipDetailID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = @"INSERT INTO [dbo].[PaySlipDetails] ([PaySlipID], [TutorCode], [Date], [StartTime], [EndTime], [Hour], [HourlyRate], [Quantity], [Amount], [ClassDesc], [ClassCode], [ClassType]) VALUES (@PaySlipID, @TutorCode, @Date, @StartTime, @EndTime, @Hour, @HourlyRate, @Quantity, @Amount, @ClassDesc, @ClassCode, @ClassType)";
+            this._adapter.InsertCommand.CommandText = @"INSERT INTO [dbo].[PaySlipDetails] ([PaySlipID], [TutorCode], [Date], [StartTime], [EndTime], [StudyHour], [HourlyRate], [Quantity], [Amount], [PriceID], [ClassCode], [ClassDesc], [ClassType]) VALUES (@PaySlipID, @TutorCode, @Date, @StartTime, @EndTime, @StudyHour, @HourlyRate, @Quantity, @Amount, @PriceID, @ClassCode, @ClassDesc, @ClassType)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PaySlipID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PaySlipID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@TutorCode", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "TutorCode", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Date", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Date", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@StartTime", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "StartTime", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@EndTime", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "EndTime", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Hour", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Hour", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@StudyHour", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "StudyHour", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@HourlyRate", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "HourlyRate", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Quantity", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Quantity", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Quantity", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Quantity", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Amount", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Amount", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ClassDesc", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ClassDesc", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PriceID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PriceID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ClassCode", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ClassCode", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ClassDesc", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ClassDesc", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ClassType", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ClassType", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[PaySlipDetails] SET [PaySlipID] = @PaySlipID, [TutorCode] = @TutorCode, [Date] = @Date, [StartTime] = @StartTime, [EndTime] = @EndTime, [Hour] = @Hour, [HourlyRate] = @HourlyRate, [Quantity] = @Quantity, [Amount] = @Amount, [ClassDesc] = @ClassDesc, [ClassCode] = @ClassCode, [ClassType] = @ClassType WHERE (([PaySlipDetailID] = @Original_PaySlipDetailID))";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[PaySlipDetails] SET [PaySlipID] = @PaySlipID, [TutorCode] = @TutorCode, [Date] = @Date, [StartTime] = @StartTime, [EndTime] = @EndTime, [StudyHour] = @StudyHour, [HourlyRate] = @HourlyRate, [Quantity] = @Quantity, [Amount] = @Amount, [PriceID] = @PriceID, [ClassCode] = @ClassCode, [ClassDesc] = @ClassDesc, [ClassType] = @ClassType WHERE (([PaySlipDetailID] = @Original_PaySlipDetailID))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PaySlipID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PaySlipID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@TutorCode", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "TutorCode", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Date", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Date", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@StartTime", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "StartTime", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@EndTime", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "EndTime", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Hour", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Hour", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@StudyHour", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "StudyHour", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@HourlyRate", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "HourlyRate", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Quantity", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Quantity", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Quantity", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Quantity", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Amount", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Amount", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ClassDesc", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ClassDesc", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PriceID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PriceID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ClassCode", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ClassCode", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ClassDesc", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ClassDesc", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ClassType", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ClassType", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_PaySlipDetailID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PaySlipDetailID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
         }
@@ -1851,9 +1880,9 @@ namespace iTrade.ReportDataSet.dsPaySlipTableAdapters {
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT PaySlipDetailID, PaySlipID, TutorCode, Date, StartTime, EndTime, Hour, Hou" +
-                "rlyRate, Quantity, Amount, ClassDesc, ClassCode, ClassType FROM dbo.PaySlipDetai" +
-                "ls";
+            this._commandCollection[0].CommandText = "SELECT PaySlipDetailID, PaySlipID, TutorCode, Date, StartTime, EndTime, StudyHour" +
+                ", HourlyRate, Quantity, Amount, PriceID, ClassCode, ClassDesc, ClassType FROM db" +
+                "o.PaySlipDetails";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -1936,7 +1965,7 @@ namespace iTrade.ReportDataSet.dsPaySlipTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(int PaySlipID, string TutorCode, string Date, string StartTime, string EndTime, double Hour, double HourlyRate, double Quantity, double Amount, string ClassDesc, string ClassCode, string ClassType) {
+        public virtual int Insert(int PaySlipID, string TutorCode, string Date, string StartTime, string EndTime, double StudyHour, double HourlyRate, int Quantity, double Amount, int PriceID, string ClassCode, string ClassDesc, string ClassType) {
             this.Adapter.InsertCommand.Parameters[0].Value = ((int)(PaySlipID));
             if ((TutorCode == null)) {
                 this.Adapter.InsertCommand.Parameters[1].Value = global::System.DBNull.Value;
@@ -1962,27 +1991,28 @@ namespace iTrade.ReportDataSet.dsPaySlipTableAdapters {
             else {
                 this.Adapter.InsertCommand.Parameters[4].Value = ((string)(EndTime));
             }
-            this.Adapter.InsertCommand.Parameters[5].Value = ((double)(Hour));
+            this.Adapter.InsertCommand.Parameters[5].Value = ((double)(StudyHour));
             this.Adapter.InsertCommand.Parameters[6].Value = ((double)(HourlyRate));
-            this.Adapter.InsertCommand.Parameters[7].Value = ((double)(Quantity));
+            this.Adapter.InsertCommand.Parameters[7].Value = ((int)(Quantity));
             this.Adapter.InsertCommand.Parameters[8].Value = ((double)(Amount));
-            if ((ClassDesc == null)) {
-                this.Adapter.InsertCommand.Parameters[9].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[9].Value = ((string)(ClassDesc));
-            }
+            this.Adapter.InsertCommand.Parameters[9].Value = ((int)(PriceID));
             if ((ClassCode == null)) {
                 this.Adapter.InsertCommand.Parameters[10].Value = global::System.DBNull.Value;
             }
             else {
                 this.Adapter.InsertCommand.Parameters[10].Value = ((string)(ClassCode));
             }
-            if ((ClassType == null)) {
+            if ((ClassDesc == null)) {
                 this.Adapter.InsertCommand.Parameters[11].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.InsertCommand.Parameters[11].Value = ((string)(ClassType));
+                this.Adapter.InsertCommand.Parameters[11].Value = ((string)(ClassDesc));
+            }
+            if ((ClassType == null)) {
+                this.Adapter.InsertCommand.Parameters[12].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[12].Value = ((string)(ClassType));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -2004,7 +2034,7 @@ namespace iTrade.ReportDataSet.dsPaySlipTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(int PaySlipID, string TutorCode, string Date, string StartTime, string EndTime, double Hour, double HourlyRate, double Quantity, double Amount, string ClassDesc, string ClassCode, string ClassType, int Original_PaySlipDetailID) {
+        public virtual int Update(int PaySlipID, string TutorCode, string Date, string StartTime, string EndTime, double StudyHour, double HourlyRate, int Quantity, double Amount, int PriceID, string ClassCode, string ClassDesc, string ClassType, int Original_PaySlipDetailID) {
             this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(PaySlipID));
             if ((TutorCode == null)) {
                 this.Adapter.UpdateCommand.Parameters[1].Value = global::System.DBNull.Value;
@@ -2030,29 +2060,30 @@ namespace iTrade.ReportDataSet.dsPaySlipTableAdapters {
             else {
                 this.Adapter.UpdateCommand.Parameters[4].Value = ((string)(EndTime));
             }
-            this.Adapter.UpdateCommand.Parameters[5].Value = ((double)(Hour));
+            this.Adapter.UpdateCommand.Parameters[5].Value = ((double)(StudyHour));
             this.Adapter.UpdateCommand.Parameters[6].Value = ((double)(HourlyRate));
-            this.Adapter.UpdateCommand.Parameters[7].Value = ((double)(Quantity));
+            this.Adapter.UpdateCommand.Parameters[7].Value = ((int)(Quantity));
             this.Adapter.UpdateCommand.Parameters[8].Value = ((double)(Amount));
-            if ((ClassDesc == null)) {
-                this.Adapter.UpdateCommand.Parameters[9].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((string)(ClassDesc));
-            }
+            this.Adapter.UpdateCommand.Parameters[9].Value = ((int)(PriceID));
             if ((ClassCode == null)) {
                 this.Adapter.UpdateCommand.Parameters[10].Value = global::System.DBNull.Value;
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[10].Value = ((string)(ClassCode));
             }
-            if ((ClassType == null)) {
+            if ((ClassDesc == null)) {
                 this.Adapter.UpdateCommand.Parameters[11].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((string)(ClassType));
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((string)(ClassDesc));
             }
-            this.Adapter.UpdateCommand.Parameters[12].Value = ((int)(Original_PaySlipDetailID));
+            if ((ClassType == null)) {
+                this.Adapter.UpdateCommand.Parameters[12].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[12].Value = ((string)(ClassType));
+            }
+            this.Adapter.UpdateCommand.Parameters[13].Value = ((int)(Original_PaySlipDetailID));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
