@@ -53,6 +53,8 @@ namespace iTrade.Controllers
                 newatt.AttendDate = mydate;
                 newatt.ScheduleID = id;
                 newatt.PriceID = sch.PriceID;
+                newatt.BranchID = sch.BranchID;
+                newatt.BranchName = sch.BranchName;
                 newatt.CourseName = sch.CourseName;
                 newatt.CourseLevel = sch.CourseLevel;
                 newatt.CourseDuration = sch.CourseDuration;
@@ -80,7 +82,7 @@ namespace iTrade.Controllers
                 att = db.ClassAttendances.Find(newatt.AttendID);
             }
 
-            ViewData["ClientsAll"] = db.Clients.Where(x => x.IsActive == true).OrderBy(x => x.CustName).ToList();
+            ViewData["ClientsAll"] = db.Clients.Where(x => x.IsActive == true &&x.BranchID ==att.BranchID).OrderBy(x => x.CustName).ToList();
             ViewData["StudentsAll"] = db.Students.Where(x => x.IsActive == true).OrderBy(x => x.CustName).ToList();
 
             return View(att);
