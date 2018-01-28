@@ -306,6 +306,8 @@ namespace iTrade.Controllers
                         pp.AttendID = att.AttendID;
                         pp.AttendDate = att.AttendDate;
                         pp.ScheduleID = att.ScheduleID;
+                        pp.BranchID = att.BranchID;
+                        pp.BranchName = att.BranchName;
                         pp.CustNo = stu.CustNo;
                         pp.CustName = stu.CustName;
                         pp.NRIC = stu.NRIC;
@@ -415,6 +417,9 @@ namespace iTrade.Controllers
 
         public ActionResult _DisplayClassAbsents(string invtype, string thedate)
         {
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            int BranchID = Convert.ToInt32(user.BranchID);
+
             var list = new List<ClassAttendeeView>();
 
             var stus = db.ClassAttendees.Where(x => (x.IsPresent == false || x.AttendType == "ADHOC") && x.ActionStatus != "Completed").OrderBy(x => x.AttendDate).ToList();
@@ -439,9 +444,18 @@ namespace iTrade.Controllers
                 }
             }
 
-            list = list.Where(x => x.ClassAttendance.Status == "Closed" || x.ClassAttendance.Status == "Open").ToList();
+            if (BranchID == 1)
+            {
+                list = list.Where(x => x.ClassAttendance.Status == "Closed" || x.ClassAttendance.Status == "Open").ToList();
 
-            return PartialView(list);
+                return PartialView(list);
+            }
+            else
+            {
+                list = list.Where(x => (x.ClassAttendance.Status == "Closed" || x.ClassAttendance.Status == "Open") && x.ClassAttendee.BranchID == BranchID).ToList();
+
+                return PartialView(list);
+            }
         }
 
 
@@ -759,6 +773,8 @@ namespace iTrade.Controllers
             pp.AttendID = att.AttendID;
             pp.AttendDate = att.AttendDate;
             pp.ScheduleID = att.ScheduleID;
+            pp.BranchID = att.BranchID;
+            pp.BranchName = att.BranchName;
             pp.CustNo = stu.CustNo;
             pp.CustName = stu.CustName;
             pp.NRIC = stu.NRIC;

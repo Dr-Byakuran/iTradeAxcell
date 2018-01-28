@@ -41,6 +41,10 @@ namespace iTrade.Models
         [StringLength(25)]
         public string EnrNo { get; set; }
 
+        public int BranchID { get; set; }
+
+        public string BranchName { get; set; }
+
         [Display(Name = "Type")]
         [StringLength(30)]
         public string AttendType { get; set; }
