@@ -17,6 +17,7 @@
                 <thead>
                     <tr>
                         <th>No</th>
+                        <th>Branch Name</th>
                         <th>Type</th>
                         <th>
                             Weekday
@@ -38,6 +39,9 @@
                         i++;
                         <tr class="even gradeC">
                             <td>@item.ScheduleID</td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BranchName)
+                            </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.ScheduleType)
                             </td>
