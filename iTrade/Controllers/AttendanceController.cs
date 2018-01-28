@@ -8,10 +8,11 @@ using System.Web;
 using System.Web.Mvc;
 using iTrade.Models;
 using System.Transactions;
+using Microsoft.AspNet.Identity;
 
 namespace iTrade.Controllers
 {
-    public class AttendanceController : Controller
+    public class AttendanceController : ControllerBase
     {
         private StarDbContext db = new StarDbContext();
 
@@ -154,6 +155,9 @@ namespace iTrade.Controllers
 
         public ActionResult _DisplayClassAttendances(string thedate)
         {
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            int BranchID = Convert.ToInt32(user.BranchID);
+
             var list = new List<ClassAttendance>();
 
             var tday = DateTime.Now;
@@ -183,6 +187,8 @@ namespace iTrade.Controllers
                     newatt.AttendDate = dateto;
                     newatt.ScheduleID = sch.ScheduleID;
                     newatt.PriceID = sch.PriceID;
+                    newatt.BranchID = sch.BranchID;
+                    newatt.BranchName = sch.BranchName;
                     newatt.CourseName = sch.CourseName;
                     newatt.CourseLevel = sch.CourseLevel;
                     newatt.CourseDuration = sch.CourseDuration;
@@ -209,8 +215,15 @@ namespace iTrade.Controllers
 
                 }
             }
-            
-            list = db.ClassAttendances.Where(x => DbFunctions.TruncateTime(x.AttendDate) >= datefrom && DbFunctions.TruncateTime(x.AttendDate) <= dateto).OrderBy(x => x.StartTime).ToList();
+
+            if (BranchID == 1)
+            {
+                list = db.ClassAttendances.Where(x => DbFunctions.TruncateTime(x.AttendDate) >= datefrom && DbFunctions.TruncateTime(x.AttendDate) <= dateto).OrderBy(x => x.StartTime).ToList();
+            }
+            else
+            {
+                list = db.ClassAttendances.Where(x => DbFunctions.TruncateTime(x.AttendDate) >= datefrom && DbFunctions.TruncateTime(x.AttendDate) <= dateto && x.BranchID ==BranchID).OrderBy(x => x.StartTime).ToList();
+            }
 
             ViewBag.StartDate = datefrom.ToShortDateString();
             ViewBag.EndDate = dateto.ToShortDateString();
@@ -222,6 +235,9 @@ namespace iTrade.Controllers
 
         public ActionResult _DisplayClassAttendancesHist(string thedate, string thetype)
         {
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            int BranchID = Convert.ToInt32(user.BranchID);
+
             var list = new List<ClassAttendance>();
 
             DateTime dateto = DateTime.Today;
@@ -231,16 +247,30 @@ namespace iTrade.Controllers
 
             if (thetype == "BEFORE")
             {
-                list = db.ClassAttendances.Where(x => DbFunctions.TruncateTime(x.AttendDate) >= datefrom && DbFunctions.TruncateTime(x.AttendDate) < dateto).OrderBy(x => x.StartTime).ToList();
-                ViewBag.TableNo = 3;
+                if (BranchID == 1)
+                {
+                    list = db.ClassAttendances.Where(x => DbFunctions.TruncateTime(x.AttendDate) >= datefrom && DbFunctions.TruncateTime(x.AttendDate) < dateto).OrderBy(x => x.StartTime).ToList();
+                    ViewBag.TableNo = 3;
+                }
+                else
+                {
+                    list = db.ClassAttendances.Where(x => DbFunctions.TruncateTime(x.AttendDate) >= datefrom && DbFunctions.TruncateTime(x.AttendDate) < dateto && x.BranchID == BranchID).OrderBy(x => x.StartTime).ToList();
+                    ViewBag.TableNo = 3;
+                }
             }
             else
             {
-                datefrom = dateto.AddDays(120);
-                list = db.ClassAttendances.Where(x => DbFunctions.TruncateTime(x.AttendDate) <= datefrom && DbFunctions.TruncateTime(x.AttendDate) > dateto).OrderBy(x => x.StartTime).ToList();
+                if (BranchID == 1)
+                {
+                    datefrom = dateto.AddDays(120);
+                    list = db.ClassAttendances.Where(x => DbFunctions.TruncateTime(x.AttendDate) <= datefrom && DbFunctions.TruncateTime(x.AttendDate) > dateto).OrderBy(x => x.StartTime).ToList();
+                }
+                else
+                {
+                    datefrom = dateto.AddDays(120);
+                    list = db.ClassAttendances.Where(x => DbFunctions.TruncateTime(x.AttendDate) <= datefrom && DbFunctions.TruncateTime(x.AttendDate) > dateto && x.BranchID == BranchID).OrderBy(x => x.StartTime).ToList();
+                }
             }
-
-
 
             ViewBag.StartDate = datefrom.ToShortDateString();
             ViewBag.EndDate = dateto.ToShortDateString();
