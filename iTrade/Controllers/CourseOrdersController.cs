@@ -1623,13 +1623,25 @@ namespace iTrade.Controllers
 
         public ActionResult _DisplaySchedules(int id)
         {
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            int BranchID = Convert.ToInt32(user.BranchID);
+
             DateTime datefrom = DateTime.Now.AddMonths(-12);
 
             var p = new List<ClassSchedule>();
 
-            p = db.ClassSchedules.Where(x => x.PriceID == id).Take(1000).OrderByDescending(x => x.CourseName).ToList();
+            if (BranchID == 1)
+            {
+                p = db.ClassSchedules.Where(x => x.PriceID == id).Take(1000).OrderByDescending(x => x.CourseName).ToList();
 
-            return PartialView(p);
+                return PartialView(p);
+            }
+            else
+            {
+                p = db.ClassSchedules.Where(x => x.PriceID == id && x.BranchID ==BranchID).Take(1000).OrderByDescending(x => x.CourseName).ToList();
+
+                return PartialView(p);
+            }
 
         }
 
