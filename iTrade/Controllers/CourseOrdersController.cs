@@ -1567,12 +1567,22 @@ namespace iTrade.Controllers
 
         public ActionResult _DisplayEnrolments()
         {
-            var p = db.Enrolments.Where(x => x.CustNo != 0 && x.Status != "Void").OrderBy(x => x.EnrNo).ToList();
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            int BranchID = Convert.ToInt32(user.BranchID);
 
             //ViewBag.QuoteNumber = id;
             ViewData["EnrolmentAll"] = db.Enrolments.ToList();
 
-            return PartialView(p);
+            if (BranchID == 1)
+            {
+                var p = db.Enrolments.Where(x => x.CustNo != 0 && x.Status != "Void").OrderBy(x => x.EnrNo).ToList();
+                return PartialView(p);
+            }
+            else
+            {
+                var p = db.Enrolments.Where(x => x.CustNo != 0 && x.Status != "Void" && x.BranchID == BranchID).OrderBy(x => x.EnrNo).ToList();
+                return PartialView(p);
+            }
         }
 
         public ActionResult _DisplayBillItems()
