@@ -6122,11 +6122,8 @@
     <Content Include="Views\Attendance\_DisplayRefund.cshtml" />
     <Content Include="Views\Attendance\_DisplayUpcomingClasses.cshtml" />
     <Content Include="Views\Attendance\_DisplayCharge.cshtml" />
-    <Content Include="Views\TutorRate\_SelCourse.cshtml" />
-    <Content Include="Views\TutorRate\Create.cshtml" />
     <Content Include="Views\TutorRate\Edit.cshtml" />
     <Content Include="Views\TutorRate\Index.cshtml" />
-    <Content Include="Views\TutorRate\UploadAttachment.cshtml" />
     <Content Include="Views\TutorRate\Detail.cshtml" />
     <Content Include="Views\TutorRate\Item.cshtml" />
     <Content Include="Views\PaySlip\Index.cshtml" />
