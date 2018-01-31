@@ -67,11 +67,13 @@
                     <div class="form-group">                 
                         @Html.LabelFor(model => model.PaymentDate, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-2">
-                            @Html.EditorFor(model => model.PaymentDate, new { htmlAttributes = new { id = "PaymentDate", @class = "form-control", placeholder = "PaymentDate"  } })
+                            @Html.EditorFor(model => model.PaymentDate, new { htmlAttributes = new { id = "PaymentDate", @class = "form-control", placeholder = "DD/MM/YYYY" } })
+                            @Html.ValidationMessageFor(model => model.PaymentDate, "", new { @class = "text-danger" })
                         </div>
                         @Html.Label("TO", htmlAttributes: new { @class = "control-label col-md-1" })
                         <div class="col-md-2">
-                            @Html.EditorFor(model => model.PaymentDate2, new { htmlAttributes = new { id = "PaymentDate2", @class = "form-control", placeholder = "PaymentDate2" } })
+                            @Html.EditorFor(model => model.PaymentDate2, new { htmlAttributes = new { id = "PaymentDate2", @class = "form-control", placeholder = "DD/MM/YYYY" } })
+                            @Html.ValidationMessageFor(model => model.PaymentDate2, "", new { @class = "text-danger" })
                         </div>
                     </div>
 

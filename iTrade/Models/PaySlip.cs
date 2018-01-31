@@ -30,10 +30,10 @@ namespace iTrade.Models
         public string Nric { get; set; }
 
         [Display(Name = "Period of payment")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime PaymentDate { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime PaymentDate2 { get; set; }
 
         [Display(Name = "Date")]
