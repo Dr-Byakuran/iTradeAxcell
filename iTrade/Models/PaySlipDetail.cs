@@ -17,8 +17,8 @@ namespace iTrade.Models
         [Display(Name = "PaySlip ID")]
         public int PaySlipID { get; set; }
 
-        [Display(Name = "Tutor Code")]
-        public string TutorCode { get; set; }
+        [Display(Name = "Tutor ID")]
+        public int TutorID { get; set; }
 
         [Display(Name = "Date")]
         public string Date { get; set; }
