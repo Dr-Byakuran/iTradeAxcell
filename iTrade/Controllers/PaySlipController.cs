@@ -64,21 +64,29 @@ namespace iTrade.Controllers
                     paySlipDetail.ClassDesc = item.CourseName;
                     paySlipDetail.StartTime = item.StartTimeValue;
                     paySlipDetail.EndTime = item.EndTimeValue;
-                    paySlipDetail.TutorCode = db.Tutors.Where(m => m.TutorID == item.TutorID).FirstOrDefault().TutorCode;
+                    paySlipDetail.TutorID = item.TutorID;
                     paySlipDetail.PaySlipID = det.PaySlipID;
+                    paySlipDetail.PriceID = item.PriceID;
 
                     var qty = db.ClassAttendees.Where(m => m.AttendID == item.AttendID).ToList();
                     paySlipDetail.Quantity = qty.Count;
 
                     var diff =Convert.ToDateTime(item.EndTimeValue) - Convert.ToDateTime(item.StartTimeValue);
                     paySlipDetail.StudyHour = Convert.ToDouble(diff.Hours)+ Convert.ToDouble(diff.Minutes)/60;
-                    paySlipDetail.HourlyRate = db.TutorRates.Where(
-                        m => m.TutorID == item.TutorID &&
-                        m.PriceID == item.PriceID &&
-                        m.ClassType == paySlipDetail.ClassType &&
-                        m.MinAttend <= paySlipDetail.Quantity &&
-                        m.MaxAttend >= paySlipDetail.Quantity
-                        ).FirstOrDefault().Rate;
+                    try
+                    {
+                        paySlipDetail.HourlyRate = db.TutorRates.Where(
+                            m => m.TutorID == item.TutorID &&
+                            m.PriceID == item.PriceID &&
+                            m.ClassType == paySlipDetail.ClassType &&
+                            m.MinAttend <= paySlipDetail.Quantity &&
+                            m.MaxAttend >= paySlipDetail.Quantity
+                            ).FirstOrDefault().Rate;
+                    }
+                    catch (Exception ex)
+                    {
+                        paySlipDetail.HourlyRate = 0;
+                    }
                     paySlipDetail.Amount = paySlipDetail.HourlyRate * paySlipDetail.StudyHour;
 
                     det.Total += paySlipDetail.Amount;
@@ -103,6 +111,7 @@ namespace iTrade.Controllers
             {
                 return HttpNotFound();
             }
+
             ViewData["TutorAll"] = db.Tutors.Where(x => x.IsActive == true).ToList();
             return View(stu);
         }
@@ -117,7 +126,7 @@ namespace iTrade.Controllers
                 try
                 {
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Edit/" + ps.PaySlipID);
                 }
                 catch (Exception ex){
                 }
@@ -140,7 +149,7 @@ namespace iTrade.Controllers
             PaySlip ps = db.PaySlips.Find(id);
             PaySlipDetail p = new PaySlipDetail();
             p.PaySlipID = ps.PaySlipID;
-            p.TutorCode = ps.TutorCode;
+            p.TutorID = ps.TutorID;
 
             ViewData["PriceBookAll"] = db.Pricebooks.ToList();
             return PartialView(p);

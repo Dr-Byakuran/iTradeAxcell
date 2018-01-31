@@ -23,7 +23,7 @@
 <!-- ================== END PAGE LEVEL STYLE ================== -->
 <!-- begin page-header -->
 <div class="page-header lead">
-    New PaySlip
+    PaySlip
     <span class="email-btn-row pull-right">
         @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-default" })
         <button type="button" id="btnSaveChanges" class="btn btn-primary">Save Changes</button>
@@ -38,7 +38,9 @@
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.PaySlipID, new { id = "paySlipID" })
+        @Html.HiddenFor(model => model.TutorID, new { id = "tutorID" })
         @Html.HiddenFor(model => model.TutorCode, new { id = "tutorCode" })
+        @Html.HiddenFor(model => model.Total, new { id = "total" })
 
 
         <div class="tab-content">
@@ -49,22 +51,25 @@
                         <div class="col-md-2">
                             @Html.EditorFor(model => model.TutorName, new { htmlAttributes = new { @class = "form-control", placeholder = "Name", @readonly = true  } })
                         </div>
+                        @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-1" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.Date, new { htmlAttributes = new { id = "Date", @class = "form-control", placeholder = "Date" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         @Html.LabelFor(model => model.Nric, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-2">
                             @Html.EditorFor(model => model.Nric, new { htmlAttributes = new { @class = "form-control" } })
                         </div>
-
                     </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-2">
-                            @Html.EditorFor(model => model.Date, new { htmlAttributes = new { id = "Date", @class = "form-control", placeholder = "Date" } })
-                        </div>
+                    <div class="form-group">                 
                         @Html.LabelFor(model => model.PaymentDate, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-2">
                             @Html.EditorFor(model => model.PaymentDate, new { htmlAttributes = new { id = "PaymentDate", @class = "form-control", placeholder = "PaymentDate"  } })
                         </div>
+                        @Html.Label("TO", htmlAttributes: new { @class = "control-label col-md-1" })
                         <div class="col-md-2">
                             @Html.EditorFor(model => model.PaymentDate2, new { htmlAttributes = new { id = "PaymentDate2", @class = "form-control", placeholder = "PaymentDate2" } })
                         </div>
@@ -150,7 +155,6 @@
             todayHighlight: true,
             autoclose: true
         });
-        $('#Date').datepicker('setDate', new Date());
 
         $('#PaymentDate').datepicker({
             format: 'dd/mm/yyyy',
@@ -158,7 +162,6 @@
             todayHighlight: true,
             autoclose: true
         });
-        $('#PaymentDate').datepicker('setDate', new Date());
 
         $('#PaymentDate2').datepicker({
             format: 'dd/mm/yyyy',
@@ -166,7 +169,6 @@
             todayHighlight: true,
             autoclose: true
         });
-        $('#PaymentDate2').datepicker('setDate', new Date());
 
         $("#btnSaveChanges").click(function()
         {
